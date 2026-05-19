@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get a Free Insurance Quote | Compare Top Carriers – Chandler Insurance Since 1977</title>
+    <meta name="description" content="Get fast, free insurance quotes from an independent agency. We compare 15+ top carriers for the best auto, home, business &amp; RV rates. Serving Minnesota since 1977. Call (218) 326-4655.">
+    <meta name="keywords" content="insurance quote Grand Rapids MN, Virginia MN insurance, Minnesota auto insurance, home insurance Grand Rapids, business insurance Itasca County">
+    
+    <!-- Favicon - Optimized for all browsers and devices -->
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#003d82">
+    <meta name="msapplication-TileColor" content="#003d82">
+    <meta name="msapplication-TileImage" content="images/apple-touch-icon.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- SEO Schema: InsuranceAgency + FAQPage -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "InsuranceAgency",
+          "name": "Chandler Insurance Agency",
+          "url": "https://www.chandlerinsurancemn.com/quote.html",
+          "description": "Get free insurance quotes for Auto, Home, Business, and Recreational Vehicles in Grand Rapids, Virginia, and throughout Minnesota.",
+          "areaServed": ["Grand Rapids MN", "Virginia MN", "Itasca County", "St. Louis County", "Minnesota"],
+          "telephone": "+1-218-326-4655"
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Is it free to get a quote?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, all quotes from Chandler Insurance are completely free and come with no obligation."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How long does it take to get a quote?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Most quotes are provided within 24-48 hours after we receive your information."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do you serve all of Minnesota?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes! We proudly serve Grand Rapids, Virginia, Itasca County, St. Louis County, and communities across the entire state of Minnesota."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Poppins:wght@500;600&amp;display=swap');
+        :root { --primary-blue: #003d82; --accent-blue: #0056b3; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', system_ui, sans-serif; background: #f8fafd; line-height: 1.6; color: #222; }
+        
+        nav { background: white; padding: 1rem 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: relative; z-index: 100; }
+        .nav-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .nav-links { display: flex; align-items: center; }
+        .nav-links a { color: #003d82; text-decoration: none; font-weight: 600; margin-left: 2rem; }
+        .nav-links a:hover { color: #0056b3; }
+        
+        .hamburger { display: none; font-size: 1.8rem; color: #003d82; cursor: pointer; }
+        
+        .hero { background: linear-gradient(135deg, #003d82 0%, #0056b3 100%); color: white; padding: 3rem 2rem; text-align: center; }
+        .section { max-width: 1100px; margin: 0 auto; padding: 3rem 2rem; }
+        
+        .service-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 61, 130, 0.08);
+            border: 1px solid #e5e7eb;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 61, 130, 0.12);
+            border-color: #003d82;
+        }
+        .service-card p {
+            flex: 1;
+        }
+        
+        .floating-text { position: fixed; bottom: 20px; right: 20px; background: #00a651; color: white; padding: 12px 18px; border-radius: 50px; box-shadow: 0 10px 25px rgba(0,166,81,0.4); display: flex; align-items: center; gap: 8px; font-weight: 700; text-decoration: none; z-index: 999; font-size: 0.95rem; }
+        footer { background: #003d82 !important; color: #ddd; padding: 3rem 1.25rem; margin-top: 4rem; }
+        
+        @media (max-width: 900px) {
+            nav {
+                position: sticky;
+                top: 0;
+                z-index: 100;
+            }
+            .nav-links { display: none; flex-direction: column; background: white; position: absolute; top: 70px; left: 0; width: 100%; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+            .nav-links.active { display: flex; }
+            .nav-links a { margin: 0.75rem 0; }
+            .hamburger { display: block; }
+            .floating-text { padding: 10px 15px; font-size: 0.85rem; bottom: 15px; right: 15px; }
+            
+            .hero { padding: 1.5rem 1rem 1.1rem; }
+            .hero h1 { font-size: 1.65rem; }
+            .hero p { font-size: 1.05rem; }
+        }
+        
+        @media (max-width: 480px) {
+            .hero { padding: 1.15rem 0.85rem 0.9rem; }
+            .hero h1 { font-size: 1.45rem; }
+            .hero p { font-size: 0.95rem; }
+            
+            .floating-text { display: none !important; }
+        }
+    
+        /* Navigation - Consistent & Mobile Optimized */
+        nav { 
+            background: white; 
+            padding: 1rem 2rem; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08); 
+            position: relative; 
+            z-index: 100; 
+        }
+        .nav-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .nav-links { display: flex; align-items: center; }
+        .nav-links a { color: #003d82; text-decoration: none; font-weight: 600; margin-left: 2rem; }
+        .nav-links a:hover { color: #0056b3; }
+        .hamburger { display: none; font-size: 1.8rem; color: #003d82; cursor: pointer; }
+
+        @media (max-width: 900px) {
+            .nav-links { 
+                display: none; 
+                flex-direction: column; 
+                background: white; 
+                position: absolute; 
+                top: 70px; 
+                left: 0; 
+                width: 100%; 
+                padding: 1.5rem; 
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            }
+            .nav-links.active { display: flex; }
+            .nav-links a { margin: 0.75rem 0; font-size: 1.05rem; }
+            .hamburger { display: block; }
+        }
+</style>
+</head>
+<body>
+    <!-- NAVIGATION -->
+        <!-- NAVIGATION (matches screenshot exactly) -->
+    <nav>
+        <div class="nav-content">
+            <div style="display:flex; align-items:center; gap:12px;">
+                <a href="index.html"><img src="images/logo-full-color.png" alt="Chandler Insurance Agency - Grand Rapids &amp; Virginia MN" style="height:45px;"></a>
+            </div>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="index.html">Home</a>
+                <a href="about.html">About Us</a>
+                <a href="services.html">Services</a>
+                <a href="quote.html">Get Quote</a>
+                <a href="blog.html">Blog</a>
+                <a href="schedule.html">Schedule Appointment</a>
+                <a href="tel:2183264655">Contact</a>
+                <a href="https://customerservice.agentinsure.com/EzLynxCustomerService/web/chandleria/account/login" target="_blank" style="background: #003d82; color: white; padding: 10px 20px; border-radius: 50px; font-weight: 600; margin-left: 1.5rem; text-decoration: none; font-size: 0.95rem;">Client Center</a>
+            </div>
+            
+            <div class="hamburger" onclick="toggleMenu()" 
+                 aria-label="Toggle navigation menu" 
+                 aria-expanded="false"
+                 role="button"
+                 tabindex="0">
+                <i class="fa fa-bars" aria-hidden="true"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Temporary Memorial Day Notice -->
+    <div style="background: linear-gradient(90deg, #003d82 0%, #002d5e 100%); color: #fff; padding: 10px 12px; text-align: center; font-size: 0.9rem; border-bottom: 3px solid #c2410c;">
+        <div style="max-width: 1100px; margin: 0 auto;">
+            <i class="fas fa-flag-usa" style="margin-right: 6px; color: #fff;"></i>
+            <strong>Memorial Day Closure:</strong> We will be closed on <strong>Monday, May 25, 2026</strong>. 
+            Normal business hours will resume <strong>Tuesday, May 26 at 8:30 AM</strong>.
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+        <h1>Get Your Free Quote</h1>
+        <p style="font-size:1.25rem; max-width:700px; margin:0 auto; opacity:0.95;">Fast, no-obligation quotes • We'll contact you within 24 hours</p>
+        
+        <!-- Progress Bar -->
+        <div style="max-width: 520px; margin: 1.75rem auto 0; background: rgba(255,255,255,0.25); border-radius: 50px; height: 8px; overflow: hidden;">
+            <div style="width: 35%; height: 100%; background: white; border-radius: 50px; transition: width 0.4s ease;"></div>
+        </div>
+        <p style="margin-top: 0.6rem; font-size: 0.95rem; opacity: 0.9;">Step 1 of 4 — Your Information</p>
+        
+        <div style="margin-top: 1.35rem; display: flex; justify-content: center; gap: 1.85rem; flex-wrap: wrap; font-size: 0.92rem; opacity: 0.95;">
+            <span><i class="fa fa-shield-alt" style="margin-right: 7px; color: #4ade80;"></i> 15+ Top Carriers</span>
+            <span><i class="fa fa-lock" style="margin-right: 7px; color: #4ade80;"></i> Secure &amp; Private</span>
+            <span><i class="fa fa-clock" style="margin-right: 7px; color: #4ade80;"></i> 24-Hour Response</span>
+        </div>
+    </div>
+
+    <!-- FAQ Schema for rich results -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How long does it take to get a quote?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most quotes are provided within 24-48 hours. For simple auto or home policies, we can often get back to you the same day."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I have to switch insurance companies?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. We shop multiple carriers and present you with options. You can choose to stay with your current company or switch if you find a better rate or coverage."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is it free to get a quote?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, all quotes from Chandler Insurance are completely free and come with no obligation."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <div class="section" style="max-width: 1100px;">
+        <h2 style="text-align:center; margin-bottom: 2rem; color: #003d82;">Choose What You Need a Quote For</h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; align-items: stretch;">
+            
+            <!-- Auto -->
+            <a href="auto-quote.html" style="text-decoration: none; color: inherit;">
+                <div class="service-card" style="text-align: center; padding: 2rem 1.5rem;">
+                    <i class="fa fa-car" style="font-size: 3rem; color: #003d82; margin-bottom: 1rem;"></i>
+                    <h3 style="margin-bottom: 0.5rem;">Auto Insurance</h3>
+                    <p style="font-size: 0.95rem; color: #555;">Cars, trucks, SUVs, and more. Get competitive rates from top carriers.</p>
+                    <div style="margin-top: 1.25rem; color: #003d82; font-weight: 600;">Get Quote →</div>
+                </div>
+            </a>
+
+            <!-- Home -->
+            <a href="home-quote.html" style="text-decoration: none; color: inherit;">
+                <div class="service-card" style="text-align: center; padding: 2rem 1.5rem;">
+                    <i class="fa fa-home" style="font-size: 3rem; color: #003d82; margin-bottom: 1rem;"></i>
+                    <h3 style="margin-bottom: 0.5rem;">Home &amp; Cabin</h3>
+                    <p style="font-size: 0.95rem; color: #555;">Protect your house or cabin with comprehensive Minnesota coverage.</p>
+                    <div style="margin-top: 1.25rem; color: #003d82; font-weight: 600;">Get Quote →</div>
+                </div>
+            </a>
+
+            <!-- Business -->
+            <a href="business-quote.html" style="text-decoration: none; color: inherit;">
+                <div class="service-card" style="text-align: center; padding: 2rem 1.5rem;">
+                    <i class="fa fa-briefcase" style="font-size: 3rem; color: #003d82; margin-bottom: 1rem;"></i>
+                    <h3 style="margin-bottom: 0.5rem;">Business &amp; Commercial</h3>
+                    <p style="font-size: 0.95rem; color: #555;">Liability, property, workers’ comp &amp; more for Minnesota businesses.</p>
+                    <div style="margin-top: 1.25rem; color: #003d82; font-weight: 700;">Start Quote →</div>
+                </div>
+            </a>
+
+            <!-- Recreational -->
+            <a href="recreational-quote.html" style="text-decoration: none; color: inherit;">
+                <div class="service-card" style="text-align: center; padding: 2rem 1.5rem;">
+                    <i class="fa fa-motorcycle" style="font-size: 3rem; color: #003d82; margin-bottom: 1rem;"></i>
+                    <h3 style="margin-bottom: 0.5rem;">Recreational Vehicles</h3>
+                    <p style="font-size: 0.95rem; color: #555;">ATVs, snowmobiles, boats, motorcycles, RVs &amp; more.</p>
+                    <div style="margin-top: 1.25rem; color: #003d82; font-weight: 700;">Start Quote →</div>
+                </div>
+            </a>
+
+        </div>
+        
+        <p style="text-align: center; margin-top: 2.5rem; color: #666; font-size: 0.95rem;">
+            Not sure what you need? <a href="services.html" style="color: #003d82; font-weight: 600;">Browse all our services →</a>
+        </p>
+    </div>
+
+    <!-- FOOTER -->
+        <!-- FOOTER -->
+        <footer>
+        <div style="max-width:1200px; margin:0 auto; padding:0 1rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:2rem;">
+            <div>
+                <img src="images/logo-white.png" alt="Chandler Insurance" style="height: 36px; margin-bottom: 12px;">
+                <h4>Chandler Insurance Agency</h4>
+                <p>Locally owned. Proudly serving all of Minnesota.</p>
+            </div>
+            <div>
+                <h4>Contact Us</h4>
+                <p>322 NE 5th Street, Grand Rapids, MN 55744<br>Grand Rapids: (218) 326-4655<br>Virginia: (218) 741-9582<br>home@chandlerinsurancemn.com</p>
+            </div>
+            <div>
+                <h4>Quick Links</h4>
+                <p><a href="index.html" style="color:#ddd;">Home</a><br><a href="about.html" style="color:#ddd;">About Us</a><br><a href="services.html" style="color:#ddd;">Services</a><br><a href="quote.html" style="color:#ddd;">Get Quote</a><br><a href="schedule.html" style="color:#ddd;">Schedule Appointment</a></p>
+            </div>
+            <div>
+                <h4>Follow Us</h4>
+                <p><a href="https://www.facebook.com/ChandlerInsuranceAgency" target="_blank" style="color:#ddd;">Facebook</a></p>
+            </div>
+        </div>
+        
+        <div style="text-align:center; margin-top:2.5rem; padding-top:2rem; border-top:1px solid #0056b3; font-size:0.9rem;">
+            © 2026 Chandler Insurance Agency. All rights reserved. &nbsp;|&nbsp; <a href="privacy.html" style="color:#ddd; text-decoration:underline;">Privacy Policy</a> &nbsp;|&nbsp; <a href="terms.html" style="color:#ddd; text-decoration:underline;">Terms of Service</a> &nbsp;|&nbsp; <a href="cookies.html" style="color:#ddd; text-decoration:underline;">Cookies Policy</a>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+    </script>
+
+    <!-- SCHEMA.ORG STRUCTURED DATA -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "InsuranceAgency",
+      "name": "Chandler Insurance Agency",
+      "description": "Get free insurance quotes online for auto, home, business, recreational, life & landlord insurance. Fast quotes for Grand Rapids, Virginia & all of Minnesota since 1977.",
+      "url": "https://www.chandlerinsurancemn.com/quote.html",
+      "telephone": "+1-218-326-4655",
+      "email": "home@chandlerinsurancemn.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "322 NE 5th Street",
+        "addressLocality": "Grand Rapids",
+        "addressRegion": "MN",
+        "postalCode": "55744",
+        "addressCountry": "US"
+      },
+      "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"],
+      "serviceType": "Insurance Quoting"
+    }
+    </script>
+
+    <!-- BREADCRUMBLIST SCHEMA (helps Google sitelinks) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.chandlerinsurancemn.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Get Free Quote",
+          "item": "https://www.chandlerinsurancemn.com/quote.html"
+        }
+      ]
+    }
+    </script>
+</body>
+</html>

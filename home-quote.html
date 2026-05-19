@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Home &amp; Cabin Insurance Quote Minnesota | Chandler Insurance</title>
+    <meta name="description" content="Get a fast, free home &amp; cabin insurance quote from an independent agency. We shop multiple carriers for the best rates including ice dam coverage. Serving Minnesota since 1977. Call (218) 326-4655.">
+    
+    <!-- Favicon - Optimized for all browsers and devices -->
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#003d82">
+    <meta name="msapplication-TileColor" content="#003d82">
+    <meta name="msapplication-TileImage" content="images/apple-touch-icon.png">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Home &amp; Cabin Insurance Quote | Chandler Insurance">
+    <meta property="og:description" content="Fast, personalized home and cabin insurance quotes for Minnesota homeowners. Ice dam coverage &amp; more.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.chandlerinsurancemn.com/home-quote.html">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Poppins:wght@500;600&amp;display=swap');
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .font-display {
+            font-family: 'Poppins', 'Inter', system_ui, sans-serif;
+            font-weight: 600;
+        }
+
+        .nav-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .nav-links { display: flex; align-items: center; }
+        .nav-links a { color: #003d82; text-decoration: none; font-weight: 600; margin-left: 2rem; }
+        .nav-links a:hover { color: #0056b3; }
+        .hamburger { display: none; font-size: 1.8rem; color: #003d82; cursor: pointer; }
+
+        .section-header {
+            font-weight: 600;
+            color: #003d82;
+            font-size: 1.1rem;
+            letter-spacing: -0.025em;
+        }
+
+        .mini-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 0.25rem;
+            display: block;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            transition: all 0.15s ease;
+        }
+        
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #003d82;
+            box-shadow: 0 0 0 3px rgba(0, 61, 130, 0.1);
+        }
+
+        /* Mobile Optimizations */
+        @media (max-width: 768px) {
+            .form-input, .form-select, .form-textarea {
+                font-size: 16px;
+                padding: 14px 16px;
+                min-height: 48px;
+            }
+            .mini-label { font-size: 0.78rem; margin-bottom: 0.35rem; }
+            button[type="submit"] { width: 100%; padding: 18px 24px; font-size: 1.05rem; }
+            .section-header { font-size: 1.2rem; }
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 61, 130, 0.08);
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Better touch feedback for cards on mobile */
+        .insurance-card:active {
+            transform: scale(0.985);
+            background-color: #eff6ff;
+        }
+
+        @media (max-width: 900px) {
+            nav {
+                position: sticky;
+                top: 0;
+                z-index: 100;
+            }
+            .nav-links { 
+                display: none; 
+                flex-direction: column; 
+                background: white; 
+                position: absolute; 
+                top: 70px; 
+                left: 0; 
+                width: 100%; 
+                padding: 1.5rem; 
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+                z-index: 100;
+            }
+            .nav-links.active { display: flex; }
+            .nav-links a { margin: 0.75rem 0; font-size: 1.05rem; }
+            .hamburger { display: block; }
+        }
+    
+        /* Navigation Consistency (matching screenshot) */
+        nav { background: white; padding: 1rem 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: relative; z-index: 100; }
+        .nav-links { display: flex; align-items: center; }
+        .nav-links a { color: #003d82; text-decoration: none; font-weight: 600; margin-left: 2rem; }
+        .nav-links a:hover { color: #0056b3; }
+        .hamburger { display: none; font-size: 1.8rem; color: #003d82; cursor: pointer; }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; flex-direction: column; background: white; position: absolute; top: 65px; left: 0; width: 100%; padding: 1.25rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+            .nav-links.active { display: flex; }
+            .nav-links a { margin: 0.6rem 0; font-size: 1.05rem; }
+            .hamburger { display: block; }
+        }
+        footer { background: #003d82 !important; color: #ddd; padding: 3rem 1.25rem; margin-top: 4rem; }
+
+        /* Mobile Card Styles (for Other Structures etc.) */
+        .mobile-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 10px 12px;
+            background: white;
+        }
+        .mobile-card .field {
+            margin-bottom: 6px;
+        }
+        .mobile-card input, .mobile-card select {
+            min-height: 38px;
+            font-size: 0.82rem;
+            padding: 6px 8px;
+        }
+        .mobile-card .mini-label {
+            font-size: 0.65rem;
+            margin-bottom: 2px;
+        }
+</style>
+</head>
+<body class="bg-slate-50">
+
+    <!-- NAVIGATION -->
+        <!-- NAVIGATION (matches screenshot exactly) -->
+    <nav>
+        <div class="nav-content">
+            <div style="display:flex; align-items:center; gap:12px;">
+                <a href="index.html"><img src="images/logo-full-color.png" alt="Chandler Insurance Agency - Grand Rapids &amp; Virginia MN" style="height:45px;"></a>
+            </div>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="index.html">Home</a>
+                <a href="about.html">About Us</a>
+                <a href="services.html">Services</a>
+                <a href="quote.html">Get Quote</a>
+                <a href="blog.html">Blog</a>
+                <a href="schedule.html">Schedule Appointment</a>
+                <a href="tel:2183264655">Contact</a>
+                <a href="https://customerservice.agentinsure.com/EzLynxCustomerService/web/chandleria/account/login" target="_blank" style="background: #003d82; color: white; padding: 10px 20px; border-radius: 50px; font-weight: 600; margin-left: 1.5rem; text-decoration: none; font-size: 0.95rem;">Client Center</a>
+            </div>
+            
+            <div class="hamburger" onclick="toggleMenu()" 
+                 aria-label="Toggle navigation menu" 
+                 aria-expanded="false"
+                 role="button"
+                 tabindex="0">
+                <i class="fa fa-bars" aria-hidden="true"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- SEO Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "InsuranceAgency",
+      "name": "Chandler Insurance Agency",
+      "description": "Locally owned insurance agency offering home and cabin insurance quotes with ice dam coverage and Minnesota-specific protections since 1977.",
+      "url": "https://www.chandlerinsurancemn.com/home-quote.html",
+      "telephone": "+1-218-326-4655",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "322 NE 5th Street",
+        "addressLocality": "Grand Rapids",
+        "addressRegion": "MN",
+        "postalCode": "55744",
+        "addressCountry": "US"
+      },
+      "areaServed": ["Grand Rapids MN", "Virginia MN", "Itasca County", "Northern Minnesota", "Iron Range", "all of Minnesota"],
+      "serviceType": ["Home Insurance", "Cabin Insurance", "Homeowners Insurance", "Ice Dam Coverage", "Landlord Insurance"]
+    }
+    </script>
+
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
+        
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center gap-x-2 bg-white border border-slate-200 px-4 py-1.5 rounded-full text-sm font-medium text-slate-600 mb-4">
+                <i class="fas fa-home text-[#003d82]"></i>
+                <span>MINNESOTA HOME &amp; CABIN INSURANCE</span>
+            </div>
+            <h1 class="text-4xl font-semibold tracking-tighter text-slate-900">Get Your Home &amp; Cabin Insurance Quote</h1>
+            <p class="mt-3 text-lg text-slate-600 max-w-2xl mx-auto">Protect your house or cabin with comprehensive Minnesota coverage including ice dam protection.</p>
+        </div>
+
+        <form name="home-quote" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="form-card p-8 md:p-10">
+            <input type="hidden" name="form-name" value="home-quote">
+            <p class="hidden"><label>Don’t fill this out if you’re human: <input name="bot-field"></label></p>
+            
+            <!-- Your Information -->
+            <div class="mb-8">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <i class="fas fa-user text-[#003d82] text-xl"></i>
+                    <h2 class="section-header text-xl tracking-tight">Your Information</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="mini-label">First Name <span class="text-red-500">*</span></label>
+                        <input type="text" name="first_name" required class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm">
+                    </div>
+                    <div>
+                        <label class="mini-label">Last Name <span class="text-red-500">*</span></label>
+                        <input type="text" name="last_name" required class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm">
+                    </div>
+                    <div>
+                        <label class="mini-label">Email Address <span class="text-red-500">*</span></label>
+                        <input type="email" name="email" required class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm">
+                    </div>
+                    <div>
+                        <label class="mini-label">Phone Number <span class="text-red-500">*</span></label>
+                        <input type="tel" name="phone" required class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Property Information -->
+            <div class="mb-8">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <i class="fas fa-home text-[#003d82] text-xl"></i>
+                    <h2 class="section-header text-xl tracking-tight">Property Information</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="mini-label">Type of Property</label>
+                        <select name="property_type" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="">Select...</option>
+                            <option value="Home">Home</option>
+                            <option value="Cabin / Vacation Home">Cabin / Vacation Home</option>
+                            <option value="Townhouse / Condo">Townhouse / Condo</option>
+                            <option value="Rental Property">Rental Property</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="mini-label">Property Address</label>
+                        <input type="text" name="property_address" class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm">
+                    </div>
+                    <div>
+                        <label class="mini-label">City</label>
+                        <input type="text" name="city" class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm">
+                    </div>
+                    <div>
+                        <label class="mini-label">ZIP Code</label>
+                        <input type="text" name="zip_code" class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm" placeholder="55744">
+                    </div>
+                    <div>
+                        <label class="mini-label">Year Built</label>
+                        <input type="text" name="year_built" class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm" placeholder="e.g. 1995">
+                    </div>
+                    <div>
+                        <label class="mini-label">Square Footage</label>
+                        <input type="text" name="square_footage" class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm">
+                    </div>
+                    <div>
+                        <label class="mini-label">Number of Stories</label>
+                        <select name="num_stories" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="">Select...</option>
+                            <option value="1 Story">1 Story</option>
+                            <option value="1.5 Stories">1.5 Stories</option>
+                            <option value="2 Stories">2 Stories</option>
+                            <option value="3+ Stories">3+ Stories</option>
+                            <option value="Split Level">Split Level / Bi-Level</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Property Details -->
+            <div class="mb-8">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <i class="fas fa-building text-[#003d82] text-xl"></i>
+                    <h2 class="section-header text-xl tracking-tight">Property Details</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="mini-label">Heat Type</label>
+                        <select name="heat_type" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="">Select...</option>
+                            <option value="Gas Forced Air">Gas Forced Air</option>
+                            <option value="Electric">Electric</option>
+                            <option value="Oil">Oil</option>
+                            <option value="Propane">Propane</option>
+                            <option value="Wood">Wood</option>
+                            <option value="Geothermal">Geothermal</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="mini-label">Year of Last Heat Update</label>
+                        <input type="text" name="heat_update_year" class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm">
+                    </div>
+                    <div>
+                        <label class="mini-label">Do you have any wood heat (wood stove, fireplace, pellet stove)?</label>
+                        <select name="wood_heat" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="">Select...</option>
+                            <option value="No">No</option>
+                            <option value="Yes">Yes</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="mini-label">Electrical Update Year</label>
+                        <input type="text" name="electrical_update_year" class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm">
+                    </div>
+                    <div>
+                        <label class="mini-label">Plumbing Update Year</label>
+                        <input type="text" name="plumbing_update_year" class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm">
+                    </div>
+                    <div>
+                        <label class="mini-label">Foundation Type</label>
+                        <select name="foundation_type" id="foundation_type" onchange="toggleBasementFields()" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="">Select...</option>
+                            <option value="Basement">Basement</option>
+                            <option value="Crawlspace">Crawlspace</option>
+                            <option value="Slab">Slab</option>
+                            <option value="Pier &amp; Beam">Pier &amp; Beam</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="mini-label">Exterior Wall Type</label>
+                        <select name="exterior_wall" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="">Select...</option>
+                            <option value="Vinyl Siding">Vinyl Siding</option>
+                            <option value="Wood Siding">Wood Siding</option>
+                            <option value="Brick">Brick</option>
+                            <option value="Stucco">Stucco</option>
+                            <option value="Log">Log</option>
+                            <option value="Metal">Metal</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Garage Information (with conditional fields for Detached) -->
+            <div class="mb-8">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <i class="fas fa-car text-[#003d82] text-xl"></i>
+                    <h2 class="section-header text-xl tracking-tight">Garage Information</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="md:col-span-2">
+                        <label class="mini-label">Garage Type</label>
+                        <select id="garage_type" name="garage_type" onchange="toggleDetachedGarageFields()" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="">Select...</option>
+                            <option value="None">No Garage</option>
+                            <option value="Attached">Attached Garage</option>
+                            <option value="Detached">Detached Garage</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Detached Garage Additional Fields -->
+                <div id="detached_garage_fields" class="hidden mt-5 pt-5 border-t border-slate-200">
+                    <div class="text-sm font-semibold text-[#003d82] mb-3">Detached Garage Details</div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="mini-label">Garage Size (sq ft)</label>
+                            <input type="text" name="detached_garage_sqft" class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm" placeholder="e.g. 576">
+                        </div>
+                        <div>
+                            <label class="mini-label">Year Built</label>
+                            <input type="text" name="detached_garage_year" class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm" placeholder="e.g. 2012">
+                        </div>
+                        <div>
+                            <label class="mini-label">Construction Type</label>
+                            <select name="detached_garage_construction" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                                <option value="">Select...</option>
+                                <option value="Frame">Wood Frame</option>
+                                <option value="Pole Barn">Pole Barn</option>
+                                <option value="Block">Concrete Block</option>
+                                <option value="Metal">Metal Building</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="mini-label">Foundation Type</label>
+                            <select name="detached_garage_foundation" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                                <option value="">Select...</option>
+                                <option value="Slab">Concrete Slab</option>
+                                <option value="Crawlspace">Crawlspace</option>
+                                <option value="Basement">Full Basement</option>
+                                <option value="Pier">Piers / Posts</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="mini-label">Heating Type</label>
+                            <select name="detached_garage_heating" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                                <option value="None">No Heat</option>
+                                <option value="Electric">Electric Heat</option>
+                                <option value="Propane">Propane</option>
+                                <option value="Wood">Wood Stove / Pellet</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="mini-label">Electrical Service</label>
+                            <select name="detached_garage_electrical" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                                <option value="">Select...</option>
+                                <option value="No Electrical">No Electrical Service</option>
+                                <option value="Yes - 100 Amp">Yes - 100 Amp</option>
+                                <option value="Yes - 200 Amp">Yes - 200 Amp</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="mini-label">Primary Use of Detached Garage</label>
+                            <select name="detached_garage_use" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                                <option value="">Select...</option>
+                                <option value="Vehicle Storage">Vehicle Storage Only</option>
+                                <option value="Workshop / Hobby">Workshop / Hobby Space</option>
+                                <option value="General Storage">General Storage</option>
+                                <option value="Living Space / Apartment">Living Space / Apartment</option>
+                                <option value="Mixed Use">Mixed Use</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Other Structures & Additional Buildings -->
+            <div class="mb-8">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center gap-x-3">
+                        <i class="fas fa-warehouse text-[#003d82] text-xl"></i>
+                        <h2 class="section-header text-xl tracking-tight">Other Structures &amp; Additional Buildings</h2>
+                    </div>
+                    <button type="button" onclick="addOtherStructure()" 
+                            class="text-sm px-4 py-2.5 w-full sm:w-auto bg-[#003d82] hover:bg-[#002d5e] text-white rounded-2xl flex items-center justify-center gap-x-2 font-medium shadow-sm">
+                        <i class="fas fa-plus text-xs"></i>
+                        <span>Add Another Building</span>
+                    </button>
+                </div>
+                
+                <p class="text-xs text-slate-500 mb-4">Add any additional structures on your property (pole barns, sheds, guest houses, workshops, etc.). Select the type to see recommended fields.</p>
+
+                <div id="other-structures-container" class="space-y-4">
+                    <!-- Dynamically added building cards go here -->
+                </div>
+            </div>
+
+            <!-- Roof Information -->
+            <div class="mb-8">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <i class="fas fa-cloud-sun-rain text-[#003d82] text-xl"></i>
+                    <h2 class="section-header text-xl tracking-tight">Roof Information</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="mini-label">Roof Type</label>
+                        <select name="roof_type" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="">Select...</option>
+                            <option value="Asphalt Shingles">Asphalt Shingles (3-tab or Architectural)</option>
+                            <option value="Metal">Metal</option>
+                            <option value="Wood Shake">Wood Shake / Shingle</option>
+                            <option value="Tile">Tile</option>
+                            <option value="Rubber / EPDM">Rubber / EPDM (Flat)</option>
+                            <option value="TPO">TPO (Flat)</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="mini-label">Year Roof Installed / Last Replaced</label>
+                        <input type="text" name="roof_year" class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm" placeholder="e.g. 2018">
+                    </div>
+                    <div>
+                        <label class="mini-label">Roof Condition</label>
+                        <select name="roof_condition" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="">Select...</option>
+                            <option value="Excellent - New or Like New">Excellent - New or Like New</option>
+                            <option value="Good">Good</option>
+                            <option value="Fair - Some Wear">Fair - Some Wear</option>
+                            <option value="Poor - Needs Replacement Soon">Poor - Needs Replacement Soon</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Basement Details (Conditional) -->
+            <div id="basement_details" class="mb-8 hidden">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <i class="fas fa-layer-group text-[#003d82] text-xl"></i>
+                    <h2 class="section-header text-xl tracking-tight">Basement Details</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="mini-label">Approximate % of Basement Finished</label>
+                        <select name="basement_finished_percent" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="">Select...</option>
+                            <option value="None - Unfinished">None - Unfinished</option>
+                            <option value="1-25%">1-25%</option>
+                            <option value="26-50%">26-50%</option>
+                            <option value="51-75%">51-75%</option>
+                            <option value="76-100%">76-100% (Fully Finished)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="mini-label">Walkout Basement?</label>
+                        <select name="walkout_basement" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="">Select...</option>
+                            <option value="No">No</option>
+                            <option value="Yes - Full Walkout">Yes - Full Walkout</option>
+                            <option value="Yes - Partial / Daylight">Yes - Partial / Daylight</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="mini-label">Any history of water in the basement?</label>
+                        <select name="basement_water_history" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="">Select...</option>
+                            <option value="No">No</option>
+                            <option value="Yes - Minor / Occasional">Yes - Minor / Occasional</option>
+                            <option value="Yes - Significant">Yes - Significant (required mitigation)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Safety & Protection Features -->
+            <div class="mb-8">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <i class="fas fa-shield-alt text-[#003d82] text-xl"></i>
+                    <h2 class="section-header text-xl tracking-tight">Safety &amp; Protection Features</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="mini-label">Smoke Detectors</label>
+                        <select name="smoke_detectors" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="">Select...</option>
+                            <option value="None">None</option>
+                            <option value="Battery Operated Only">Battery Operated Only</option>
+                            <option value="Hardwired (not interconnected)">Hardwired (not interconnected)</option>
+                            <option value="Hardwired &amp; Interconnected">Hardwired &amp; Interconnected</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="mini-label">Carbon Monoxide Detectors</label>
+                        <select name="co_detectors" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="">Select...</option>
+                            <option value="None">None</option>
+                            <option value="Battery Operated">Battery Operated</option>
+                            <option value="Hardwired">Hardwired</option>
+                            <option value="Hardwired &amp; Interconnected">Hardwired &amp; Interconnected</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="mini-label">Home Security System</label>
+                        <select name="security_system" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="">Select...</option>
+                            <option value="None">None</option>
+                            <option value="Unmonitored / Local Alarm">Unmonitored / Local Alarm</option>
+                            <option value="Monitored (Professional)">Monitored (Professional)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="mini-label">Deadbolt Locks on All Exterior Doors?</label>
+                        <select name="deadbolts" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="">Select...</option>
+                            <option value="Yes - All Exterior Doors">Yes - All Exterior Doors</option>
+                            <option value="Yes - Most Doors">Yes - Most Doors</option>
+                            <option value="Some / None">Some or None</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="mini-label">Fire Extinguishers</label>
+                        <select name="fire_extinguishers" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="">Select...</option>
+                            <option value="None">None</option>
+                            <option value="1-2">1-2</option>
+                            <option value="3 or more">3 or more</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="mini-label">Any other protective devices?</label>
+                        <input type="text" name="other_protective_devices" class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm" placeholder="E.g. Gated driveway, exterior lighting, etc.">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Claims & Additional -->
+            <div class="mb-8">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <i class="fas fa-exclamation-triangle text-[#003d82] text-xl"></i>
+                    <h2 class="section-header text-xl tracking-tight">Claims &amp; Additional Information</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="mini-label">Current Insurance Company (if any)</label>
+                        <select name="current_insurance" onchange="toggleHomeOtherCarrier(this)" 
+                                class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="">Select your current carrier...</option>
+                            <option value="State Farm">State Farm</option>
+                            <option value="Progressive">Progressive</option>
+                            <option value="GEICO">GEICO</option>
+                            <option value="Allstate">Allstate</option>
+                            <option value="Farmers Insurance">Farmers Insurance</option>
+                            <option value="Liberty Mutual">Liberty Mutual</option>
+                            <option value="USAA">USAA</option>
+                            <option value="Auto-Owners Insurance">Auto-Owners Insurance</option>
+                            <option value="American Family Insurance">American Family Insurance</option>
+                            <option value="Nationwide">Nationwide</option>
+                            <option value="Travelers">Travelers</option>
+                            <option value="The Hartford">The Hartford</option>
+                            <option value="Chubb">Chubb</option>
+                            <option value="Safeco">Safeco</option>
+                            <option value="MetLife">MetLife</option>
+                            <option value="AAA Insurance">AAA Insurance</option>
+                            <option value="Western National">Western National</option>
+                            <option value="North Star Mutual">North Star Mutual</option>
+                            <option value="Cincinnati Insurance">Cincinnati Insurance</option>
+                            <option value="Federated Insurance">Federated Insurance</option>
+                            <option value="IMT Insurance">IMT Insurance</option>
+                            <option value="Grinnell Mutual">Grinnell Mutual</option>
+                            <option value="Farmers Union / CHS">Farmers Union / CHS Insurance</option>
+                            <option value="Other">Other (please specify below)</option>
+                            <option value="No Current Insurance">I do not currently have insurance</option>
+                        </select>
+
+                        <!-- Other Carrier Text Field -->
+                        <div id="home_other_carrier_field" class="hidden mt-3">
+                            <label class="mini-label">Please specify your current carrier</label>
+                            <input type="text" name="current_insurance_other" 
+                                   class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm" 
+                                   placeholder="Enter your current insurance company name">
+                        </div>
+                    </div>
+
+                    <!-- Policy Upload -->
+                    <div class="md:col-span-2">
+                        <label class="mini-label">Upload Your Current Policy Declarations Page (Optional)</label>
+                        <input type="file" name="current_policy_declarations" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                        <p class="text-xs text-slate-500 mt-1">Uploading your current policy declarations page helps us review your existing coverages and limits so we can provide a more accurate quote. PDF is preferred.</p>
+                    </div>
+
+                    <div>
+                        <label class="mini-label">Any claims or losses in the last 5 years?</label>
+                        <select name="claims_history" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="No">No</option>
+                            <option value="Yes - 1">Yes - 1</option>
+                            <option value="Yes - 2 or more">Yes - 2 or more</option>
+                        </select>
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="mini-label">Additional Information (optional)</label>
+                        <textarea name="additional_info" rows="3" class="form-textarea w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coverage Preferences -->
+            <div class="mb-8">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <i class="fas fa-shield-alt text-[#003d82] text-xl"></i>
+                    <h2 class="section-header text-xl tracking-tight">Coverage Preferences</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="md:col-span-2">
+                        <label class="mini-label">Estimated Replacement Cost of Your Home (Dwelling Coverage)</label>
+                        <input type="text" name="dwelling_value" class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm" placeholder="e.g. $350,000">
+                        <p class="text-xs text-slate-500 mt-1">This is the cost to rebuild your home (not market value). We can help estimate this.</p>
+                    </div>
+                    
+                    <div>
+                        <label class="mini-label">Personal Property Limit</label>
+                        <select name="personal_property" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="50% of Dwelling">50% of Dwelling (Standard)</option>
+                            <option value="75% of Dwelling">75% of Dwelling</option>
+                            <option value="100% of Dwelling">100% of Dwelling</option>
+                            <option value="Other - Please specify in notes">Other - Please specify below</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="mini-label">Liability Limit</label>
+                        <select name="liability_limit" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="100,000"> $100,000</option>
+                            <option value="300,000" selected>$300,000 (Recommended)</option>
+                            <option value="500,000">$500,000</option>
+                            <option value="1,000,000">$1,000,000</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="mini-label">Preferred Deductible</label>
+                        <select name="deductible" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="$500">$500</option>
+                            <option value="$1,000" selected>$1,000 (Most Common)</option>
+                            <option value="$2,500">$2,500</option>
+                            <option value="$5,000">$5,000</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="mini-label">Interested in these additional coverages?</label>
+                        <div class="space-y-1 mt-2 text-sm">
+                            <label class="flex items-center gap-x-2"><input type="checkbox" name="add_ons[]" value="Ice Dam Coverage"> Ice Dam / Sewer Backup</label>
+                            <label class="flex items-center gap-x-2"><input type="checkbox" name="add_ons[]" value="Equipment Breakdown"> Equipment Breakdown (HVAC, etc.)</label>
+                            <label class="flex items-center gap-x-2"><input type="checkbox" name="add_ons[]" value="Identity Theft"> Identity Theft Protection</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review & What Happens -->
+            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 mb-6">
+                <p class="font-semibold text-slate-700 mb-1">Review Your Information</p>
+                <p class="text-sm text-slate-600">Please double-check your details above before submitting. We'll use this information to shop the best rates for you across multiple carriers.</p>
+            </div>
+
+            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 mb-8">
+                <div class="flex items-start gap-x-3">
+                    <i class="fas fa-info-circle text-[#003d82] mt-1"></i>
+                    <div>
+                        <p class="font-semibold text-slate-700">What happens after you submit?</p>
+                        <p class="text-sm text-slate-600 mt-1">An agent will personally review your information and contact you within 24-48 hours with personalized home/cabin insurance options. No obligation.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" 
+                        class="px-14 py-4 bg-[#003d82] hover:bg-[#002d5e] transition-all text-white text-lg font-semibold rounded-3xl flex items-center gap-x-3 mx-auto shadow-lg active:scale-[0.985]">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <span>GET MY FREE HOME QUOTE</span>
+                </button>
+                <p class="text-xs text-slate-500 mt-4">Secure &amp; private • We'll contact you within 24-48 hours with your personalized options</p>
+            </div>
+        </form>
+    </div>
+
+    <!-- FOOTER (standardized) -->
+        <!-- FOOTER -->
+        <footer>
+        <div style="max-width:1200px; margin:0 auto; padding:0 1rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:2rem;">
+            <div>
+                <img src="images/logo-white.png" alt="Chandler Insurance" style="height: 36px; margin-bottom: 12px;">
+                <h4>Chandler Insurance Agency</h4>
+                <p>Locally owned. Proudly serving all of Minnesota.</p>
+            </div>
+            <div>
+                <h4>Contact Us</h4>
+                <p>322 NE 5th Street, Grand Rapids, MN 55744<br>Grand Rapids: (218) 326-4655<br>Virginia: (218) 741-9582<br>home@chandlerinsurancemn.com</p>
+            </div>
+            <div>
+                <h4>Quick Links</h4>
+                <p><a href="index.html" style="color:#ddd;">Home</a><br><a href="about.html" style="color:#ddd;">About Us</a><br><a href="services.html" style="color:#ddd;">Services</a><br><a href="quote.html" style="color:#ddd;">Get Quote</a><br><a href="schedule.html" style="color:#ddd;">Schedule Appointment</a></p>
+            </div>
+            <div>
+                <h4>Follow Us</h4>
+                <p><a href="https://www.facebook.com/ChandlerInsuranceAgency" target="_blank" style="color:#ddd;">Facebook</a></p>
+            </div>
+        </div>
+        
+        <div style="text-align:center; margin-top:2.5rem; padding-top:2rem; border-top:1px solid #0056b3; font-size:0.9rem;">
+            © 2026 Chandler Insurance Agency. All rights reserved. &nbsp;|&nbsp; <a href="privacy.html" style="color:#ddd; text-decoration:underline;">Privacy Policy</a> &nbsp;|&nbsp; <a href="terms.html" style="color:#ddd; text-decoration:underline;">Terms of Service</a> &nbsp;|&nbsp; <a href="cookies.html" style="color:#ddd; text-decoration:underline;">Cookies Policy</a>
+        </div>
+    </footer>
+
+    <!-- Floating Text Us -->
+    <a href="tel:2185208790" class="floating-text" style="position: fixed; bottom: 20px; right: 20px; background: #00a651; color: white; padding: 12px 18px; border-radius: 50px; box-shadow: 0 10px 25px rgba(0,166,81,0.4); display: flex; align-items: center; gap: 8px; font-weight: 700; text-decoration: none; z-index: 999; font-size: 0.95rem;">
+        <i class="fa fa-comments"></i> <span>Text Us Now</span>
+    </a>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        // Show/hide detached garage fields based on selection
+        function toggleDetachedGarageFields() {
+            const garageType = document.getElementById('garage_type').value;
+            const detachedFields = document.getElementById('detached_garage_fields');
+
+            if (garageType === 'Detached') {
+                detachedFields.classList.remove('hidden');
+                detachedFields.classList.add('block');
+            } else {
+                detachedFields.classList.remove('block');
+                detachedFields.classList.add('hidden');
+            }
+        }
+
+        // Show/hide Basement Details based on Foundation Type
+        function toggleBasementFields() {
+            const foundationType = document.getElementById('foundation_type').value;
+            const basementSection = document.getElementById('basement_details');
+
+            if (foundationType === 'Basement') {
+                basementSection.classList.remove('hidden');
+                basementSection.classList.add('block');
+            } else {
+                basementSection.classList.remove('block');
+                basementSection.classList.add('hidden');
+            }
+        }
+
+        // Initialize conditional fields on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check garage type
+            const garageSelect = document.getElementById('garage_type');
+            if (garageSelect && garageSelect.value === 'Detached') {
+                const detachedFields = document.getElementById('detached_garage_fields');
+                if (detachedFields) detachedFields.classList.remove('hidden');
+            }
+
+            // Check foundation type
+            const foundationSelect = document.getElementById('foundation_type');
+            if (foundationSelect && foundationSelect.value === 'Basement') {
+                const basementSection = document.getElementById('basement_details');
+                if (basementSection) basementSection.classList.remove('hidden');
+            }
+        });
+
+        // ============================================
+        // OTHER STRUCTURES / ADDITIONAL BUILDINGS
+        // ============================================
+        let otherStructureCount = 0;
+
+        function addOtherStructure() {
+            otherStructureCount++;
+            const container = document.getElementById('other-structures-container');
+            const card = createOtherStructureCard(otherStructureCount);
+            container.appendChild(card);
+
+            // Best mobile UX
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setTimeout(() => {
+                const typeSelect = card.querySelector('select');
+                if (typeSelect && window.innerWidth < 768) {
+                    typeSelect.focus();
+                }
+            }, 350);
+        }
+
+        function createOtherStructureCard(index) {
+            const card = document.createElement('div');
+            card.className = 'border border-slate-200 rounded-2xl p-4 sm:p-5 bg-white mobile-card';
+            card.id = `other-structure-${index}`;
+
+            card.innerHTML = `
+                <div class="flex justify-between items-center mb-4">
+                    <div class="font-semibold text-[#003d82] flex items-center gap-2">
+                        <i class="fas fa-warehouse"></i>
+                        <span>Additional Building #${index}</span>
+                    </div>
+                    <button type="button" onclick="removeOtherStructure(this)" 
+                            class="text-red-500 hover:text-red-600 text-sm px-2 py-1 rounded hover:bg-red-50">
+                        <i class="fas fa-times mr-1"></i> Remove
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
+                    <!-- Type -->
+                    <div class="sm:col-span-2">
+                        <label class="mini-label">Type of Structure</label>
+                        <select name="other_structure_${index}_type" onchange="updateOtherStructureFields(this)" 
+                                class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="">Select type...</option>
+                            <option value="Detached Garage">Detached Garage</option>
+                            <option value="Pole Barn">Pole Barn</option>
+                            <option value="Storage Shed">Storage Shed</option>
+                            <option value="Workshop">Workshop</option>
+                            <option value="Guest House / Cabin">Guest House / Cabin</option>
+                            <option value="Barn">Barn (Livestock / Hay)</option>
+                            <option value="Boat House">Boat House</option>
+                            <option value="Pool House">Pool House</option>
+                            <option value="Lean-to">Lean-to / Carport</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <!-- Size -->
+                    <div>
+                        <label class="mini-label">Size (sq ft)</label>
+                        <input type="text" name="other_structure_${index}_sqft" 
+                               class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm" placeholder="e.g. 1200">
+                    </div>
+
+                    <!-- Year Built -->
+                    <div>
+                        <label class="mini-label">Year Built</label>
+                        <input type="text" name="other_structure_${index}_year_built" 
+                               class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm" placeholder="e.g. 2018">
+                    </div>
+
+                    <!-- Construction Type -->
+                    <div>
+                        <label class="mini-label">Construction Type</label>
+                        <select name="other_structure_${index}_construction" 
+                                class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="">Select...</option>
+                            <option value="Wood Frame">Wood Frame</option>
+                            <option value="Pole Barn">Pole Barn</option>
+                            <option value="Metal Building">Metal Building</option>
+                            <option value="Concrete Block">Concrete Block</option>
+                            <option value="Post & Beam">Post & Beam</option>
+                        </select>
+                    </div>
+
+                    <!-- Replacement Value -->
+                    <div>
+                        <label class="mini-label">Estimated Replacement Value</label>
+                        <input type="text" name="other_structure_${index}_value" 
+                               class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm" placeholder="e.g. 85000">
+                    </div>
+
+                    <!-- Primary Use -->
+                    <div class="md:col-span-2">
+                        <label class="mini-label">Primary Use</label>
+                        <select name="other_structure_${index}_use" 
+                                class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="">Select...</option>
+                            <option value="Vehicle / Equipment Storage">Vehicle / Equipment Storage</option>
+                            <option value="General Storage">General Storage</option>
+                            <option value="Workshop / Hobby">Workshop / Hobby Space</option>
+                            <option value="Livestock / Animals">Livestock / Animals</option>
+                            <option value="Hay / Feed Storage">Hay / Feed Storage</option>
+                            <option value="Living Space">Living / Guest Space</option>
+                            <option value="Boat Storage">Boat Storage</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+            `;
+
+            return card;
+        }
+
+        function updateOtherStructureFields(selectElement) {
+            const card = selectElement.closest('.border');
+            if (!card) return;
+
+            const type = selectElement.value;
+            const constructionSelect = card.querySelector('select[name*="construction"]');
+            const useSelect = card.querySelector('select[name*="use"]');
+
+            if (!constructionSelect || !useSelect) return;
+
+            // Smart defaults based on structure type
+            if (type === 'Pole Barn') {
+                constructionSelect.value = 'Pole Barn';
+                useSelect.value = 'Equipment / Livestock Storage';
+            } else if (type === 'Detached Garage') {
+                constructionSelect.value = 'Wood Frame';
+                useSelect.value = 'Vehicle / Equipment Storage';
+            } else if (type === 'Storage Shed') {
+                constructionSelect.value = 'Wood Frame';
+                useSelect.value = 'General Storage';
+            } else if (type === 'Guest House / Cabin') {
+                constructionSelect.value = 'Wood Frame';
+                useSelect.value = 'Living / Guest Space';
+            } else if (type === 'Barn') {
+                constructionSelect.value = 'Pole Barn';
+                useSelect.value = 'Livestock / Animals';
+            } else if (type === 'Workshop') {
+                constructionSelect.value = 'Wood Frame';
+                useSelect.value = 'Workshop / Hobby';
+            } else if (type === 'Boat House') {
+                constructionSelect.value = 'Wood Frame';
+                useSelect.value = 'Boat Storage';
+            }
+        }
+
+        function removeOtherStructure(button) {
+            const card = button.closest('.border');
+            if (card) card.remove();
+        }
+
+        // Toggle Other Carrier field on Home Quote
+        function toggleHomeOtherCarrier(select) {
+            const otherField = document.getElementById('home_other_carrier_field');
+            if (!otherField) return;
+
+            if (select.value === 'Other') {
+                otherField.classList.remove('hidden');
+                otherField.classList.add('block');
+            } else {
+                otherField.classList.remove('block');
+                otherField.classList.add('hidden');
+                const otherInput = otherField.querySelector('input');
+                if (otherInput) otherInput.value = '';
+            }
+        }
+    </script>
+</body>
+</html>

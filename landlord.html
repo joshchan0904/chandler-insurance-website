@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landlord &amp; Rental Insurance Grand Rapids MN | Chandler Insurance Agency</title>
+    <meta name="description" content="Protect your rental properties with landlord insurance from Chandler Insurance Agency. Dwelling, liability, loss of rents, and tenant screening coverage for landlords in Grand Rapids, Virginia, and across Minnesota.">
+    
+    <!-- Favicon - Optimized for all browsers and devices -->
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#003d82">
+    <meta name="msapplication-TileColor" content="#003d82">
+    <meta name="msapplication-TileImage" content="images/apple-touch-icon.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap');
+        :root { --primary-blue: #003d82; --accent-blue: #0056b3; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Roboto', sans-serif; background: #f8fafd; line-height: 1.7; color: #222; }
+        
+        nav { background: white; padding: 1rem 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: relative; z-index: 100; }
+        .nav-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .nav-links { display: flex; align-items: center; }
+        .nav-links a { color: #003d82; text-decoration: none; font-weight: 600; margin-left: 2rem; }
+        .nav-links a:hover { color: #0056b3; }
+        
+        .hamburger { display: none; font-size: 1.8rem; color: #003d82; cursor: pointer; }
+        
+        .hero { background: linear-gradient(135deg, #003d82 0%, #0056b3 100%); color: white; padding: 3.5rem 1.5rem; text-align: center; }
+        .hero h1 { font-size: 2.4rem; margin-bottom: 1rem; line-height: 1.2; }
+        
+        .section { max-width: 900px; margin: 0 auto; padding: 3rem 1.25rem; }
+        .section h2 { color: var(--primary-blue); margin-bottom: 1.25rem; font-size: 1.85rem; line-height: 1.3; }
+        .section h3 { color: var(--primary-blue); margin: 2rem 0 1rem; font-size: 1.35rem; }
+        
+        .content-box { background: white; padding: 2rem 1.5rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 61, 130, 0.1); margin-bottom: 1.75rem; }
+        ul { margin-left: 1.25rem; margin-bottom: 1.25rem; }
+        li { margin-bottom: 0.65rem; font-size: 1.02rem; }
+        
+        .faq-item { background: white; padding: 1.5rem 1.25rem; border-radius: 12px; margin-bottom: 1rem; box-shadow: 0 5px 15px rgba(0, 61, 130, 0.08); }
+        .faq-item h4 { color: var(--primary-blue); margin-bottom: 0.65rem; font-size: 1.1rem; }
+        
+        .final-cta { background: linear-gradient(135deg, #003d82, #0056b3); color: white; padding: 3rem 1.5rem; text-align: center; border-radius: 20px; margin: 3rem 1rem; }
+        .final-cta h2 { color: white; margin-bottom: 1rem; font-size: 1.9rem; }
+        
+        .floating-text { position: fixed; bottom: 18px; right: 18px; background: #00a651; color: white; padding: 11px 16px; border-radius: 50px; box-shadow: 0 10px 25px rgba(0,166,81,0.4); display: flex; align-items: center; gap: 8px; font-weight: 700; text-decoration: none; z-index: 999; font-size: 0.9rem; }
+        footer { background: #003d82 !important; color: #ddd; padding: 3rem 1.25rem; margin-top: 4rem; }
+        
+        @media (max-width: 768px) {
+            .nav-links { display: none; flex-direction: column; background: white; position: absolute; top: 65px; left: 0; width: 100%; padding: 1.25rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+            .nav-links.active { display: flex; }
+            .nav-links a { margin: 0.6rem 0; font-size: 1.05rem; }
+            .hamburger { display: block; }
+            
+            .hero { padding: 2.75rem 1.25rem; }
+            .hero h1 { font-size: 2.1rem; }
+            
+            .section { padding: 2.25rem 1rem; }
+            .section h2 { font-size: 1.65rem; }
+            
+            .content-box { padding: 1.65rem 1.25rem; }
+            .faq-item { padding: 1.35rem 1.1rem; }
+            
+            .final-cta { margin: 2.5rem 1rem; padding: 2.5rem 1.25rem; }
+            .final-cta h2 { font-size: 1.7rem; }
+        }
+        
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 1.95rem; }
+            .section h2 { font-size: 1.5rem; }
+        }
+    
+        /* Navigation Consistency (matching screenshot) */
+        nav { background: white; padding: 1rem 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: relative; z-index: 100; }
+        .nav-links { display: flex; align-items: center; }
+        .nav-links a { color: #003d82; text-decoration: none; font-weight: 600; margin-left: 2rem; }
+        .nav-links a:hover { color: #0056b3; }
+        .hamburger { display: none; font-size: 1.8rem; color: #003d82; cursor: pointer; }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; flex-direction: column; background: white; position: absolute; top: 65px; left: 0; width: 100%; padding: 1.25rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+            .nav-links.active { display: flex; }
+            .nav-links a { margin: 0.6rem 0; font-size: 1.05rem; }
+            .hamburger { display: block; }
+        }
+@media (max-width: 900px) {
+            .nav-links { display: none; flex-direction: column; background: white; position: absolute; top: 70px; left: 0; width: 100%; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+            .nav-links.active { display: flex; }
+            .nav-links a { margin: 0.75rem 0; font-size: 1.05rem; }
+            .hamburger { display: block; }
+
+        </style>
+</head>
+<body>
+    <!-- NAVIGATION -->
+        <!-- NAVIGATION (matches screenshot exactly) -->
+    <nav>
+        <div class="nav-content">
+            <div style="display:flex; align-items:center; gap:12px;">
+                <a href="index.html"><img src="images/logo-full-color.png" alt="Chandler Insurance Agency - Grand Rapids &amp; Virginia MN" style="height:45px;"></a>
+            </div>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="index.html">Home</a>
+                <a href="about.html">About Us</a>
+                <a href="services.html">Services</a>
+                <a href="quote.html">Get Quote</a>
+                <a href="blog.html">Blog</a>
+                <a href="schedule.html">Schedule Appointment</a>
+                <a href="tel:2183264655">Contact</a>
+                <a href="https://customerservice.agentinsure.com/EzLynxCustomerService/web/chandleria/account/login" target="_blank" style="background: #003d82; color: white; padding: 10px 20px; border-radius: 50px; font-weight: 600; margin-left: 1.5rem; text-decoration: none; font-size: 0.95rem;">Client Center</a>
+            </div>
+            
+            <div class="hamburger" onclick="toggleMenu()" 
+                 aria-label="Toggle navigation menu" 
+                 aria-expanded="false"
+                 role="button"
+                 tabindex="0">
+                <i class="fa fa-bars" aria-hidden="true"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <div class="hero">
+        <h1>Landlord &amp; Rental Insurance</h1>
+        <p style="font-size:1.25rem; max-width:700px; margin:0 auto; opacity:0.95;">Protecting your rental investments since 1977</p>
+    </div>
+
+    <div class="section">
+        <div class="content-box">
+            <h2>What is Landlord &amp; Rental Insurance?</h2>
+            <p>Landlord insurance (also called rental property insurance) protects your investment property, the building structure, and your liability as a property owner. It is different from a standard homeowners policy because it covers risks specific to rental properties — such as tenant-caused damage, loss of rental income, and liability claims from tenants or their guests. Whether you own a single-family rental in Grand Rapids, a duplex in Virginia, or multiple properties across Itasca County, this coverage is essential for protecting your income and assets.</p>
+        </div>
+
+        <div class="content-box">
+            <h2>How does Landlord Insurance work?</h2>
+            <p>Landlord insurance protects the building you own (the dwelling), any appliances or furnishings you provide, and your legal liability if someone is injured on the property. If a tenant stops paying rent or damages the unit, or if a storm damages the roof, your policy can help cover repairs and lost income. We also offer optional coverage for tenant screening services and eviction protection in many cases.</p>
+        </div>
+
+        <div class="content-box">
+            <h2>Why do Minnesota landlords need this coverage?</h2>
+            <p>Rental properties in Minnesota face unique risks including frozen pipes, ice dam damage, heavy snow loads, and seasonal tenant turnover. Without proper landlord insurance, you could be personally responsible for repairs, lost rent, and legal fees. Our policies are specifically designed for the challenges of renting in cold climates and rural areas.</p>
+        </div>
+
+        <div class="content-box">
+            <h2>What coverages are included?</h2>
+            <ul>
+                <li><strong>Dwelling Coverage:</strong> Protects the building structure, roof, and attached structures</li>
+                <li><strong>Loss of Rents:</strong> Replaces rental income if the property becomes uninhabitable</li>
+                <li><strong>Liability Protection:</strong> Covers legal and medical costs if a tenant or guest is injured</li>
+                <li><strong>Landlord Property:</strong> Covers appliances, carpeting, and furnishings you own</li>
+                <li><strong>Vandalism &amp; Malicious Mischief:</strong> Covers intentional damage by tenants</li>
+                <li><strong>Optional Add-Ons:</strong> Tenant screening, eviction protection, and flood coverage</li>
+            </ul>
+        </div>
+
+        <div class="content-box">
+            <h2>FAQs about Landlord Insurance</h2>
+            
+            <div class="faq-item">
+                <h4>Does my homeowners policy cover my rental property?</h4>
+                <p>No. A standard homeowners policy does not cover rental properties. You need a specific landlord or dwelling fire policy.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4>How much does landlord insurance cost?</h4>
+                <p>Most landlords in Minnesota pay between $1,200–$2,800 per year depending on the property value, location, number of units, and tenant screening practices. Multi-unit properties and those with higher liability limits cost more.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4>Can I require tenants to have renters insurance?</h4>
+                <p>Yes — and we strongly recommend it. Renters insurance protects the tenant’s belongings and provides liability coverage, which can reduce your risk. Many of our landlord policies offer a discount if you require it.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4>What if a tenant stops paying rent?</h4>
+                <p>Loss of rents coverage can help replace income while you go through the eviction process. We also partner with tenant screening services that can reduce the risk of problem tenants.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4>Is flood insurance included?</h4>
+                <p>Standard landlord policies do not cover flood damage. We can add separate flood coverage through the National Flood Insurance Program (NFIP) for properties in flood-prone areas.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FINAL CTA -->
+    <div class="final-cta">
+        <h2>Protect Your Rental Properties</h2>
+        <p style="font-size:1.25rem; max-width:700px; margin:0 auto 1.5rem; opacity:0.95;">Get a personalized landlord insurance quote in minutes.</p>
+        <a href="quote.html" style="background:white; color:#003d82; padding:16px 42px; border-radius:50px; font-weight:700; text-decoration:none; font-size:1.15rem; display:inline-block;">GET YOUR LANDLORD INSURANCE QUOTE</a>
+    </div>
+
+    <!-- FLOATING TEXT BUTTON -->
+    <a href="sms:2185208790" class="floating-text">
+        <i class="fa fa-comments"></i> <span>Text Us Now</span>
+    </a>
+
+    <!-- FOOTER -->
+    <!-- FOOTER -->
+        <footer>
+        <div style="max-width:1200px; margin:0 auto; padding:0 1rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:2rem;">
+            <div>
+                <img src="images/logo-white.png" alt="Chandler Insurance" style="height: 36px; margin-bottom: 12px;">
+                <h4>Chandler Insurance Agency</h4>
+                <p>Locally owned. Proudly serving all of Minnesota.</p>
+            </div>
+            <div>
+                <h4>Contact Us</h4>
+                <p>322 NE 5th Street, Grand Rapids, MN 55744<br>Grand Rapids: (218) 326-4655<br>Virginia: (218) 741-9582<br>home@chandlerinsurancemn.com</p>
+            </div>
+            <div>
+                <h4>Quick Links</h4>
+                <p><a href="index.html" style="color:#ddd;">Home</a><br><a href="about.html" style="color:#ddd;">About Us</a><br><a href="services.html" style="color:#ddd;">Services</a><br><a href="quote.html" style="color:#ddd;">Get Quote</a><br><a href="schedule.html" style="color:#ddd;">Schedule Appointment</a></p>
+            </div>
+            <div>
+                <h4>Follow Us</h4>
+                <p><a href="https://www.facebook.com/ChandlerInsuranceAgency" target="_blank" style="color:#ddd;">Facebook</a></p>
+            </div>
+        </div>
+        
+        <div style="text-align:center; margin-top:2.5rem; padding-top:2rem; border-top:1px solid #0056b3; font-size:0.9rem;">
+            © 2026 Chandler Insurance Agency. All rights reserved. &nbsp;|&nbsp; <a href="privacy.html" style="color:#ddd; text-decoration:underline;">Privacy Policy</a> &nbsp;|&nbsp; <a href="terms.html" style="color:#ddd; text-decoration:underline;">Terms of Service</a> &nbsp;|&nbsp; <a href="cookies.html" style="color:#ddd; text-decoration:underline;">Cookies Policy</a>
+        </div>
+    </footer>
+    <!-- SCHEMA.ORG STRUCTURED DATA -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "InsuranceAgency",
+      "name": "Chandler Insurance Agency",
+      "description": "Landlord & rental property insurance for Minnesota. Dwelling, liability, loss of rents, and tenant screening for rental properties in Grand Rapids, Virginia & Itasca County since 1977.",
+      "url": "https://www.chandlerinsurancemn.com/landlord.html",
+      "telephone": "+1-218-326-4655",
+      "email": "home@chandlerinsurancemn.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "322 NE 5th Street",
+        "addressLocality": "Grand Rapids",
+        "addressRegion": "MN",
+        "postalCode": "55744",
+        "addressCountry": "US"
+      },
+      "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"],
+      "serviceType": "Landlord & Rental Insurance"
+    }
+    </script>
+
+    <!-- FAQPage SCHEMA FOR RICH RESULTS -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How much does landlord insurance cost?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most landlords in Minnesota pay between $1,200–$2,800 per year depending on the property value, location, number of units, and tenant screening practices. Multi-unit properties and those with higher liability limits cost more."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I require tenants to have renters insurance?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes — and we strongly recommend it. Renters insurance protects the tenant’s belongings and provides liability coverage, which can reduce your risk. Many of our landlord policies offer a discount if you require it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What if a tenant stops paying rent?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Loss of rents coverage can help replace income while you go through the eviction process. We also partner with tenant screening services that can reduce the risk of problem tenants."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is flood insurance included?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Standard landlord policies do not cover flood damage. We can add separate flood coverage through the National Flood Insurance Program (NFIP) for properties in flood-prone areas."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+    </script>
+
+    <!-- SERVICE SCHEMA (helps Google understand this page) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "Landlord & Rental Insurance",
+      "name": "Landlord Insurance - Grand Rapids & Virginia MN",
+      "description": "Landlord and rental property insurance including dwelling coverage, liability, loss of rents, and tenant screening for Minnesota property owners.",
+      "provider": {
+        "@type": "InsuranceAgency",
+        "name": "Chandler Insurance Agency",
+        "url": "https://www.chandlerinsurancemn.com/"
+      },
+      "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Landlord Insurance Coverage Options",
+        "itemListElement": [
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Dwelling Coverage"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Liability Protection"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Loss of Rents"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Tenant Screening"}}
+        ]
+      }
+    }
+    </script>
+</body>
+</html>
