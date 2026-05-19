@@ -499,6 +499,7 @@
                     <div>
                         <label class="mini-label">Current Auto Insurance?</label>
                         <select name="current_insurance_status" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="">Select an option...</option>
                             <option value="No - New to Auto Insurance">No - New to Auto Insurance</option>
                             <option value="Yes - With Another Carrier">Yes - With Another Carrier</option>
                             <option value="Yes - Renewing">Yes - Renewing with Current Carrier</option>
@@ -510,29 +511,44 @@
                         <select name="current_auto_carrier" onchange="toggleAutoOtherCarrier(this)" 
                                 class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
                             <option value="">Select current carrier...</option>
-                            <option value="State Farm">State Farm</option>
-                            <option value="Progressive">Progressive</option>
-                            <option value="GEICO">GEICO</option>
-                            <option value="Allstate">Allstate</option>
-                            <option value="Farmers Insurance">Farmers Insurance</option>
-                            <option value="Liberty Mutual">Liberty Mutual</option>
-                            <option value="USAA">USAA</option>
-                            <option value="Auto-Owners Insurance">Auto-Owners Insurance</option>
-                            <option value="American Family Insurance">American Family Insurance</option>
-                            <option value="Nationwide">Nationwide</option>
-                            <option value="Travelers">Travelers</option>
-                            <option value="The Hartford">The Hartford</option>
-                            <option value="Chubb">Chubb</option>
-                            <option value="Safeco">Safeco</option>
-                            <option value="MetLife">MetLife</option>
                             <option value="AAA Insurance">AAA Insurance</option>
-                            <option value="Western National">Western National</option>
-                            <option value="North Star Mutual">North Star Mutual</option>
+                            <option value="Acuity Insurance">Acuity Insurance</option>
+                            <option value="Allstate">Allstate</option>
+                            <option value="American Family Insurance">American Family Insurance</option>
+                            <option value="American National">American National</option>
+                            <option value="Auto-Owners Insurance">Auto-Owners Insurance</option>
+                            <option value="Berkley Insurance">Berkley Insurance</option>
+                            <option value="Bristol West">Bristol West</option>
+                            <option value="Chubb">Chubb</option>
                             <option value="Cincinnati Insurance">Cincinnati Insurance</option>
+                            <option value="Country Financial">Country Financial</option>
+                            <option value="Dairyland Insurance">Dairyland Insurance</option>
+                            <option value="Erie Insurance">Erie Insurance</option>
+                            <option value="Farmers Insurance">Farmers Insurance</option>
                             <option value="Federated Insurance">Federated Insurance</option>
-                            <option value="IMT Insurance">IMT Insurance</option>
+                            <option value="GEICO">GEICO</option>
                             <option value="Grinnell Mutual">Grinnell Mutual</option>
-                            <option value="Farmers Union / CHS">Farmers Union / CHS Insurance</option>
+                            <option value="Hastings Mutual">Hastings Mutual</option>
+                            <option value="Horace Mann">Horace Mann</option>
+                            <option value="IMT Insurance">IMT Insurance</option>
+                            <option value="Kemper Insurance">Kemper Insurance</option>
+                            <option value="Liberty Mutual">Liberty Mutual</option>
+                            <option value="Markel">Markel</option>
+                            <option value="Mercury Insurance">Mercury Insurance</option>
+                            <option value="MetLife">MetLife</option>
+                            <option value="National General">National General</option>
+                            <option value="Nationwide">Nationwide</option>
+                            <option value="North Star Mutual">North Star Mutual</option>
+                            <option value="Progressive">Progressive</option>
+                            <option value="Safeco">Safeco</option>
+                            <option value="Sentry Insurance">Sentry Insurance</option>
+                            <option value="Shelter Insurance">Shelter Insurance</option>
+                            <option value="State Auto">State Auto</option>
+                            <option value="State Farm">State Farm</option>
+                            <option value="The Hartford">The Hartford</option>
+                            <option value="Travelers">Travelers</option>
+                            <option value="USAA">USAA</option>
+                            <option value="Western National">Western National</option>
                             <option value="Other">Other (please specify)</option>
                         </select>
 
@@ -809,6 +825,20 @@
             const deductibleDiv = document.getElementById(deductibleId);
             if (deductibleDiv) {
                 deductibleDiv.classList.toggle('hidden', !checkbox.checked);
+            }
+        }
+
+        function toggleAutoOtherCarrier(selectElement) {
+            const otherField = document.getElementById('auto_other_carrier_field');
+            if (otherField) {
+                const show = selectElement.value === 'Other';
+                otherField.classList.toggle('hidden', !show);
+
+                // Clear the input when hiding the field
+                if (!show) {
+                    const input = otherField.querySelector('input');
+                    if (input) input.value = '';
+                }
             }
         }
 
