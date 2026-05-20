@@ -852,7 +852,12 @@
         </div>
     </footer>
 
-    <!-- Floating Text Us -->
+    <!-- Floating Text Us (hidden on mobile) -->
+    <style>
+        @media (max-width: 768px) {
+            .floating-text { display: none !important; }
+        }
+    </style>
     <a href="tel:2185208790" class="floating-text" style="position: fixed; bottom: 20px; right: 20px; background: #00a651; color: white; padding: 12px 18px; border-radius: 50px; box-shadow: 0 10px 25px rgba(0,166,81,0.4); display: flex; align-items: center; gap: 8px; font-weight: 700; text-decoration: none; z-index: 999; font-size: 0.95rem;">
         <i class="fa fa-comments"></i> <span>Text Us Now</span>
     </a>
