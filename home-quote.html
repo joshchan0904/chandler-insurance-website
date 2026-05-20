@@ -611,77 +611,6 @@
                 </div>
             </div>
 
-            <!-- Claims & Additional -->
-            <div class="mb-8">
-                <div class="flex items-center gap-x-3 mb-4">
-                    <i class="fas fa-exclamation-triangle text-[#003d82] text-xl"></i>
-                    <h2 class="section-header text-xl tracking-tight">Claims &amp; Additional Information</h2>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <div>
-                        <label class="mini-label">Current Insurance Company (if any)</label>
-                        <select name="current_insurance" onchange="toggleHomeOtherCarrier(this)" 
-                                class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
-                            <option value="">Select your current carrier...</option>
-                            <option value="State Farm">State Farm</option>
-                            <option value="Progressive">Progressive</option>
-                            <option value="GEICO">GEICO</option>
-                            <option value="Allstate">Allstate</option>
-                            <option value="Farmers Insurance">Farmers Insurance</option>
-                            <option value="Liberty Mutual">Liberty Mutual</option>
-                            <option value="USAA">USAA</option>
-                            <option value="Auto-Owners Insurance">Auto-Owners Insurance</option>
-                            <option value="American Family Insurance">American Family Insurance</option>
-                            <option value="Nationwide">Nationwide</option>
-                            <option value="Travelers">Travelers</option>
-                            <option value="The Hartford">The Hartford</option>
-                            <option value="Chubb">Chubb</option>
-                            <option value="Safeco">Safeco</option>
-                            <option value="MetLife">MetLife</option>
-                            <option value="AAA Insurance">AAA Insurance</option>
-                            <option value="Western National">Western National</option>
-                            <option value="North Star Mutual">North Star Mutual</option>
-                            <option value="Cincinnati Insurance">Cincinnati Insurance</option>
-                            <option value="Federated Insurance">Federated Insurance</option>
-                            <option value="IMT Insurance">IMT Insurance</option>
-                            <option value="Grinnell Mutual">Grinnell Mutual</option>
-                            <option value="Farmers Union / CHS">Farmers Union / CHS Insurance</option>
-                            <option value="Other">Other (please specify below)</option>
-                            <option value="No Current Insurance">I do not currently have insurance</option>
-                        </select>
-
-                        <!-- Other Carrier Text Field -->
-                        <div id="home_other_carrier_field" class="hidden mt-3">
-                            <label class="mini-label">Please specify your current carrier</label>
-                            <input type="text" name="current_insurance_other" 
-                                   class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm" 
-                                   placeholder="Enter your current insurance company name">
-                        </div>
-                    </div>
-
-                    <!-- Policy Upload -->
-                    <div class="md:col-span-2">
-                        <label class="mini-label">Upload Your Current Policy Declarations Page (Optional)</label>
-                        <input type="file" name="current_policy_declarations" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
-                        <p class="text-xs text-slate-500 mt-1">Uploading your current policy declarations page helps us review your existing coverages and limits so we can provide a more accurate quote. PDF is preferred.</p>
-                    </div>
-
-                    <div>
-                        <label class="mini-label">Any claims or losses in the last 5 years?</label>
-                        <select name="claims_history" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
-                            <option value="No">No</option>
-                            <option value="Yes - 1">Yes - 1</option>
-                            <option value="Yes - 2 or more">Yes - 2 or more</option>
-                        </select>
-                    </div>
-
-                    <div class="md:col-span-2">
-                        <label class="mini-label">Additional Information (optional)</label>
-                        <textarea name="additional_info" rows="3" class="form-textarea w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm"></textarea>
-                    </div>
-                </div>
-            </div>
-
             <!-- Coverage Preferences -->
             <div class="mb-8">
                 <div class="flex items-center gap-x-3 mb-4">
@@ -733,6 +662,105 @@
                             <label class="flex items-center gap-x-2"><input type="checkbox" name="add_ons[]" value="Equipment Breakdown"> Equipment Breakdown (HVAC, etc.)</label>
                             <label class="flex items-center gap-x-2"><input type="checkbox" name="add_ons[]" value="Identity Theft"> Identity Theft Protection</label>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Claims & Additional -->
+            <div class="mb-8">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <i class="fas fa-exclamation-triangle text-[#003d82] text-xl"></i>
+                    <h2 class="section-header text-xl tracking-tight">Claims &amp; Additional Information</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="mini-label">Current Insurance Company (if any)</label>
+                        <select name="current_insurance" onchange="toggleHomeOtherCarrier(this)" 
+                                class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="">Select your current carrier...</option>
+                            <option value="AAA Insurance">AAA Insurance</option>
+                            <option value="Acuity Insurance">Acuity Insurance</option>
+                            <option value="Allstate">Allstate</option>
+                            <option value="American Family Insurance">American Family Insurance</option>
+                            <option value="American National">American National</option>
+                            <option value="Amica Mutual">Amica Mutual Insurance</option>
+                            <option value="Auto-Owners Insurance">Auto-Owners Insurance</option>
+                            <option value="Berkley Insurance">Berkley Insurance</option>
+                            <option value="Bristol West">Bristol West</option>
+                            <option value="Chubb">Chubb</option>
+                            <option value="Cincinnati Insurance">Cincinnati Insurance</option>
+                            <option value="Citizens Insurance">Citizens Insurance</option>
+                            <option value="Country Financial">Country Financial</option>
+                            <option value="CSAA Insurance">CSAA Insurance (AAA)</option>
+                            <option value="Dairyland Insurance">Dairyland Insurance</option>
+                            <option value="Direct General">Direct General</option>
+                            <option value="Erie Insurance">Erie Insurance</option>
+                            <option value="Esurance">Esurance</option>
+                            <option value="Farm Bureau Insurance">Farm Bureau Insurance</option>
+                            <option value="Farmers Insurance">Farmers Insurance</option>
+                            <option value="Federated Insurance">Federated Insurance</option>
+                            <option value="First American">First American</option>
+                            <option value="GEICO">GEICO</option>
+                            <option value="Grinnell Mutual">Grinnell Mutual</option>
+                            <option value="Hastings Mutual">Hastings Mutual</option>
+                            <option value="Horace Mann">Horace Mann</option>
+                            <option value="IMT Insurance">IMT Insurance</option>
+                            <option value="Infinity Insurance">Infinity Insurance</option>
+                            <option value="Kemper Insurance">Kemper Insurance</option>
+                            <option value="Liberty Mutual">Liberty Mutual</option>
+                            <option value="Markel">Markel</option>
+                            <option value="Mercury Insurance">Mercury Insurance</option>
+                            <option value="MetLife">MetLife</option>
+                            <option value="National Farmers Union">National Farmers Union</option>
+                            <option value="National General">National General</option>
+                            <option value="Nationwide">Nationwide</option>
+                            <option value="North Star Mutual">North Star Mutual</option>
+                            <option value="Plymouth Rock">Plymouth Rock Assurance</option>
+                            <option value="Progressive">Progressive</option>
+                            <option value="QBE">QBE Insurance</option>
+                            <option value="Safeco">Safeco</option>
+                            <option value="Sentry Insurance">Sentry Insurance</option>
+                            <option value="Shelter Insurance">Shelter Insurance</option>
+                            <option value="State Auto">State Auto</option>
+                            <option value="State Farm">State Farm</option>
+                            <option value="Travelers">Travelers</option>
+                            <option value="USAA">USAA</option>
+                            <option value="Utica National">Utica National</option>
+                            <option value="Wawanesa Insurance">Wawanesa Insurance</option>
+                            <option value="Western National">Western National</option>
+                            <option value="Zurich Insurance">Zurich Insurance</option>
+                            <option value="Other">Other (please specify below)</option>
+                            <option value="No Current Insurance">I do not currently have insurance</option>
+                        </select>
+
+                        <!-- Other Carrier Text Field -->
+                        <div id="home_other_carrier_field" class="hidden mt-3">
+                            <label class="mini-label">Please specify your current carrier</label>
+                            <input type="text" name="current_insurance_other" 
+                                   class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm" 
+                                   placeholder="Enter your current insurance company name">
+                        </div>
+                    </div>
+
+                    <!-- Policy Upload -->
+                    <div class="md:col-span-2">
+                        <label class="mini-label">Upload Your Current Policy Declarations Page (Optional)</label>
+                        <input type="file" name="current_policy_declarations" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                        <p class="text-xs text-slate-500 mt-1">Uploading your current policy declarations page helps us review your existing coverages and limits so we can provide a more accurate quote. PDF is preferred.</p>
+                    </div>
+
+                    <div>
+                        <label class="mini-label">Any claims or losses in the last 5 years?</label>
+                        <select name="claims_history" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="No">No</option>
+                            <option value="Yes - 1">Yes - 1</option>
+                            <option value="Yes - 2 or more">Yes - 2 or more</option>
+                        </select>
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="mini-label">Additional Information (optional)</label>
+                        <textarea name="additional_info" rows="3" class="form-textarea w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm"></textarea>
                     </div>
                 </div>
             </div>

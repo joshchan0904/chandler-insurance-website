@@ -1047,6 +1047,136 @@
                             </div>
                         </div>
                     </details>
+
+                    <!-- E&O (Professional Liability) DETAILS -->
+                    <details id="eandoDetails" class="mb-4 border border-slate-200 rounded-2xl overflow-hidden group hidden">
+                        <summary class="accordion-header px-5 py-4 bg-slate-50 flex items-center justify-between cursor-pointer hover:bg-slate-100 transition-colors">
+                            <div class="flex items-center gap-x-3">
+                                <i class="fas fa-user-tie text-indigo-500 text-lg"></i>
+                                <span class="font-semibold text-sm">Professional Liability (E&amp;O) Details</span>
+                            </div>
+                            <i class="fas fa-chevron-down text-slate-400 group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <div class="p-5 bg-white grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+                            <div class="md:col-span-2">
+                                <label class="mini-label block mb-1">Description of Professional Services</label>
+                                <textarea name="eandoServices" rows="2" class="form-textarea w-full px-3 py-2 border border-slate-300 rounded-xl text-sm" placeholder="e.g. Accounting services, IT consulting, real estate appraisals..."></textarea>
+                            </div>
+                            <div>
+                                <label class="mini-label block mb-1">Annual Revenue from Professional Services</label>
+                                <input type="number" name="eandoRevenue" class="form-input w-full px-3 py-2 border border-slate-300 rounded-xl text-sm" placeholder="850000">
+                            </div>
+                            <div>
+                                <label class="mini-label block mb-1">Requested Per Claim Limit</label>
+                                <select name="eandoPerClaim" class="form-select w-full px-3 py-2 border border-slate-300 rounded-xl text-sm bg-white">
+                                    <option value="500000">$500,000</option>
+                                    <option value="1000000" selected>$1,000,000 (Most Common)</option>
+                                    <option value="2000000">$2,000,000</option>
+                                    <option value="5000000">$5,000,000+</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="mini-label block mb-1">Any claims or suits in the last 5 years?</label>
+                                <select name="eandoClaims" class="form-select w-full px-3 py-2 border border-slate-300 rounded-xl text-sm bg-white">
+                                    <option value="No">No</option>
+                                    <option value="Yes - 1">Yes - 1</option>
+                                    <option value="Yes - 2 or more">Yes - 2 or more</option>
+                                </select>
+                            </div>
+                        </div>
+                    </details>
+
+                    <!-- D&O (Directors & Officers) DETAILS -->
+                    <details id="dandoDetails" class="mb-4 border border-slate-200 rounded-2xl overflow-hidden group hidden">
+                        <summary class="accordion-header px-5 py-4 bg-slate-50 flex items-center justify-between cursor-pointer hover:bg-slate-100 transition-colors">
+                            <div class="flex items-center gap-x-3">
+                                <i class="fas fa-user-shield text-teal-600 text-lg"></i>
+                                <span class="font-semibold text-sm">Directors &amp; Officers (D&amp;O) Details</span>
+                            </div>
+                            <i class="fas fa-chevron-down text-slate-400 group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <div class="p-5 bg-white grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+                            <div>
+                                <label class="mini-label block mb-1">Type of Organization</label>
+                                <select name="dandoOrgType" class="form-select w-full px-3 py-2 border border-slate-300 rounded-xl text-sm bg-white">
+                                    <option value="">Select...</option>
+                                    <option>For-Profit Corporation</option>
+                                    <option>Non-Profit / 501(c)</option>
+                                    <option>LLC / Partnership</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="mini-label block mb-1">Number of Directors / Officers</label>
+                                <input type="number" name="dandoDirectors" class="form-input w-full px-3 py-2 border border-slate-300 rounded-xl text-sm" placeholder="5">
+                            </div>
+                            <div>
+                                <label class="mini-label block mb-1">Total Assets (approx.)</label>
+                                <input type="number" name="dandoAssets" class="form-input w-full px-3 py-2 border border-slate-300 rounded-xl text-sm" placeholder="2500000">
+                            </div>
+                            <div>
+                                <label class="mini-label block mb-1">Requested Limit</label>
+                                <select name="dandoLimit" class="form-select w-full px-3 py-2 border border-slate-300 rounded-xl text-sm bg-white">
+                                    <option value="1000000">$1,000,000</option>
+                                    <option value="2000000" selected>$2,000,000 (Common)</option>
+                                    <option value="5000000">$5,000,000</option>
+                                    <option value="10000000">$10,000,000+</option>
+                                </select>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="mini-label block mb-1">Any claims, investigations, or regulatory actions in the last 5 years?</label>
+                                <select name="dandoClaims" class="form-select w-full px-3 py-2 border border-slate-300 rounded-xl text-sm bg-white">
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
+                            </div>
+                        </div>
+                    </details>
+
+                    <!-- Commercial Crime DETAILS -->
+                    <details id="crimeDetails" class="mb-4 border border-slate-200 rounded-2xl overflow-hidden group hidden">
+                        <summary class="accordion-header px-5 py-4 bg-slate-50 flex items-center justify-between cursor-pointer hover:bg-slate-100 transition-colors">
+                            <div class="flex items-center gap-x-3">
+                                <i class="fas fa-file-invoice-dollar text-amber-600 text-lg"></i>
+                                <span class="font-semibold text-sm">Commercial Crime Details</span>
+                            </div>
+                            <i class="fas fa-chevron-down text-slate-400 group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <div class="p-5 bg-white grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+                            <div>
+                                <label class="mini-label block mb-1">Total Number of Employees</label>
+                                <input type="number" name="crimeEmployees" class="form-input w-full px-3 py-2 border border-slate-300 rounded-xl text-sm" placeholder="12">
+                            </div>
+                            <div>
+                                <label class="mini-label block mb-1">Employees Handling Money, Securities, or Inventory</label>
+                                <input type="number" name="crimeHandlers" class="form-input w-full px-3 py-2 border border-slate-300 rounded-xl text-sm" placeholder="4">
+                            </div>
+                            <div>
+                                <label class="mini-label block mb-1">Requested Employee Dishonesty Limit</label>
+                                <select name="crimeDishonestyLimit" class="form-select w-full px-3 py-2 border border-slate-300 rounded-xl text-sm bg-white">
+                                    <option value="25000">$25,000</option>
+                                    <option value="50000">$50,000</option>
+                                    <option value="100000" selected>$100,000</option>
+                                    <option value="250000">$250,000+</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="mini-label block mb-1">Any crime/fidelity losses or claims in the last 5 years?</label>
+                                <select name="crimeClaims" class="form-select w-full px-3 py-2 border border-slate-300 rounded-xl text-sm bg-white">
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="mini-label block mb-1">Do you use dual control / segregation of duties for handling funds?</label>
+                                <select name="crimeDualControl" class="form-select w-full px-3 py-2 border border-slate-300 rounded-xl text-sm bg-white">
+                                    <option value="Yes">Yes (recommended)</option>
+                                    <option value="Partial">Partial</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                        </div>
+                    </details>
                 </div>
 
                 <!-- 5. PRIOR INSURANCE & LOSS HISTORY -->
@@ -1087,29 +1217,57 @@
                             <select name="current_carrier" onchange="toggleOtherCarrierField(this)" 
                                     class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white max-w-md">
                                 <option value="">Select your current carrier...</option>
-                                <option value="State Farm">State Farm</option>
-                                <option value="Progressive">Progressive</option>
-                                <option value="GEICO">GEICO</option>
-                                <option value="Allstate">Allstate</option>
-                                <option value="Farmers Insurance">Farmers Insurance</option>
-                                <option value="Liberty Mutual">Liberty Mutual</option>
-                                <option value="USAA">USAA</option>
-                                <option value="Auto-Owners Insurance">Auto-Owners Insurance</option>
-                                <option value="American Family Insurance">American Family Insurance</option>
-                                <option value="Nationwide">Nationwide</option>
-                                <option value="Travelers">Travelers</option>
-                                <option value="The Hartford">The Hartford</option>
-                                <option value="Chubb">Chubb</option>
-                                <option value="Safeco">Safeco</option>
-                                <option value="MetLife">MetLife</option>
                                 <option value="AAA Insurance">AAA Insurance</option>
-                                <option value="Western National">Western National</option>
-                                <option value="North Star Mutual">North Star Mutual</option>
+                                <option value="Acuity Insurance">Acuity Insurance</option>
+                                <option value="Allstate">Allstate</option>
+                                <option value="American Family Insurance">American Family Insurance</option>
+                                <option value="American National">American National</option>
+                                <option value="Amica Mutual">Amica Mutual Insurance</option>
+                                <option value="Auto-Owners Insurance">Auto-Owners Insurance</option>
+                                <option value="Berkley Insurance">Berkley Insurance</option>
+                                <option value="Bristol West">Bristol West</option>
+                                <option value="Chubb">Chubb</option>
                                 <option value="Cincinnati Insurance">Cincinnati Insurance</option>
+                                <option value="Citizens Insurance">Citizens Insurance</option>
+                                <option value="Country Financial">Country Financial</option>
+                                <option value="CSAA Insurance">CSAA Insurance (AAA)</option>
+                                <option value="Dairyland Insurance">Dairyland Insurance</option>
+                                <option value="Direct General">Direct General</option>
+                                <option value="Erie Insurance">Erie Insurance</option>
+                                <option value="Esurance">Esurance</option>
+                                <option value="Farm Bureau Insurance">Farm Bureau Insurance</option>
+                                <option value="Farmers Insurance">Farmers Insurance</option>
                                 <option value="Federated Insurance">Federated Insurance</option>
-                                <option value="IMT Insurance">IMT Insurance</option>
+                                <option value="First American">First American</option>
+                                <option value="GEICO">GEICO</option>
                                 <option value="Grinnell Mutual">Grinnell Mutual</option>
-                                <option value="Farmers Union / CHS">Farmers Union / CHS Insurance</option>
+                                <option value="Hastings Mutual">Hastings Mutual</option>
+                                <option value="Horace Mann">Horace Mann</option>
+                                <option value="IMT Insurance">IMT Insurance</option>
+                                <option value="Infinity Insurance">Infinity Insurance</option>
+                                <option value="Kemper Insurance">Kemper Insurance</option>
+                                <option value="Liberty Mutual">Liberty Mutual</option>
+                                <option value="Markel">Markel</option>
+                                <option value="Mercury Insurance">Mercury Insurance</option>
+                                <option value="MetLife">MetLife</option>
+                                <option value="National Farmers Union">National Farmers Union</option>
+                                <option value="National General">National General</option>
+                                <option value="Nationwide">Nationwide</option>
+                                <option value="North Star Mutual">North Star Mutual</option>
+                                <option value="Plymouth Rock">Plymouth Rock Assurance</option>
+                                <option value="Progressive">Progressive</option>
+                                <option value="QBE">QBE Insurance</option>
+                                <option value="Safeco">Safeco</option>
+                                <option value="Sentry Insurance">Sentry Insurance</option>
+                                <option value="Shelter Insurance">Shelter Insurance</option>
+                                <option value="State Auto">State Auto</option>
+                                <option value="State Farm">State Farm</option>
+                                <option value="Travelers">Travelers</option>
+                                <option value="USAA">USAA</option>
+                                <option value="Utica National">Utica National</option>
+                                <option value="Wawanesa Insurance">Wawanesa Insurance</option>
+                                <option value="Western National">Western National</option>
+                                <option value="Zurich Insurance">Zurich Insurance</option>
                                 <option value="Other">Other (please specify)</option>
                                 <option value="No Current Insurance">I do not currently have insurance</option>
                             </select>
@@ -1598,16 +1756,27 @@
                 // Insert the card BEFORE the Add button
                 mobileCardsContainer.insertBefore(card, addBtn);
 
-                // Excellent mobile UX
+                // Auto-scroll + focus first field (VIN) - works on all devices
                 card.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
                 setTimeout(() => {
                     const vinInput = card.querySelector('input[name*="_vin"]');
-                    if (vinInput && window.innerWidth < 768) {
+                    if (vinInput) {
                         vinInput.focus();
                     }
-                }, 350);
+                }, 450);
             }
+
+            // Also focus the VIN on the desktop table row if visible
+            setTimeout(() => {
+                const desktopRow = document.getElementById(`vehicle-row-${idx}`);
+                if (desktopRow) {
+                    const vinInput = desktopRow.querySelector('input[name*="_vin"]');
+                    if (vinInput) {
+                        vinInput.focus();
+                    }
+                }
+            }, 500);
 
             return idx;
         }
@@ -1907,8 +2076,8 @@
 
                 setTimeout(() => {
                     const descInput = card.querySelector('input[name*="_job_description"]');
-                    if (descInput && window.innerWidth < 768) descInput.focus();
-                }, 350);
+                    if (descInput) descInput.focus();
+                }, 450);
             }
 
             return idx;
@@ -2021,6 +2190,13 @@
             const index = container.children.length + 1;
             const card = createBuildingCard(index);
             container.appendChild(card);
+
+            // Auto-scroll + focus first field (Street Address) - consistent with other sections
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setTimeout(() => {
+                const firstInput = card.querySelector('.building-street');
+                if (firstInput) firstInput.focus();
+            }, 450);
         }
 
         function removeBuildingSection(button) {
@@ -2036,6 +2212,41 @@
             });
         }
 
+        // Helper: Focus the most useful first field in a coverage details section
+        function focusFirstInputInSection(detailsElement) {
+            if (!detailsElement) return;
+
+            // Prioritized selectors for good first fields per section type
+            const preferredSelectors = [
+                '.building-street',                    // Property/BOP buildings
+                'input[name*="_vin"]',                 // Commercial Auto
+                'input[name*="_job_description"]',     // Workers Comp payroll
+                '#glOperations',                       // General Liability description
+                'textarea[name*="eando"]',             // E&O services description
+                'select[name*="dandoOrgType"]',        // D&O first field
+                'input[name*="crimeEmployees"]',       // Crime first field
+                'textarea',
+                'input[type="text"]',
+                'select'
+            ];
+
+            for (const sel of preferredSelectors) {
+                const input = detailsElement.querySelector(sel);
+                if (input && !input.disabled) {
+                    input.focus();
+                    // Gentle scroll in case the field is near the bottom
+                    input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    return;
+                }
+            }
+
+            // Final fallback
+            const any = detailsElement.querySelector('input, textarea, select');
+            if (any && !any.disabled) {
+                any.focus();
+            }
+        }
+
         function initNoBuildingCoverageToggle() {
             const checkbox = document.getElementById('noBuildingCoverage');
             const buildingSection = document.getElementById('buildingCoverageSection');
@@ -2043,11 +2254,10 @@
 
             const toggle = () => {
                 if (checkbox.checked) {
-                    buildingSection.style.opacity = '0.4';
-                    buildingSection.style.pointerEvents = 'none';
+                    // Fully unexpand / hide the building details when "No Building Coverage" is requested
+                    buildingSection.style.display = 'none';
                 } else {
-                    buildingSection.style.opacity = '1';
-                    buildingSection.style.pointerEvents = 'auto';
+                    buildingSection.style.display = 'block';
                 }
             };
 
@@ -2062,7 +2272,10 @@
                 { checkboxId: 'covWC', detailsId: 'wcDetails' },
                 { checkboxId: 'covBOP', detailsId: 'propertyDetails' },
                 { checkboxId: 'covProperty', detailsId: 'propertyDetails' },
-                { checkboxId: 'covGL', detailsId: 'glDetails' }
+                { checkboxId: 'covGL', detailsId: 'glDetails' },
+                { checkboxId: 'covEandO', detailsId: 'eandoDetails' },
+                { checkboxId: 'covDandO', detailsId: 'dandoDetails' },
+                { checkboxId: 'covCrime', detailsId: 'crimeDetails' }
             ];
 
             mappings.forEach(({ checkboxId, detailsId }) => {
@@ -2087,11 +2300,20 @@
                                 glDetails.open = true;
                             }
                         }
-                        
-                        // Removed aggressive auto-scroll to prevent "bounce" feel when selecting coverages
-                        // setTimeout(() => {
-                        //     details.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                        // }, 80);
+
+                        // Gentle auto-scroll with safeguards to avoid bounce
+                        setTimeout(() => {
+                            // Only scroll if the section is not mostly visible
+                            const rect = details.getBoundingClientRect();
+                            const isMostlyVisible = rect.top >= 0 && rect.top < (window.innerHeight * 0.6);
+                            
+                            if (!isMostlyVisible) {
+                                details.scrollIntoView({ 
+                                    behavior: 'smooth', 
+                                    block: 'nearest' 
+                                });
+                            }
+                        }, 320);
 
                         // Seed starter rows for complex sections
                         if (checkboxId === 'covAuto') {
@@ -2112,6 +2334,11 @@
                                 addBuildingSection();
                             }
                         }
+
+                        // Auto-focus the first relevant input when a coverage section opens
+                        setTimeout(() => {
+                            focusFirstInputInSection(details);
+                        }, 620);
                     } else {
                         details.classList.add('hidden');
                         details.open = false;
@@ -2575,6 +2802,8 @@
             { code: "8742", desc: "Salespersons – Outside", category: "Sales" },
             { code: "8751", desc: "Inspection or Appraisal", category: "Professional" },
             { code: "9720", desc: "Employment Agency", category: "Professional" },
+            { code: "8871", desc: "Clerical – Telecommuting / Remote", category: "Office" },
+            { code: "8748", desc: "Salespersons – Automobile", category: "Sales" },
 
             // Retail & Wholesale
             { code: "8017", desc: "Retail Stores – NOC", category: "Retail" },
@@ -2585,43 +2814,80 @@
             { code: "8045", desc: "Store – Drug", category: "Retail" },
             { code: "8046", desc: "Optical Goods Store", category: "Retail" },
             { code: "8090", desc: "Jewelry Store", category: "Retail" },
+            { code: "8050", desc: "Store – Furniture", category: "Retail" },
+            { code: "8061", desc: "Store – Building Materials", category: "Retail" },
+            { code: "8072", desc: "Store – Sporting Goods", category: "Retail" },
+            { code: "8081", desc: "Store – Liquor", category: "Retail" },
 
             // Food Service & Hospitality
             { code: "9082", desc: "Restaurant – Full Service", category: "Food Service" },
             { code: "9079", desc: "Restaurant – Fast Food / Casual", category: "Food Service" },
+            { code: "9083", desc: "Restaurant – Bar / Tavern", category: "Food Service" },
             { code: "9052", desc: "Hotel", category: "Hospitality" },
+            { code: "9053", desc: "Motel", category: "Hospitality" },
             { code: "9061", desc: "Country Club / Golf Course", category: "Recreation" },
+            { code: "9054", desc: "Casino or Gambling Operation", category: "Recreation" },
 
             // Auto & Transportation
             { code: "8391", desc: "Automobile Repair or Service", category: "Auto" },
             { code: "8381", desc: "Gasoline Station – Self Service", category: "Auto" },
             { code: "7219", desc: "Trucking – Local Hauling", category: "Trucking" },
             { code: "7228", desc: "Trucking – Long Distance", category: "Trucking" },
+            { code: "7230", desc: "Trucking – Mail / Parcel Delivery", category: "Trucking" },
+            { code: "7360", desc: "Freight Handling – NOC", category: "Trucking" },
+            { code: "8392", desc: "Automobile Body Repair", category: "Auto" },
+            { code: "8380", desc: "Gasoline Station – Full Service", category: "Auto" },
 
-            // Construction (very common in northern MN)
+            // Construction (very common in northern & central MN)
             { code: "5437", desc: "Carpentry – Residential", category: "Construction" },
             { code: "5645", desc: "Carpentry – Commercial", category: "Construction" },
             { code: "5403", desc: "Carpentry – NOC", category: "Construction" },
             { code: "5020", desc: "Concrete Construction", category: "Construction" },
+            { code: "5022", desc: "Masonry NOC", category: "Construction" },
             { code: "5551", desc: "Roofing – Residential", category: "Construction" },
+            { code: "5552", desc: "Roofing – Commercial", category: "Construction" },
             { code: "5474", desc: "Painting – Interior / Exterior", category: "Construction" },
+            { code: "5478", desc: "Floor Covering Installation", category: "Construction" },
             { code: "6217", desc: "Excavation", category: "Construction" },
             { code: "5506", desc: "Crane or Derrick Operations", category: "Construction" },
             { code: "5606", desc: "Contractor – Executive Supervisor", category: "Construction" },
             { code: "8227", desc: "Construction Machinery Rental", category: "Construction" },
             { code: "9403", desc: "Street or Road Construction", category: "Construction" },
             { code: "9521", desc: "House Furnishing Installation", category: "Installation" },
+            { code: "5537", desc: "Sheet Metal Work – Installation", category: "Construction" },
+            { code: "5213", desc: "Concrete Work – NOC", category: "Construction" },
+            { code: "5535", desc: "Siding Installation", category: "Construction" },
+            { code: "5545", desc: "Drywall Installation", category: "Construction" },
+            { code: "5536", desc: "Sheet Metal Work – Shop", category: "Manufacturing" },
 
-            // Wood Products & Natural Resources (Iron Range relevant)
+            // Wood Products, Logging & Natural Resources (Iron Range / Northern MN)
             { code: "2702", desc: "Logging", category: "Logging" },
+            { code: "2709", desc: "Logging – Mechanized", category: "Logging" },
             { code: "2710", desc: "Sawmills", category: "Wood Products" },
+            { code: "2716", desc: "Wood Products Mfg – NOC", category: "Wood Products" },
             { code: "4000", desc: "Sand, Gravel or Quarry Operations", category: "Mining / Quarry" },
+            { code: "1165", desc: "Mining – Surface / Open Pit (Taconite)", category: "Mining" },
+            { code: "1164", desc: "Mining – Underground", category: "Mining" },
+
+            // Manufacturing & Industrial
+            { code: "3632", desc: "Machine Shop", category: "Manufacturing" },
+            { code: "3620", desc: "Boiler Mfg or Repair", category: "Manufacturing" },
+            { code: "3066", desc: "Sheet Metal Products Mfg", category: "Manufacturing" },
+            { code: "3040", desc: "Iron or Steel Work – Fabrication", category: "Manufacturing" },
+            { code: "3724", desc: "Machinery Mfg – NOC", category: "Manufacturing" },
+            { code: "4299", desc: "Printing – All Operations", category: "Manufacturing" },
+            { code: "4301", desc: "Newspaper Publishing", category: "Manufacturing" },
+            { code: "4410", desc: "Rubber Goods Mfg", category: "Manufacturing" },
+            { code: "4452", desc: "Plastics Mfg – NOC", category: "Manufacturing" },
+            { code: "3111", desc: "Forging", category: "Manufacturing" },
 
             // Building Operations & Municipal
             { code: "9014", desc: "Building Operations – Janitorial / Maintenance", category: "Building Ops" },
             { code: "9015", desc: "Building Operations – by Owner / Lessee", category: "Building Ops" },
             { code: "9402", desc: "Street Cleaning", category: "Municipal" },
             { code: "9102", desc: "Park or Playground Operation", category: "Recreation" },
+            { code: "9033", desc: "Housing Authority", category: "Municipal" },
+            { code: "9101", desc: "School – All Other Employees", category: "Education" },
 
             // Healthcare & Education
             { code: "8832", desc: "Physician Office / Medical Clinic", category: "Healthcare" },
@@ -2629,7 +2895,101 @@
             { code: "8831", desc: "Hospital", category: "Healthcare" },
             { code: "8829", desc: "Nursing Home / Convalescent", category: "Healthcare" },
             { code: "8834", desc: "Healthcare – All Other", category: "Healthcare" },
-            { code: "8868", desc: "College or University", category: "Education" }
+            { code: "8835", desc: "Nursing – Home Health Care", category: "Healthcare" },
+            { code: "8836", desc: "Nursing – Private Duty", category: "Healthcare" },
+            { code: "8868", desc: "College or University", category: "Education" },
+            { code: "8869", desc: "School – Professional Employees", category: "Education" },
+
+            // Agriculture, Landscaping & Maintenance
+            { code: "0005", desc: "Farm – Crop or Livestock", category: "Agriculture" },
+            { code: "0042", desc: "Landscape Gardening", category: "Agriculture" },
+            { code: "0045", desc: "Lawn Care / Landscaping", category: "Agriculture" },
+            { code: "0106", desc: "Tree Trimming or Removal", category: "Agriculture" },
+
+            // Other Common MN Codes
+            { code: "2003", desc: "Bakery – Retail", category: "Food Processing" },
+            { code: "2110", desc: "Cannery or Food Processing", category: "Food Processing" },
+            { code: "2501", desc: "Logging Equipment Mfg", category: "Manufacturing" },
+            { code: "3726", desc: "Electrical Apparatus Mfg", category: "Manufacturing" },
+            { code: "4459", desc: "Plastics – Injection Molding", category: "Manufacturing" },
+            { code: "9522", desc: "Upholstering", category: "Manufacturing" },
+            { code: "9549", desc: "Advertising Signs – Mfg & Installation", category: "Installation" },
+            { code: "9600", desc: "Funeral Director", category: "Professional" },
+            { code: "9529", desc: "Sign Installation", category: "Installation" },
+            { code: "9401", desc: "Street or Highway Maintenance", category: "Municipal" },
+
+            // === ADDITIONAL SPECIALIZED CODES (Northern & Central MN focus) ===
+
+            // Mining & Natural Resources (Iron Range / Northern MN)
+            { code: "1163", desc: "Mining - Underground - NOC", category: "Mining", northernMN: true },
+            { code: "1165", desc: "Mining - Surface / Open Pit", category: "Mining", northernMN: true },
+            { code: "1320", desc: "Oil or Gas Well Drilling", category: "Mining" },
+            { code: "4000", desc: "Sand, Gravel or Quarry Operations", category: "Mining / Quarry", northernMN: true },
+            { code: "5500", desc: "Street or Road Paving", category: "Construction", northernMN: true },
+
+            // More Construction Trades (very common in MN)
+            { code: "5213", desc: "Concrete Construction - NOC", category: "Construction", northernMN: true },
+            { code: "5537", desc: "Sheet Metal Work - Installation", category: "Construction", northernMN: true },
+            { code: "5535", desc: "Siding Installation", category: "Construction", northernMN: true },
+            { code: "5545", desc: "Drywall or Plastering", category: "Construction", northernMN: true },
+            { code: "5605", desc: "Construction - Executive Supervisor", category: "Construction", northernMN: true },
+            { code: "6216", desc: "Drilling - Water Wells", category: "Construction" },
+            { code: "6400", desc: "Fence Erection", category: "Construction" },
+            { code: "9523", desc: "Sign Painting or Lettering", category: "Installation" },
+
+            // Manufacturing - More Specific
+            { code: "3066", desc: "Sheet Metal Products Manufacturing", category: "Manufacturing", northernMN: true },
+            { code: "3110", desc: "Forging - NOC", category: "Manufacturing" },
+            { code: "3620", desc: "Boiler Manufacturing or Repair", category: "Manufacturing" },
+            { code: "3632", desc: "Machine Shop - NOC", category: "Manufacturing", northernMN: true },
+            { code: "3724", desc: "Machinery Manufacturing - NOC", category: "Manufacturing", northernMN: true },
+            { code: "4452", desc: "Plastics Manufacturing - NOC", category: "Manufacturing", northernMN: true },
+            { code: "4470", desc: "Plastics - Foam Products Mfg", category: "Manufacturing" },
+            { code: "4493", desc: "Plastics - Fabrication - NOC", category: "Manufacturing" },
+            { code: "4557", desc: "Paint or Varnish Manufacturing", category: "Manufacturing" },
+            { code: "4700", desc: "Woodworking - NOC", category: "Manufacturing", northernMN: true },
+
+            // Food Processing (very relevant in MN)
+            { code: "2003", desc: "Bakery - NOC", category: "Food Processing" },
+            { code: "2100", desc: "Cannery or Food Products Mfg", category: "Food Processing" },
+            { code: "2110", desc: "Food Products Manufacturing - NOC", category: "Food Processing", northernMN: true },
+            { code: "2121", desc: "Slaughtering or Meat Packing", category: "Food Processing" },
+            { code: "6500", desc: "Food Products Mfg - Canned Goods", category: "Food Processing" },
+
+            // Trucking & Logistics
+            { code: "7219", desc: "Trucking - Local", category: "Trucking", northernMN: true },
+            { code: "7228", desc: "Trucking - Long Distance", category: "Trucking", northernMN: true },
+            { code: "7230", desc: "Trucking - Parcel or Mail", category: "Trucking" },
+            { code: "7360", desc: "Freight Handling - NOC", category: "Trucking" },
+            { code: "7380", desc: "Drivers - Chauffeurs or Helpers", category: "Trucking" },
+
+            // Agriculture & Related
+            { code: "0005", desc: "Farm - Crop or Livestock", category: "Agriculture", northernMN: true },
+            { code: "0042", desc: "Landscape Gardening", category: "Agriculture", northernMN: true },
+            { code: "0045", desc: "Lawn Maintenance", category: "Agriculture", northernMN: true },
+            { code: "0106", desc: "Tree Trimming or Removal", category: "Agriculture", northernMN: true },
+            { code: "0300", desc: "Farm Machinery Dealer", category: "Agriculture" },
+
+            // Municipal & Public Works
+            { code: "9014", desc: "Building Operations - Janitorial", category: "Municipal", northernMN: true },
+            { code: "9016", desc: "Building Operations - by Contractor", category: "Municipal" },
+            { code: "9101", desc: "School - All Other Employees", category: "Education", northernMN: true },
+            { code: "9401", desc: "Street or Road Maintenance - Contractor", category: "Municipal", northernMN: true },
+            { code: "9033", desc: "Housing Authority", category: "Municipal" },
+
+            // Healthcare - More Specific
+            { code: "8831", desc: "Hospital", category: "Healthcare", northernMN: true },
+            { code: "8832", desc: "Physician Office / Clinic", category: "Healthcare", northernMN: true },
+            { code: "8835", desc: "Home Health Care Agency", category: "Healthcare", northernMN: true },
+            { code: "8836", desc: "Nursing - Private Duty", category: "Healthcare" },
+            { code: "8829", desc: "Nursing Home", category: "Healthcare", northernMN: true },
+
+            // Other Useful MN Codes
+            { code: "4700", desc: "Woodworking - NOC", category: "Manufacturing", northernMN: true },
+            { code: "9523", desc: "Sign Painting", category: "Installation" },
+            { code: "9600", desc: "Funeral Home", category: "Professional" },
+            { code: "9650", desc: "Cemetery", category: "Municipal" },
+            { code: "9522", desc: "Upholstering", category: "Manufacturing" }
         ];
 
         function showClassCodeHelper() {
@@ -2637,8 +2997,11 @@
             if (!modal) return;
             modal.style.display = 'flex';
             
-            // Render the list
-            renderClassCodeList('');
+            // Sync toggle state
+            syncNorthernToggle();
+            
+            // Render the list with current filter
+            renderClassCodeList(document.getElementById('classCodeSearch')?.value || '');
             
             // Focus search
             setTimeout(() => {
@@ -2652,16 +3015,28 @@
             if (modal) modal.style.display = 'none';
         }
 
+        let onlyNorthernMN = false;
+
         function renderClassCodeList(filter = '') {
             const container = document.getElementById('classCodeList');
             if (!container) return;
 
             const f = filter.toLowerCase().trim();
-            const filtered = mnClassCodes.filter(item =>
-                item.code.includes(f) ||
-                item.desc.toLowerCase().includes(f) ||
-                item.category.toLowerCase().includes(f)
-            );
+            let filtered = [...mnClassCodes];
+
+            // Northern MN filter
+            if (onlyNorthernMN) {
+                filtered = filtered.filter(item => item.northernMN === true);
+            }
+
+            if (f) {
+                const words = f.split(/\s+/).filter(w => w.length > 0);
+                filtered = filtered.filter(item => {
+                    const text = (item.code + ' ' + item.desc + ' ' + item.category).toLowerCase();
+                    // Match if ANY search word appears in code, desc, or category (flexible OR search)
+                    return words.some(word => text.includes(word));
+                });
+            }
 
             if (filtered.length === 0) {
                 container.innerHTML = `<div class="px-4 py-6 text-center text-sm text-slate-500">No matching class codes found.</div>`;
@@ -2676,6 +3051,7 @@
                         <div>
                             <div class="text-sm font-medium text-slate-800">${item.desc}</div>
                             <div class="text-[10px] text-slate-500">${item.category}</div>
+                            ${item.northernMN ? `<span class="text-[9px] px-1.5 py-0.5 bg-emerald-100 text-emerald-700 rounded">Northern MN</span>` : ''}
                         </div>
                     </div>
                     <button type="button" 
@@ -2713,6 +3089,14 @@
             });
         }
 
+        // Sync the Northern MN toggle when modal opens
+        function syncNorthernToggle() {
+            const toggle = document.getElementById('northernOnlyToggle');
+            if (toggle) {
+                toggle.checked = onlyNorthernMN;
+            }
+        }
+
         // Initialize industry search when DOM is ready
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initIndustrySearch);
@@ -2736,9 +3120,15 @@
             
             <!-- Modal Header -->
             <div class="px-6 pt-5 pb-4 border-b flex items-center justify-between">
-                <div>
-                    <div class="font-semibold text-lg text-slate-800">Common Minnesota Workers’ Comp Class Codes</div>
-                    <div class="text-xs text-slate-500 mt-0.5">Click any code to auto-fill a new payroll row</div>
+                <div class="flex items-center gap-x-3">
+                    <div>
+                        <div class="font-semibold text-lg text-slate-800">Common Minnesota Workers’ Comp Class Codes</div>
+                        <div class="text-xs text-slate-500 mt-0.5">Click any code to auto-fill a new payroll row</div>
+                    </div>
+                    <label class="flex items-center gap-x-1.5 text-xs bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-xl cursor-pointer select-none">
+                        <input type="checkbox" id="northernOnlyToggle" class="accent-emerald-600" onchange="onlyNorthernMN = this.checked; renderClassCodeList(document.getElementById('classCodeSearch').value)">
+                        <span class="font-medium">Northern MN only</span>
+                    </label>
                 </div>
                 <button onclick="closeClassCodeHelper()" class="text-2xl text-slate-400 hover:text-slate-600 leading-none">×</button>
             </div>

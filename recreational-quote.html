@@ -496,29 +496,57 @@
                         <select name="current_recreational_carrier" onchange="toggleRecOtherCarrier(this)" 
                                 class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
                             <option value="">Select current carrier...</option>
-                            <option value="State Farm">State Farm</option>
-                            <option value="Progressive">Progressive</option>
-                            <option value="GEICO">GEICO</option>
-                            <option value="Allstate">Allstate</option>
-                            <option value="Farmers Insurance">Farmers Insurance</option>
-                            <option value="Liberty Mutual">Liberty Mutual</option>
-                            <option value="USAA">USAA</option>
-                            <option value="Auto-Owners Insurance">Auto-Owners Insurance</option>
-                            <option value="American Family Insurance">American Family Insurance</option>
-                            <option value="Nationwide">Nationwide</option>
-                            <option value="Travelers">Travelers</option>
-                            <option value="The Hartford">The Hartford</option>
-                            <option value="Chubb">Chubb</option>
-                            <option value="Safeco">Safeco</option>
-                            <option value="MetLife">MetLife</option>
                             <option value="AAA Insurance">AAA Insurance</option>
-                            <option value="Western National">Western National</option>
-                            <option value="North Star Mutual">North Star Mutual</option>
+                            <option value="Acuity Insurance">Acuity Insurance</option>
+                            <option value="Allstate">Allstate</option>
+                            <option value="American Family Insurance">American Family Insurance</option>
+                            <option value="American National">American National</option>
+                            <option value="Amica Mutual">Amica Mutual Insurance</option>
+                            <option value="Auto-Owners Insurance">Auto-Owners Insurance</option>
+                            <option value="Berkley Insurance">Berkley Insurance</option>
+                            <option value="Bristol West">Bristol West</option>
+                            <option value="Chubb">Chubb</option>
                             <option value="Cincinnati Insurance">Cincinnati Insurance</option>
+                            <option value="Citizens Insurance">Citizens Insurance</option>
+                            <option value="Country Financial">Country Financial</option>
+                            <option value="CSAA Insurance">CSAA Insurance (AAA)</option>
+                            <option value="Dairyland Insurance">Dairyland Insurance</option>
+                            <option value="Direct General">Direct General</option>
+                            <option value="Erie Insurance">Erie Insurance</option>
+                            <option value="Esurance">Esurance</option>
+                            <option value="Farm Bureau Insurance">Farm Bureau Insurance</option>
+                            <option value="Farmers Insurance">Farmers Insurance</option>
                             <option value="Federated Insurance">Federated Insurance</option>
-                            <option value="IMT Insurance">IMT Insurance</option>
+                            <option value="First American">First American</option>
+                            <option value="GEICO">GEICO</option>
                             <option value="Grinnell Mutual">Grinnell Mutual</option>
-                            <option value="Farmers Union / CHS">Farmers Union / CHS Insurance</option>
+                            <option value="Hastings Mutual">Hastings Mutual</option>
+                            <option value="Horace Mann">Horace Mann</option>
+                            <option value="IMT Insurance">IMT Insurance</option>
+                            <option value="Infinity Insurance">Infinity Insurance</option>
+                            <option value="Kemper Insurance">Kemper Insurance</option>
+                            <option value="Liberty Mutual">Liberty Mutual</option>
+                            <option value="Markel">Markel</option>
+                            <option value="Mercury Insurance">Mercury Insurance</option>
+                            <option value="MetLife">MetLife</option>
+                            <option value="National Farmers Union">National Farmers Union</option>
+                            <option value="National General">National General</option>
+                            <option value="Nationwide">Nationwide</option>
+                            <option value="North Star Mutual">North Star Mutual</option>
+                            <option value="Plymouth Rock">Plymouth Rock Assurance</option>
+                            <option value="Progressive">Progressive</option>
+                            <option value="QBE">QBE Insurance</option>
+                            <option value="Safeco">Safeco</option>
+                            <option value="Sentry Insurance">Sentry Insurance</option>
+                            <option value="Shelter Insurance">Shelter Insurance</option>
+                            <option value="State Auto">State Auto</option>
+                            <option value="State Farm">State Farm</option>
+                            <option value="Travelers">Travelers</option>
+                            <option value="USAA">USAA</option>
+                            <option value="Utica National">Utica National</option>
+                            <option value="Wawanesa Insurance">Wawanesa Insurance</option>
+                            <option value="Western National">Western National</option>
+                            <option value="Zurich Insurance">Zurich Insurance</option>
                             <option value="Other">Other (please specify)</option>
                             <option value="No Current Insurance">I do not currently have insurance</option>
                         </select>
@@ -1226,14 +1254,14 @@
                     });
                 });
 
-                // Excellent mobile UX
+                // Auto-scroll + focus first field (works on all devices, including auto-add when checkbox is selected)
                 const newCard = document.getElementById(cardId);
-                if (newCard && window.innerWidth < 768) {
+                if (newCard) {
                     newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     setTimeout(() => {
                         const firstInput = newCard.querySelector('input, select');
                         if (firstInput) firstInput.focus();
-                    }, 350);
+                    }, 450);
                 }
             }, 60);
         }
@@ -1373,14 +1401,35 @@
                 const sectionId = checkboxMap[checkboxName];
                 const section = document.getElementById(sectionId);
 
+                // Map checkbox name to the type used by addVehicle()
+                const typeMap = {
+                    'covATV': 'atv',
+                    'covSnow': 'snow',
+                    'covOtherRV': 'otherrv',
+                    'covBoat': 'boat',
+                    'covMotorcycle': 'motorcycle'
+                };
+
                 if (checkbox && section) {
                     checkbox.addEventListener('change', function() {
                         if (this.checked) {
                             section.style.display = 'block';
-                            section.setAttribute('open', '');  // Auto-expand when selected
+                            section.open = true;  // Auto-expand the details
+
+                            // Auto-add the first vehicle form if none exists yet
+                            const containerId = sectionId.replace('Section', 'Container');
+                            const container = document.getElementById(containerId);
+                            const hasCard = container && container.querySelector('.vehicle-card');
+
+                            if (!hasCard) {
+                                const vehicleType = typeMap[checkboxName];
+                                if (vehicleType) {
+                                    addVehicle(vehicleType);
+                                }
+                            }
                         } else {
                             section.style.display = 'none';
-                            section.removeAttribute('open');
+                            section.open = false;
                         }
                     });
                 }
