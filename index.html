@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chandler Insurance Agency | Free Quotes Since 1977 – Auto, Home, Business &amp; More</title>
-    <meta name="description" content="Independent insurance agency since 1977 serving Grand Rapids, Virginia &amp; all of Minnesota. Get fast, free quotes for auto, home, business, and recreational insurance. We compare top carriers for the best rates.">
+    <title>Chandler Insurance Agency | Free Quotes Since 1977 – Auto, Home, Business &amp; Recreational Insurance in Minnesota</title>
+    <meta name="description" content="Independent insurance agency since 1977 serving Grand Rapids, Virginia &amp; all of Minnesota. Get fast, free quotes for auto, home, business, recreational, life &amp; landlord insurance. We compare top carriers for the best rates and personalized service.">
     
     <!-- Favicon & PWA - Optimized for all browsers and Google Search -->
     <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
@@ -23,7 +23,7 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Chandler Insurance Agency">
     <meta property="og:title" content="Chandler Insurance Agency | Free Quotes Since 1977">
-    <meta property="og:description" content="Independent insurance agency since 1977. Get fast, free quotes for auto, home, business & recreational insurance in Minnesota.">
+    <meta property="og:description" content="Independent insurance agency since 1977 serving Grand Rapids, Virginia &amp; all of Minnesota. Get fast, free quotes for auto, home, business, recreational, life &amp; landlord insurance. We compare top carriers for the best rates.">
     <meta property="og:url" content="https://www.chandlerinsurancemn.com/">
     <meta property="og:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
     <meta property="og:image:width" content="1200">
@@ -32,7 +32,7 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Chandler Insurance Agency | Free Quotes Since 1977">
-    <meta name="twitter:description" content="Independent insurance agency since 1977 serving Grand Rapids, Virginia & all of Minnesota.">
+    <meta name="twitter:description" content="Independent insurance agency since 1977 serving Grand Rapids, Virginia &amp; all of Minnesota. Get fast, free quotes for auto, home, business, recreational, life &amp; landlord insurance.">
     <meta name="twitter:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,12 +45,13 @@
       "@context": "https://schema.org",
       "@graph": [
         {
-          "@type": "Organization",
+          "@type": "InsuranceAgency",
           "@id": "https://www.chandlerinsurancemn.com/#organization",
           "name": "Chandler Insurance Agency",
           "url": "https://www.chandlerinsurancemn.com/",
           "logo": "https://www.chandlerinsurancemn.com/images/logo-full-color.png",
-          "description": "Locally owned independent insurance agency serving Grand Rapids, Virginia, and all of Minnesota since 1977.",
+          "image": "https://www.chandlerinsurancemn.com/images/social-share.jpg",
+          "description": "Locally owned independent insurance agency serving Grand Rapids, Virginia, Itasca County, and all of Minnesota since 1977. We compare top carriers to find the best rates for auto, home, business, recreational, life, and landlord insurance.",
           "telephone": "+1-218-326-4655",
           "email": "home@chandlerinsurancemn.com",
           "address": {
@@ -61,6 +62,48 @@
             "postalCode": "55744",
             "addressCountry": "US"
           },
+          "areaServed": [
+            "Grand Rapids, MN",
+            "Virginia, MN",
+            "Itasca County, MN",
+            "Iron Range, MN",
+            "St. Louis County, MN",
+            "Minnesota"
+          ],
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Insurance Services",
+            "itemListElement": [
+              {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Auto Insurance"}},
+              {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Home & Cabin Insurance"}},
+              {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Business & Commercial Insurance"}},
+              {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Recreational Vehicle Insurance"}},
+              {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Life Insurance"}},
+              {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Landlord & Rental Insurance"}}
+            ]
+          },
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "telephone": "+1-218-326-4655",
+              "contactType": "customer service",
+              "areaServed": "Minnesota",
+              "availableLanguage": "English"
+            },
+            {
+              "@type": "ContactPoint",
+              "telephone": "+1-218-741-9582",
+              "contactType": "customer service",
+              "areaServed": "Minnesota",
+              "availableLanguage": "English"
+            }
+          ],
+          "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+            "opens": "08:30",
+            "closes": "17:00"
+          },
           "sameAs": ["https://www.facebook.com/chandlerinsurance"]
         },
         {
@@ -68,7 +111,68 @@
           "@id": "https://www.chandlerinsurancemn.com/#website",
           "url": "https://www.chandlerinsurancemn.com/",
           "name": "Chandler Insurance Agency",
-          "publisher": { "@id": "https://www.chandlerinsurancemn.com/#organization" }
+          "description": "Independent insurance agency offering free quotes for auto, home, business, and recreational insurance in Minnesota since 1977.",
+          "publisher": { "@id": "https://www.chandlerinsurancemn.com/#organization" },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://www.chandlerinsurancemn.com/?s={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- SiteNavigationElement Schema - Helps Google show sitelinks for key pages -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SiteNavigationElement",
+      "name": "Main Navigation",
+      "url": "https://www.chandlerinsurancemn.com/",
+      "hasPart": [
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Get Quote",
+          "url": "https://www.chandlerinsurancemn.com/quote.html"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Schedule Appointment",
+          "url": "https://www.chandlerinsurancemn.com/schedule.html"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Services",
+          "url": "https://www.chandlerinsurancemn.com/services.html"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "About Us",
+          "url": "https://www.chandlerinsurancemn.com/about.html"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Blog",
+          "url": "https://www.chandlerinsurancemn.com/blog.html"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Auto Insurance",
+          "url": "https://www.chandlerinsurancemn.com/auto.html"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Home Insurance",
+          "url": "https://www.chandlerinsurancemn.com/home.html"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Business Insurance",
+          "url": "https://www.chandlerinsurancemn.com/business.html"
         }
       ]
     }
@@ -242,7 +346,7 @@
             .hero { padding: 1.35rem 0.85rem 1rem; }
             .hero h1 { font-size: 1.4rem; }
             .hero p { font-size: 0.98rem; }
-            .quick-call-bar { display: none !important; }
+            /* quick-call-bar is now shown but made very compact via 768px rules */
             
             /* Hide floating buttons on mobile to prevent accidental clicks */
             #floatingQuoteBtn, .floating-text { display: none !important; }
@@ -251,6 +355,193 @@
             footer p {
                 color: #ffffff !important;
                 font-weight: 500;
+            }
+        }
+
+        /* ========================================
+           AGGRESSIVE MOBILE TIGHTENING (≤768px)
+           Significantly reduces scrolling while keeping EVERY piece of content
+           2-column service cards, shorter maps, tighter everything
+        ======================================== */
+        @media (max-width: 768px) {
+            /* Hero - comfortable on mobile */
+            .hero { padding: 1.1rem 0.7rem 0.85rem !important; }
+            .hero h1 { font-size: 1.3rem !important; line-height: 1.2 !important; margin-bottom: 0.55rem !important; }
+            .hero p { font-size: 0.94rem !important; margin-bottom: 0.8rem !important; }
+            .hero > div > a { padding: 11px 22px !important; font-size: 0.94rem !important; }
+
+            /* Quick call bar - comfortable size + good centering */
+            .quick-call-bar {
+                padding: 0.65rem 0.5rem !important;
+                margin: 0.6rem auto !important;
+                gap: 8px !important;
+                max-width: 100% !important;
+            }
+            .quick-call-bar a {
+                padding: 9px 17px !important;
+                font-size: 0.9rem !important;
+                gap: 6px !important;
+                white-space: nowrap;
+            }
+
+            /* Trust stats - 3 items on one row but less cramped */
+            .trust-stats {
+                padding: 0.7rem 0.5rem !important;
+                margin: 0 auto 0.95rem !important;
+                gap: 0.5rem !important;
+                grid-template-columns: repeat(3, 1fr) !important;
+            }
+            .trust-stats > div > div:first-child {
+                font-size: 1.55rem !important;
+            }
+            .trust-stats > div > div:last-child {
+                font-size: 0.72rem !important;
+                line-height: 1.2;
+            }
+
+            /* Section headers - a bit more breathing room */
+            .section-header {
+                margin: 1.05rem 0 0.65rem !important;
+            }
+            .section-header h2 { font-size: 1.22rem !important; }
+            .section-header p { font-size: 0.85rem !important; }
+
+            /* SERVICES: 2-column grid with better spacing so cards don't feel crowded */
+            .card-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 0.75rem !important;
+                padding: 0 0.5rem !important;
+            }
+            .service-card {
+                padding: 0.85rem 0.7rem !important;
+                border-radius: 12px !important;
+            }
+            .service-card i {
+                font-size: 1.55rem !important;
+                margin-bottom: 0.35rem !important;
+            }
+            .service-card h3 {
+                font-size: 0.95rem !important;
+                margin-bottom: 0.25rem !important;
+                line-height: 1.15;
+            }
+            .service-card p {
+                font-size: 0.82rem !important;
+                line-height: 1.3;
+            }
+
+            /* LOCATIONS with nicer centering and breathing room */
+            .locations-grid {
+                gap: 1.1rem !important;
+            }
+            .location-card {
+                padding: 0.9rem 0.75rem 1.1rem !important;
+            }
+            .map-container {
+                margin: 0.35rem 0 !important;
+                padding-bottom: 38% !important;
+            }
+            .location-card h3 {
+                font-size: 0.95rem !important;
+                margin-bottom: 0.3rem !important;
+            }
+
+            /* Text under the maps — nicely centered and better spaced */
+            .location-card .map-container + p,
+            .location-card .map-container + p + p {
+                text-align: center;
+            }
+            /* Address line right below the map */
+            .location-card .map-container + p {
+                font-size: 0.95rem !important;
+                font-weight: 600;
+                margin: 0.6rem 0 0.2rem !important;
+                line-height: 1.35;
+            }
+            /* Phone number line */
+            .location-card .map-container + p + p {
+                font-size: 0.9rem !important;
+                margin: 0 0 0.35rem !important;
+                line-height: 1.35;
+            }
+            /* Get Directions button - centered nicely */
+            .location-card a {
+                padding: 10px 20px !important;
+                font-size: 0.88rem !important;
+                margin-top: 0.15rem !important;
+                display: inline-block;
+                font-weight: 600;
+                text-align: center;
+            }
+
+            /* Announcement banner - a bit more breathing room */
+            .announcement {
+                padding: 1rem 0.75rem !important;
+                margin: 0.85rem auto !important;
+            }
+            .announcement h2 { font-size: 1.05rem !important; margin-bottom: 0.35rem !important; }
+            .announcement p { font-size: 0.88rem !important; }
+
+            /* WHY CHOOSE section - less tight */
+            .why-choose {
+                margin: 0.85rem auto 0.85rem !important;
+            }
+            .why-choose .why-grid {
+                gap: 0.65rem !important;
+            }
+            .why-choose .why-grid > div {
+                padding: 0.75rem 0.8rem !important;
+            }
+            .why-choose .why-grid h4 {
+                font-size: 0.88rem !important;
+                margin-bottom: 0.25rem !important;
+            }
+            .why-choose .why-grid p {
+                font-size: 0.76rem !important;
+                line-height: 1.25;
+            }
+
+            /* Final CTA */
+            .final-cta {
+                padding: 1.4rem 0.9rem !important;
+                margin: 0.85rem 0.5rem !important;
+            }
+            .final-cta h2 { font-size: 1.15rem !important; }
+            .final-cta p { font-size: 0.92rem !important; margin-bottom: 0.9rem !important; }
+            .final-cta a {
+                padding: 12px 28px !important;
+                font-size: 0.98rem !important;
+            }
+
+            /* Memorial Day notice banner */
+            div[style*="Memorial Day Closure"] {
+                padding: 6px 8px !important;
+                font-size: 0.78rem !important;
+            }
+
+            /* Footer */
+            footer {
+                padding: 1.25rem 0.6rem !important;
+                margin-top: 1.25rem !important;
+            }
+            footer > div:first-child {
+                gap: 0.7rem !important;
+            }
+            footer h4 { font-size: 0.9rem !important; }
+            footer p, footer a { font-size: 0.78rem !important; }
+
+            /* Ensure copyright + policy links are visible and readable on mobile */
+            footer > div:last-of-type,
+            footer > div[style*="text-align:center"] {
+                font-size: 0.82rem !important;
+                padding-top: 1.1rem !important;
+                margin-top: 0.9rem !important;
+            }
+            footer > div:last-of-type a,
+            footer > div[style*="text-align:center"] a {
+                font-size: 0.82rem !important;
+                color: #ddd !important;
+                text-decoration: underline;
             }
         }
     
@@ -416,7 +707,7 @@
     </div>
 
     <!-- QUICK CALL BAR -->
-    <div style="background:white; padding:0.9rem 0; box-shadow:0 6px 20px rgba(0,0,0,0.08); margin:1.5rem auto; max-width:1100px; border-radius:9999px; display:flex; flex-wrap:wrap; gap:12px; justify-content:center;">
+    <div class="quick-call-bar" style="background:white; padding:0.9rem 0; box-shadow:0 6px 20px rgba(0,0,0,0.08); margin:1.5rem auto; max-width:1100px; border-radius:9999px; display:flex; flex-wrap:wrap; gap:12px; justify-content:center;">
         <a href="tel:2183264655" style="background:#0056b3; color:white; padding:11px 22px; border-radius:50px; text-decoration:none; font-weight:600; display:flex; align-items:center; gap:8px; font-size:0.95rem;"><i class="fa fa-phone"></i> Grand Rapids • (218) 326-4655</a>
         <a href="tel:2187419582" style="background:#0056b3; color:white; padding:11px 22px; border-radius:50px; text-decoration:none; font-weight:600; display:flex; align-items:center; gap:8px; font-size:0.95rem;"><i class="fa fa-phone"></i> Virginia • (218) 741-9582</a>
         <a href="mailto:home@chandlerinsurancemn.com" style="background:#0056b3; color:white; padding:11px 22px; border-radius:50px; text-decoration:none; font-weight:600; display:flex; align-items:center; gap:8px; font-size:0.95rem;"><i class="fa fa-envelope"></i> Email Us</a>
@@ -424,7 +715,7 @@
     </div>
 
     <!-- TRUST STATS -->
-    <div style="background:white; padding:2rem 1rem; margin:0 auto 3rem; max-width:1100px; display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:1.5rem; text-align:center; box-shadow:0 10px 30px rgba(0,61,130,0.1); border-radius:16px;">
+    <div class="trust-stats" style="background:white; padding:2rem 1rem; margin:0 auto 3rem; max-width:1100px; display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:1.5rem; text-align:center; box-shadow:0 10px 30px rgba(0,61,130,0.1); border-radius:16px;">
         <div><div style="font-size:2.6rem; font-weight:700; color:#003d82;">47</div><div>Years Protecting<br>Minnesota Families</div></div>
         <div><div style="font-size:2.6rem; font-weight:700; color:#003d82;">98</div><div>Client Retention<br>Rate</div></div>
         <div><div style="font-size:2.6rem; font-weight:700; color:#003d82;">A+</div><div>Rated Carriers</div></div>
@@ -437,7 +728,7 @@
             <p>Proudly serving all of Minnesota and the Iron Range</p>
         </div>
         
-        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; max-width: 1100px; margin: 0 auto;">
+        <div class="locations-grid" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; max-width: 1100px; margin: 0 auto;">
             
             <!-- GRAND RAPIDS -->
             <div class="location-card">
@@ -496,7 +787,7 @@
         </a>
         
         <a href="recreational-quote.html" style="text-decoration:none; color:inherit;">
-            <div class="service-card"><i class="fa fa-snowmobile"></i><h3>Recreational Vehicles</h3><p>ATVs, snowmobiles, boats, campers &amp; more — tailored for the Minnesota outdoor lifestyle. <span style="color:#0056b3; font-weight:600;">Get a quote →</span></p></div>
+            <div class="service-card"><i class="fa fa-motorcycle"></i><h3>Recreational Vehicles</h3><p>ATVs, snowmobiles, boats, campers &amp; more — tailored for the Minnesota outdoor lifestyle. <span style="color:#0056b3; font-weight:600;">Get a quote →</span></p></div>
         </a>
         
         <a href="life.html" style="text-decoration:none; color:inherit;">
@@ -509,13 +800,13 @@
     </div>
 
     <!-- WHY CHOOSE CHANDLER (Factual Trust Signals) -->
-    <div style="max-width:1100px; margin: 3rem auto 2.5rem; padding: 0 1rem;">
+    <div class="why-choose" style="max-width:1100px; margin: 3rem auto 2.5rem; padding: 0 1rem;">
         <div style="text-align:center; margin-bottom: 2rem;">
             <h2 style="color:#003d82; font-size:1.9rem;">Why Families &amp; Businesses Choose Chandler</h2>
             <p style="color:#555; max-width:620px; margin:0.5rem auto 0;">Locally owned. Built on trust. Serving Minnesota since 1977.</p>
         </div>
         
-        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:1.5rem;">
+        <div class="why-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:1.5rem;">
             <div style="background:white; padding:1.5rem 1.75rem; border-radius:14px; box-shadow:0 4px 15px rgba(0,61,130,0.08);">
                 <div style="color:#003d82; font-size:1.8rem; margin-bottom:0.5rem;"><i class="fa fa-calendar-check"></i></div>
                 <h4 style="color:#003d82; margin-bottom:0.4rem;">Locally Owned Since 1977</h4>

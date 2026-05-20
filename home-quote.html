@@ -16,11 +16,22 @@
     <meta name="msapplication-TileColor" content="#003d82">
     <meta name="msapplication-TileImage" content="images/apple-touch-icon.png">
 
-    <!-- Open Graph -->
-    <meta property="og:title" content="Home &amp; Cabin Insurance Quote | Chandler Insurance">
-    <meta property="og:description" content="Fast, personalized home and cabin insurance quotes for Minnesota homeowners. Ice dam coverage &amp; more.">
+    <!-- Canonical -->
+    <link rel="canonical" href="https://www.chandlerinsurancemn.com/home-quote.html">
+
+    <!-- Open Graph / Social Sharing -->
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Chandler Insurance Agency">
+    <meta property="og:title" content="Free Home &amp; Cabin Insurance Quote Minnesota | Chandler Insurance">
+    <meta property="og:description" content="Get a fast, free home and cabin insurance quote in Minnesota. Ice dam coverage and comprehensive protection. Serving Grand Rapids, Virginia &amp; all of MN since 1977.">
     <meta property="og:url" content="https://www.chandlerinsurancemn.com/home-quote.html">
+    <meta property="og:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Home &amp; Cabin Insurance Quote Minnesota | Chandler Insurance">
+    <meta name="twitter:description" content="Fast, free home and cabin insurance quotes in Minnesota with ice dam coverage.">
+    <meta name="twitter:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -183,25 +194,46 @@
         </div>
     </nav>
 
-    <!-- SEO Schema -->
+    <!-- SEO: Rich Schema for Home & Cabin Insurance Quote Page -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "InsuranceAgency",
-      "name": "Chandler Insurance Agency",
-      "description": "Locally owned insurance agency offering home and cabin insurance quotes with ice dam coverage and Minnesota-specific protections since 1977.",
-      "url": "https://www.chandlerinsurancemn.com/home-quote.html",
-      "telephone": "+1-218-326-4655",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "322 NE 5th Street",
-        "addressLocality": "Grand Rapids",
-        "addressRegion": "MN",
-        "postalCode": "55744",
-        "addressCountry": "US"
-      },
-      "areaServed": ["Grand Rapids MN", "Virginia MN", "Itasca County", "Northern Minnesota", "Iron Range", "all of Minnesota"],
-      "serviceType": ["Home Insurance", "Cabin Insurance", "Homeowners Insurance", "Ice Dam Coverage", "Landlord Insurance"]
+      "@graph": [
+        {
+          "@type": "InsuranceAgency",
+          "@id": "https://www.chandlerinsurancemn.com/#organization",
+          "name": "Chandler Insurance Agency",
+          "url": "https://www.chandlerinsurancemn.com/",
+          "logo": "https://www.chandlerinsurancemn.com/images/logo-full-color.png",
+          "telephone": "+1-218-326-4655",
+          "email": "home@chandlerinsurancemn.com",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "322 NE 5th Street",
+            "addressLocality": "Grand Rapids",
+            "addressRegion": "MN",
+            "postalCode": "55744",
+            "addressCountry": "US"
+          },
+          "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"],
+          "sameAs": ["https://www.facebook.com/chandlerinsurance"]
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://www.chandlerinsurancemn.com/home-quote.html",
+          "url": "https://www.chandlerinsurancemn.com/home-quote.html",
+          "name": "Free Home &amp; Cabin Insurance Quote Minnesota",
+          "description": "Get a fast, free home and cabin insurance quote in Minnesota with ice dam coverage.",
+          "isPartOf": { "@id": "https://www.chandlerinsurancemn.com/#organization" }
+        },
+        {
+          "@type": "Service",
+          "name": "Home &amp; Cabin Insurance Quote",
+          "description": "Free home and cabin insurance quotes in Minnesota, including ice dam coverage and comprehensive protection.",
+          "provider": { "@id": "https://www.chandlerinsurancemn.com/#organization" },
+          "areaServed": "Minnesota"
+        }
+      ]
     }
     </script>
 

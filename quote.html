@@ -21,18 +21,39 @@
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
-    <!-- SEO Schema: InsuranceAgency + FAQPage -->
+    <!-- SEO: Rich Schema for Quote Selection Page -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@graph": [
         {
           "@type": "InsuranceAgency",
+          "@id": "https://www.chandlerinsurancemn.com/#organization",
           "name": "Chandler Insurance Agency",
+          "url": "https://www.chandlerinsurancemn.com/",
+          "logo": "https://www.chandlerinsurancemn.com/images/logo-full-color.png",
+          "telephone": "+1-218-326-4655",
+          "email": "home@chandlerinsurancemn.com",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "322 NE 5th Street",
+            "addressLocality": "Grand Rapids",
+            "addressRegion": "MN",
+            "postalCode": "55744",
+            "addressCountry": "US"
+          },
+          "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"],
+          "sameAs": ["https://www.facebook.com/chandlerinsurance"]
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://www.chandlerinsurancemn.com/quote.html",
           "url": "https://www.chandlerinsurancemn.com/quote.html",
-          "description": "Get free insurance quotes for Auto, Home, Business, and Recreational Vehicles in Grand Rapids, Virginia, and throughout Minnesota.",
-          "areaServed": ["Grand Rapids MN", "Virginia MN", "Itasca County", "St. Louis County", "Minnesota"],
-          "telephone": "+1-218-326-4655"
+          "name": "Get a Free Insurance Quote | Compare Top Carriers – Chandler Insurance Since 1977",
+          "description": "Get fast, free insurance quotes from an independent agency. We compare 15+ top carriers for the best auto, home, business &amp; RV rates. Serving Minnesota since 1977.",
+          "isPartOf": {
+            "@id": "https://www.chandlerinsurancemn.com/#organization"
+          }
         },
         {
           "@type": "FAQPage",
@@ -161,7 +182,148 @@
             .nav-links a { margin: 0.75rem 0; font-size: 1.05rem; }
             .hamburger { display: block; }
         }
+
+        /* ========================================
+           MOBILE IMPROVEMENTS FOR QUOTE SELECTION PAGE
+           Consistent with homepage: less crowded, nicely centered
+        ======================================== */
+        @media (max-width: 768px) {
+            /* Hero */
+            .hero { padding: 1.1rem 0.7rem 0.85rem !important; }
+            .hero h1 { font-size: 1.45rem !important; }
+            .hero p { font-size: 1.0rem !important; }
+            .hero > div[style*="Progress Bar"] { margin-top: 1.1rem !important; }
+            .hero > p[style*="Step 1 of 4"] { font-size: 0.85rem !important; margin-top: 0.4rem !important; }
+
+            /* Main section */
+            .section {
+                padding: 1.5rem 0.75rem !important;
+            }
+            .section h2 {
+                font-size: 1.2rem !important;
+                margin-bottom: 1.1rem !important;
+            }
+
+            /* Quote selection cards - 2 column grid + balanced spacing */
+            .quote-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 0.7rem !important;
+            }
+            .service-card {
+                padding: 1.1rem 0.75rem !important;
+                border-radius: 12px !important;
+            }
+            .service-card i {
+                font-size: 2.1rem !important;
+                margin-bottom: 0.6rem !important;
+            }
+            .service-card h3 {
+                font-size: 1.0rem !important;
+                margin-bottom: 0.35rem !important;
+            }
+            .service-card p {
+                font-size: 0.82rem !important;
+                line-height: 1.3 !important;
+            }
+            .service-card > div {
+                font-size: 0.85rem !important;
+                margin-top: 0.7rem !important;
+            }
+
+            /* Final link under the cards */
+            .section > p {
+                margin-top: 1.5rem !important;
+                font-size: 0.88rem !important;
+            }
+
+            /* Footer copyright + policy links visible on mobile */
+            footer > div:last-of-type,
+            footer > div[style*="text-align:center"] {
+                font-size: 0.82rem !important;
+                padding-top: 1.1rem !important;
+                margin-top: 0.9rem !important;
+            }
+            footer > div:last-of-type a,
+            footer > div[style*="text-align:center"] a {
+                font-size: 0.82rem !important;
+                color: #ddd !important;
+                text-decoration: underline;
+            }
+        }
 </style>
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://www.chandlerinsurancemn.com/quote.html">
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Chandler Insurance Agency">
+    <meta property="og:title" content="Get a Free Insurance Quote | Compare Top Carriers – Chandler Insurance Since 1977">
+    <meta property="og:description" content="Get fast, free insurance quotes from an independent agency. We compare 15+ top carriers for the best auto, home, business &amp; RV rates. Serving Minnesota since 1977. Call (218) 326-4655.">
+    <meta property="og:url" content="https://www.chandlerinsurancemn.com/quote.html">
+    <meta property="og:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Get a Free Insurance Quote | Compare Top Carriers – Chandler Insurance Since 1977">
+    <meta name="twitter:description" content="Get fast, free insurance quotes from an independent agency. We compare 15+ top carriers for the best auto, home, business &amp; RV rates. Serving Minnesota since 1977. Call (218) 326-4655.">
+    <meta name="twitter:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
+
+    <!-- WebSite + SearchAction (helps sitelinks & search box) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": "https://www.chandlerinsurancemn.com/#website",
+      "url": "https://www.chandlerinsurancemn.com/",
+      "name": "Chandler Insurance Agency",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://www.chandlerinsurancemn.com/?s={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <!-- SiteNavigationElement - Reinforces key pages for sitelinks -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SiteNavigationElement",
+      "name": "Main Navigation",
+      "url": "https://www.chandlerinsurancemn.com/",
+      "hasPart": [
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Get Quote",
+          "url": "https://www.chandlerinsurancemn.com/quote.html"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Schedule Appointment",
+          "url": "https://www.chandlerinsurancemn.com/schedule.html"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Services",
+          "url": "https://www.chandlerinsurancemn.com/services.html"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "About Us",
+          "url": "https://www.chandlerinsurancemn.com/about.html"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Blog",
+          "url": "https://www.chandlerinsurancemn.com/blog.html"
+        }
+      ]
+    }
+    </script>
 </head>
 <body>
     <!-- NAVIGATION -->
@@ -257,7 +419,7 @@
     <div class="section" style="max-width: 1100px;">
         <h2 style="text-align:center; margin-bottom: 2rem; color: #003d82;">Choose What You Need a Quote For</h2>
         
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; align-items: stretch;">
+        <div class="quote-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; align-items: stretch;">
             
             <!-- Auto -->
             <a href="auto-quote.html" style="text-decoration: none; color: inherit;">

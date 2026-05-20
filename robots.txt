@@ -4,23 +4,10 @@
 User-agent: *
 Allow: /
 
-# Sitemap location
+# Sitemap
 Sitemap: https://www.chandlerinsurancemn.com/sitemap.xml
 
-# Disallow admin or private areas (if any)
+# Disallow private/admin areas and PDFs
 Disallow: /admin/
 Disallow: /private/
 Disallow: /*.pdf$
-
-# Crawl-delay for respectful crawling (optional but good practice)
-Crawl-delay: 1
-
-# Specific rules for major search engines
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Slurp
-Allow: /

@@ -34,23 +34,36 @@
         
         .hamburger { display: none; font-size: 1.8rem; color: #003d82; cursor: pointer; }
         
-        .hero { background: linear-gradient(135deg, #003d82 0%, #0056b3 100%); color: white; padding: 4rem 2rem; text-align: center; }
+        .hero { background: linear-gradient(135deg, #003d82 0%, #0056b3 100%); color: white; padding: 2rem 1.5rem; text-align: center; }
         .hero h1 { font-size: 2.8rem; margin-bottom: 1rem; }
         
-        .section { max-width: 900px; margin: 0 auto; padding: 4rem 2rem; }
-        .section-header { text-align: center; margin-bottom: 3rem; }
-        .section-header h2 { font-size: 2.4rem; color: var(--primary-blue); }
+        .section { max-width: 900px; margin: 0 auto; padding: 1.25rem 2rem 3rem; }
+        .section-header { text-align: center; margin-bottom: 1rem; }
+        .section-header h2 { font-size: 2rem; color: var(--primary-blue); }
         
         .office-tabs { display: flex; gap: 1rem; margin-bottom: 2rem; justify-content: center; flex-wrap: wrap; }
         .tab-btn { padding: 14px 40px; border: 2px solid #003d82; background: white; color: #003d82; border-radius: 50px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; font-size: 1.05rem; }
         .tab-btn.active { background: #003d82; color: white; }
         
-        .form-container { background: white; padding: 2.5rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 61, 130, 0.1); }
+        .form-container { background: white; padding: 2.5rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 61, 130, 0.1); margin-top: -0.25rem; }
         .form-group { margin-bottom: 1.25rem; }
         .form-group label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: #333; }
         .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 13px; border: 2px solid #ddd; border-radius: 10px; font-size: 1rem; }
         .form-group input:focus, .form-group select:focus { border-color: #0056b3; outline: none; }
-        
+
+        /* 2-column form layout */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.65rem;
+        }
+
+        @media (min-width: 640px) {
+            .form-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
         .submit-btn { background: #0056b3; color: white; border: none; padding: 18px 50px; border-radius: 50px; font-size: 1.2rem; font-weight: 700; width: 100%; cursor: pointer; margin-top: 1rem; }
         .submit-btn:hover { background: #003d82; }
         
@@ -82,8 +95,167 @@
             .nav-links.active { display: flex; }
             .nav-links a { margin: 0.6rem 0; font-size: 1.05rem; }
             .hamburger { display: block; }
+
+            /* === Compact layout for webview / mobile === */
+            .hero {
+                padding: 1rem 1rem 0.75rem;
+            }
+            .hero h1 {
+                font-size: 1.65rem;
+                line-height: 1.2;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section {
+                padding-top: 0.75rem;
+                padding-bottom: 1.5rem;
+            }
+
+            .section-header {
+                margin-bottom: 0.5rem;
+            }
+            .section-header h2 {
+                font-size: 1.35rem;
+            }
+
+            /* Office cards - more compact */
+            #virginiaCard, #grandrapidsCard {
+                padding: 8px 12px;
+                min-width: 130px;
+                font-size: 0.82rem;
+            }
+
+            .form-container {
+                padding: 0.85rem 1rem;
+                border-radius: 12px;
+                margin-top: 0.5rem;
+            }
+
+            .form-group {
+                margin-bottom: 0.5rem;
+            }
+
+            .form-group label {
+                font-size: 0.9rem;
+                margin-bottom: 0.25rem;
+            }
+
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                padding: 9px 10px;
+                font-size: 0.95rem;
+            }
+
+            .form-group textarea {
+                min-height: 60px;
+            }
+
+            .submit-btn {
+                padding: 12px 30px;
+                font-size: 1rem;
+            }
+
+            #virginiaForm h3,
+            #grandrapidsForm h3 {
+                margin-bottom: 0.25rem !important;
+                font-size: 1rem;
+            }
+
+            #virginiaForm p,
+            #grandrapidsForm p {
+                margin-bottom: 0.4rem !important;
+                font-size: 0.78rem;
+            }
+
+            /* Move forms upward on mobile */
+            #virginiaForm,
+            #grandrapidsForm {
+                margin-top: 0.25rem !important;
+            }
+
+            /* Reduce extra small text */
+            small {
+                font-size: 0.75rem !important;
+                line-height: 1.2;
+            }
         }
 </style>
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://www.chandlerinsurancemn.com/schedule.html">
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Chandler Insurance Agency">
+    <meta property="og:title" content="Schedule Appointment | Chandler Insurance Agency Grand Rapids &amp; Virginia MN">
+    <meta property="og:description" content="Book a free insurance consultation at our Grand Rapids or Virginia office. Available Mon–Fri. Call (218) 326-4655 or schedule online today.">
+    <meta property="og:url" content="https://www.chandlerinsurancemn.com/schedule.html">
+    <meta property="og:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Schedule Appointment | Chandler Insurance Agency Grand Rapids &amp; Virginia MN">
+    <meta name="twitter:description" content="Book a free insurance consultation at our Grand Rapids or Virginia office. Available Mon–Fri. Call (218) 326-4655 or schedule online today.">
+    <meta name="twitter:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
+
+    <!-- WebSite + SearchAction (helps sitelinks & search box) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": "https://www.chandlerinsurancemn.com/#website",
+      "url": "https://www.chandlerinsurancemn.com/",
+      "name": "Chandler Insurance Agency",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://www.chandlerinsurancemn.com/?s={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <!-- SiteNavigationElement - Reinforces key pages for sitelinks -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SiteNavigationElement",
+      "name": "Main Navigation",
+      "url": "https://www.chandlerinsurancemn.com/",
+      "hasPart": [
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Get Quote",
+          "url": "https://www.chandlerinsurancemn.com/quote.html"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Schedule Appointment",
+          "url": "https://www.chandlerinsurancemn.com/schedule.html"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Services",
+          "url": "https://www.chandlerinsurancemn.com/services.html"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "About Us",
+          "url": "https://www.chandlerinsurancemn.com/about.html"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Blog",
+          "url": "https://www.chandlerinsurancemn.com/blog.html"
+        }
+      ]
+    }
+    </script>
 </head>
 <body>
     <!-- NAVIGATION (UPDATED) -->
@@ -118,88 +290,129 @@
     <!-- HERO -->
     <div class="hero">
         <h1>Schedule an Appointment</h1>
-        <p style="font-size:1.3rem; max-width:700px; margin:0 auto; opacity:0.95;">Book a personalized consultation at our Grand Rapids or Virginia office.</p>
+        <p style="font-size:1.3rem; max-width:700px; margin:0 auto; opacity:0.95;">Book a personalized consultation. Virginia: Mon & Wed only • Grand Rapids: Mon–Fri.</p>
     </div>
 
     <div class="section">
-        <div class="section-header">
-            <h2>Choose Your Preferred Office</h2>
+        <div class="section-header" style="margin-bottom:1.5rem;">
+            <h2>Schedule an Appointment</h2>
+            <p style="color:#555; max-width:600px; margin:0 auto; font-size:1rem;">Choose your preferred office below. Each location has different availability.</p>
         </div>
 
-        <!-- TABS -->
-        <div class="office-tabs">
-            <button class="tab-btn active" onclick="showOffice('virginia')">Virginia Office</button>
-            <button class="tab-btn" onclick="showOffice('grandrapids')">Grand Rapids Office</button>
+        <!-- OFFICE SELECTOR - Cleaner Cards -->
+        <!-- OFFICE SELECTOR - Equal height cards -->
+        <div style="display:flex; gap:0.6rem; justify-content:center; flex-wrap:wrap; margin-bottom:0.15rem; align-items:stretch;" id="officeCards">
+            <div onclick="showOffice('virginia')" id="virginiaCard"
+                 style="cursor:pointer; border:2px solid #003d82; background:#f0f4ff; padding:10px 14px; border-radius:12px; text-align:center; min-width:150px; flex:1; max-width:220px; display:flex; flex-direction:column; justify-content:center; transition:all 0.2s;">
+                <div style="font-size:0.92rem; font-weight:700; color:#003d82;">Virginia Office</div>
+                <div style="font-size:0.72rem; color:#555; margin-top:2px; line-height:1.2;">Mon & Wed only<br>9:00 AM – 3:00 PM</div>
+            </div>
+            
+            <div onclick="showOffice('grandrapids')" id="grandrapidsCard"
+                 style="cursor:pointer; border:2px solid #ccc; background:white; padding:10px 14px; border-radius:12px; text-align:center; min-width:150px; flex:1; max-width:220px; display:flex; flex-direction:column; justify-content:center; transition:all 0.2s;">
+                <div style="font-size:0.92rem; font-weight:700; color:#003d82;">Grand Rapids Office</div>
+                <div style="font-size:0.72rem; color:#555; margin-top:2px; line-height:1.2;">Mon–Thu 8:30–4:00<br>Fri 8:30–3:00</div>
+            </div>
         </div>
 
         <!-- VIRGINIA OFFICE -->
         <div id="virginiaForm" class="form-container">
+            <div style="text-align:right; margin-bottom:0.5rem;">
+                <a href="#" onclick="resetOfficeSelection(); return false;" style="font-size:0.8rem; color:#0056b3; text-decoration:none;">← Change Office</a>
+            </div>
             <h3 style="color:#003d82; text-align:center; margin-bottom:1.5rem;">Virginia Office Appointment</h3>
-            <p style="text-align:center; color:#555; margin-bottom:2rem;">Available Mondays &amp; Wednesdays • 9:00 AM – 3:00 PM</p>
+            <p style="text-align:center; color:#555; margin-bottom:1rem; font-size:0.95rem;">Mondays & Wednesdays only • 9:00 AM – 3:00 PM (45-min appointments)</p>
             
             <form id="virginiaAppointmentForm" onsubmit="submitAppointment(event, 'Virginia')">
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" name="name" required>
+                <!-- Contact Info - 2 columns on wider screens -->
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" name="phone" required>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" name="email" required>
+
+                <!-- Date & Time -->
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Preferred Date <span style="color:#666; font-weight:400;">(Mon & Wed only)</span></label>
+                        <input type="date" name="date" id="virginiaDate" required>
+                        <small id="virginiaDateError" style="color:#dc2626; font-size:0.8rem; display:none; margin-top:3px;">
+                            Please select a Monday or Wednesday.
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label>Preferred Time</label>
+                        <select name="time" required id="virginiaTimeSlots" disabled>
+                            <option value="">Select a valid date first</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Phone Number</label>
-                    <input type="tel" name="phone" required>
-                </div>
-                <div class="form-group">
-                    <label>Preferred Date (Mon or Wed only)</label>
-                    <input type="date" name="date" id="virginiaDate" required>
-                </div>
-                <div class="form-group">
-                    <label>Preferred Time</label>
-                    <select name="time" required id="virginiaTimeSlots">
-                        <!-- Populated by JavaScript -->
-                    </select>
-                </div>
+
                 <div class="form-group">
                     <label>Reason for Appointment (optional)</label>
-                    <textarea name="reason" rows="3" placeholder="What would you like to discuss?"></textarea>
+                    <textarea name="reason" rows="2" placeholder="What would you like to discuss?"></textarea>
                 </div>
+
                 <button type="submit" class="submit-btn">SCHEDULE APPOINTMENT</button>
             </form>
         </div>
 
         <!-- GRAND RAPIDS OFFICE -->
         <div id="grandrapidsForm" class="form-container" style="display:none;">
+            <div style="text-align:right; margin-bottom:0.5rem;">
+                <a href="#" onclick="resetOfficeSelection(); return false;" style="font-size:0.8rem; color:#0056b3; text-decoration:none;">← Change Office</a>
+            </div>
             <h3 style="color:#003d82; text-align:center; margin-bottom:1.5rem;">Grand Rapids Office Appointment</h3>
-            <p style="text-align:center; color:#555; margin-bottom:2rem;">Monday–Thursday 8:30 AM – 4:00 PM • Friday 8:30 AM – 3:00 PM</p>
+            <p style="text-align:center; color:#555; margin-bottom:1rem; font-size:0.95rem;">Mon–Thu 8:30 AM – 4:00 PM • Friday 8:30 AM – 3:00 PM (45-min appointments)</p>
             
             <form id="grandrapidsAppointmentForm" onsubmit="submitAppointment(event, 'Grand Rapids')">
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" name="name" required>
+                <!-- Contact Info - 2 columns on wider screens -->
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" name="phone" required>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" name="email" required>
+
+                <!-- Date & Time -->
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Preferred Date <span style="color:#666; font-weight:400;">(Mon–Fri)</span></label>
+                        <input type="date" name="date" id="grandrapidsDate" required>
+                        <small id="grandrapidsDateError" style="color:#dc2626; font-size:0.8rem; display:none; margin-top:3px;">
+                            Weekends are not available.
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label>Preferred Time</label>
+                        <select name="time" required id="grandrapidsTimeSlots" disabled>
+                            <option value="">Select a valid date first</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Phone Number</label>
-                    <input type="tel" name="phone" required>
-                </div>
-                <div class="form-group">
-                    <label>Preferred Date (Mon–Fri)</label>
-                    <input type="date" name="date" id="grandrapidsDate" required>
-                </div>
-                <div class="form-group">
-                    <label>Preferred Time</label>
-                    <select name="time" required id="grandrapidsTimeSlots">
-                        <!-- Populated by JavaScript -->
-                    </select>
-                </div>
+
                 <div class="form-group">
                     <label>Reason for Appointment (optional)</label>
-                    <textarea name="reason" rows="3" placeholder="What would you like to discuss?"></textarea>
+                    <textarea name="reason" rows="2" placeholder="What would you like to discuss?"></textarea>
                 </div>
+
                 <button type="submit" class="submit-btn">SCHEDULE APPOINTMENT</button>
             </form>
         </div>
@@ -247,29 +460,100 @@
         function showOffice(office) {
             const virginiaForm = document.getElementById('virginiaForm');
             const grandrapidsForm = document.getElementById('grandrapidsForm');
-            const buttons = document.querySelectorAll('.tab-btn');
+            const virginiaCard = document.getElementById('virginiaCard');
+            const grandrapidsCard = document.getElementById('grandrapidsCard');
+            const selectionHeader = document.querySelector('.section-header');
+            const officeCards = document.getElementById('officeCards');
+            
+            // Hide selection UI
+            if (selectionHeader) selectionHeader.style.display = 'none';
+            if (officeCards) officeCards.style.display = 'none';
             
             if (office === 'virginia') {
                 virginiaForm.style.display = 'block';
                 grandrapidsForm.style.display = 'none';
-                buttons[0].classList.add('active');
-                buttons[1].classList.remove('active');
+                
+                virginiaCard.style.borderColor = '#003d82';
+                virginiaCard.style.background = '#f0f4ff';
+                
+                grandrapidsCard.style.borderColor = '#ccc';
+                grandrapidsCard.style.background = 'white';
             } else {
                 virginiaForm.style.display = 'none';
                 grandrapidsForm.style.display = 'block';
-                buttons[0].classList.remove('active');
-                buttons[1].classList.add('active');
+                
+                grandrapidsCard.style.borderColor = '#003d82';
+                grandrapidsCard.style.background = '#f0f4ff';
+                
+                virginiaCard.style.borderColor = '#ccc';
+                virginiaCard.style.background = 'white';
+            }
+            
+            // Scroll to top of form on webview so user sees fields immediately
+            setTimeout(() => {
+                const activeForm = (office === 'virginia') ? virginiaForm : grandrapidsForm;
+                if (activeForm) {
+                    activeForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 100);
+        }
+
+        function resetOfficeSelection() {
+            const virginiaForm = document.getElementById('virginiaForm');
+            const grandrapidsForm = document.getElementById('grandrapidsForm');
+            const selectionHeader = document.querySelector('.section-header');
+            const officeCards = document.getElementById('officeCards');
+            const virginiaCard = document.getElementById('virginiaCard');
+            const grandrapidsCard = document.getElementById('grandrapidsCard');
+
+            virginiaForm.style.display = 'none';
+            grandrapidsForm.style.display = 'none';
+
+            if (selectionHeader) selectionHeader.style.display = 'block';
+            if (officeCards) officeCards.style.display = 'flex';
+
+            // Reset card styles
+            if (virginiaCard) {
+                virginiaCard.style.borderColor = '#ccc';
+                virginiaCard.style.background = 'white';
+            }
+            if (grandrapidsCard) {
+                grandrapidsCard.style.borderColor = '#ccc';
+                grandrapidsCard.style.background = 'white';
             }
         }
         
-        // Generate time slots every 45 minutes
-        function generateTimeSlots(startHour, startMinute, endHour, endMinute) {
+        // Generate time slots every 45 minutes for a specific office + date
+        function generateTimeSlotsForDate(dateStr, office) {
+            if (!dateStr) return [];
+            
+            const selectedDate = new Date(dateStr + 'T00:00');
+            const day = selectedDate.getDay(); // 0=Sun ... 6=Sat
+            
+            let startHour, startMin, endHour, endMin;
+            
+            if (office === 'Virginia') {
+                if (day !== 1 && day !== 3) return []; // Only Mon (1) & Wed (3)
+                startHour = 9;  startMin = 0;
+                endHour   = 15; endMin   = 0;   // 3:00 PM
+            } else {
+                // Grand Rapids
+                if (day === 0 || day === 6) return []; // Closed weekends
+                if (day === 5) { // Friday
+                    startHour = 8;  startMin = 30;
+                    endHour   = 15; endMin   = 0;   // 3:00 PM
+                } else { // Mon–Thu
+                    startHour = 8;  startMin = 30;
+                    endHour   = 16; endMin   = 0;   // 4:00 PM
+                }
+            }
+            
             const slots = [];
             let current = new Date();
-            current.setHours(startHour, startMinute, 0, 0);
+            current.setHours(startHour, startMin, 0, 0);
             
             const end = new Date();
-            end.setHours(endHour, endMinute, 0, 0);
+            end.setHours(endHour, endMin, 0, 0);
             
             while (current <= end) {
                 const timeString = current.toLocaleTimeString('en-US', { 
@@ -280,77 +564,139 @@
                 slots.push(timeString);
                 current.setMinutes(current.getMinutes() + 45);
             }
+            
             return slots;
         }
         
-        function populateTimeSlots() {
-            // Virginia: 9:00 AM - 3:00 PM
-            const virginiaSlots = generateTimeSlots(9, 0, 15, 0);
-            const virginiaSelect = document.getElementById('virginiaTimeSlots');
-            virginiaSelect.innerHTML = '<option value="">Select Time...</option>';
-            virginiaSlots.forEach(slot => {
-                const option = document.createElement('option');
-                option.value = slot;
-                option.textContent = slot;
-                virginiaSelect.appendChild(option);
-            });
+        function updateTimeSlots(office) {
+            const dateId = office === 'Virginia' ? 'virginiaDate' : 'grandrapidsDate';
+            const timeId = office === 'Virginia' ? 'virginiaTimeSlots' : 'grandrapidsTimeSlots';
             
-            // Grand Rapids: 8:30 AM - 4:00 PM
-            const grandrapidsSlots = generateTimeSlots(8, 30, 16, 0);
-            const grandrapidsSelect = document.getElementById('grandrapidsTimeSlots');
-            grandrapidsSelect.innerHTML = '<option value="">Select Time...</option>';
-            grandrapidsSlots.forEach(slot => {
+            const dateInput = document.getElementById(dateId);
+            const timeSelect = document.getElementById(timeId);
+            
+            if (!dateInput || !timeSelect) return;
+            
+            timeSelect.innerHTML = '<option value="">Select Time...</option>';
+            
+            if (!dateInput.value) {
+                timeSelect.disabled = true;
+                return;
+            }
+            
+            const slots = generateTimeSlotsForDate(dateInput.value, office);
+            
+            if (slots.length === 0) {
+                const option = document.createElement('option');
+                option.value = '';
+                option.textContent = office === 'Virginia' 
+                    ? 'No appointments available (only Mon & Wed)'
+                    : 'No appointments available on this date';
+                option.disabled = true;
+                timeSelect.appendChild(option);
+                timeSelect.disabled = true;
+                return;
+            }
+            
+            timeSelect.disabled = false;
+            slots.forEach(slot => {
                 const option = document.createElement('option');
                 option.value = slot;
                 option.textContent = slot;
-                grandrapidsSelect.appendChild(option);
+                timeSelect.appendChild(option);
             });
         }
         
-        // Restrict date input based on office
-        function restrictDateInput() {
+        // Initialize date restrictions + dynamic time slots
+        function initDateAndTimePickers() {
             const virginiaDate = document.getElementById('virginiaDate');
             const grandrapidsDate = document.getElementById('grandrapidsDate');
             
-            // Virginia: Only Monday and Wednesday
-            virginiaDate.addEventListener('input', function() {
-                const selectedDate = new Date(this.value);
-                const day = selectedDate.getDay();
-                
-                if (day !== 1 && day !== 3) {
-                    alert("Virginia office is only available on Mondays and Wednesdays.");
-                    this.value = '';
-                }
-            });
+            // Virginia: Only Mon/Wed — with better UX
+            if (virginiaDate) {
+                virginiaDate.addEventListener('change', () => {
+                    const errorEl = document.getElementById('virginiaDateError');
+                    
+                    if (virginiaDate.value) {
+                        const selectedDate = new Date(virginiaDate.value + 'T00:00');
+                        const day = selectedDate.getDay();
+                        
+                        if (day !== 1 && day !== 3) {
+                            // Invalid day - clear it and show error
+                            virginiaDate.value = '';
+                            if (errorEl) errorEl.style.display = 'block';
+                            updateTimeSlots('Virginia');
+                            return;
+                        } else {
+                            if (errorEl) errorEl.style.display = 'none';
+                        }
+                    }
+                    updateTimeSlots('Virginia');
+                });
+            }
             
-            // Grand Rapids: Monday through Friday
-            grandrapidsDate.addEventListener('input', function() {
-                const selectedDate = new Date(this.value);
-                const day = selectedDate.getDay();
-                
-                if (day === 0 || day === 6) {
-                    alert("Grand Rapids office is only available Monday through Friday.");
-                    this.value = '';
-                }
-            });
+            // Grand Rapids: Mon–Fri (no weekends)
+            if (grandrapidsDate) {
+                grandrapidsDate.addEventListener('change', () => {
+                    const errorEl = document.getElementById('grandrapidsDateError');
+                    
+                    if (grandrapidsDate.value) {
+                        const selectedDate = new Date(grandrapidsDate.value + 'T00:00');
+                        const day = selectedDate.getDay();
+                        
+                        if (day === 0 || day === 6) {
+                            // Weekend selected - clear it and show error
+                            grandrapidsDate.value = '';
+                            if (errorEl) errorEl.style.display = 'block';
+                            updateTimeSlots('Grand Rapids');
+                            return;
+                        } else {
+                            if (errorEl) errorEl.style.display = 'none';
+                        }
+                    }
+                    updateTimeSlots('Grand Rapids');
+                });
+            }
+            
+            // Initial state
+            const virginiaTime = document.getElementById('virginiaTimeSlots');
+            const grandrapidsTime = document.getElementById('grandrapidsTimeSlots');
+            
+            if (virginiaTime) virginiaTime.disabled = true;
+            if (grandrapidsTime) grandrapidsTime.disabled = true;
         }
         
         function submitAppointment(e, office) {
             e.preventDefault();
             const form = e.target;
             
+            // Get selected date and time
+            const dateInput = form.querySelector('input[type="date"]');
+            const timeSelect = form.querySelector('select[name="time"]');
+            
+            let dateTimeInfo = '';
+            if (dateInput && dateInput.value && timeSelect && timeSelect.value) {
+                const dateObj = new Date(dateInput.value);
+                const dateStr = dateObj.toLocaleDateString('en-US', { 
+                    weekday: 'long', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+                dateTimeInfo = `<p style="margin-top:0.75rem; font-size:0.95rem; color:#444;">Selected: <strong>${dateStr} at ${timeSelect.value}</strong></p>`;
+            }
+            
             form.innerHTML = `
-                <div style="text-align:center; padding:2.5rem 1rem;">
-                    <i class="fa fa-check-circle" style="font-size:4.5rem; color:#00a651; margin-bottom:1.25rem;"></i>
-                    <h3 style="color:#00a651; margin-bottom:1rem;">Appointment Request Received!</h3>
-                    <p style="font-size:1.15rem;">Thank you. We will confirm your appointment at the <strong>${office}</strong> office within 24 hours.</p>
+                <div style="text-align:center; padding:2rem 1rem;">
+                    <i class="fa fa-check-circle" style="font-size:3.8rem; color:#00a651; margin-bottom:0.75rem;"></i>
+                    <h3 style="color:#00a651; margin-bottom:0.6rem; font-size:1.35rem;">Appointment Request Received!</h3>
+                    <p style="font-size:1rem; line-height:1.4;">Thank you. We will confirm your appointment at the <strong>${office}</strong> office within 24 hours.</p>
+                    ${dateTimeInfo}
                 </div>
             `;
         }
         
         window.onload = function() {
-            populateTimeSlots();
-            restrictDateInput();
+            initDateAndTimePickers();
             
             // Show Virginia form by default
             document.getElementById('virginiaForm').style.display = 'block';
@@ -358,26 +704,44 @@
         };
     </script>
 
-    <!-- SCHEMA.ORG STRUCTURED DATA -->
+    <!-- SEO: Rich Schema for Schedule Appointment Page -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "InsuranceAgency",
-      "name": "Chandler Insurance Agency",
-      "description": "Book a free insurance consultation at our Grand Rapids or Virginia office. Personalized advice for auto, home, business, and life insurance in Minnesota.",
-      "url": "https://www.chandlerinsurancemn.com/schedule.html",
-      "telephone": "+1-218-326-4655",
-      "email": "home@chandlerinsurancemn.com",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "322 NE 5th Street",
-        "addressLocality": "Grand Rapids",
-        "addressRegion": "MN",
-        "postalCode": "55744",
-        "addressCountry": "US"
-      },
-      "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"],
-      "serviceType": "Insurance Consultation & Appointment Scheduling"
+      "@graph": [
+        {
+          "@type": "InsuranceAgency",
+          "@id": "https://www.chandlerinsurancemn.com/#organization",
+          "name": "Chandler Insurance Agency",
+          "url": "https://www.chandlerinsurancemn.com/",
+          "logo": "https://www.chandlerinsurancemn.com/images/logo-full-color.png",
+          "telephone": "+1-218-326-4655",
+          "email": "home@chandlerinsurancemn.com",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "322 NE 5th Street",
+            "addressLocality": "Grand Rapids",
+            "addressRegion": "MN",
+            "postalCode": "55744",
+            "addressCountry": "US"
+          },
+          "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"],
+          "sameAs": ["https://www.facebook.com/chandlerinsurance"]
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://www.chandlerinsurancemn.com/schedule.html",
+          "url": "https://www.chandlerinsurancemn.com/schedule.html",
+          "name": "Schedule Appointment | Chandler Insurance Agency Grand Rapids & Virginia MN",
+          "description": "Book a free insurance consultation at our Grand Rapids or Virginia office. Available Mon–Fri. Call (218) 326-4655 or schedule online today.",
+          "isPartOf": {
+            "@id": "https://www.chandlerinsurancemn.com/#organization"
+          },
+          "about": {
+            "@id": "https://www.chandlerinsurancemn.com/#organization"
+          }
+        }
+      ]
     }
     </script>
 </body>

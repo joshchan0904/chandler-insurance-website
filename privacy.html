@@ -70,18 +70,55 @@
 
         </style>
 
-    <!-- WebPage Schema -->
+    <!-- SEO: Rich Schema for Privacy Policy -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebPage",
-      "@id": "https://www.chandlerinsurancemn.com/privacy.html",
-      "url": "https://www.chandlerinsurancemn.com/privacy.html",
-      "name": "Privacy Policy • Chandler Insurance Agency",
-      "description": "Comprehensive Privacy Policy for Chandler Insurance Agency. Learn how we collect, use, protect, and share your personal information.",
-      "isPartOf": { "@id": "https://www.chandlerinsurancemn.com/#organization" }
+      "@graph": [
+        {
+          "@type": "InsuranceAgency",
+          "@id": "https://www.chandlerinsurancemn.com/#organization",
+          "name": "Chandler Insurance Agency",
+          "url": "https://www.chandlerinsurancemn.com/",
+          "logo": "https://www.chandlerinsurancemn.com/images/logo-full-color.png",
+          "telephone": "+1-218-326-4655",
+          "email": "home@chandlerinsurancemn.com",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "322 NE 5th Street",
+            "addressLocality": "Grand Rapids",
+            "addressRegion": "MN",
+            "postalCode": "55744",
+            "addressCountry": "US"
+          },
+          "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"],
+          "sameAs": ["https://www.facebook.com/chandlerinsurance"]
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://www.chandlerinsurancemn.com/privacy.html",
+          "url": "https://www.chandlerinsurancemn.com/privacy.html",
+          "name": "Privacy Policy • Chandler Insurance Agency | Minnesota",
+          "description": "Comprehensive Privacy Policy for Chandler Insurance Agency. Learn how we collect, use, protect, and share your personal information in compliance with Minnesota MCDPA, GLBA, and applicable laws.",
+          "isPartOf": { "@id": "https://www.chandlerinsurancemn.com/#organization" }
+        }
+      ]
     }
     </script>
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Chandler Insurance Agency">
+    <meta property="og:title" content="Privacy Policy • Chandler Insurance Agency | Minnesota">
+    <meta property="og:description" content="Comprehensive Privacy Policy for Chandler Insurance Agency. Learn how we collect, use, protect, and share your personal information in compliance with Minnesota MCDPA, GLBA, and applicable laws.">
+    <meta property="og:url" content="https://www.chandlerinsurancemn.com/privacy.html">
+    <meta property="og:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Privacy Policy • Chandler Insurance Agency | Minnesota">
+    <meta name="twitter:description" content="Comprehensive Privacy Policy for Chandler Insurance Agency. Learn how we collect, use, protect, and share your personal information in compliance with Minnesota MCDPA, GLBA, and applicable laws.">
+    <meta name="twitter:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
 </head>
 <body>
 

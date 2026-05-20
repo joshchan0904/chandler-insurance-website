@@ -10,7 +10,45 @@
     <meta name="msapplication-TileColor" content="#003d82">
     <meta name="theme-color" content="#003d82">
     
-    <!-- SEO Schema for Statewide Business Insurance -->
+    <!-- SEO: Rich Schema for Business Insurance (Minnesota) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "InsuranceAgency",
+          "@id": "https://www.chandlerinsurancemn.com/#organization",
+          "name": "Chandler Insurance Agency",
+          "url": "https://www.chandlerinsurancemn.com/",
+          "logo": "https://www.chandlerinsurancemn.com/images/logo-full-color.png",
+          "telephone": "+1-218-326-4655",
+          "email": "home@chandlerinsurancemn.com",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "322 NE 5th Street",
+            "addressLocality": "Grand Rapids",
+            "addressRegion": "MN",
+            "postalCode": "55744",
+            "addressCountry": "US"
+          },
+          "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"],
+          "sameAs": ["https://www.facebook.com/chandlerinsurance"]
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://www.chandlerinsurancemn.com/business-insurance-minnesota.html",
+          "url": "https://www.chandlerinsurancemn.com/business-insurance-minnesota.html",
+          "name": "Business Insurance Minnesota | Commercial Insurance &amp; General Liability Quotes Statewide | Chandler Insurance",
+          "description": "Business insurance quotes for companies across all of Minnesota. Commercial insurance, general liability, BOP, workers' comp &amp; commercial auto for contractors, manufacturers, retailers &amp; professional businesses statewide. Independent agent since 1977.",
+          "isPartOf": {
+            "@id": "https://www.chandlerinsurancemn.com/#organization"
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- ORIGINAL SCHEMA (kept for compatibility) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -173,6 +211,23 @@
             .hamburger { display: block; }
 
         </style>
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://www.chandlerinsurancemn.com/business-insurance-minnesota.html">
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Chandler Insurance Agency">
+    <meta property="og:title" content="Business Insurance Minnesota | Commercial Insurance &amp; General Liability Quotes Statewide | Chandler Insurance">
+    <meta property="og:description" content="Business insurance quotes for companies across all of Minnesota. Commercial insurance, general liability, BOP, workers' comp &amp; commercial auto for contractors, manufacturers, retailers &amp; professional businesses statewide. Independent agent since 1977. Get your free personalized quote today.">
+    <meta property="og:url" content="https://www.chandlerinsurancemn.com/business-insurance-minnesota.html">
+    <meta property="og:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Business Insurance Minnesota | Commercial Insurance &amp; General Liability Quotes Statewide | Chandler Insurance">
+    <meta name="twitter:description" content="Business insurance quotes for companies across all of Minnesota. Commercial insurance, general liability, BOP, workers' comp &amp; commercial auto for contractors, manufacturers, retailers &amp; professional businesses statewide. Independent agent since 1977. Get your free personalized quote today.">
+    <meta name="twitter:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
 </head>
 <body>
     <!-- NAVIGATION -->

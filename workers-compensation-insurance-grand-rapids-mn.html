@@ -10,25 +10,41 @@
     <meta name="msapplication-TileColor" content="#003d82">
     <meta name="theme-color" content="#003d82">
     
-    <!-- SEO Schema -->
+    <!-- SEO: Rich Schema for Workers Comp (Grand Rapids) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "InsuranceAgency",
-      "name": "Chandler Insurance",
-      "description": "Local independent insurance agency offering workers' compensation insurance, business insurance, and commercial coverage for contractors and businesses in Grand Rapids MN, Itasca County, and Northern Minnesota.",
-      "url": "https://www.chandlerinsurancemn.com/workers-compensation-insurance-grand-rapids-mn.html",
-      "telephone": "(218) 326-4655",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "322 NE 5th Street",
-        "addressLocality": "Grand Rapids",
-        "addressRegion": "MN",
-        "postalCode": "55744",
-        "addressCountry": "US"
-      },
-      "areaServed": ["Grand Rapids MN", "Itasca County", "Hibbing MN", "Virginia MN", "Northern Minnesota", "Iron Range"],
-      "serviceType": ["Workers Compensation Insurance", "Business Insurance", "Commercial Insurance"]
+      "@graph": [
+        {
+          "@type": "InsuranceAgency",
+          "@id": "https://www.chandlerinsurancemn.com/#organization",
+          "name": "Chandler Insurance Agency",
+          "url": "https://www.chandlerinsurancemn.com/",
+          "logo": "https://www.chandlerinsurancemn.com/images/logo-full-color.png",
+          "telephone": "+1-218-326-4655",
+          "email": "home@chandlerinsurancemn.com",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "322 NE 5th Street",
+            "addressLocality": "Grand Rapids",
+            "addressRegion": "MN",
+            "postalCode": "55744",
+            "addressCountry": "US"
+          },
+          "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"],
+          "sameAs": ["https://www.facebook.com/chandlerinsurance"]
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://www.chandlerinsurancemn.com/workers-compensation-insurance-grand-rapids-mn.html",
+          "url": "https://www.chandlerinsurancemn.com/workers-compensation-insurance-grand-rapids-mn.html",
+          "name": "Workers' Compensation Insurance Grand Rapids MN | Workers Comp Quotes for Contractors &amp; Businesses | Chandler Insurance",
+          "description": "Affordable workers' compensation insurance in Grand Rapids, MN and Itasca County. Protect your employees and business from workplace injuries. Local independent agent serving Northern Minnesota contractors, manufacturers, and small businesses since 1977.",
+          "isPartOf": {
+            "@id": "https://www.chandlerinsurancemn.com/#organization"
+          }
+        }
+      ]
     }
     </script>
     
@@ -104,6 +120,23 @@
             .hamburger { display: block; }
 
         </style>
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://www.chandlerinsurancemn.com/workers-compensation-insurance-grand-rapids-mn.html">
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Chandler Insurance Agency">
+    <meta property="og:title" content="Workers' Compensation Insurance Grand Rapids MN | Workers Comp Quotes for Contractors &amp; Businesses | Chandler Insurance">
+    <meta property="og:description" content="Affordable workers' compensation insurance in Grand Rapids, MN and Itasca County. Protect your employees and business from workplace injuries. Local independent agent serving Northern Minnesota contractors, manufacturers, and small businesses since 1977. Get your free quote today.">
+    <meta property="og:url" content="https://www.chandlerinsurancemn.com/workers-compensation-insurance-grand-rapids-mn.html">
+    <meta property="og:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Workers' Compensation Insurance Grand Rapids MN | Workers Comp Quotes for Contractors &amp; Businesses | Chandler Insurance">
+    <meta name="twitter:description" content="Affordable workers' compensation insurance in Grand Rapids, MN and Itasca County. Protect your employees and business from workplace injuries. Local independent agent serving Northern Minnesota contractors, manufacturers, and small businesses since 1977. Get your free quote today.">
+    <meta name="twitter:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
 </head>
 <body>
     <!-- NAVIGATION -->

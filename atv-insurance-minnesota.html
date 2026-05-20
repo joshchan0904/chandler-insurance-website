@@ -18,6 +18,20 @@
     
     <!-- Canonical -->
     <link rel="canonical" href="https://www.chandlerinsurancemn.com/atv-insurance-minnesota.html">
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Chandler Insurance Agency">
+    <meta property="og:title" content="Free ATV Insurance Quote Minnesota | Chandler Insurance">
+    <meta property="og:description" content="Get a fast, free ATV insurance quote in Minnesota. Liability, comprehensive &amp; collision coverage for all-terrain vehicles. Serving Grand Rapids, Virginia &amp; all of MN.">
+    <meta property="og:url" content="https://www.chandlerinsurancemn.com/atv-insurance-minnesota.html">
+    <meta property="og:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free ATV Insurance Quote Minnesota | Chandler Insurance">
+    <meta name="twitter:description" content="Fast, free ATV insurance quotes in Minnesota. We compare top carriers for the best rates.">
+    <meta name="twitter:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
@@ -90,23 +104,42 @@
         footer { background: #003d82; color: #ddd; padding: 3rem 1.25rem; margin-top: 4rem; }
     </style>
 
-    <!-- Service + WebPage Schema -->
+    <!-- SEO: Rich Schema for ATV Insurance Service Page -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@graph": [
         {
+          "@type": "InsuranceAgency",
+          "@id": "https://www.chandlerinsurancemn.com/#organization",
+          "name": "Chandler Insurance Agency",
+          "url": "https://www.chandlerinsurancemn.com/",
+          "logo": "https://www.chandlerinsurancemn.com/images/logo-full-color.png",
+          "telephone": "+1-218-326-4655",
+          "email": "home@chandlerinsurancemn.com",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "322 NE 5th Street",
+            "addressLocality": "Grand Rapids",
+            "addressRegion": "MN",
+            "postalCode": "55744",
+            "addressCountry": "US"
+          },
+          "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"],
+          "sameAs": ["https://www.facebook.com/chandlerinsurance"]
+        },
+        {
           "@type": "WebPage",
           "@id": "https://www.chandlerinsurancemn.com/atv-insurance-minnesota.html",
           "url": "https://www.chandlerinsurancemn.com/atv-insurance-minnesota.html",
           "name": "Free ATV Insurance Quote Minnesota",
-          "description": "Get a fast, free ATV insurance quote in Minnesota. Comprehensive coverage for trail riding, hunting, and recreation. We compare top carriers for the best rates.",
+          "description": "Get a fast, free ATV insurance quote in Minnesota for trail riding and recreation.",
           "isPartOf": { "@id": "https://www.chandlerinsurancemn.com/#organization" }
         },
         {
           "@type": "Service",
           "name": "ATV Insurance",
-          "description": "ATV and UTV insurance for Minnesota riders, covering liability, collision, comprehensive, and accessories for recreational and work use.",
+          "description": "Specialized ATV and UTV insurance in Minnesota including liability, comprehensive, and collision coverage.",
           "provider": { "@id": "https://www.chandlerinsurancemn.com/#organization" },
           "areaServed": "Minnesota"
         },
@@ -115,7 +148,7 @@
           "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.chandlerinsurancemn.com/"},
             {"@type": "ListItem", "position": 2, "name": "Recreational Insurance", "item": "https://www.chandlerinsurancemn.com/recreational.html"},
-            {"@type": "ListItem", "position": 3, "name": "ATV Insurance Minnesota"}
+            {"@type": "ListItem", "position": 3, "name": "ATV Insurance Minnesota", "item": "https://www.chandlerinsurancemn.com/atv-insurance-minnesota.html"}
           ]
         }
       ]

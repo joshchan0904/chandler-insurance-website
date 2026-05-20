@@ -78,17 +78,36 @@
         footer { background: #003d82; color: #ddd; padding: 3rem 1.25rem; margin-top: 4rem; }
     </style>
 
-    <!-- Service + WebPage Schema -->
+    <!-- SEO: Rich Schema for General Liability Insurance Page -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@graph": [
         {
+          "@type": "InsuranceAgency",
+          "@id": "https://www.chandlerinsurancemn.com/#organization",
+          "name": "Chandler Insurance Agency",
+          "url": "https://www.chandlerinsurancemn.com/",
+          "logo": "https://www.chandlerinsurancemn.com/images/logo-full-color.png",
+          "telephone": "+1-218-326-4655",
+          "email": "home@chandlerinsurancemn.com",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "322 NE 5th Street",
+            "addressLocality": "Grand Rapids",
+            "addressRegion": "MN",
+            "postalCode": "55744",
+            "addressCountry": "US"
+          },
+          "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"],
+          "sameAs": ["https://www.facebook.com/chandlerinsurance"]
+        },
+        {
           "@type": "WebPage",
           "@id": "https://www.chandlerinsurancemn.com/general-liability-insurance-minnesota.html",
           "url": "https://www.chandlerinsurancemn.com/general-liability-insurance-minnesota.html",
-          "name": "General Liability Insurance Minnesota",
-          "description": "Affordable general liability insurance for Minnesota contractors, small businesses, and professionals. Fast quotes from top carriers.",
+          "name": "Free General Liability Insurance Quote Minnesota | Compare Top Carriers – Chandler Insurance Since 1977",
+          "description": "Get a fast, free general liability insurance quote in Minnesota. We compare top carriers for contractors, service businesses, and companies statewide. Independent agency since 1977.",
           "isPartOf": { "@id": "https://www.chandlerinsurancemn.com/#organization" }
         },
         {
@@ -96,7 +115,7 @@
           "name": "General Liability Insurance",
           "description": "General liability coverage protecting Minnesota businesses against third-party claims for bodily injury, property damage, and advertising injury.",
           "provider": { "@id": "https://www.chandlerinsurancemn.com/#organization" },
-          "areaServed": "Minnesota"
+          "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"]
         },
         {
           "@type": "BreadcrumbList",
@@ -109,6 +128,20 @@
       ]
     }
     </script>
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Chandler Insurance Agency">
+    <meta property="og:title" content="Free General Liability Insurance Quote Minnesota | Compare Top Carriers – Chandler Insurance Since 1977">
+    <meta property="og:description" content="Get a fast, free general liability insurance quote in Minnesota. We compare top carriers for contractors, service businesses, and companies statewide. Independent agency since 1977.">
+    <meta property="og:url" content="https://www.chandlerinsurancemn.com/general-liability-insurance-minnesota.html">
+    <meta property="og:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free General Liability Insurance Quote Minnesota | Compare Top Carriers – Chandler Insurance Since 1977">
+    <meta name="twitter:description" content="Get a fast, free general liability insurance quote in Minnesota. We compare top carriers for contractors, service businesses, and companies statewide. Independent agency since 1977.">
+    <meta name="twitter:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
 </head>
 <body>
 

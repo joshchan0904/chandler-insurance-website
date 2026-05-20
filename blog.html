@@ -101,21 +101,57 @@
         }
     </style>
 
-    <!-- Blog Collection Schema -->
+    <!-- SEO: Rich Schema for Blog Index -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "CollectionPage",
-      "name": "Insurance Resources & Guides | Minnesota Insurance Tips",
-      "description": "Helpful guides and articles about auto, home, business, and recreational insurance in Minnesota.",
-      "url": "https://www.chandlerinsurancemn.com/blog.html",
-      "isPartOf": {
-        "@type": "WebSite",
-        "url": "https://www.chandlerinsurancemn.com/",
-        "name": "Chandler Insurance Agency"
-      }
+      "@graph": [
+        {
+          "@type": "InsuranceAgency",
+          "@id": "https://www.chandlerinsurancemn.com/#organization",
+          "name": "Chandler Insurance Agency",
+          "url": "https://www.chandlerinsurancemn.com/",
+          "logo": "https://www.chandlerinsurancemn.com/images/logo-full-color.png",
+          "telephone": "+1-218-326-4655",
+          "email": "home@chandlerinsurancemn.com",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "322 NE 5th Street",
+            "addressLocality": "Grand Rapids",
+            "addressRegion": "MN",
+            "postalCode": "55744",
+            "addressCountry": "US"
+          },
+          "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"],
+          "sameAs": ["https://www.facebook.com/chandlerinsurance"]
+        },
+        {
+          "@type": "CollectionPage",
+          "@id": "https://www.chandlerinsurancemn.com/blog.html",
+          "url": "https://www.chandlerinsurancemn.com/blog.html",
+          "name": "Insurance Resources &amp; Guides | Minnesota Insurance Tips – Chandler Insurance",
+          "description": "Helpful guides and articles about auto, home, business, and recreational insurance in Minnesota. Expert advice from Chandler Insurance Agency since 1977.",
+          "isPartOf": {
+            "@id": "https://www.chandlerinsurancemn.com/#organization"
+          }
+        }
+      ]
     }
     </script>
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Chandler Insurance Agency">
+    <meta property="og:title" content="Insurance Resources &amp; Guides | Minnesota Insurance Tips – Chandler Insurance">
+    <meta property="og:description" content="Helpful guides and articles about auto, home, business, and recreational insurance in Minnesota. Expert advice from Chandler Insurance Agency since 1977.">
+    <meta property="og:url" content="https://www.chandlerinsurancemn.com/blog.html">
+    <meta property="og:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Insurance Resources &amp; Guides | Minnesota Insurance Tips – Chandler Insurance">
+    <meta name="twitter:description" content="Helpful guides and articles about auto, home, business, and recreational insurance in Minnesota. Expert advice from Chandler Insurance Agency since 1977.">
+    <meta name="twitter:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
 </head>
 <body>
 

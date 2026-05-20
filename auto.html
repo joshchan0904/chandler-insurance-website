@@ -105,6 +105,23 @@
             .hamburger { display: block; }
         }
     </style>
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://www.chandlerinsurancemn.com/auto.html">
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Chandler Insurance Agency">
+    <meta property="og:title" content="Free Auto Insurance Quote | Compare Top Carriers – Chandler Insurance Since 1977">
+    <meta property="og:description" content="Get a fast, free auto insurance quote from an independent agency. We shop top carriers for the best rates. Serving Minnesota since 1977. Call (218) 326-4655.">
+    <meta property="og:url" content="https://www.chandlerinsurancemn.com/auto.html">
+    <meta property="og:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Auto Insurance Quote | Compare Top Carriers – Chandler Insurance Since 1977">
+    <meta name="twitter:description" content="Get a fast, free auto insurance quote from an independent agency. We shop top carriers for the best rates. Serving Minnesota since 1977. Call (218) 326-4655.">
+    <meta name="twitter:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
 </head>
 <body>
     <!-- NAVIGATION -->
@@ -248,7 +265,48 @@
         </div>
     </footer>
 
-    <!-- SCHEMA.ORG STRUCTURED DATA -->
+    <!-- SEO: Rich Schema for Auto Insurance Page -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "InsuranceAgency",
+          "@id": "https://www.chandlerinsurancemn.com/#organization",
+          "name": "Chandler Insurance Agency",
+          "url": "https://www.chandlerinsurancemn.com/",
+          "logo": "https://www.chandlerinsurancemn.com/images/logo-full-color.png",
+          "telephone": "+1-218-326-4655",
+          "email": "home@chandlerinsurancemn.com",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "322 NE 5th Street",
+            "addressLocality": "Grand Rapids",
+            "addressRegion": "MN",
+            "postalCode": "55744",
+            "addressCountry": "US"
+          },
+          "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"],
+          "sameAs": ["https://www.facebook.com/chandlerinsurance"]
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://www.chandlerinsurancemn.com/auto.html",
+          "url": "https://www.chandlerinsurancemn.com/auto.html",
+          "name": "Free Auto Insurance Quote | Compare Top Carriers – Chandler Insurance Since 1977",
+          "description": "Get a fast, free auto insurance quote from an independent agency. We shop top carriers for the best rates. Serving Minnesota since 1977. Call (218) 326-4655.",
+          "isPartOf": {
+            "@id": "https://www.chandlerinsurancemn.com/#organization"
+          },
+          "about": {
+            "@id": "https://www.chandlerinsurancemn.com/#organization"
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- ORIGINAL FAQ + SERVICE SCHEMAS (preserved) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",

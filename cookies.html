@@ -51,18 +51,55 @@
 
         </style>
 
-    <!-- WebPage Schema -->
+    <!-- SEO: Rich Schema for Cookies Policy -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebPage",
-      "@id": "https://www.chandlerinsurancemn.com/cookies.html",
-      "url": "https://www.chandlerinsurancemn.com/cookies.html",
-      "name": "Cookie Policy • Chandler Insurance Agency",
-      "description": "How Chandler Insurance Agency uses cookies and similar technologies on our website.",
-      "isPartOf": { "@id": "https://www.chandlerinsurancemn.com/#organization" }
+      "@graph": [
+        {
+          "@type": "InsuranceAgency",
+          "@id": "https://www.chandlerinsurancemn.com/#organization",
+          "name": "Chandler Insurance Agency",
+          "url": "https://www.chandlerinsurancemn.com/",
+          "logo": "https://www.chandlerinsurancemn.com/images/logo-full-color.png",
+          "telephone": "+1-218-326-4655",
+          "email": "home@chandlerinsurancemn.com",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "322 NE 5th Street",
+            "addressLocality": "Grand Rapids",
+            "addressRegion": "MN",
+            "postalCode": "55744",
+            "addressCountry": "US"
+          },
+          "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"],
+          "sameAs": ["https://www.facebook.com/chandlerinsurance"]
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://www.chandlerinsurancemn.com/cookies.html",
+          "url": "https://www.chandlerinsurancemn.com/cookies.html",
+          "name": "Cookies Policy • Chandler Insurance Agency | Minnesota",
+          "description": "Cookies Policy for the Chandler Insurance Agency website. Learn how we use cookies and similar technologies to improve your experience.",
+          "isPartOf": { "@id": "https://www.chandlerinsurancemn.com/#organization" }
+        }
+      ]
     }
     </script>
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Chandler Insurance Agency">
+    <meta property="og:title" content="Cookies Policy • Chandler Insurance Agency | Minnesota">
+    <meta property="og:description" content="Cookies Policy for the Chandler Insurance Agency website. Learn how we use cookies and similar technologies to improve your experience.">
+    <meta property="og:url" content="https://www.chandlerinsurancemn.com/cookies.html">
+    <meta property="og:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Cookies Policy • Chandler Insurance Agency | Minnesota">
+    <meta name="twitter:description" content="Cookies Policy for the Chandler Insurance Agency website. Learn how we use cookies and similar technologies to improve your experience.">
+    <meta name="twitter:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
 </head>
 <body>
 

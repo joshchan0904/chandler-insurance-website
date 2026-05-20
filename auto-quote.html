@@ -19,6 +19,20 @@
     <!-- Canonical -->
     <link rel="canonical" href="https://www.chandlerinsurancemn.com/auto-quote.html">
 
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Chandler Insurance Agency">
+    <meta property="og:title" content="Free Auto Insurance Quote Minnesota | Chandler Insurance">
+    <meta property="og:description" content="Get a fast, free auto insurance quote in Minnesota. We compare 15+ top carriers for the best rates. Serving Grand Rapids, Virginia &amp; all of MN since 1977.">
+    <meta property="og:url" content="https://www.chandlerinsurancemn.com/auto-quote.html">
+    <meta property="og:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Auto Insurance Quote Minnesota | Chandler Insurance">
+    <meta name="twitter:description" content="Fast, free auto insurance quotes in Minnesota. We shop top carriers for the best rates.">
+    <meta name="twitter:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -31,33 +45,57 @@
         .form-input, .form-select { transition: all 0.15s ease; }
         .form-input:focus, .form-select:focus { outline: none; border-color: #003d82; box-shadow: 0 0 0 3px rgba(0, 61, 130, 0.1); }
 
-        /* Mobile Optimizations - Better touch targets and prevent zoom */
+        /* ========================================
+           SIGNIFICANTLY IMPROVED MOBILE EXPERIENCE
+           Less scrolling, better spacing, more user-friendly
+        ======================================== */
         @media (max-width: 768px) {
+            /* Core inputs - prevent zoom + good touch size */
             .form-input, .form-select, .form-textarea {
-                font-size: 16px; /* Prevents iOS Safari from zooming on focus */
-                padding: 14px 16px;
+                font-size: 16px;
+                padding: 13px 14px;
                 min-height: 48px;
             }
-            
+
             .mini-label {
-                font-size: 0.78rem;
-                margin-bottom: 0.35rem;
-            }
-            
-            button[type="submit"] {
-                width: 100%;
-                padding: 18px 24px;
-                font-size: 1.05rem;
-            }
-            
-            .section-header {
-                font-size: 1.2rem;
-            }
-            
-            .vehicle-card {
-                padding: 0.75rem;
+                font-size: 0.76rem;
+                margin-bottom: 0.3rem;
             }
 
+            /* Main form card - much less padding on mobile */
+            .form-card {
+                padding: 1.25rem !important;
+                border-radius: 1rem !important;
+            }
+
+            /* Big section headers */
+            .section-header {
+                font-size: 1.1rem;
+            }
+
+            /* Reduce the large gaps between major form sections */
+            .mb-10 {
+                margin-bottom: 1.25rem !important;
+            }
+
+            /* Your Information grid - tighter */
+            .form-card .grid.grid-cols-1.md\\:grid-cols-2 {
+                gap: 0.9rem !important;
+            }
+
+            /* Submit button - prominent and full width */
+            button[type="submit"] {
+                width: 100%;
+                padding: 17px 20px;
+                font-size: 1.05rem;
+                border-radius: 9999px;
+            }
+
+            /* ===== Vehicle Cards ===== */
+            .vehicle-card {
+                padding: 0.9rem !important;
+                border-radius: 14px !important;
+            }
             .vehicle-card:active {
                 transform: scale(0.985);
                 border-color: #003d82;
@@ -66,8 +104,81 @@
                 font-size: 0.7rem;
             }
             .vehicle-card input, .vehicle-card select {
-                padding: 7px 9px;
-                min-height: 38px;
+                padding: 8px 10px;
+                min-height: 40px;
+                font-size: 15px;
+            }
+
+            /* Make year / make / model / body style more compact */
+            .vehicle-card .grid.grid-cols-2 {
+                gap: 0.6rem !important;
+            }
+
+            /* ===== Driver Cards ===== */
+            .driver-card {
+                padding: 0.9rem !important;
+                border-radius: 12px !important;
+            }
+            .driver-card .grid {
+                gap: 0.75rem !important;
+            }
+
+            /* Coverage & Claims section grids */
+            .form-card .grid.grid-cols-1.md\\:grid-cols-2 {
+                gap: 0.9rem !important;
+            }
+
+            /* Current carrier select + Other field */
+            #auto_other_carrier_field {
+                margin-top: 0.5rem !important;
+            }
+            #auto_other_carrier_field input {
+                padding: 12px 14px;
+            }
+
+            /* File upload */
+            input[type="file"] {
+                padding: 10px 12px !important;
+                font-size: 14px;
+            }
+
+            /* Final link / help text */
+            .text-xs {
+                font-size: 0.72rem;
+            }
+
+            /* Top page header - more compact */
+            .text-4xl {
+                font-size: 1.85rem !important;
+                line-height: 1.15;
+            }
+            .mt-3.text-lg {
+                font-size: 1.0rem !important;
+            }
+
+            /* Vehicles container - less vertical space between cards */
+            #vehiclesContainer {
+                gap: 0.9rem !important;
+            }
+
+            /* Add Vehicle / Add Driver buttons - nicer on mobile */
+            button[onclick*="addVehicle"], button[onclick*="addAdditionalDriver"] {
+                padding: 9px 14px !important;
+                font-size: 0.9rem !important;
+            }
+
+            /* Footer copyright + policy links visible on mobile */
+            footer > div:last-of-type,
+            footer > div[style*="text-align:center"] {
+                font-size: 0.82rem !important;
+                padding-top: 1.1rem !important;
+                margin-top: 0.9rem !important;
+            }
+            footer > div:last-of-type a,
+            footer > div[style*="text-align:center"] a {
+                font-size: 0.82rem !important;
+                color: #ddd !important;
+                text-decoration: underline;
             }
         }
         
@@ -120,16 +231,46 @@
         footer { background: #003d82 !important; color: #ddd; padding: 3rem 1.25rem; margin-top: 4rem; }
     </style>
 
-    <!-- WebPage Schema -->
+    <!-- SEO: Rich Schema for Auto Insurance Quote Page -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebPage",
-      "@id": "https://www.chandlerinsurancemn.com/auto-quote.html",
-      "url": "https://www.chandlerinsurancemn.com/auto-quote.html",
-      "name": "Free Auto Insurance Quote Minnesota",
-      "description": "Get an instant free auto insurance quote. Compare rates from top Minnesota carriers. Multiple vehicles supported.",
-      "isPartOf": { "@id": "https://www.chandlerinsurancemn.com/#organization" }
+      "@graph": [
+        {
+          "@type": "InsuranceAgency",
+          "@id": "https://www.chandlerinsurancemn.com/#organization",
+          "name": "Chandler Insurance Agency",
+          "url": "https://www.chandlerinsurancemn.com/",
+          "logo": "https://www.chandlerinsurancemn.com/images/logo-full-color.png",
+          "telephone": "+1-218-326-4655",
+          "email": "home@chandlerinsurancemn.com",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "322 NE 5th Street",
+            "addressLocality": "Grand Rapids",
+            "addressRegion": "MN",
+            "postalCode": "55744",
+            "addressCountry": "US"
+          },
+          "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"],
+          "sameAs": ["https://www.facebook.com/chandlerinsurance"]
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://www.chandlerinsurancemn.com/auto-quote.html",
+          "url": "https://www.chandlerinsurancemn.com/auto-quote.html",
+          "name": "Free Auto Insurance Quote Minnesota",
+          "description": "Get a fast, free auto insurance quote in Minnesota. We compare top carriers for the best rates.",
+          "isPartOf": { "@id": "https://www.chandlerinsurancemn.com/#organization" }
+        },
+        {
+          "@type": "Service",
+          "name": "Auto Insurance Quote",
+          "description": "Free auto insurance quotes for cars, trucks, motorcycles, and RVs in Minnesota. Multiple vehicles supported.",
+          "provider": { "@id": "https://www.chandlerinsurancemn.com/#organization" },
+          "areaServed": "Minnesota"
+        }
+      ]
     }
     </script>
 </head>
@@ -573,13 +714,6 @@
                         </div>
                     </div>
 
-                    <!-- Policy Upload -->
-                    <div class="md:col-span-2">
-                        <label class="mini-label">Upload Your Current Policy Declarations Page (Optional)</label>
-                        <input type="file" name="current_policy_declarations" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
-                        <p class="text-xs text-slate-500 mt-1">Uploading your current policy declarations page helps us review your existing coverages and limits so we can provide a more accurate quote. PDF is preferred.</p>
-                    </div>
-
                     <div>
                         <label class="mini-label">Any claims or accidents in last 5 years?</label>
                         <select name="prior_claims" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
@@ -587,6 +721,19 @@
                             <option value="1 claim">1 claim</option>
                             <option value="2+ claims">2 or more claims</option>
                         </select>
+                    </div>
+
+                    <!-- Policy Upload - moved after claims for better mobile flow -->
+                    <div class="md:col-span-2">
+                        <label class="mini-label">Upload Your Current Policy Declarations Page (Optional)</label>
+                        <input type="file" name="current_policy_declarations" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                        <p class="text-xs text-slate-500 mt-1">Uploading your current policy declarations page helps us review your existing coverages and limits so we can provide a more accurate quote. PDF is preferred.</p>
+                    </div>
+
+                    <!-- Additional Information - new field at the bottom -->
+                    <div class="md:col-span-2">
+                        <label class="mini-label">Additional Information</label>
+                        <textarea name="additionalInfo" rows="3" class="form-textarea w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm" placeholder="Any other details about your vehicles, drivers, or coverage needs..."></textarea>
                     </div>
                 </div>
             </div>

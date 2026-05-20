@@ -15,6 +15,23 @@
     <meta name="theme-color" content="#003d82">
     <meta name="msapplication-TileColor" content="#003d82">
     <meta name="msapplication-TileImage" content="images/apple-touch-icon.png">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://www.chandlerinsurancemn.com/about.html">
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Chandler Insurance Agency">
+    <meta property="og:title" content="About Chandler Insurance Agency | Grand Rapids &amp; Virginia MN Since 1977">
+    <meta property="og:description" content="Meet the team at Chandler Insurance Agency. Family-owned since 1977, proudly serving families and businesses across all of Minnesota with personalized auto, home, business, and recreational insurance.">
+    <meta property="og:url" content="https://www.chandlerinsurancemn.com/about.html">
+    <meta property="og:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="About Chandler Insurance Agency | Grand Rapids &amp; Virginia MN Since 1977">
+    <meta name="twitter:description" content="Meet the team at Chandler Insurance Agency. Family-owned since 1977, proudly serving families and businesses across all of Minnesota.">
+    <meta name="twitter:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
@@ -96,6 +113,124 @@
             .nav-links.active { display: flex; }
             .nav-links a { margin: 0.75rem 0; font-size: 1.05rem; }
             .hamburger { display: block; }
+        }
+
+        /* ========================================
+           MOBILE RE-FORMATTING FOR ABOUT PAGE
+           Consistent with services, quote, and auto-quote pages
+        ======================================== */
+        @media (max-width: 768px) {
+            /* Hero */
+            .hero { padding: 1.2rem 0.7rem 0.9rem !important; }
+            .hero h1 { font-size: 1.7rem !important; }
+            .hero p { font-size: 1.0rem !important; }
+
+            /* General sections */
+            .section {
+                padding: 1.4rem 0.6rem !important;
+            }
+            .section-header {
+                margin-bottom: 1.0rem !important;
+            }
+            .section-header h2 {
+                font-size: 1.35rem !important;
+            }
+
+            /* Team grid — 2 columns */
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 0.65rem !important;
+            }
+            .team-card {
+                padding: 1.1rem 0.85rem !important;
+                border-radius: 14px !important;
+            }
+            .team-card h3 {
+                font-size: 1.05rem !important;
+            }
+            .team-card .role {
+                font-size: 0.85rem !important;
+                margin-bottom: 0.6rem !important;
+            }
+            .team-card p {
+                font-size: 0.8rem !important;
+                line-height: 1.35 !important;
+            }
+
+            /* Why Choose grid — 2 columns */
+            .why-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 0.65rem !important;
+            }
+            .why-card {
+                padding: 1.1rem 0.9rem !important;
+                border-radius: 14px !important;
+            }
+            .why-card h3 {
+                font-size: 0.95rem !important;
+                margin-bottom: 0.6rem !important;
+            }
+            .why-card p {
+                font-size: 0.8rem !important;
+                line-height: 1.35 !important;
+            }
+
+            /* FAQ items */
+            .faq-item {
+                padding: 1.0rem !important;
+                margin-bottom: 0.7rem !important;
+            }
+            .faq-item h4 {
+                font-size: 0.95rem !important;
+            }
+            .faq-item p {
+                font-size: 0.85rem !important;
+            }
+
+            /* Testimonials — 2 columns */
+            .testimonials {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 0.65rem !important;
+            }
+            .testimonial {
+                padding: 1.1rem 0.9rem !important;
+                border-radius: 14px !important;
+            }
+            .testimonial p {
+                font-size: 0.85rem !important;
+                line-height: 1.35 !important;
+            }
+
+            /* Final CTA */
+            .final-cta {
+                padding: 1.6rem 0.9rem !important;
+                margin: 1rem 0.5rem !important;
+            }
+            .final-cta h2 {
+                font-size: 1.2rem !important;
+            }
+            .final-cta p {
+                font-size: 0.95rem !important;
+                margin-bottom: 1rem !important;
+            }
+            .final-cta a {
+                padding: 12px 26px !important;
+                font-size: 1.0rem !important;
+            }
+
+            /* Footer copyright + policy links visible on mobile */
+            footer > div:last-of-type,
+            footer > div[style*="text-align:center"] {
+                font-size: 0.82rem !important;
+                padding-top: 1.1rem !important;
+                margin-top: 0.9rem !important;
+            }
+            footer > div:last-of-type a,
+            footer > div[style*="text-align:center"] a {
+                font-size: 0.82rem !important;
+                color: #ddd !important;
+                text-decoration: underline;
+            }
         }
 </style>
 
@@ -377,31 +512,74 @@
         }
     </script>
 
-    <!-- SCHEMA.ORG STRUCTURED DATA -->
+    <!-- SEO: Rich Structured Data for About Page -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "InsuranceAgency",
-      "name": "Chandler Insurance Agency",
-      "description": "Family-owned insurance agency serving Minnesota since 1977. Meet Joe Chandler, Josh Chandler, Amy Reiser & Ashley Yturria. Proudly serving Grand Rapids, Virginia & all of Itasca County.",
-      "url": "https://www.chandlerinsurancemn.com/about.html",
-      "telephone": "+1-218-326-4655",
-      "email": "home@chandlerinsurancemn.com",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "322 NE 5th Street",
-        "addressLocality": "Grand Rapids",
-        "addressRegion": "MN",
-        "postalCode": "55744",
-        "addressCountry": "US"
-      },
-      "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"],
-      "foundingDate": "1977",
-      "employee": [
-        {"@type": "Person", "name": "Joe Chandler", "jobTitle": "Owner / Agent"},
-        {"@type": "Person", "name": "Josh Chandler", "jobTitle": "Insurance Agent"},
-        {"@type": "Person", "name": "Amy Reiser", "jobTitle": "Insurance Agent"},
-        {"@type": "Person", "name": "Ashley Yturria", "jobTitle": "Office Administrator"}
+      "@graph": [
+        {
+          "@type": "InsuranceAgency",
+          "@id": "https://www.chandlerinsurancemn.com/#organization",
+          "name": "Chandler Insurance Agency",
+          "url": "https://www.chandlerinsurancemn.com/",
+          "logo": "https://www.chandlerinsurancemn.com/images/logo-full-color.png",
+          "telephone": "+1-218-326-4655",
+          "email": "home@chandlerinsurancemn.com",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "322 NE 5th Street",
+            "addressLocality": "Grand Rapids",
+            "addressRegion": "MN",
+            "postalCode": "55744",
+            "addressCountry": "US"
+          },
+          "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"],
+          "foundingDate": "1977",
+          "employee": [
+            {"@type": "Person", "name": "Joe Chandler", "jobTitle": "Owner / Agent"},
+            {"@type": "Person", "name": "Josh Chandler", "jobTitle": "Insurance Agent"},
+            {"@type": "Person", "name": "Amy Reiser", "jobTitle": "Insurance Agent"},
+            {"@type": "Person", "name": "Ashley Yturria", "jobTitle": "Office Administrator"}
+          ],
+          "sameAs": ["https://www.facebook.com/chandlerinsurance"]
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://www.chandlerinsurancemn.com/about.html",
+          "url": "https://www.chandlerinsurancemn.com/about.html",
+          "name": "About Chandler Insurance Agency",
+          "description": "Meet the team at Chandler Insurance Agency. Family-owned since 1977, proudly serving families and businesses across all of Minnesota.",
+          "isPartOf": { "@id": "https://www.chandlerinsurancemn.com/#organization" }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How long has Chandler Insurance been in business?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Since 1977, with Joe Chandler taking ownership in 2018 to continue its legacy of service across Minnesota."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What types of insurance do you offer?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Auto, home, cabin, commercial, recreational, landlord/renters, event, and life insurance."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do you serve areas outside Grand Rapids and Virginia?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes — we proudly serve families and businesses in every corner of Minnesota."
+              }
+            }
+          ]
+        }
       ]
     }
     </script>

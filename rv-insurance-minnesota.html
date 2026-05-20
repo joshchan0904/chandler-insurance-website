@@ -18,6 +18,20 @@
     
     <!-- Canonical -->
     <link rel="canonical" href="https://www.chandlerinsurancemn.com/rv-insurance-minnesota.html">
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Chandler Insurance Agency">
+    <meta property="og:title" content="Free RV Insurance Quote Minnesota | Chandler Insurance">
+    <meta property="og:description" content="Get a fast, free RV insurance quote in Minnesota. Comprehensive coverage for travel trailers, motorhomes, and 5th wheels. Serving Grand Rapids, Virginia &amp; all of MN since 1977.">
+    <meta property="og:url" content="https://www.chandlerinsurancemn.com/rv-insurance-minnesota.html">
+    <meta property="og:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free RV Insurance Quote Minnesota | Chandler Insurance">
+    <meta name="twitter:description" content="Get a fast, free RV insurance quote in Minnesota for travel trailers, motorhomes &amp; 5th wheels.">
+    <meta name="twitter:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
@@ -71,23 +85,42 @@
 
         </style>
 
-    <!-- Service + WebPage Schema -->
+    <!-- SEO: Rich Schema for RV Insurance Service Page -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@graph": [
         {
+          "@type": "InsuranceAgency",
+          "@id": "https://www.chandlerinsurancemn.com/#organization",
+          "name": "Chandler Insurance Agency",
+          "url": "https://www.chandlerinsurancemn.com/",
+          "logo": "https://www.chandlerinsurancemn.com/images/logo-full-color.png",
+          "telephone": "+1-218-326-4655",
+          "email": "home@chandlerinsurancemn.com",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "322 NE 5th Street",
+            "addressLocality": "Grand Rapids",
+            "addressRegion": "MN",
+            "postalCode": "55744",
+            "addressCountry": "US"
+          },
+          "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"],
+          "sameAs": ["https://www.facebook.com/chandlerinsurance"]
+        },
+        {
           "@type": "WebPage",
           "@id": "https://www.chandlerinsurancemn.com/rv-insurance-minnesota.html",
           "url": "https://www.chandlerinsurancemn.com/rv-insurance-minnesota.html",
           "name": "Free RV Insurance Quote Minnesota",
-          "description": "Get a fast, free RV insurance quote in Minnesota. We compare top carriers for comprehensive coverage, liability, and storage options for motorhomes and travel trailers.",
+          "description": "Get a fast, free RV insurance quote in Minnesota for motorhomes, travel trailers and 5th wheels.",
           "isPartOf": { "@id": "https://www.chandlerinsurancemn.com/#organization" }
         },
         {
           "@type": "Service",
           "name": "RV Insurance",
-          "description": "Specialized RV, motorhome, and travel trailer insurance for Minnesota owners, including full-timer coverage and storage options.",
+          "description": "Comprehensive RV insurance in Minnesota for motorhomes, travel trailers, and 5th wheels, including full-timer and storage coverage.",
           "provider": { "@id": "https://www.chandlerinsurancemn.com/#organization" },
           "areaServed": "Minnesota"
         },
@@ -96,7 +129,7 @@
           "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.chandlerinsurancemn.com/"},
             {"@type": "ListItem", "position": 2, "name": "Recreational Insurance", "item": "https://www.chandlerinsurancemn.com/recreational.html"},
-            {"@type": "ListItem", "position": 3, "name": "RV Insurance Minnesota"}
+            {"@type": "ListItem", "position": 3, "name": "RV Insurance Minnesota", "item": "https://www.chandlerinsurancemn.com/rv-insurance-minnesota.html"}
           ]
         }
       ]

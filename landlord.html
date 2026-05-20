@@ -98,6 +98,23 @@
             .hamburger { display: block; }
 
         </style>
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://www.chandlerinsurancemn.com/landlord.html">
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Chandler Insurance Agency">
+    <meta property="og:title" content="Landlord &amp; Rental Insurance Grand Rapids MN | Chandler Insurance Agency">
+    <meta property="og:description" content="Protect your rental properties with landlord insurance from Chandler Insurance Agency. Dwelling, liability, loss of rents, and tenant screening coverage for landlords in Grand Rapids, Virginia, and across Minnesota.">
+    <meta property="og:url" content="https://www.chandlerinsurancemn.com/landlord.html">
+    <meta property="og:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Landlord &amp; Rental Insurance Grand Rapids MN | Chandler Insurance Agency">
+    <meta name="twitter:description" content="Protect your rental properties with landlord insurance from Chandler Insurance Agency. Dwelling, liability, loss of rents, and tenant screening coverage for landlords in Grand Rapids, Virginia, and across Minnesota.">
+    <meta name="twitter:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
 </head>
 <body>
     <!-- NAVIGATION -->
@@ -232,26 +249,44 @@
             © 2026 Chandler Insurance Agency. All rights reserved. &nbsp;|&nbsp; <a href="privacy.html" style="color:#ddd; text-decoration:underline;">Privacy Policy</a> &nbsp;|&nbsp; <a href="terms.html" style="color:#ddd; text-decoration:underline;">Terms of Service</a> &nbsp;|&nbsp; <a href="cookies.html" style="color:#ddd; text-decoration:underline;">Cookies Policy</a>
         </div>
     </footer>
-    <!-- SCHEMA.ORG STRUCTURED DATA -->
+    <!-- SEO: Rich Schema for Landlord Insurance Page -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "InsuranceAgency",
-      "name": "Chandler Insurance Agency",
-      "description": "Landlord & rental property insurance for Minnesota. Dwelling, liability, loss of rents, and tenant screening for rental properties in Grand Rapids, Virginia & Itasca County since 1977.",
-      "url": "https://www.chandlerinsurancemn.com/landlord.html",
-      "telephone": "+1-218-326-4655",
-      "email": "home@chandlerinsurancemn.com",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "322 NE 5th Street",
-        "addressLocality": "Grand Rapids",
-        "addressRegion": "MN",
-        "postalCode": "55744",
-        "addressCountry": "US"
-      },
-      "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"],
-      "serviceType": "Landlord & Rental Insurance"
+      "@graph": [
+        {
+          "@type": "InsuranceAgency",
+          "@id": "https://www.chandlerinsurancemn.com/#organization",
+          "name": "Chandler Insurance Agency",
+          "url": "https://www.chandlerinsurancemn.com/",
+          "logo": "https://www.chandlerinsurancemn.com/images/logo-full-color.png",
+          "telephone": "+1-218-326-4655",
+          "email": "home@chandlerinsurancemn.com",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "322 NE 5th Street",
+            "addressLocality": "Grand Rapids",
+            "addressRegion": "MN",
+            "postalCode": "55744",
+            "addressCountry": "US"
+          },
+          "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"],
+          "sameAs": ["https://www.facebook.com/chandlerinsurance"]
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://www.chandlerinsurancemn.com/landlord.html",
+          "url": "https://www.chandlerinsurancemn.com/landlord.html",
+          "name": "Landlord & Rental Insurance Grand Rapids MN | Chandler Insurance Agency",
+          "description": "Protect your rental properties with landlord insurance from Chandler Insurance Agency. Dwelling, liability, loss of rents, and tenant screening coverage for landlords in Grand Rapids, Virginia, and across Minnesota.",
+          "isPartOf": {
+            "@id": "https://www.chandlerinsurancemn.com/#organization"
+          },
+          "about": {
+            "@id": "https://www.chandlerinsurancemn.com/#organization"
+          }
+        }
+      ]
     }
     </script>
 

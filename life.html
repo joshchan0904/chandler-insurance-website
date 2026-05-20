@@ -98,6 +98,23 @@
             .hamburger { display: block; }
 
         </style>
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://www.chandlerinsurancemn.com/life.html">
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Chandler Insurance Agency">
+    <meta property="og:title" content="Life Insurance Grand Rapids &amp; Virginia MN | Chandler Insurance Agency">
+    <meta property="og:description" content="Protect your family's future with life insurance from Chandler Insurance Agency. Term, whole life, and final expense coverage tailored for families in Grand Rapids, Virginia, and across Minnesota.">
+    <meta property="og:url" content="https://www.chandlerinsurancemn.com/life.html">
+    <meta property="og:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Life Insurance Grand Rapids &amp; Virginia MN | Chandler Insurance Agency">
+    <meta name="twitter:description" content="Protect your family's future with life insurance from Chandler Insurance Agency. Term, whole life, and final expense coverage tailored for families in Grand Rapids, Virginia, and across Minnesota.">
+    <meta name="twitter:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
 </head>
 <body>
     <!-- NAVIGATION -->
@@ -232,26 +249,44 @@
         </div>
     </footer>
 
-    <!-- SCHEMA.ORG STRUCTURED DATA -->
+    <!-- SEO: Rich Schema for Life Insurance Page -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "InsuranceAgency",
-      "name": "Chandler Insurance Agency",
-      "description": "Life insurance for families in Minnesota. Term life, whole life, final expense & guaranteed issue policies to protect your family's future in Grand Rapids, Virginia & Itasca County since 1977.",
-      "url": "https://www.chandlerinsurancemn.com/life.html",
-      "telephone": "+1-218-326-4655",
-      "email": "home@chandlerinsurancemn.com",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "322 NE 5th Street",
-        "addressLocality": "Grand Rapids",
-        "addressRegion": "MN",
-        "postalCode": "55744",
-        "addressCountry": "US"
-      },
-      "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"],
-      "serviceType": "Life Insurance"
+      "@graph": [
+        {
+          "@type": "InsuranceAgency",
+          "@id": "https://www.chandlerinsurancemn.com/#organization",
+          "name": "Chandler Insurance Agency",
+          "url": "https://www.chandlerinsurancemn.com/",
+          "logo": "https://www.chandlerinsurancemn.com/images/logo-full-color.png",
+          "telephone": "+1-218-326-4655",
+          "email": "home@chandlerinsurancemn.com",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "322 NE 5th Street",
+            "addressLocality": "Grand Rapids",
+            "addressRegion": "MN",
+            "postalCode": "55744",
+            "addressCountry": "US"
+          },
+          "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"],
+          "sameAs": ["https://www.facebook.com/chandlerinsurance"]
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://www.chandlerinsurancemn.com/life.html",
+          "url": "https://www.chandlerinsurancemn.com/life.html",
+          "name": "Life Insurance Grand Rapids & Virginia MN | Chandler Insurance Agency",
+          "description": "Protect your family's future with life insurance from Chandler Insurance Agency. Term, whole life, and final expense coverage tailored for families in Grand Rapids, Virginia, and across Minnesota.",
+          "isPartOf": {
+            "@id": "https://www.chandlerinsurancemn.com/#organization"
+          },
+          "about": {
+            "@id": "https://www.chandlerinsurancemn.com/#organization"
+          }
+        }
+      ]
     }
     </script>
 
