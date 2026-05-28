@@ -1,0 +1,30 @@
+# 301 Redirects for old Wix pages and thin content consolidation
+# Format: old-path    new-path    301
+
+# Old Wix pages
+/landlord-renters-insurance-grand-rapids-virginia-mn    /landlord.html    301
+/home-cabin-insurance-grand-rapids-virginia-mn         /home.html        301
+/auto-insurance-grand-rapids-virginia-mn               /auto.html        301
+/event-insurance-grand-rapids-virginia-mn              /                 301
+/life-insurance-grand-rapids-virginia-mn               /life.html        301
+/recreational-insurance-grand-rapids-virginia-mn       /recreational.html 301
+/free-online-life-insurance-quote                      /quote.html       301
+/commercial-insurance-grand-rapids-virginia-mn         /business.html    301
+/free-online-pet-quote                                 /                 301
+/get-a-free-quote                                      /quote.html       301
+/free-online-auto-quote                                /auto-quote.html  301
+/free-online-home-quote                                /home-quote.html  301
+/schedule-appointment                                  /schedule.html    301
+/about-us                                              /about.html       301
+/products-1                                            /                 301
+
+# Thin commercial pages consolidated into stronger pages
+/business-insurance-minnesota.html                     /commercial-insurance.html    301
+/business-insurance-grand-rapids-mn.html               /commercial-insurance.html    301
+/business-owners-policy-bop-grand-rapids-mn.html       /commercial-insurance.html    301
+/commercial-auto-insurance-grand-rapids-mn.html        /commercial-insurance.html    301
+/contractors-insurance-grand-rapids-mn.html            /commercial-insurance.html    301
+/general-liability-insurance-minnesota.html            /commercial-insurance.html    301
+/general-liability-insurance-grand-rapids-mn.html      /commercial-insurance.html    301
+/workers-compensation-insurance-minnesota.html         /commercial-insurance.html    301
+/workers-compensation-insurance-grand-rapids-mn.html   /commercial-insurance.html    301

@@ -33,36 +33,52 @@
     <meta name="twitter:description" content="Learn how Minnesota summer storms and hail damage affect homeowners and what your policy actually covers.">
     <meta name="twitter:image" content="https://www.chandlerinsurancemn.com/images/social-share.jpg">
     
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
     <style>
-        body { font-family: 'Inter', system_ui, sans-serif; line-height: 1.7; color: #222; margin: 0; padding: 0; background: #f8fafd; }
-        h1, h2 { color: #003d82; }
-        .meta { color: #666; font-size: 0.9rem; margin-bottom: 2rem; }
-        .warning { background: #fee2e2; border-left: 5px solid #ef4444; padding: 1rem 1.5rem; margin: 2rem 0; }
-    nav { background: white; padding: 1rem 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: relative; top: 0; z-index: 100; }
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap');
+        :root { --primary-blue: #003d82; --accent-blue: #0056b3; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Roboto', sans-serif; background: #f8fafd; line-height: 1.7; color: #222; }
+
+        /* Consistent site nav - exact match to services/about etc. */
+        nav { background: white; padding: 1rem 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: relative; z-index: 100; }
         .nav-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
         .nav-links { display: flex; align-items: center; }
         .nav-links a { color: #003d82; text-decoration: none; font-weight: 600; margin-left: 2rem; }
         .nav-links a:hover { color: #0056b3; }
-        
         .hamburger { display: none; font-size: 1.8rem; color: #003d82; cursor: pointer; }
 
+        @media (max-width: 768px) {
+            .nav-links { display: none; flex-direction: column; background: white; position: absolute; top: 65px; left: 0; width: 100%; padding: 1.25rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+            .nav-links.active { display: flex; }
+            .nav-links a { margin: 0.6rem 0; font-size: 1.05rem; }
+            .hamburger { display: block; }
+        }
         @media (max-width: 900px) {
-            nav { position: relative; top: 0; z-index: 100; }
+            nav { position: sticky; top: 0; z-index: 100; }
             .nav-links { display: none; flex-direction: column; background: white; position: absolute; top: 70px; left: 0; width: 100%; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
             .nav-links.active { display: flex; }
             .nav-links a { margin: 0.75rem 0; font-size: 1.05rem; }
             .hamburger { display: block; }
-
-                        footer, .site-footer {
-            background: #003d82 !important !important;
-            color: #ddd !important;
-            padding: 3rem 1.25rem;
-            margin-top: 4rem;
-            width: 100%;
-            max-width: none;
         }
+
+        footer { background: #003d82 !important; color: #ddd; padding: 3rem 1.25rem; margin-top: 4rem; }
+
+        /* Article content - readable width only */
+        .blog-article {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 2rem;
+            font-family: 'Inter', system_ui, sans-serif;
+            line-height: 1.7;
+            color: #222;
+        }
+        .blog-article h1, .blog-article h2 { color: #003d82; }
+        .meta { color: #666; font-size: 0.9rem; margin-bottom: 2rem; }
+        .warning { background: #fee2e2; border-left: 5px solid #ef4444; padding: 1rem 1.5rem; margin: 2rem 0; }
     </style>
 
     <!-- SEO: Enhanced BlogPosting + Article Schema -->
@@ -150,7 +166,7 @@
         </div>
     </nav>
 
-
+    <div class="blog-article">
     <a href="../blog.html" style="color: #003d82; text-decoration: none;">← Back to Blog</a>
     
     <h1>Minnesota Summer Storms &amp; Hail Damage – Is Your Home Protected?</h1>
@@ -182,7 +198,7 @@
     </ol>
 
     <h2>Does Your Policy Cover Hail?</h2>
-    <p>Most standard homeowners policies in Minnesota <strong>do cover hail damage</strong> under the “wind and hail” peril. However, some older policies or policies with “named storm” exclusions may limit coverage. It’s also important to understand that if your roof is old or has existing damage, the insurance company may only pay to repair the storm-damaged areas — not replace the entire roof.</p>
+    <p>Most standard homeowners policies in Minnesota <strong>do cover hail damage</strong> under the “wind and hail” peril. However, some older policies or policies with “named storm” exclusions may limit coverage. It’s also important to understand that if your roof is old or has existing damage, the insurance company may only pay to repair the storm-damaged areas — not replace the entire roof. Our agents serving <a href="../grand-rapids-mn-insurance.html">Grand Rapids &amp; Itasca County</a> and <a href="../virginia-mn-insurance.html">Virginia &amp; the Iron Range</a> can review your specific policy for these details.</p>
 
     <div style="background: #003d82; color: white; padding: 2rem; border-radius: 16px; margin: 3rem 0; text-align: center;">
         <h3 style="color: white; margin-bottom: 1rem;">Is Your Home Ready for Summer Storms?</h3>
@@ -191,6 +207,7 @@
     </div>
 
     <p><em>Article written by Chandler Insurance Agency — serving Grand Rapids, Virginia, Itasca County &amp; all of Minnesota since 1977.</em></p>
+    </div>  <!-- end .blog-article -->
 
     <footer>
         <div style="max-width:1200px; margin:0 auto; padding:0 1rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:2rem;">
@@ -205,7 +222,7 @@
             </div>
             <div>
                 <h4>Quick Links</h4>
-                <p><a href="../index.html" style="color:#ddd;">Home</a><br><a href="../about.html" style="color:#ddd;">About Us</a><br><a href="../services.html" style="color:#ddd;">Services</a><br><a href="../quote.html" style="color:#ddd;">Get Quote</a><br><a href="../schedule.html" style="color:#ddd;">Schedule Appointment</a></p>
+                <p><a href="../index.html" style="color:#ddd;">Home</a><br><a href="../about.html" style="color:#ddd;">About Us</a><br><a href="../services.html" style="color:#ddd;">Services</a><br><a href="../quote.html" style="color:#ddd;">Get Quote</a><br><a href="../schedule.html" style="color:#ddd;">Schedule Appointment</a><br><a href="../grand-rapids-mn-insurance.html" style="color:#ddd;">Grand Rapids Insurance</a><br><a href="../virginia-mn-insurance.html" style="color:#ddd;">Virginia / Iron Range Insurance</a></p>
             </div>
             <div>
                 <h4>Follow Us</h4>
@@ -217,6 +234,17 @@
             © 2026 Chandler Insurance Agency. All rights reserved. &nbsp;|&nbsp; <a href="../privacy.html" style="color:#ddd; text-decoration:underline;">Privacy Policy</a> &nbsp;|&nbsp; <a href="../terms.html" style="color:#ddd; text-decoration:underline;">Terms of Service</a> &nbsp;|&nbsp; <a href="../cookies.html" style="color:#ddd; text-decoration:underline;">Cookies Policy</a>
         </div>
     </footer>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            const hamburger = document.querySelector('.hamburger');
+            navLinks.classList.toggle('active');
+            
+            const isExpanded = navLinks.classList.contains('active');
+            hamburger.setAttribute('aria-expanded', isExpanded);
+        }
+    </script>
 
 </body>
 </html>

@@ -297,15 +297,6 @@
         </div>
     </nav>
 
-    <!-- Temporary Memorial Day Notice -->
-    <div style="background: linear-gradient(90deg, #003d82 0%, #002d5e 100%); color: #fff; padding: 10px 12px; text-align: center; font-size: 0.9rem; border-bottom: 3px solid #c2410c;">
-        <div style="max-width: 1100px; margin: 0 auto;">
-            <i class="fas fa-flag-usa" style="margin-right: 6px; color: #fff;"></i>
-            <strong>Memorial Day Closure:</strong> We will be closed on <strong>Monday, May 25, 2026</strong>. 
-            Normal business hours will resume <strong>Tuesday, May 26 at 8:30 AM</strong>.
-        </div>
-    </div>
-
     <!-- HERO -->
     <div class="hero">
         <h1>About Chandler Insurance Agency</h1>
@@ -352,6 +343,23 @@
             </div>
         </div>
     </div>
+
+    <!-- DEEP LOCAL COMMITMENT (new E-E-A-T + location page support) -->
+    <div class="section" style="background:#f0f5fc;">
+        <div class="section-header">
+            <h2>Our Commitment to Grand Rapids, Virginia &amp; the Iron Range</h2>
+        </div>
+        <div style="max-width:900px; margin:0 auto; font-size:1.05rem; line-height:1.7; color:#333;">
+            <p>Founded in 1977, Chandler Insurance Agency has deep roots across Minnesota. In 2018, owner Joe Chandler acquired the agency from Bob Kuschel, expanding its legacy of protecting local communities. With the recent addition of Hegland Insurance Agency customers, we've grown our offerings while maintaining our commitment to advocacy, seamless claims support, and finding the best solutions from multiple carriers. The Chandler Insurance team lives and works right here on the Iron Range and in Itasca County. We understand the real challenges families and businesses face — brutal winters that create ice dams, remote lake properties with limited fire protection, logging and mining support work with specialized equipment needs, and seasonal businesses that see huge swings in revenue. When you call or visit, you’re talking to people who drive the same roads and see the same weather you do every day.</p>
+            <p style="margin-top:0.9rem;">This is exactly why we built dedicated local resources for the two communities we serve most:</p>
+            <div style="display:flex; flex-wrap:wrap; gap:1rem; margin:1.25rem 0 0.5rem;">
+                <a href="grand-rapids-mn-insurance.html" style="background:#003d82; color:white; padding:12px 26px; border-radius:50px; text-decoration:none; font-weight:600; font-size:0.95rem;">Grand Rapids &amp; Itasca County Local Insurance</a>
+                <a href="virginia-mn-insurance.html" style="background:#003d82; color:white; padding:12px 26px; border-radius:50px; text-decoration:none; font-weight:600; font-size:0.95rem;">Virginia &amp; the Iron Range Local Insurance</a>
+            </div>
+            <p style="margin-top:0.75rem; font-size:0.98rem;">These pages detail the specific risks we see every day and how we help clients in each area get better coverage than they would from a national call center. When you work with Chandler Insurance, you get agents who actually understand the place you call home.</p>
+        </div>
+    </div>
+
     <!-- WHY CHOOSE US -->
     <div class="section">
         <div class="section-header">
@@ -447,7 +455,7 @@
         <i class="fa fa-comments"></i> <span>Text Us Now</span>
     </a>
     <!-- FOOTER -->
-        <footer>
+    <footer>
         <div style="max-width:1200px; margin:0 auto; padding:0 1rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:2rem;">
             <div>
                 <img src="images/logo-white.png" alt="Chandler Insurance" style="height: 36px; margin-bottom: 12px;">
@@ -460,7 +468,7 @@
             </div>
             <div>
                 <h4>Quick Links</h4>
-                <p><a href="index.html" style="color:#ddd;">Home</a><br><a href="about.html" style="color:#ddd;">About Us</a><br><a href="services.html" style="color:#ddd;">Services</a><br><a href="quote.html" style="color:#ddd;">Get Quote</a><br><a href="schedule.html" style="color:#ddd;">Schedule Appointment</a></p>
+                <p><a href="index.html" style="color:#ddd;">Home</a><br><a href="about.html" style="color:#ddd;">About Us</a><br><a href="services.html" style="color:#ddd;">Services</a><br><a href="quote.html" style="color:#ddd;">Get Quote</a><br><a href="schedule.html" style="color:#ddd;">Schedule Appointment</a><br><a href="grand-rapids-mn-insurance.html" style="color:#ddd;">Grand Rapids Insurance</a><br><a href="virginia-mn-insurance.html" style="color:#ddd;">Virginia / Iron Range Insurance</a></p>
             </div>
             <div>
                 <h4>Follow Us</h4>
@@ -535,11 +543,41 @@
           },
           "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"],
           "foundingDate": "1977",
+          "owner": {
+            "@type": "Person",
+            "name": "Joe Chandler",
+            "jobTitle": "Owner / Agent",
+            "url": "https://www.chandlerinsurancemn.com/about.html"
+          },
           "employee": [
-            {"@type": "Person", "name": "Joe Chandler", "jobTitle": "Owner / Agent"},
-            {"@type": "Person", "name": "Josh Chandler", "jobTitle": "Insurance Agent"},
-            {"@type": "Person", "name": "Amy Reiser", "jobTitle": "Insurance Agent"},
-            {"@type": "Person", "name": "Ashley Yturria", "jobTitle": "Office Administrator"}
+            {
+              "@type": "Person",
+              "name": "Joe Chandler",
+              "jobTitle": "Owner / Agent",
+              "worksFor": { "@id": "https://www.chandlerinsurancemn.com/#organization" },
+              "url": "https://www.chandlerinsurancemn.com/about.html"
+            },
+            {
+              "@type": "Person",
+              "name": "Josh Chandler",
+              "jobTitle": "Insurance Agent",
+              "worksFor": { "@id": "https://www.chandlerinsurancemn.com/#organization" },
+              "url": "https://www.chandlerinsurancemn.com/about.html"
+            },
+            {
+              "@type": "Person",
+              "name": "Amy Reiser",
+              "jobTitle": "Insurance Agent",
+              "worksFor": { "@id": "https://www.chandlerinsurancemn.com/#organization" },
+              "url": "https://www.chandlerinsurancemn.com/about.html"
+            },
+            {
+              "@type": "Person",
+              "name": "Ashley Yturria",
+              "jobTitle": "Office Administrator",
+              "worksFor": { "@id": "https://www.chandlerinsurancemn.com/#organization" },
+              "url": "https://www.chandlerinsurancemn.com/about.html"
+            }
           ],
           "sameAs": ["https://www.facebook.com/chandlerinsurance"]
         },

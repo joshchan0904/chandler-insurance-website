@@ -19,10 +19,17 @@
     <!-- Canonical -->
     <link rel="canonical" href="https://www.chandlerinsurancemn.com/blog.html">
     
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
     <style>
-        /* NAVIGATION */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap');
+        :root { --primary-blue: #003d82; --accent-blue: #0056b3; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Roboto', sans-serif; background: #f8fafd; line-height: 1.7; color: #222; }
+
+        /* Consistent site nav - exact match to services/about/quote etc. for proper responsive hamburger */
         nav { background: white; padding: 1rem 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: relative; z-index: 100; }
         .nav-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
         .nav-links { display: flex; align-items: center; }
@@ -30,23 +37,66 @@
         .nav-links a:hover { color: #0056b3; }
         .hamburger { display: none; font-size: 1.8rem; color: #003d82; cursor: pointer; }
 
-        footer { background: #003d82 !important; color: #ddd; padding: 3rem 1.25rem; margin-top: 4rem; }
-
+        @media (max-width: 768px) {
+            .nav-links { display: none; flex-direction: column; background: white; position: absolute; top: 65px; left: 0; width: 100%; padding: 1.25rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+            .nav-links.active { display: flex; }
+            .nav-links a { margin: 0.6rem 0; font-size: 1.05rem; }
+            .hamburger { display: block; }
+        }
         @media (max-width: 900px) {
-            .nav-links { 
-                display: none; 
-                flex-direction: column; 
-                background: white; 
-                position: absolute; 
-                top: 70px; 
-                left: 0; 
-                width: 100%; 
-                padding: 1.5rem; 
-                box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
-            }
+            nav { position: sticky; top: 0; z-index: 100; }
+            .nav-links { display: none; flex-direction: column; background: white; position: absolute; top: 70px; left: 0; width: 100%; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
             .nav-links.active { display: flex; }
             .nav-links a { margin: 0.75rem 0; font-size: 1.05rem; }
             .hamburger { display: block; }
+        }
+
+        /* Blog listing specific styles only */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        .blog-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 61, 130, 0.08);
+            transition: transform 0.2s ease;
+        }
+        .blog-card:hover {
+            transform: translateY(-4px);
+        }
+        .blog-content {
+            padding: 1.25rem;
+        }
+        .blog-meta {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+        .blog-card h3 {
+            margin: 0 0 0.5rem 0;
+            line-height: 1.3;
+            color: #003d82;
+        }
+        .blog-card p {
+            font-size: 0.95rem;
+            color: #555;
+            margin-bottom: 1rem;
+        }
+        .btn {
+            display: inline-block;
+            background: #003d82;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
         }
         /* Blog Page Body Styles */
         .hero {
@@ -278,7 +328,7 @@
             </div>
             <div>
                 <h4>Quick Links</h4>
-                <p><a href="index.html" style="color:#ddd;">Home</a><br><a href="about.html" style="color:#ddd;">About Us</a><br><a href="services.html" style="color:#ddd;">Services</a><br><a href="quote.html" style="color:#ddd;">Get Quote</a><br><a href="schedule.html" style="color:#ddd;">Schedule Appointment</a></p>
+                <p><a href="index.html" style="color:#ddd;">Home</a><br><a href="about.html" style="color:#ddd;">About Us</a><br><a href="services.html" style="color:#ddd;">Services</a><br><a href="quote.html" style="color:#ddd;">Get Quote</a><br><a href="schedule.html" style="color:#ddd;">Schedule Appointment</a><br><a href="grand-rapids-mn-insurance.html" style="color:#ddd;">Grand Rapids Insurance</a><br><a href="virginia-mn-insurance.html" style="color:#ddd;">Virginia / Iron Range Insurance</a></p>
             </div>
             <div>
                 <h4>Follow Us</h4>

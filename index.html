@@ -214,16 +214,19 @@
         
         .card-grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
             gap: 1.5rem; 
             max-width: 1200px; 
             margin: 0 auto; 
             padding: 0 1rem; 
         }
         
-        @media (min-width: 900px) {
-            .card-grid { grid-template-columns: repeat(3, 1fr); }
+        .card-grid > a {
+            display: block;
+            height: 100%;
         }
+
+
         
         .service-card { 
             background: white; 
@@ -364,6 +367,15 @@
            2-column service cards, shorter maps, tighter everything
         ======================================== */
         @media (max-width: 768px) {
+            /* OLD .card-grid rule disabled — nuclear rules at end of stylesheet control layout now */
+            /* .card-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 0.65rem !important;
+            } */
+            .service-card {
+                padding: 1.1rem 0.85rem !important;
+                border-radius: 14px !important;
+            }
             /* Hero - comfortable on mobile */
             .hero { padding: 1.1rem 0.7rem 0.85rem !important; }
             .hero h1 { font-size: 1.3rem !important; line-height: 1.2 !important; margin-bottom: 0.55rem !important; }
@@ -406,15 +418,11 @@
             .section-header h2 { font-size: 1.22rem !important; }
             .section-header p { font-size: 0.85rem !important; }
 
-            /* SERVICES: 2-column grid with better spacing so cards don't feel crowded */
-            .card-grid {
-                grid-template-columns: repeat(2, 1fr) !important;
-                gap: 0.75rem !important;
-                padding: 0 0.5rem !important;
-            }
             .service-card {
                 padding: 0.85rem 0.7rem !important;
                 border-radius: 12px !important;
+                height: 100% !important;
+                min-height: 210px !important;
             }
             .service-card i {
                 font-size: 1.55rem !important;
@@ -513,12 +521,6 @@
                 font-size: 0.98rem !important;
             }
 
-            /* Memorial Day notice banner */
-            div[style*="Memorial Day Closure"] {
-                padding: 6px 8px !important;
-                font-size: 0.78rem !important;
-            }
-
             /* Footer */
             footer {
                 padding: 1.25rem 0.6rem !important;
@@ -562,6 +564,37 @@
             .nav-links.active { display: flex; }
             .nav-links a { margin: 0.6rem 0; font-size: 1.05rem; }
             .hamburger { display: block; }
+        }
+
+        /* =========================================================
+           NUCLEAR CLEAN RULES FOR .card-grid (Homepage Only)
+           Placed as the very last rules in the stylesheet so they win.
+           Goal: Reliable 3-col / 2-row on desktop, clean 2-col on mobile.
+        ========================================================= */
+        @media (min-width: 768px) {
+            .card-grid {
+                grid-template-columns: repeat(3, 1fr) !important;
+                grid-template-rows: auto auto !important;
+                grid-auto-rows: unset !important;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .card-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                grid-template-rows: auto auto auto !important;
+                grid-auto-rows: unset !important;
+            }
+        }
+
+        /* Ensure grid items and cards actually fill their cells */
+        .card-grid > a {
+            display: block !important;
+            height: 100% !important;
+        }
+
+        .card-grid .service-card {
+            height: 100% !important;
         }
 </style>
 <script type="application/ld+json">
@@ -683,15 +716,6 @@
         </div>
     </nav>
 
-    <!-- Temporary Memorial Day Notice -->
-    <div style="background: linear-gradient(90deg, #003d82 0%, #002d5e 100%); color: #fff; padding: 10px 12px; text-align: center; font-size: 0.9rem; border-bottom: 3px solid #c2410c;">
-        <div style="max-width: 1100px; margin: 0 auto;">
-            <i class="fas fa-flag-usa" style="margin-right: 6px; color: #fff;"></i>
-            <strong>Memorial Day Closure:</strong> We will be closed on <strong>Monday, May 25, 2026</strong>. 
-            Normal business hours will resume <strong>Tuesday, May 26 at 8:30 AM</strong>.
-        </div>
-    </div>
-
     <!-- HERO -->
     <div class="hero">
         <div style="max-width:1200px; margin:0 auto; padding:0 1rem;">
@@ -782,16 +806,16 @@
             <div class="service-card"><i class="fa fa-home"></i><h3>Home &amp; Cabin</h3><p>Protect your house or cabin with comprehensive coverage including ice dam protection for Minnesota winters. <span style="color:#0056b3; font-weight:600;">Get a quote →</span></p></div>
         </a>
         
+        <a href="life.html" style="text-decoration:none; color:inherit;">
+            <div class="service-card"><i class="fa fa-user-shield"></i><h3>Life Insurance</h3><p>Term life, whole life, and final expense policies to protect your family’s future in Grand Rapids &amp; Virginia MN.</p></div>
+        </a>
+        
         <a href="business-quote.html" style="text-decoration:none; color:inherit;">
-            <div class="service-card"><i class="fa fa-briefcase"></i><h3>Business &amp; Commercial</h3><p>Liability, workers’ comp, property &amp; specialized policies for Minnesota businesses on the Iron Range. <span style="color:#0056b3; font-weight:600;">Get a quote →</span></p></div>
+            <div class="service-card"><i class="fa fa-briefcase"></i><h3>Business &amp; Commercial</h3><p>Liability, workers’ comp, property &amp; specialized policies for businesses on the Iron Range. See our expertise in <span>Grand Rapids &amp; Itasca County</span> and <span>Virginia &amp; the Iron Range</span>. <span style="color:#0056b3; font-weight:600;">Get a quote →</span></p></div>
         </a>
         
         <a href="recreational-quote.html" style="text-decoration:none; color:inherit;">
             <div class="service-card"><i class="fa fa-motorcycle"></i><h3>Recreational Vehicles</h3><p>ATVs, snowmobiles, boats, campers &amp; more — tailored for the Minnesota outdoor lifestyle. <span style="color:#0056b3; font-weight:600;">Get a quote →</span></p></div>
-        </a>
-        
-        <a href="life.html" style="text-decoration:none; color:inherit;">
-            <div class="service-card"><i class="fa fa-user-shield"></i><h3>Life Insurance</h3><p>Term life, whole life, and final expense policies to protect your family’s future in Grand Rapids &amp; Virginia MN.</p></div>
         </a>
         
         <a href="landlord.html" style="text-decoration:none; color:inherit;">
@@ -816,7 +840,7 @@
             <div style="background:white; padding:1.5rem 1.75rem; border-radius:14px; box-shadow:0 4px 15px rgba(0,61,130,0.08);">
                 <div style="color:#003d82; font-size:1.8rem; margin-bottom:0.5rem;"><i class="fa fa-map-marker-alt"></i></div>
                 <h4 style="color:#003d82; margin-bottom:0.4rem;">Proudly Serving the Iron Range</h4>
-                <p style="font-size:0.95rem; color:#555; line-height:1.5;">Grand Rapids, Virginia, Itasca County &amp; all of Minnesota.</p>
+                <p style="font-size:0.95rem; color:#555; line-height:1.5;">Owner Joe Chandler and our local agents Josh and Amy live and work right here in Grand Rapids and on the Iron Range. We know the roads, the weather, and the local risks better than anyone.</p>
             </div>
             
             <div style="background:white; padding:1.5rem 1.75rem; border-radius:14px; box-shadow:0 4px 15px rgba(0,61,130,0.08);">
@@ -824,6 +848,15 @@
                 <h4 style="color:#003d82; margin-bottom:0.4rem;">Recently Expanded</h4>
                 <p style="font-size:0.95rem; color:#555; line-height:1.5;">Now proudly serving former Hegland Insurance Agency customers too.</p>
             </div>
+        </div>
+    </div>
+
+    <!-- LOCAL EXPERTISE LINKS (strengthening without touching hero Get In Touch button) -->
+    <div style="max-width:1100px; margin:0 auto 1.5rem; padding:0 1rem; text-align:center;">
+        <p style="color:#444; margin-bottom:0.6rem;">See our specialized local expertise for the communities we serve every day:</p>
+        <div style="display:flex; flex-wrap:wrap; gap:0.75rem; justify-content:center;">
+            <a href="grand-rapids-mn-insurance.html" style="background:#003d82; color:white; padding:11px 24px; border-radius:50px; text-decoration:none; font-weight:600; font-size:0.95rem;">Grand Rapids &amp; Itasca County Insurance</a>
+            <a href="virginia-mn-insurance.html" style="background:#003d82; color:white; padding:11px 24px; border-radius:50px; text-decoration:none; font-weight:600; font-size:0.95rem;">Virginia &amp; the Iron Range Insurance</a>
         </div>
     </div>
 
@@ -852,7 +885,7 @@
             </div>
             <div>
                 <h4>Quick Links</h4>
-                <p><a href="index.html" style="color:#ddd;">Home</a><br><a href="about.html" style="color:#ddd;">About Us</a><br><a href="services.html" style="color:#ddd;">Services</a><br><a href="quote.html" style="color:#ddd;">Get Quote</a><br><a href="schedule.html" style="color:#ddd;">Schedule Appointment</a></p>
+                <p><a href="index.html" style="color:#ddd;">Home</a><br><a href="about.html" style="color:#ddd;">About Us</a><br><a href="services.html" style="color:#ddd;">Services</a><br><a href="quote.html" style="color:#ddd;">Get Quote</a><br><a href="schedule.html" style="color:#ddd;">Schedule Appointment</a><br><a href="grand-rapids-mn-insurance.html" style="color:#ddd;">Grand Rapids Insurance</a><br><a href="virginia-mn-insurance.html" style="color:#ddd;">Virginia / Iron Range Insurance</a></p>
             </div>
             <div>
                 <h4>Follow Us</h4>
