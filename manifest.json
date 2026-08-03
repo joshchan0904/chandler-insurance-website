@@ -2,7 +2,7 @@
   "name": "Chandler Insurance Agency",
   "short_name": "Chandler Insurance",
   "description": "Independent insurance agency since 1977. Get fast quotes for auto, home, business & recreational insurance in Minnesota.",
-  "start_url": "/index.html",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#003d82",
   "theme_color": "#003d82",

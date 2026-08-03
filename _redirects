@@ -1,5 +1,47 @@
 # 301 Redirects for old Wix pages and thin content consolidation
 # Format: old-path    new-path    301
+# Use 301! (force) when overriding Netlify Pretty URLs that would otherwise 200.
+
+# --- Canonical path consolidation (Pretty URL near-duplicates) ---
+# Preferred form: https://chandlerinsurancemn.com/<page>.html (homepage: /)
+/index.html                                            /                              301!
+
+/about                                                 /about.html                    301!
+/services                                              /services.html                 301!
+/quote                                                 /quote.html                    301!
+/schedule                                              /schedule.html                 301!
+/blog                                                  /blog.html                     301!
+/auto                                                  /auto.html                     301!
+/home                                                  /home.html                     301!
+/business                                              /business.html                 301!
+/recreational                                          /recreational.html             301!
+/landlord                                              /landlord.html                 301!
+/life                                                  /life.html                     301!
+/auto-quote                                            /auto-quote.html               301!
+/home-quote                                            /home-quote.html               301!
+/business-quote                                        /business-quote.html           301!
+/recreational-quote                                    /recreational-quote.html       301!
+/grand-rapids-mn-insurance                             /grand-rapids-mn-insurance.html 301!
+/virginia-mn-insurance                                 /virginia-mn-insurance.html    301!
+/snowmobile-insurance-minnesota                        /snowmobile-insurance-minnesota.html 301!
+/rv-insurance-minnesota                                /rv-insurance-minnesota.html   301!
+/atv-insurance-minnesota                               /atv-insurance-minnesota.html  301!
+/commercial-insurance                                  /commercial-insurance.html     301!
+/privacy                                               /privacy.html                  301!
+/terms                                                 /terms.html                    301!
+/cookies                                               /cookies.html                  301!
+
+# Blog extensionless → .html
+/blog/boat-pwc-insurance-minnesota                     /blog/boat-pwc-insurance-minnesota.html 301!
+/blog/ice-dam-coverage-minnesota                       /blog/ice-dam-coverage-minnesota.html 301!
+/blog/independent-vs-captive-insurance                 /blog/independent-vs-captive-insurance.html 301!
+/blog/minnesota-auto-insurance-cost-2026               /blog/minnesota-auto-insurance-cost-2026.html 301!
+/blog/summer-driving-minnesota                         /blog/summer-driving-minnesota.html 301!
+/blog/summer-storm-hail-minnesota                      /blog/summer-storm-hail-minnesota.html 301!
+
+# Legacy Client Center path (old Wix / external citations)
+/client-center                                         /                              301
+/client-center/                                        /                              301
 
 # Old Wix pages
 /landlord-renters-insurance-grand-rapids-virginia-mn    /landlord.html    301

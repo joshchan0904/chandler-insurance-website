@@ -14,6 +14,23 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#003d82">
 
+    <!-- Canonical -->
+    <link rel="canonical" href="https://chandlerinsurancemn.com/commercial-insurance.html">
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Chandler Insurance Agency">
+    <meta property="og:title" content="Commercial Insurance Grand Rapids MN | Business Insurance Virginia MN | Chandler Insurance">
+    <meta property="og:description" content="Commercial insurance for businesses in Grand Rapids, Virginia &amp; Itasca County. General liability, BOP, workers comp, commercial auto and contractors insurance from a local independent agency since 1977.">
+    <meta property="og:url" content="https://chandlerinsurancemn.com/commercial-insurance.html">
+    <meta property="og:image" content="https://chandlerinsurancemn.com/images/social-share.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Commercial Insurance Grand Rapids MN | Business Insurance Virginia MN | Chandler Insurance">
+    <meta name="twitter:description" content="Commercial insurance for businesses in Grand Rapids, Virginia &amp; Itasca County. General liability, BOP, workers comp, commercial auto and contractors insurance from a local independent agency since 1977.">
+    <meta name="twitter:image" content="https://chandlerinsurancemn.com/images/social-share.jpg">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -205,26 +222,62 @@
         }
     </script>
 
-    <!-- Schema -->
+    <!-- SEO: Rich Schema for Commercial Insurance Hub -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "InsuranceAgency",
-      "name": "Chandler Insurance Agency",
-      "url": "https://www.chandlerinsurancemn.com/",
-      "logo": "https://www.chandlerinsurancemn.com/images/logo-full-color.png",
-      "telephone": "+1-218-326-4655",
-      "email": "home@chandlerinsurancemn.com",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "322 NE 5th Street",
-        "addressLocality": "Grand Rapids",
-        "addressRegion": "MN",
-        "postalCode": "55744",
-        "addressCountry": "US"
-      },
-      "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"],
-      "description": "Commercial insurance for businesses in Northern Minnesota including general liability, BOP, workers comp, commercial auto and contractors coverage."
+      "@graph": [
+        {
+          "@type": "InsuranceAgency",
+          "@id": "https://chandlerinsurancemn.com/#organization",
+          "name": "Chandler Insurance Agency",
+          "url": "https://chandlerinsurancemn.com/",
+          "logo": "https://chandlerinsurancemn.com/images/logo-full-color.png",
+          "telephone": "+1-218-326-4655",
+          "email": "home@chandlerinsurancemn.com",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "322 NE 5th Street",
+            "addressLocality": "Grand Rapids",
+            "addressRegion": "MN",
+            "postalCode": "55744",
+            "addressCountry": "US"
+          },
+          "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"],
+          "description": "Commercial insurance for businesses in Northern Minnesota including general liability, BOP, workers comp, commercial auto and contractors coverage."
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://chandlerinsurancemn.com/commercial-insurance.html",
+          "url": "https://chandlerinsurancemn.com/commercial-insurance.html",
+          "name": "Commercial Insurance Grand Rapids MN | Business Insurance Virginia MN | Chandler Insurance",
+          "description": "Commercial insurance for businesses in Grand Rapids, Virginia & Itasca County. General liability, BOP, workers comp, commercial auto and contractors insurance.",
+          "isPartOf": {
+            "@id": "https://chandlerinsurancemn.com/#organization"
+          },
+          "about": {
+            "@id": "https://chandlerinsurancemn.com/#organization"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://chandlerinsurancemn.com/commercial-insurance.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://chandlerinsurancemn.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Commercial Insurance",
+              "item": "https://chandlerinsurancemn.com/commercial-insurance.html"
+            }
+          ]
+        }
+      ]
     }
     </script>
 </body>
