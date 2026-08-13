@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Schedule Appointment | Chandler Insurance Agency Grand Rapids &amp; Virginia MN</title>
-    <meta name="description" content="Book a free insurance consultation at our Grand Rapids or Virginia office. Available Mon–Fri. Call (218) 326-4655 or schedule online today.">
+    <meta name="description" content="Book a consultation at our Grand Rapids office (Mon–Fri) or Virginia office (appointments Monday and Wednesday only). Call (218) 326-4655 or request a time online.">
     
     <!-- Favicon - Optimized for all browsers and devices -->
     <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
@@ -201,22 +201,13 @@
     <meta name="twitter:description" content="Book a free insurance consultation at our Grand Rapids or Virginia office. Available Mon–Fri. Call (218) 326-4655 or schedule online today.">
     <meta name="twitter:image" content="https://chandlerinsurancemn.com/images/social-share.jpg">
 
-    <!-- WebSite + SearchAction (helps sitelinks & search box) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
       "@id": "https://chandlerinsurancemn.com/#website",
       "url": "https://chandlerinsurancemn.com/",
-      "name": "Chandler Insurance Agency",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": {
-          "@type": "EntryPoint",
-          "urlTemplate": "https://chandlerinsurancemn.com/?s={search_term_string}"
-        },
-        "query-input": "required name=search_term_string"
-      }
+      "name": "Chandler Insurance Agency"
     }
     </script>
 
@@ -256,6 +247,7 @@
       ]
     }
     </script>
+    <link rel="stylesheet" href="css/site.css">
 </head>
 <body>
     <!-- NAVIGATION (UPDATED) -->
@@ -290,22 +282,22 @@
     <!-- HERO -->
     <div class="hero">
         <h1>Schedule an Appointment</h1>
-        <p style="font-size:1.3rem; max-width:700px; margin:0 auto; opacity:0.95;">Book a personalized consultation. Virginia: Mon & Wed only • Grand Rapids: Mon–Fri.</p>
+        <p style="font-size:1.3rem; max-width:740px; margin:0 auto; opacity:0.95;">Grand Rapids is open weekdays. Virginia visits are by appointment Monday and Wednesday only.</p>
     </div>
 
     <div class="section">
         <div class="section-header" style="margin-bottom:1.5rem;">
             <h2>Schedule an Appointment</h2>
-            <p style="color:#555; max-width:600px; margin:0 auto; font-size:1rem;">Choose your preferred office below. Each location has different availability.</p>
+            <p style="color:#555; max-width:640px; margin:0 auto; font-size:1rem;">Pick an office first. We’ll confirm the time by phone or email — this is a request, not an instant booking.</p>
         </div>
 
         <!-- OFFICE SELECTOR - Cleaner Cards -->
         <!-- OFFICE SELECTOR - Equal height cards -->
         <div style="display:flex; gap:0.6rem; justify-content:center; flex-wrap:wrap; margin-bottom:0.15rem; align-items:stretch;" id="officeCards">
             <div onclick="showOffice('virginia')" id="virginiaCard"
-                 style="cursor:pointer; border:2px solid #003d82; background:#f0f4ff; padding:10px 14px; border-radius:12px; text-align:center; min-width:150px; flex:1; max-width:220px; display:flex; flex-direction:column; justify-content:center; transition:all 0.2s;">
+                 style="cursor:pointer; border:2px solid #ccc; background:white; padding:10px 14px; border-radius:12px; text-align:center; min-width:150px; flex:1; max-width:220px; display:flex; flex-direction:column; justify-content:center; transition:all 0.2s;">
                 <div style="font-size:0.92rem; font-weight:700; color:#003d82;">Virginia Office</div>
-                <div style="font-size:0.72rem; color:#555; margin-top:2px; line-height:1.2;">Mon & Wed only<br>9:00 AM – 3:00 PM</div>
+                <div style="font-size:0.72rem; color:#555; margin-top:2px; line-height:1.2;">Appointments Mon &amp; Wed<br>9:00 AM – 3:00 PM</div>
             </div>
             
             <div onclick="showOffice('grandrapids')" id="grandrapidsCard"
@@ -318,41 +310,58 @@
         <p style="text-align:center; margin-top:0.5rem; font-size:0.85rem; color:#555;">See our specialized local expertise: <a href="grand-rapids-mn-insurance.html" style="color:#003d82; font-weight:600;">Grand Rapids &amp; Itasca County</a> and <a href="virginia-mn-insurance.html" style="color:#003d82; font-weight:600;">Virginia &amp; the Iron Range</a>.</p>
 
         <!-- VIRGINIA OFFICE -->
-        <div id="virginiaForm" class="form-container">
+        <div id="virginiaForm" class="form-container" style="display:none;">
             <div style="text-align:right; margin-bottom:0.5rem;">
                 <a href="#" onclick="resetOfficeSelection(); return false;" style="font-size:0.8rem; color:#0056b3; text-decoration:none;">← Change Office</a>
             </div>
             <h3 style="color:#003d82; text-align:center; margin-bottom:1.5rem;">Virginia Office Appointment</h3>
-            <p style="text-align:center; color:#555; margin-bottom:1rem; font-size:0.95rem;">Mondays & Wednesdays only • 9:00 AM – 3:00 PM (45-min appointments)</p>
+            <p style="text-align:center; color:#555; margin-bottom:1rem; font-size:0.95rem;">Virginia is appointment-only on Mondays &amp; Wednesdays, 9:00 AM – 3:00 PM (45-min visits).</p>
             
-            <form id="virginiaAppointmentForm" onsubmit="submitAppointment(event, 'Virginia')">
+            <form id="virginiaAppointmentForm" name="appointment" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="submitAppointment(event, 'Virginia')">
+                <input type="hidden" name="form-name" value="appointment">
+                <input type="hidden" name="office" value="Virginia">
+                <p style="display:none;"><label>Don’t fill this out if you’re human: <input name="bot-field"></label></p>
                 <!-- Contact Info - 2 columns on wider screens -->
                 <div class="form-grid">
                     <div class="form-group">
-                        <label>Full Name</label>
-                        <input type="text" name="name" required>
+                        <label for="va-name">Full Name</label>
+                        <input id="va-name" type="text" name="name" autocomplete="name" required>
                     </div>
                     <div class="form-group">
-                        <label>Email Address</label>
-                        <input type="email" name="email" required>
+                        <label for="va-email">Email Address</label>
+                        <input id="va-email" type="email" name="email" autocomplete="email" required>
                     </div>
                     <div class="form-group">
-                        <label>Phone Number</label>
-                        <input type="tel" name="phone" required>
+                        <label for="va-phone">Phone Number</label>
+                        <input id="va-phone" type="tel" name="phone" autocomplete="tel" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="va-topic">What is this about?</label>
+                        <select id="va-topic" name="topic">
+                            <option value="">Select one (optional)</option>
+                            <option>Auto insurance</option>
+                            <option>Home / cabin insurance</option>
+                            <option>Business insurance</option>
+                            <option>Recreational insurance</option>
+                            <option>Life insurance</option>
+                            <option>Landlord / rental</option>
+                            <option>Review existing policies</option>
+                            <option>Other</option>
+                        </select>
                     </div>
                 </div>
 
                 <!-- Date & Time -->
                 <div class="form-grid">
                     <div class="form-group">
-                        <label>Preferred Date <span style="color:#666; font-weight:400;">(Mon & Wed only)</span></label>
+                        <label for="virginiaDate">Preferred Date <span style="color:#666; font-weight:400;">(Mon & Wed only)</span></label>
                         <input type="date" name="date" id="virginiaDate" required>
                         <small id="virginiaDateError" style="color:#dc2626; font-size:0.8rem; display:none; margin-top:3px;">
                             Please select a Monday or Wednesday.
                         </small>
                     </div>
                     <div class="form-group">
-                        <label>Preferred Time</label>
+                        <label for="virginiaTimeSlots">Preferred Time</label>
                         <select name="time" required id="virginiaTimeSlots" disabled>
                             <option value="">Select a valid date first</option>
                         </select>
@@ -360,8 +369,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Reason for Appointment (optional)</label>
-                    <textarea name="reason" rows="2" placeholder="What would you like to discuss?"></textarea>
+                    <label for="va-reason">Reason for Appointment (optional)</label>
+                    <textarea id="va-reason" name="reason" rows="2" placeholder="What would you like to discuss?"></textarea>
                 </div>
 
                 <button type="submit" class="submit-btn">SCHEDULE APPOINTMENT</button>
@@ -376,34 +385,51 @@
             <h3 style="color:#003d82; text-align:center; margin-bottom:1.5rem;">Grand Rapids Office Appointment</h3>
             <p style="text-align:center; color:#555; margin-bottom:1rem; font-size:0.95rem;">Mon–Thu 8:30 AM – 4:00 PM • Friday 8:30 AM – 3:00 PM (45-min appointments)</p>
             
-            <form id="grandrapidsAppointmentForm" onsubmit="submitAppointment(event, 'Grand Rapids')">
+            <form id="grandrapidsAppointmentForm" name="appointment" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="submitAppointment(event, 'Grand Rapids')">
+                <input type="hidden" name="form-name" value="appointment">
+                <input type="hidden" name="office" value="Grand Rapids">
+                <p style="display:none;"><label>Don’t fill this out if you’re human: <input name="bot-field"></label></p>
                 <!-- Contact Info - 2 columns on wider screens -->
                 <div class="form-grid">
                     <div class="form-group">
-                        <label>Full Name</label>
-                        <input type="text" name="name" required>
+                        <label for="gr-name">Full Name</label>
+                        <input id="gr-name" type="text" name="name" autocomplete="name" required>
                     </div>
                     <div class="form-group">
-                        <label>Email Address</label>
-                        <input type="email" name="email" required>
+                        <label for="gr-email">Email Address</label>
+                        <input id="gr-email" type="email" name="email" autocomplete="email" required>
                     </div>
                     <div class="form-group">
-                        <label>Phone Number</label>
-                        <input type="tel" name="phone" required>
+                        <label for="gr-phone">Phone Number</label>
+                        <input id="gr-phone" type="tel" name="phone" autocomplete="tel" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="gr-topic">What is this about?</label>
+                        <select id="gr-topic" name="topic">
+                            <option value="">Select one (optional)</option>
+                            <option>Auto insurance</option>
+                            <option>Home / cabin insurance</option>
+                            <option>Business insurance</option>
+                            <option>Recreational insurance</option>
+                            <option>Life insurance</option>
+                            <option>Landlord / rental</option>
+                            <option>Review existing policies</option>
+                            <option>Other</option>
+                        </select>
                     </div>
                 </div>
 
                 <!-- Date & Time -->
                 <div class="form-grid">
                     <div class="form-group">
-                        <label>Preferred Date <span style="color:#666; font-weight:400;">(Mon–Fri)</span></label>
+                        <label for="grandrapidsDate">Preferred Date <span style="color:#666; font-weight:400;">(Mon–Fri)</span></label>
                         <input type="date" name="date" id="grandrapidsDate" required>
                         <small id="grandrapidsDateError" style="color:#dc2626; font-size:0.8rem; display:none; margin-top:3px;">
                             Weekends are not available.
                         </small>
                     </div>
                     <div class="form-group">
-                        <label>Preferred Time</label>
+                        <label for="grandrapidsTimeSlots">Preferred Time</label>
                         <select name="time" required id="grandrapidsTimeSlots" disabled>
                             <option value="">Select a valid date first</option>
                         </select>
@@ -411,8 +437,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Reason for Appointment (optional)</label>
-                    <textarea name="reason" rows="2" placeholder="What would you like to discuss?"></textarea>
+                    <label for="gr-reason">Reason for Appointment (optional)</label>
+                    <textarea id="gr-reason" name="reason" rows="2" placeholder="What would you like to discuss?"></textarea>
                 </div>
 
                 <button type="submit" class="submit-btn">SCHEDULE APPOINTMENT</button>
@@ -436,7 +462,7 @@
             </div>
             <div>
                 <h4>Contact Us</h4>
-                <p>322 NE 5th Street, Grand Rapids, MN 55744<br>Grand Rapids: (218) 326-4655<br>Virginia: (218) 741-9582<br>home@chandlerinsurancemn.com</p>
+                <p>322 NE 5th Street, Grand Rapids, MN 55744<br>Grand Rapids: <a href="tel:2183264655" style="color:#ddd;">(218) 326-4655</a><br>Virginia: <a href="tel:2187419582" style="color:#ddd;">(218) 741-9582</a><br><a href="mailto:home@chandlerinsurancemn.com" style="color:#ddd;">home@chandlerinsurancemn.com</a></p>
             </div>
             <div>
                 <h4>Quick Links</h4>
@@ -666,6 +692,10 @@
             
             if (virginiaTime) virginiaTime.disabled = true;
             if (grandrapidsTime) grandrapidsTime.disabled = true;
+
+            const today = new Date().toISOString().slice(0, 10);
+            if (virginiaDate) virginiaDate.min = today;
+            if (grandrapidsDate) grandrapidsDate.min = today;
         }
         
         function submitAppointment(e, office) {
@@ -678,7 +708,7 @@
             
             let dateTimeInfo = '';
             if (dateInput && dateInput.value && timeSelect && timeSelect.value) {
-                const dateObj = new Date(dateInput.value);
+                const dateObj = new Date(dateInput.value + 'T00:00');
                 const dateStr = dateObj.toLocaleDateString('en-US', { 
                     weekday: 'long', 
                     month: 'long', 
@@ -686,22 +716,31 @@
                 });
                 dateTimeInfo = `<p style="margin-top:0.75rem; font-size:0.95rem; color:#444;">Selected: <strong>${dateStr} at ${timeSelect.value}</strong></p>`;
             }
-            
-            form.innerHTML = `
-                <div style="text-align:center; padding:2rem 1rem;">
-                    <i class="fa fa-check-circle" style="font-size:3.8rem; color:#00a651; margin-bottom:0.75rem;"></i>
-                    <h3 style="color:#00a651; margin-bottom:0.6rem; font-size:1.35rem;">Appointment Request Received!</h3>
-                    <p style="font-size:1rem; line-height:1.4;">Thank you. We will confirm your appointment at the <strong>${office}</strong> office within 24 hours.</p>
-                    ${dateTimeInfo}
-                </div>
-            `;
+
+            fetch("/", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: new URLSearchParams(new FormData(form)).toString()
+            })
+            .then(() => {
+                form.innerHTML = `
+                    <div style="text-align:center; padding:2rem 1rem;">
+                        <i class="fa fa-check-circle" style="font-size:3.8rem; color:#00a651; margin-bottom:0.75rem;"></i>
+                        <h3 style="color:#00a651; margin-bottom:0.6rem; font-size:1.35rem;">Appointment Request Received!</h3>
+                        <p style="font-size:1rem; line-height:1.4;">Thank you. We will confirm your appointment at the <strong>${office}</strong> office within 24 hours.</p>
+                        ${dateTimeInfo}
+                    </div>
+                `;
+            })
+            .catch(() => {
+                alert("Sorry, there was a problem sending your request. Please call (218) 326-4655.");
+            });
         }
         
         window.onload = function() {
             initDateAndTimePickers();
             
-            // Show Virginia form by default
-            document.getElementById('virginiaForm').style.display = 'block';
+            document.getElementById('virginiaForm').style.display = 'none';
             document.getElementById('grandrapidsForm').style.display = 'none';
         };
     </script>
@@ -728,7 +767,7 @@
             "addressCountry": "US"
           },
           "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"],
-          "sameAs": ["https://www.facebook.com/chandlerinsurance"]
+          "sameAs": ["https://www.facebook.com/ChandlerInsuranceAgency"]
         },
         {
           "@type": "WebPage",

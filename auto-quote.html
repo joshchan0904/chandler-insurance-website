@@ -37,13 +37,15 @@
     <script src="https://cdn.tailwindcss.com"></script>
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Poppins:wght@500;600&amp;display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap');
         
-        body { font-family: 'Inter', system_ui, sans-serif; background: #f8fafd; }
+        body { font-family: 'Roboto', sans-serif; background: #f8fafd; }
         .section-header { font-size: 1.35rem; font-weight: 600; color: #003d82; }
         .mini-label { font-size: 0.75rem; font-weight: 600; color: #475569; margin-bottom: 0.25rem; display: block; }
-        .form-input, .form-select { transition: all 0.15s ease; }
+        html { overflow-x: hidden; }
+        .form-input, .form-select { transition: border-color 0.15s ease, box-shadow 0.15s ease; }
         .form-input:focus, .form-select:focus { outline: none; border-color: #003d82; box-shadow: 0 0 0 3px rgba(0, 61, 130, 0.1); }
+        .vehicle-card { overflow: visible; }
 
         /* ========================================
            SIGNIFICANTLY IMPROVED MOBILE EXPERIENCE
@@ -96,17 +98,13 @@
                 padding: 0.9rem !important;
                 border-radius: 14px !important;
             }
-            .vehicle-card:active {
-                transform: scale(0.985);
-                border-color: #003d82;
-            }
             .vehicle-card .mini-label {
                 font-size: 0.7rem;
             }
             .vehicle-card input, .vehicle-card select {
                 padding: 8px 10px;
-                min-height: 40px;
-                font-size: 15px;
+                min-height: 44px;
+                font-size: 16px;
             }
 
             /* Make year / make / model / body style more compact */
@@ -121,6 +119,10 @@
             }
             .driver-card .grid {
                 gap: 0.75rem !important;
+            }
+            .driver-card input, .driver-card select {
+                font-size: 16px;
+                min-height: 44px;
             }
 
             /* Coverage & Claims section grids */
@@ -253,7 +255,7 @@
             "addressCountry": "US"
           },
           "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"],
-          "sameAs": ["https://www.facebook.com/chandlerinsurance"]
+          "sameAs": ["https://www.facebook.com/ChandlerInsuranceAgency"]
         },
         {
           "@type": "WebPage",
@@ -302,6 +304,7 @@
       ]
     }
     </script>
+    <link rel="stylesheet" href="css/site.css">
 </head>
 <body class="bg-slate-50">
 
@@ -346,7 +349,7 @@
             <p class="mt-3 text-lg text-slate-600 max-w-xl mx-auto">Fast quotes from a local Minnesota agency since 1977. <a href="grand-rapids-mn-insurance.html" class="text-[#003d82] underline">Grand Rapids &amp; Itasca County</a> and <a href="virginia-mn-insurance.html" class="text-[#003d82] underline">Virginia &amp; the Iron Range</a>.</p>
         </div>
 
-        <form name="auto-quote" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="form-card p-8 md:p-10">
+        <form name="auto-quote" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="form-card p-8 md:p-10" onsubmit="return requireEmailOrPhone(this)">
             <input type="hidden" name="form-name" value="auto-quote">
             <p class="hidden"><label>Don’t fill this out if you’re human: <input name="bot-field"></label></p>
 
@@ -390,13 +393,14 @@
                     </div>
                     
                     <div>
-                        <label class="mini-label">Email <span class="text-red-500">*</span></label>
-                        <input type="email" name="email" required class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm">
+                        <label class="mini-label" for="auto-email">Email</label>
+                        <input id="auto-email" type="email" name="email" autocomplete="email" class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm">
                     </div>
                     <div>
-                        <label class="mini-label">Phone <span class="text-red-500">*</span></label>
-                        <input type="tel" name="phone" required class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm">
+                        <label class="mini-label" for="auto-phone">Phone</label>
+                        <input id="auto-phone" type="tel" name="phone" autocomplete="tel" class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm">
                     </div>
+                    <p class="md:col-span-2 text-[11px] text-slate-500 -mt-2">Email or phone — at least one is required.</p>
                     
                     <div class="md:col-span-2">
                         <label class="mini-label">Mailing Address</label>
@@ -413,6 +417,11 @@
                     <div>
                         <label class="mini-label">Occupation</label>
                         <input type="text" name="occupation" class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm" placeholder="e.g. Teacher, Contractor, Nurse">
+                    </div>
+                    <div>
+                        <label class="mini-label" for="requested_effective_date">Requested effective date</label>
+                        <input id="requested_effective_date" type="date" name="requested_effective_date" class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm">
+                        <p class="text-[11px] text-slate-500 mt-1">When you want coverage to start — often your current policy expiration.</p>
                     </div>
                 </div>
             </div>
@@ -438,33 +447,44 @@
                 <!-- Driver 2 -->
                 <div id="driver2Card" class="driver-card mb-4" style="display: none;">
                     <div class="font-semibold text-sm mb-3 text-[#003d82]">Driver 2</div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div><label class="mini-label">Full Name</label><input type="text" name="driver2_name" class="form-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm"></div>
-                        <div><label class="mini-label">License #</label><input type="text" name="driver2_license" class="form-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm"></div>
-                        <div><label class="mini-label">Occupation</label><input type="text" name="driver2_occupation" class="form-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm" placeholder="e.g. Teacher"></div>
-                        <div><label class="mini-label">DOB (MM/DD/YYYY)</label><input type="text" name="driver2_dob" placeholder="MM/DD/YYYY" class="form-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm"></div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div><label class="mini-label" for="driver2_name">Full Name</label><input id="driver2_name" type="text" name="driver2_name" autocomplete="name" class="form-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm"></div>
+                        <div><label class="mini-label" for="driver2_dob">Date of Birth</label><input id="driver2_dob" type="text" name="driver2_dob" inputmode="numeric" autocomplete="bday" maxlength="10" placeholder="MM/DD/YYYY" class="form-input dob-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm"></div>
+                        <div><label class="mini-label" for="driver2_license">Driver License</label><input id="driver2_license" type="text" name="driver2_license" class="form-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm"></div>
+                        <div><label class="mini-label" for="driver2_occupation">Occupation</label><input id="driver2_occupation" type="text" name="driver2_occupation" class="form-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm" placeholder="e.g. Teacher"></div>
                     </div>
                 </div>
                 
                 <!-- Driver 3 -->
                 <div id="driver3Card" class="driver-card mb-4" style="display: none;">
                     <div class="font-semibold text-sm mb-3 text-[#003d82]">Driver 3</div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div><label class="mini-label">Full Name</label><input type="text" name="driver3_name" class="form-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm"></div>
-                        <div><label class="mini-label">License #</label><input type="text" name="driver3_license" class="form-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm"></div>
-                        <div><label class="mini-label">Occupation</label><input type="text" name="driver3_occupation" class="form-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm" placeholder="e.g. Teacher"></div>
-                        <div><label class="mini-label">DOB (MM/DD/YYYY)</label><input type="text" name="driver3_dob" placeholder="MM/DD/YYYY" class="form-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm"></div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div><label class="mini-label" for="driver3_name">Full Name</label><input id="driver3_name" type="text" name="driver3_name" autocomplete="name" class="form-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm"></div>
+                        <div><label class="mini-label" for="driver3_dob">Date of Birth</label><input id="driver3_dob" type="text" name="driver3_dob" inputmode="numeric" autocomplete="bday" maxlength="10" placeholder="MM/DD/YYYY" class="form-input dob-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm"></div>
+                        <div><label class="mini-label" for="driver3_license">Driver License</label><input id="driver3_license" type="text" name="driver3_license" class="form-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm"></div>
+                        <div><label class="mini-label" for="driver3_occupation">Occupation</label><input id="driver3_occupation" type="text" name="driver3_occupation" class="form-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm" placeholder="e.g. Teacher"></div>
                     </div>
                 </div>
                 
                 <!-- Driver 4 -->
-                <div id="driver4Card" class="driver-card" style="display: none;">
+                <div id="driver4Card" class="driver-card mb-4" style="display: none;">
                     <div class="font-semibold text-sm mb-3 text-[#003d82]">Driver 4</div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div><label class="mini-label">Full Name</label><input type="text" name="driver4_name" class="form-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm"></div>
-                        <div><label class="mini-label">License #</label><input type="text" name="driver4_license" class="form-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm"></div>
-                        <div><label class="mini-label">Occupation</label><input type="text" name="driver4_occupation" class="form-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm" placeholder="e.g. Teacher"></div>
-                        <div><label class="mini-label">DOB (MM/DD/YYYY)</label><input type="text" name="driver4_dob" placeholder="MM/DD/YYYY" class="form-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm"></div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div><label class="mini-label" for="driver4_name">Full Name</label><input id="driver4_name" type="text" name="driver4_name" autocomplete="name" class="form-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm"></div>
+                        <div><label class="mini-label" for="driver4_dob">Date of Birth</label><input id="driver4_dob" type="text" name="driver4_dob" inputmode="numeric" autocomplete="bday" maxlength="10" placeholder="MM/DD/YYYY" class="form-input dob-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm"></div>
+                        <div><label class="mini-label" for="driver4_license">Driver License</label><input id="driver4_license" type="text" name="driver4_license" class="form-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm"></div>
+                        <div><label class="mini-label" for="driver4_occupation">Occupation</label><input id="driver4_occupation" type="text" name="driver4_occupation" class="form-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm" placeholder="e.g. Teacher"></div>
+                    </div>
+                </div>
+
+                <!-- Driver 5 -->
+                <div id="driver5Card" class="driver-card" style="display: none;">
+                    <div class="font-semibold text-sm mb-3 text-[#003d82]">Driver 5</div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div><label class="mini-label" for="driver5_name">Full Name</label><input id="driver5_name" type="text" name="driver5_name" autocomplete="name" class="form-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm"></div>
+                        <div><label class="mini-label" for="driver5_dob">Date of Birth</label><input id="driver5_dob" type="text" name="driver5_dob" inputmode="numeric" autocomplete="bday" maxlength="10" placeholder="MM/DD/YYYY" class="form-input dob-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm"></div>
+                        <div><label class="mini-label" for="driver5_license">Driver License</label><input id="driver5_license" type="text" name="driver5_license" class="form-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm"></div>
+                        <div><label class="mini-label" for="driver5_occupation">Occupation</label><input id="driver5_occupation" type="text" name="driver5_occupation" class="form-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm" placeholder="e.g. Teacher"></div>
                     </div>
                 </div>
             </div>
@@ -788,7 +808,7 @@
             </div>
             <div>
                 <h4>Contact Us</h4>
-                <p>322 NE 5th Street, Grand Rapids, MN 55744<br>Grand Rapids: (218) 326-4655<br>Virginia: (218) 741-9582<br>home@chandlerinsurancemn.com</p>
+                <p>322 NE 5th Street, Grand Rapids, MN 55744<br>Grand Rapids: <a href="tel:2183264655" style="color:#ddd;">(218) 326-4655</a><br>Virginia: <a href="tel:2187419582" style="color:#ddd;">(218) 741-9582</a><br><a href="mailto:home@chandlerinsurancemn.com" style="color:#ddd;">home@chandlerinsurancemn.com</a></p>
             </div>
             <div>
                 <h4>Quick Links</h4>
@@ -811,13 +831,72 @@
             if (navLinks) navLinks.classList.toggle('active');
         }
 
+        function requireEmailOrPhone(form) {
+            const email = form.querySelector('input[name="email"]');
+            const phone = form.querySelector('input[name="phone"]');
+            if (!email || !phone) return true;
+            const hasEmail = email.value.trim() !== '';
+            const hasPhone = phone.value.trim() !== '';
+            if (hasEmail || hasPhone) {
+                email.setCustomValidity('');
+                phone.setCustomValidity('');
+                return true;
+            }
+            phone.setCustomValidity('Please enter an email or a phone number.');
+            phone.reportValidity();
+            return false;
+        }
+
+        document.addEventListener('input', function (e) {
+            if (!e.target || !e.target.matches) return;
+            if (e.target.matches('form[name="auto-quote"] input[name="email"], form[name="auto-quote"] input[name="phone"]')) {
+                const form = e.target.form;
+                if (!form) return;
+                const email = form.querySelector('input[name="email"]');
+                const phone = form.querySelector('input[name="phone"]');
+                if (email) email.setCustomValidity('');
+                if (phone) phone.setCustomValidity('');
+            }
+        });
+
         function updateAdditionalDrivers() {
             const num = parseInt(document.querySelector('select[name="other_drivers"]').value) || 0;
             
             document.getElementById('driver2Card').style.display = (num >= 1) ? 'block' : 'none';
             document.getElementById('driver3Card').style.display = (num >= 2) ? 'block' : 'none';
             document.getElementById('driver4Card').style.display = (num >= 3) ? 'block' : 'none';
+            const driver5 = document.getElementById('driver5Card');
+            if (driver5) driver5.style.display = (num >= 4) ? 'block' : 'none';
         }
+
+        function formatDobInput(el) {
+            const prev = el.value;
+            const caret = el.selectionStart || 0;
+            const digitsBeforeCaret = prev.slice(0, caret).replace(/\D/g, '').length;
+            const digits = prev.replace(/\D/g, '').slice(0, 8);
+            let next = digits;
+            if (digits.length > 4) {
+                next = digits.slice(0, 2) + '/' + digits.slice(2, 4) + '/' + digits.slice(4);
+            } else if (digits.length > 2) {
+                next = digits.slice(0, 2) + '/' + digits.slice(2);
+            }
+            if (next === prev) return;
+            el.value = next;
+            let pos = 0;
+            let seen = 0;
+            while (pos < next.length && seen < digitsBeforeCaret) {
+                if (/\d/.test(next.charAt(pos))) seen++;
+                pos++;
+            }
+            if (next.charAt(pos) === '/') pos++;
+            try { el.setSelectionRange(pos, pos); } catch (e) {}
+        }
+
+        document.addEventListener('input', function (e) {
+            if (e.target && e.target.classList && e.target.classList.contains('dob-input')) {
+                formatDobInput(e.target);
+            }
+        });
 
         // Dynamic multiple vehicles
         let vehicleCount = 1;
@@ -1090,6 +1169,10 @@
             document.getElementById('driver2Card').style.display = 'none';
             document.getElementById('driver3Card').style.display = 'none';
             document.getElementById('driver4Card').style.display = 'none';
+            const driver5 = document.getElementById('driver5Card');
+            if (driver5) driver5.style.display = 'none';
+            var today = new Date().toISOString().slice(0, 10);
+            document.querySelectorAll('input[name="requested_effective_date"]').forEach(function (el) { el.min = today; });
         }
     </script>
 

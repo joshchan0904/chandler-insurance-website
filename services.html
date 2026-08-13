@@ -196,22 +196,13 @@
         }
     </style>
 
-    <!-- WebSite + SearchAction (helps sitelinks & search box) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
       "@id": "https://chandlerinsurancemn.com/#website",
       "url": "https://chandlerinsurancemn.com/",
-      "name": "Chandler Insurance Agency",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": {
-          "@type": "EntryPoint",
-          "urlTemplate": "https://chandlerinsurancemn.com/?s={search_term_string}"
-        },
-        "query-input": "required name=search_term_string"
-      }
+      "name": "Chandler Insurance Agency"
     }
     </script>
 
@@ -251,6 +242,7 @@
       ]
     }
     </script>
+    <link rel="stylesheet" href="css/site.css">
 </head>
 <body>
     <!-- NAVIGATION -->
@@ -444,7 +436,7 @@
             </div>
             <div>
                 <h4>Contact Us</h4>
-                <p>322 NE 5th Street, Grand Rapids, MN 55744<br>Grand Rapids: (218) 326-4655<br>Virginia: (218) 741-9582<br>home@chandlerinsurancemn.com</p>
+                <p>322 NE 5th Street, Grand Rapids, MN 55744<br>Grand Rapids: <a href="tel:2183264655" style="color:#ddd;">(218) 326-4655</a><br>Virginia: <a href="tel:2187419582" style="color:#ddd;">(218) 741-9582</a><br><a href="mailto:home@chandlerinsurancemn.com" style="color:#ddd;">home@chandlerinsurancemn.com</a></p>
             </div>
             <div>
                 <h4>Quick Links</h4>
@@ -495,7 +487,7 @@
               {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Landlord & Rental Insurance"}}
             ]
           },
-          "sameAs": ["https://www.facebook.com/chandlerinsurance"]
+          "sameAs": ["https://www.facebook.com/ChandlerInsuranceAgency"]
         },
         {
           "@type": "WebPage",

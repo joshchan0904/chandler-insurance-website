@@ -37,10 +37,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Poppins:wght@500;600&amp;display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap');
         
         body {
-            font-family: 'Inter', system_ui, sans-serif;
+            font-family: 'Roboto', sans-serif;
         }
         
         .font-display {
@@ -86,6 +86,9 @@
                 padding: 14px 16px;
                 min-height: 48px;
             }
+            .dob-input, .household-card input, .household-card select {
+                font-size: 16px;
+            }
             .mini-label { font-size: 0.78rem; margin-bottom: 0.35rem; }
             button[type="submit"] { width: 100%; padding: 18px 24px; font-size: 1.05rem; }
             .section-header { font-size: 1.2rem; }
@@ -96,6 +99,13 @@
             border-radius: 1.5rem;
             box-shadow: 0 10px 30px rgba(0, 61, 130, 0.08);
             border: 1px solid #e2e8f0;
+        }
+
+        .household-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            padding: 1.25rem;
+            background: #fafbfc;
         }
 
         /* Better touch feedback for cards on mobile */
@@ -162,6 +172,7 @@
             margin-bottom: 2px;
         }
 </style>
+    <link rel="stylesheet" href="css/site.css">
 </head>
 <body class="bg-slate-50">
 
@@ -216,7 +227,7 @@
             "addressCountry": "US"
           },
           "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"],
-          "sameAs": ["https://www.facebook.com/chandlerinsurance"]
+          "sameAs": ["https://www.facebook.com/ChandlerInsuranceAgency"]
         },
         {
           "@type": "WebPage",
@@ -249,7 +260,7 @@
             <p class="mt-3 text-lg text-slate-600 max-w-2xl mx-auto">Protect your house or cabin with comprehensive Minnesota coverage including ice dam protection. Local expertise for <a href="grand-rapids-mn-insurance.html" style="color:#003d82; text-decoration:underline;">Grand Rapids &amp; Itasca County</a> and <a href="virginia-mn-insurance.html" style="color:#003d82; text-decoration:underline;">Virginia &amp; the Iron Range</a>.</p>
         </div>
 
-        <form name="home-quote" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="form-card p-8 md:p-10">
+        <form name="home-quote" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="form-card p-8 md:p-10" onsubmit="return requireEmailOrPhone(this)">
             <input type="hidden" name="form-name" value="home-quote">
             <p class="hidden"><label>Don’t fill this out if you’re human: <input name="bot-field"></label></p>
             
@@ -262,20 +273,121 @@
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
-                        <label class="mini-label">First Name <span class="text-red-500">*</span></label>
-                        <input type="text" name="first_name" required class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm">
+                        <label class="mini-label" for="home-first-name">First Name <span class="text-red-500">*</span></label>
+                        <input id="home-first-name" type="text" name="first_name" required class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm">
                     </div>
                     <div>
-                        <label class="mini-label">Last Name <span class="text-red-500">*</span></label>
-                        <input type="text" name="last_name" required class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm">
+                        <label class="mini-label" for="home-last-name">Last Name <span class="text-red-500">*</span></label>
+                        <input id="home-last-name" type="text" name="last_name" required class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm">
                     </div>
                     <div>
-                        <label class="mini-label">Email Address <span class="text-red-500">*</span></label>
-                        <input type="email" name="email" required class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm">
+                        <label class="mini-label" for="home-dob">Date of Birth</label>
+                        <input id="home-dob" type="text" name="date_of_birth" inputmode="numeric" autocomplete="bday" maxlength="10" placeholder="MM/DD/YYYY" class="form-input dob-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm">
                     </div>
                     <div>
-                        <label class="mini-label">Phone Number <span class="text-red-500">*</span></label>
-                        <input type="tel" name="phone" required class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm">
+                        <label class="mini-label" for="requested_effective_date">Requested effective date</label>
+                        <input id="requested_effective_date" type="date" name="requested_effective_date" class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm">
+                        <p class="text-[11px] text-slate-500 mt-1">When you want coverage to start — often your current policy expiration.</p>
+                    </div>
+                    <div>
+                        <label class="mini-label" for="home-email">Email Address</label>
+                        <input id="home-email" type="email" name="email" autocomplete="email" class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm">
+                    </div>
+                    <div>
+                        <label class="mini-label" for="home-phone">Phone Number</label>
+                        <input id="home-phone" type="tel" name="phone" autocomplete="tel" class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm">
+                    </div>
+                    <p class="md:col-span-2 text-[11px] text-slate-500 -mt-2">Email or phone — at least one is required.</p>
+                </div>
+
+                <div class="mt-6">
+                    <div class="max-w-xs">
+                        <label class="mini-label" for="additional_household">Add another household member?</label>
+                        <select id="additional_household" name="additional_household" onchange="updateHouseholdMembers()" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="0" selected>No</option>
+                            <option value="1">Yes — 1 more</option>
+                            <option value="2">Yes — 2 more</option>
+                            <option value="3">Yes — 3 more</option>
+                        </select>
+                    </div>
+                    <p class="text-[11px] text-slate-500 mt-1.5">Optional. Spouse, partner, or anyone else on the policy.</p>
+
+                    <div id="household1Card" class="household-card mt-4" style="display:none;">
+                        <div class="font-semibold text-sm mb-3 text-[#003d82]">Household member 1</div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div>
+                                <label class="mini-label" for="household1_name">Full Name</label>
+                                <input id="household1_name" type="text" name="household1_name" class="form-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm">
+                            </div>
+                            <div>
+                                <label class="mini-label" for="household1_dob">Date of Birth</label>
+                                <input id="household1_dob" type="text" name="household1_dob" inputmode="numeric" maxlength="10" placeholder="MM/DD/YYYY" class="form-input dob-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm">
+                            </div>
+                            <div>
+                                <label class="mini-label" for="household1_relation">Relation</label>
+                                <select id="household1_relation" name="household1_relation" class="form-select w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm bg-white">
+                                    <option value="">Select...</option>
+                                    <option>Spouse</option>
+                                    <option>Domestic partner</option>
+                                    <option>Child</option>
+                                    <option>Parent</option>
+                                    <option>Other relative</option>
+                                    <option>Roommate / other</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="household2Card" class="household-card mt-4" style="display:none;">
+                        <div class="font-semibold text-sm mb-3 text-[#003d82]">Household member 2</div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div>
+                                <label class="mini-label" for="household2_name">Full Name</label>
+                                <input id="household2_name" type="text" name="household2_name" class="form-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm">
+                            </div>
+                            <div>
+                                <label class="mini-label" for="household2_dob">Date of Birth</label>
+                                <input id="household2_dob" type="text" name="household2_dob" inputmode="numeric" maxlength="10" placeholder="MM/DD/YYYY" class="form-input dob-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm">
+                            </div>
+                            <div>
+                                <label class="mini-label" for="household2_relation">Relation</label>
+                                <select id="household2_relation" name="household2_relation" class="form-select w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm bg-white">
+                                    <option value="">Select...</option>
+                                    <option>Spouse</option>
+                                    <option>Domestic partner</option>
+                                    <option>Child</option>
+                                    <option>Parent</option>
+                                    <option>Other relative</option>
+                                    <option>Roommate / other</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="household3Card" class="household-card mt-4" style="display:none;">
+                        <div class="font-semibold text-sm mb-3 text-[#003d82]">Household member 3</div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div>
+                                <label class="mini-label" for="household3_name">Full Name</label>
+                                <input id="household3_name" type="text" name="household3_name" class="form-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm">
+                            </div>
+                            <div>
+                                <label class="mini-label" for="household3_dob">Date of Birth</label>
+                                <input id="household3_dob" type="text" name="household3_dob" inputmode="numeric" maxlength="10" placeholder="MM/DD/YYYY" class="form-input dob-input w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm">
+                            </div>
+                            <div>
+                                <label class="mini-label" for="household3_relation">Relation</label>
+                                <select id="household3_relation" name="household3_relation" class="form-select w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm bg-white">
+                                    <option value="">Select...</option>
+                                    <option>Spouse</option>
+                                    <option>Domestic partner</option>
+                                    <option>Child</option>
+                                    <option>Parent</option>
+                                    <option>Other relative</option>
+                                    <option>Roommate / other</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -289,14 +401,18 @@
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
-                        <label class="mini-label">Type of Property</label>
-                        <select name="property_type" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                        <label class="mini-label" for="home-property-type">Type of Property</label>
+                        <select id="home-property-type" name="property_type" onchange="toggleRentalNotice(this)" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
                             <option value="">Select...</option>
                             <option value="Home">Home</option>
                             <option value="Cabin / Vacation Home">Cabin / Vacation Home</option>
                             <option value="Townhouse / Condo">Townhouse / Condo</option>
-                            <option value="Rental Property">Rental Property</option>
+                            <option value="Rental Property">Rental / landlord property</option>
                         </select>
+                        <div id="rentalNotice" class="hidden mt-2 text-sm text-[#003d82] bg-blue-50 border border-blue-100 rounded-xl px-3 py-2">
+                            Rentals need a different quote so we get occupancy and loss-of-rents details.
+                            <a href="landlord-quote.html" class="font-semibold underline">Go to the landlord quote →</a>
+                        </div>
                     </div>
                     <div>
                         <label class="mini-label">Property Address</label>
@@ -392,6 +508,44 @@
                             <option value="Stucco">Stucco</option>
                             <option value="Log">Log</option>
                             <option value="Metal">Metal</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Roof Information -->
+            <div class="mb-8">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <i class="fas fa-cloud-sun-rain text-[#003d82] text-xl"></i>
+                    <h2 class="section-header text-xl tracking-tight">Roof Information</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="mini-label">Roof Type</label>
+                        <select name="roof_type" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="">Select...</option>
+                            <option value="Asphalt Shingles">Asphalt Shingles (3-tab or Architectural)</option>
+                            <option value="Metal">Metal</option>
+                            <option value="Wood Shake">Wood Shake / Shingle</option>
+                            <option value="Tile">Tile</option>
+                            <option value="Rubber / EPDM">Rubber / EPDM (Flat)</option>
+                            <option value="TPO">TPO (Flat)</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="mini-label">Year Roof Installed / Last Replaced</label>
+                        <input type="text" name="roof_year" class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm" placeholder="e.g. 2018">
+                    </div>
+                    <div>
+                        <label class="mini-label">Roof Condition</label>
+                        <select name="roof_condition" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="">Select...</option>
+                            <option value="Excellent - New or Like New">Excellent - New or Like New</option>
+                            <option value="Good">Good</option>
+                            <option value="Fair - Some Wear">Fair - Some Wear</option>
+                            <option value="Poor - Needs Replacement Soon">Poor - Needs Replacement Soon</option>
                         </select>
                     </div>
                 </div>
@@ -500,44 +654,6 @@
 
                 <div id="other-structures-container" class="space-y-4">
                     <!-- Dynamically added building cards go here -->
-                </div>
-            </div>
-
-            <!-- Roof Information -->
-            <div class="mb-8">
-                <div class="flex items-center gap-x-3 mb-4">
-                    <i class="fas fa-cloud-sun-rain text-[#003d82] text-xl"></i>
-                    <h2 class="section-header text-xl tracking-tight">Roof Information</h2>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <div>
-                        <label class="mini-label">Roof Type</label>
-                        <select name="roof_type" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
-                            <option value="">Select...</option>
-                            <option value="Asphalt Shingles">Asphalt Shingles (3-tab or Architectural)</option>
-                            <option value="Metal">Metal</option>
-                            <option value="Wood Shake">Wood Shake / Shingle</option>
-                            <option value="Tile">Tile</option>
-                            <option value="Rubber / EPDM">Rubber / EPDM (Flat)</option>
-                            <option value="TPO">TPO (Flat)</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="mini-label">Year Roof Installed / Last Replaced</label>
-                        <input type="text" name="roof_year" class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm" placeholder="e.g. 2018">
-                    </div>
-                    <div>
-                        <label class="mini-label">Roof Condition</label>
-                        <select name="roof_condition" class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
-                            <option value="">Select...</option>
-                            <option value="Excellent - New or Like New">Excellent - New or Like New</option>
-                            <option value="Good">Good</option>
-                            <option value="Fair - Some Wear">Fair - Some Wear</option>
-                            <option value="Poor - Needs Replacement Soon">Poor - Needs Replacement Soon</option>
-                        </select>
-                    </div>
                 </div>
             </div>
 
@@ -835,7 +951,7 @@
             </div>
             <div>
                 <h4>Contact Us</h4>
-                <p>322 NE 5th Street, Grand Rapids, MN 55744<br>Grand Rapids: (218) 326-4655<br>Virginia: (218) 741-9582<br>home@chandlerinsurancemn.com</p>
+                <p>322 NE 5th Street, Grand Rapids, MN 55744<br>Grand Rapids: <a href="tel:2183264655" style="color:#ddd;">(218) 326-4655</a><br>Virginia: <a href="tel:2187419582" style="color:#ddd;">(218) 741-9582</a><br><a href="mailto:home@chandlerinsurancemn.com" style="color:#ddd;">home@chandlerinsurancemn.com</a></p>
             </div>
             <div>
                 <h4>Quick Links</h4>
@@ -999,6 +1115,22 @@
                         </select>
                     </div>
 
+                    <!-- Roof Type -->
+                    <div>
+                        <label class="mini-label">Roof Type</label>
+                        <select name="other_structure_${index}_roof" 
+                                class="form-select w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm bg-white">
+                            <option value="">Select...</option>
+                            <option value="Asphalt Shingles">Asphalt Shingles (3-tab or Architectural)</option>
+                            <option value="Metal">Metal</option>
+                            <option value="Wood Shake">Wood Shake / Shingle</option>
+                            <option value="Tile">Tile</option>
+                            <option value="Rubber / EPDM">Rubber / EPDM (Flat)</option>
+                            <option value="TPO">TPO (Flat)</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
                     <!-- Replacement Value -->
                     <div>
                         <label class="mini-label">Estimated Replacement Value</label>
@@ -1083,6 +1215,88 @@
                 if (otherInput) otherInput.value = '';
             }
         }
+        function requireEmailOrPhone(form) {
+            const email = form.querySelector('input[name="email"]');
+            const phone = form.querySelector('input[name="phone"]');
+            if (!email || !phone) return true;
+            const hasEmail = email.value.trim() !== '';
+            const hasPhone = phone.value.trim() !== '';
+            if (hasEmail || hasPhone) {
+                email.setCustomValidity('');
+                phone.setCustomValidity('');
+                return true;
+            }
+            phone.setCustomValidity('Please enter an email or a phone number.');
+            phone.reportValidity();
+            return false;
+        }
+
+        document.addEventListener('input', function (e) {
+            if (!e.target || !e.target.matches) return;
+            if (e.target.matches('form[name="home-quote"] input[name="email"], form[name="home-quote"] input[name="phone"]')) {
+                const form = e.target.form;
+                if (!form) return;
+                const email = form.querySelector('input[name="email"]');
+                const phone = form.querySelector('input[name="phone"]');
+                if (email) email.setCustomValidity('');
+                if (phone) phone.setCustomValidity('');
+            }
+        });
+
+        function toggleRentalNotice(select) {
+            const notice = document.getElementById('rentalNotice');
+            if (!notice) return;
+            if (select.value === 'Rental Property') {
+                notice.classList.remove('hidden');
+            } else {
+                notice.classList.add('hidden');
+            }
+        }
+
+        function updateHouseholdMembers() {
+            const num = parseInt(document.getElementById('additional_household').value, 10) || 0;
+            const one = document.getElementById('household1Card');
+            const two = document.getElementById('household2Card');
+            const three = document.getElementById('household3Card');
+            if (one) one.style.display = num >= 1 ? 'block' : 'none';
+            if (two) two.style.display = num >= 2 ? 'block' : 'none';
+            if (three) three.style.display = num >= 3 ? 'block' : 'none';
+        }
+
+        function formatDobInput(el) {
+            const prev = el.value;
+            const caret = el.selectionStart || 0;
+            const digitsBeforeCaret = prev.slice(0, caret).replace(/\D/g, '').length;
+            const digits = prev.replace(/\D/g, '').slice(0, 8);
+            let next = digits;
+            if (digits.length > 4) {
+                next = digits.slice(0, 2) + '/' + digits.slice(2, 4) + '/' + digits.slice(4);
+            } else if (digits.length > 2) {
+                next = digits.slice(0, 2) + '/' + digits.slice(2);
+            }
+            if (next === prev) return;
+            el.value = next;
+            let pos = 0;
+            let seen = 0;
+            while (pos < next.length && seen < digitsBeforeCaret) {
+                if (/\d/.test(next.charAt(pos))) seen++;
+                pos++;
+            }
+            if (next.charAt(pos) === '/') pos++;
+            try { el.setSelectionRange(pos, pos); } catch (e) {}
+        }
+
+        document.addEventListener('input', function (e) {
+            if (e.target && e.target.classList && e.target.classList.contains('dob-input')) {
+                formatDobInput(e.target);
+            }
+        });
+
+        (function () {
+            var today = new Date().toISOString().slice(0, 10);
+            document.querySelectorAll('input[name="requested_effective_date"]').forEach(function (el) { el.min = today; });
+            updateHouseholdMembers();
+        })();
     </script>
 </body>
 </html>

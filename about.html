@@ -266,6 +266,7 @@
   ]
 }
 </script>
+    <link rel="stylesheet" href="css/site.css">
 </head>
 <body>
     <!-- NAVIGATION (UPDATED) -->
@@ -350,7 +351,7 @@
             <h2>Our Commitment to Grand Rapids, Virginia &amp; the Iron Range</h2>
         </div>
         <div style="max-width:900px; margin:0 auto; font-size:1.05rem; line-height:1.7; color:#333;">
-            <p>Founded in 1977, Chandler Insurance Agency has deep roots across Minnesota. In 2018, owner Joe Chandler acquired the agency from Bob Kuschel, expanding its legacy of protecting local communities. With the recent addition of Hegland Insurance Agency customers, we've grown our offerings while maintaining our commitment to advocacy, seamless claims support, and finding the best solutions from multiple carriers. The Chandler Insurance team lives and works right here on the Iron Range and in Itasca County. We understand the real challenges families and businesses face — brutal winters that create ice dams, remote lake properties with limited fire protection, logging and mining support work with specialized equipment needs, and seasonal businesses that see huge swings in revenue. When you call or visit, you’re talking to people who drive the same roads and see the same weather you do every day.</p>
+            <p>The Chandler Insurance team lives and works right here on the Iron Range and in Itasca County. We understand the real challenges families and businesses face — brutal winters that create ice dams, remote lake properties with limited fire protection, logging and mining support work with specialized equipment needs, and seasonal businesses that see huge swings in revenue. When you call or visit, you’re talking to people who drive the same roads and see the same weather you do every day.</p>
             <p style="margin-top:0.9rem;">This is exactly why we built dedicated local resources for the two communities we serve most:</p>
             <div style="display:flex; flex-wrap:wrap; gap:1rem; margin:1.25rem 0 0.5rem;">
                 <a href="grand-rapids-mn-insurance.html" style="background:#003d82; color:white; padding:12px 26px; border-radius:50px; text-decoration:none; font-weight:600; font-size:0.95rem;">Grand Rapids &amp; Itasca County Local Insurance</a>
@@ -464,7 +465,7 @@
             </div>
             <div>
                 <h4>Contact Us</h4>
-                <p>322 NE 5th Street, Grand Rapids, MN 55744<br>Grand Rapids: (218) 326-4655<br>Virginia: (218) 741-9582<br>home@chandlerinsurancemn.com</p>
+                <p>322 NE 5th Street, Grand Rapids, MN 55744<br>Grand Rapids: <a href="tel:2183264655" style="color:#ddd;">(218) 326-4655</a><br>Virginia: <a href="tel:2187419582" style="color:#ddd;">(218) 741-9582</a><br><a href="mailto:home@chandlerinsurancemn.com" style="color:#ddd;">home@chandlerinsurancemn.com</a></p>
             </div>
             <div>
                 <h4>Quick Links</h4>
@@ -482,13 +483,30 @@
     </footer>
     <!-- CONTACT MODAL -->
     <div id="contactModal" onclick="if (event.target.id === 'contactModal') closeContactModal()" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; background:rgba(0,61,130,0.65);">
-        <div onclick="event.stopImmediatePropagation()" style="background:white; margin:8% auto; padding:2.5rem; border-radius:20px; max-width:520px; width:94%; box-shadow:0 25px 60px rgba(0,61,130,0.35);">
+        <div onclick="event.stopImmediatePropagation()" style="background:white; margin:4% auto; padding:2rem 2.5rem; border-radius:20px; max-width:520px; width:94%; max-height:92vh; overflow-y:auto; box-shadow:0 25px 60px rgba(0,61,130,0.35);">
             <span onclick="closeContactModal()" style="float:right; font-size:2rem; cursor:pointer;">&times;</span>
             <h2 style="color:#003d82; margin-bottom:1.5rem;">Get In Touch</h2>
-            <form id="contactForm" onsubmit="submitContactForm(event)">
-                <input type="text" name="name" placeholder="Your Name" required style="width:100%; padding:14px; margin-bottom:1rem; border:2px solid #ddd; border-radius:8px;">
-                <input type="email" name="email" placeholder="Your Email" required style="width:100%; padding:14px; margin-bottom:1.5rem; border:2px solid #ddd; border-radius:8px;">
-                <textarea name="message" placeholder="Your Message" required rows="5" style="width:100%; padding:14px; margin-bottom:1.5rem; border:2px solid #ddd; border-radius:8px; resize: vertical;"></textarea>
+            <form id="contactForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="submitContactForm(event)">
+                <input type="hidden" name="form-name" value="contact">
+                <p style="display:none;"><label>Don’t fill this out if you’re human: <input name="bot-field"></label></p>
+                <label for="contact-name" style="display:block; font-weight:600; color:#003d82; margin-bottom:0.35rem;">Your Name</label>
+                <input id="contact-name" type="text" name="name" autocomplete="name" required style="width:100%; padding:14px; margin-bottom:1rem; border:2px solid #ddd; border-radius:8px;">
+                <label for="contact-email" style="display:block; font-weight:600; color:#003d82; margin-bottom:0.35rem;">Your Email</label>
+                <input id="contact-email" type="email" name="email" autocomplete="email" required style="width:100%; padding:14px; margin-bottom:1rem; border:2px solid #ddd; border-radius:8px;">
+                <label for="contact-phone" style="display:block; font-weight:600; color:#003d82; margin-bottom:0.35rem;">Phone</label>
+                <input id="contact-phone" type="tel" name="phone" autocomplete="tel" style="width:100%; padding:14px; margin-bottom:1rem; border:2px solid #ddd; border-radius:8px;">
+                <label for="contact-topic" style="display:block; font-weight:600; color:#003d82; margin-bottom:0.35rem;">What can we help with?</label>
+                <select id="contact-topic" name="topic" style="width:100%; padding:14px; margin-bottom:1rem; border:2px solid #ddd; border-radius:8px; background:white;">
+                    <option value="">Select one (optional)</option>
+                    <option>Quote / new coverage</option>
+                    <option>Existing policy question</option>
+                    <option>Claim help</option>
+                    <option>Billing / payments</option>
+                    <option>Appointment</option>
+                    <option>Other</option>
+                </select>
+                <label for="contact-message" style="display:block; font-weight:600; color:#003d82; margin-bottom:0.35rem;">Your Message</label>
+                <textarea id="contact-message" name="message" required rows="5" style="width:100%; padding:14px; margin-bottom:1.5rem; border:2px solid #ddd; border-radius:8px; resize: vertical;"></textarea>
                 <button type="submit" style="background:#0056b3; color:white; border:none; padding:16px 40px; border-radius:50px; font-size:1.15rem; font-weight:700; width:100%;">SEND MESSAGE</button>
             </form>
         </div>
@@ -510,13 +528,24 @@
         function submitContactForm(e) {
             e.preventDefault();
             const form = document.getElementById('contactForm');
-            form.innerHTML = `
-                <div style="text-align:center; padding:2rem 1rem;">
-                    <i class="fa fa-check-circle" style="font-size:4rem; color:#00a651; margin-bottom:1rem;"></i>
-                    <h3 style="color:#00a651; margin-bottom:0.5rem;">Message Sent!</h3>
-                    <p style="color:#555;">Thank you — we will contact you within 24 hours.</p>
-                </div>
-            `;
+            fetch("/", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: new URLSearchParams(new FormData(form)).toString()
+            })
+            .then(() => {
+                form.innerHTML = `
+                    <div style="text-align:center; padding:2rem 1rem;">
+                        <i class="fa fa-check-circle" style="font-size:4rem; color:#00a651; margin-bottom:1rem;"></i>
+                        <h3 style="color:#00a651; margin-bottom:0.5rem;">Message Sent!</h3>
+                        <p style="color:#555;">Thank you — we will contact you within 24 hours.</p>
+                    </div>
+                `;
+                setTimeout(() => { closeContactModal(); }, 3000);
+            })
+            .catch(() => {
+                alert("Sorry, there was a problem sending your message. Please try again or call us directly.");
+            });
         }
     </script>
 
@@ -579,7 +608,7 @@
               "url": "https://chandlerinsurancemn.com/about.html"
             }
           ],
-          "sameAs": ["https://www.facebook.com/chandlerinsurance"]
+          "sameAs": ["https://www.facebook.com/ChandlerInsuranceAgency"]
         },
         {
           "@type": "WebPage",

@@ -55,7 +55,7 @@
             "addressCountry": "US"
           },
           "areaServed": ["Grand Rapids, MN", "Virginia, MN", "Itasca County, MN", "Minnesota"],
-          "sameAs": ["https://www.facebook.com/chandlerinsurance"]
+          "sameAs": ["https://www.facebook.com/ChandlerInsuranceAgency"]
         },
         {
           "@type": "WebPage",
@@ -115,10 +115,10 @@
     <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js"></script>
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Poppins:wght@500;600&amp;display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap');
         
         body {
-            font-family: 'Inter', system_ui, sans-serif;
+            font-family: 'Roboto', sans-serif;
         }
         
         .header-font {
@@ -425,6 +425,7 @@
             }
         }
 </style>
+    <link rel="stylesheet" href="css/site.css">
 </head>
 <body class="bg-slate-100">
 
@@ -523,14 +524,21 @@
                                            class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm">
                                 </div>
                                 <div>
-                                    <label class="field-label required block mb-1.5">Day Phone</label>
-                                    <input type="tel" id="dayPhone" name="dayPhone" required
+                                    <label class="field-label block mb-1.5" for="dayPhone">Day Phone</label>
+                                    <input type="tel" id="dayPhone" name="dayPhone" autocomplete="tel"
                                            class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm">
                                 </div>
                                 <div>
-                                    <label class="field-label required block mb-1.5">Email</label>
-                                    <input type="email" id="email" name="email" required
+                                    <label class="field-label block mb-1.5" for="email">Email</label>
+                                    <input type="email" id="email" name="email" autocomplete="email"
                                            class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm">
+                                </div>
+                                <p class="md:col-span-2 lg:col-span-4 text-[11px] text-slate-500 -mt-1">Email or phone — at least one is required.</p>
+                                <div>
+                                    <label class="field-label block mb-1.5" for="requested_effective_date">Requested effective date</label>
+                                    <input type="date" id="requested_effective_date" name="requested_effective_date"
+                                           class="form-input w-full px-4 py-3 border border-slate-300 rounded-2xl text-sm">
+                                    <p class="text-[11px] text-slate-500 mt-1">When you want coverage to start — often your current policy expiration.</p>
                                 </div>
                             </div>
                         </div>
@@ -1390,7 +1398,7 @@
             </div>
             <div>
                 <h4>Contact Us</h4>
-                <p>322 NE 5th Street, Grand Rapids, MN 55744<br>Grand Rapids: (218) 326-4655<br>Virginia: (218) 741-9582<br>home@chandlerinsurancemn.com</p>
+                <p>322 NE 5th Street, Grand Rapids, MN 55744<br>Grand Rapids: <a href="tel:2183264655" style="color:#ddd;">(218) 326-4655</a><br>Virginia: <a href="tel:2187419582" style="color:#ddd;">(218) 741-9582</a><br><a href="mailto:home@chandlerinsurancemn.com" style="color:#ddd;">home@chandlerinsurancemn.com</a></p>
             </div>
             <div>
                 <h4>Quick Links</h4>
@@ -2589,10 +2597,37 @@
             return data;
         }
 
+        function requireEmailOrPhone(form) {
+            const email = form.querySelector('input[name="email"]');
+            const phone = form.querySelector('input[name="dayPhone"]');
+            if (!email || !phone) return true;
+            if (email.value.trim() || phone.value.trim()) {
+                email.setCustomValidity('');
+                phone.setCustomValidity('');
+                return true;
+            }
+            phone.setCustomValidity('Please enter an email or a phone number.');
+            phone.reportValidity();
+            return false;
+        }
+
+        document.addEventListener('input', function (e) {
+            if (!e.target || !e.target.matches) return;
+            if (e.target.matches('form[name="business-quote"] input[name="email"], form[name="business-quote"] input[name="dayPhone"]')) {
+                const form = e.target.form;
+                if (!form) return;
+                const email = form.querySelector('input[name="email"]');
+                const phone = form.querySelector('input[name="dayPhone"]');
+                if (email) email.setCustomValidity('');
+                if (phone) phone.setCustomValidity('');
+            }
+        });
+
         async function handleSubmit(e) {
             e.preventDefault();
             
             const form = e.target;
+            if (!requireEmailOrPhone(form)) return;
             const formData = new FormData(form);
             formData.append('form-name', 'business-quote');
             
@@ -3169,6 +3204,10 @@
         } else {
             initClassCodeSearch();
         }
+        (function () {
+            var today = new Date().toISOString().slice(0, 10);
+            document.querySelectorAll('input[name="requested_effective_date"]').forEach(function (el) { el.min = today; });
+        })();
     </script>
 
     <!-- Workers Comp Class Code Lookup Modal -->

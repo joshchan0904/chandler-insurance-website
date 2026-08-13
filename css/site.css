@@ -1,0 +1,75 @@
+/* Shared preview styles — keeps pages looking like one site */
+footer {
+    background: #003d82 !important;
+    color: #ddd;
+    padding: 3rem 1.25rem;
+    margin-top: 4rem;
+}
+footer h4 { color: #fff; margin-bottom: 0.6rem; }
+footer a { color: #ddd; }
+footer a:hover { color: #fff; }
+
+.floating-text {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #00a651;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 50px;
+    box-shadow: 0 10px 25px rgba(0,166,81,0.4);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    text-decoration: none;
+    z-index: 999;
+    font-size: 0.95rem;
+}
+
+.map-placeholder {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    border-radius: 12px;
+    margin: 1.25rem 0;
+    border: 1px solid #ddd;
+    background:
+        linear-gradient(180deg, rgba(0,61,130,0.08), rgba(0,61,130,0.18)),
+        #d7e4f2;
+}
+.map-placeholder button {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    color: #003d82;
+    font: 700 0.95rem/1.35 Roboto, sans-serif;
+}
+.map-placeholder button span {
+    display: inline-block;
+    background: white;
+    padding: 10px 16px;
+    border-radius: 50px;
+    box-shadow: 0 6px 18px rgba(0,61,130,0.18);
+}
+.map-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    border-radius: 12px;
+    margin: 1.25rem 0;
+    border: 1px solid #ddd;
+}
+.map-container iframe { border: 0; }
+
+@media (max-width: 768px) {
+    .floating-text,
+    #floatingQuoteBtn { display: none !important; }
+    .hero-logo { display: none !important; }
+}
