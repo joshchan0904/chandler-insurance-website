@@ -44,6 +44,15 @@
 # Legacy Client Center path (old Wix / external citations)
 /client-center                                         /                              301
 /client-center/                                        /                              301
+/client-center.html                                    /                              301
+/products                                              /                              301
+/products/                                             /                              301
+/products.html                                         /                              301
+/our-carriers                                          /                              301
+/our-carriers/                                         /                              301
+/our-carriers.html                                     /                              301
+/carriers                                              /                              301
+/carriers.html                                         /                              301
 
 # Old Wix pages
 /landlord-renters-insurance-grand-rapids-virginia-mn    /landlord.html    301
