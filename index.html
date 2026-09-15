@@ -99,6 +99,31 @@
               "availableLanguage": "English"
             }
           ],
+          "sameAs": ["https://www.facebook.com/ChandlerInsuranceAgency"],
+          "department": [
+            {"@id": "https://chandlerinsurancemn.com/#grandrapids"},
+            {"@id": "https://chandlerinsurancemn.com/#virginia"}
+          ]
+        },
+        {
+          "@type": "LocalBusiness",
+          "@id": "https://chandlerinsurancemn.com/#grandrapids",
+          "name": "Chandler Insurance Agency — Grand Rapids",
+          "image": "https://chandlerinsurancemn.com/images/logo-full-color.png",
+          "telephone": "+1-218-326-4655",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "322 NE 5th Street",
+            "addressLocality": "Grand Rapids",
+            "addressRegion": "MN",
+            "postalCode": "55744",
+            "addressCountry": "US"
+          },
+          "areaServed": [
+            "Grand Rapids MN",
+            "Itasca County",
+            "Minnesota"
+          ],
           "openingHoursSpecification": [
             {
               "@type": "OpeningHoursSpecification",
@@ -113,7 +138,39 @@
               "closes": "15:00"
             }
           ],
-          "sameAs": ["https://www.facebook.com/ChandlerInsuranceAgency"]
+          "priceRange": "$$",
+          "parentOrganization": {"@id": "https://chandlerinsurancemn.com/#organization"}
+        },
+        {
+          "@type": "LocalBusiness",
+          "@id": "https://chandlerinsurancemn.com/#virginia",
+          "name": "Chandler Insurance Agency — Virginia",
+          "image": "https://chandlerinsurancemn.com/images/logo-full-color.png",
+          "telephone": "+1-218-741-9582",
+          "description": "By appointment Monday and Wednesday.",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "67 Midway Dr",
+            "addressLocality": "Virginia",
+            "addressRegion": "MN",
+            "postalCode": "55792",
+            "addressCountry": "US"
+          },
+          "areaServed": [
+            "Virginia MN",
+            "Iron Range",
+            "Minnesota"
+          ],
+          "openingHoursSpecification": [
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Monday", "Wednesday"],
+              "opens": "09:00",
+              "closes": "15:00"
+            }
+          ],
+          "priceRange": "$$",
+          "parentOrganization": {"@id": "https://chandlerinsurancemn.com/#organization"}
         },
         {
           "@type": "WebSite",
@@ -121,102 +178,105 @@
           "url": "https://chandlerinsurancemn.com/",
           "name": "Chandler Insurance Agency",
           "description": "Independent insurance agency offering free quotes for auto, home, business, and recreational insurance in Minnesota since 1977.",
-          "publisher": { "@id": "https://chandlerinsurancemn.com/#organization" }
-        }
-      ]
-    }
-    </script>
-
-    <!-- SiteNavigationElement Schema - Helps Google show sitelinks for key pages -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "SiteNavigationElement",
-      "name": "Main Navigation",
-      "url": "https://chandlerinsurancemn.com/",
-      "hasPart": [
+          "publisher": {"@id": "https://chandlerinsurancemn.com/#organization"}
+        },
         {
-          "@type": "SiteNavigationElement",
-          "name": "Get Quote",
-          "url": "https://chandlerinsurancemn.com/quote.html"
+          "@type": "WebPage",
+          "@id": "https://chandlerinsurancemn.com/#webpage",
+          "url": "https://chandlerinsurancemn.com/",
+          "name": "Chandler Insurance | Grand Rapids, MN",
+          "description": "Independent insurance agency in Grand Rapids, Minnesota since 1977. Get free quotes for auto, home, and business insurance. We compare top carriers for you.",
+          "isPartOf": {"@id": "https://chandlerinsurancemn.com/#website"},
+          "about": {"@id": "https://chandlerinsurancemn.com/#organization"},
+          "mainEntity": {"@id": "https://chandlerinsurancemn.com/#organization"}
         },
         {
           "@type": "SiteNavigationElement",
-          "name": "Schedule Appointment",
-          "url": "https://chandlerinsurancemn.com/schedule.html"
+          "@id": "https://chandlerinsurancemn.com/#navigation",
+          "name": "Main Navigation",
+          "url": "https://chandlerinsurancemn.com/",
+          "hasPart": [
+            {
+              "@type": "SiteNavigationElement",
+              "name": "Get Quote",
+              "url": "https://chandlerinsurancemn.com/quote.html"
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "name": "Schedule Appointment",
+              "url": "https://chandlerinsurancemn.com/schedule.html"
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "name": "Services",
+              "url": "https://chandlerinsurancemn.com/services.html"
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "name": "About Us",
+              "url": "https://chandlerinsurancemn.com/about.html"
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "name": "Blog",
+              "url": "https://chandlerinsurancemn.com/blog.html"
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "name": "Auto Insurance",
+              "url": "https://chandlerinsurancemn.com/auto.html"
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "name": "Home Insurance",
+              "url": "https://chandlerinsurancemn.com/home.html"
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "name": "Business Insurance",
+              "url": "https://chandlerinsurancemn.com/business.html"
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "name": "Grand Rapids Insurance",
+              "url": "https://chandlerinsurancemn.com/grand-rapids-mn-insurance.html"
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "name": "Virginia / Iron Range Insurance",
+              "url": "https://chandlerinsurancemn.com/virginia-mn-insurance.html"
+            }
+          ]
         },
         {
-          "@type": "SiteNavigationElement",
-          "name": "Services",
-          "url": "https://chandlerinsurancemn.com/services.html"
-        },
-        {
-          "@type": "SiteNavigationElement",
-          "name": "About Us",
-          "url": "https://chandlerinsurancemn.com/about.html"
-        },
-        {
-          "@type": "SiteNavigationElement",
-          "name": "Blog",
-          "url": "https://chandlerinsurancemn.com/blog.html"
-        },
-        {
-          "@type": "SiteNavigationElement",
-          "name": "Auto Insurance",
-          "url": "https://chandlerinsurancemn.com/auto.html"
-        },
-        {
-          "@type": "SiteNavigationElement",
-          "name": "Home Insurance",
-          "url": "https://chandlerinsurancemn.com/home.html"
-        },
-        {
-          "@type": "SiteNavigationElement",
-          "name": "Business Insurance",
-          "url": "https://chandlerinsurancemn.com/business.html"
-        },
-        {
-          "@type": "SiteNavigationElement",
-          "name": "Grand Rapids Insurance",
-          "url": "https://chandlerinsurancemn.com/grand-rapids-mn-insurance.html"
-        },
-        {
-          "@type": "SiteNavigationElement",
-          "name": "Virginia / Iron Range Insurance",
-          "url": "https://chandlerinsurancemn.com/virginia-mn-insurance.html"
-        }
-      ]
-    }
-    </script>
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Do you serve all of Minnesota?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. Our offices are in Grand Rapids and Virginia, and we quote auto, home, business, recreational, life, and landlord coverage statewide."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How soon will I hear back after I request a quote?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Most quote requests get a personal reply within 24 hours on business days. Call or text if you need something sooner."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What are your office hours?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Grand Rapids is open Monday–Thursday 8:30 AM–4:00 PM and Friday 8:30 AM–3:00 PM. Virginia is by appointment Monday and Wednesday, 9:00 AM–3:00 PM."
-          }
+          "@type": "FAQPage",
+          "@id": "https://chandlerinsurancemn.com/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Do you serve all of Minnesota?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Our offices are in Grand Rapids and Virginia, and we quote auto, home, business, recreational, life, and landlord coverage statewide."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How soon will I hear back after I request a quote?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Most quote requests get a personal reply within 24 hours on business days. Call or text if you need something sooner."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What are your office hours?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Grand Rapids is open Monday–Thursday 8:30 AM–4:00 PM and Friday 8:30 AM–3:00 PM. Virginia is by appointment Monday and Wednesday, 9:00 AM–3:00 PM."
+              }
+            }
+          ]
         }
       ]
     }
@@ -385,6 +445,7 @@
         }
         
         .announcement { background: #fff8e1; border: 3px solid #ffc107; padding: 2rem; border-radius: 16px; margin: 3rem auto; max-width: 1100px; text-align: center; }
+
         .final-cta { background: linear-gradient(135deg, #003d82, #0056b3); color: white; padding: 3.5rem 2rem; border-radius: 20px; text-align: center; margin: 4rem auto; max-width: 1100px; }
         .floating-text { position: fixed; bottom: 20px; right: 20px; background: #00a651; color: white; padding: 12px 18px; border-radius: 50px; box-shadow: 0 10px 25px rgba(0,166,81,0.4); display: flex; align-items: center; gap: 8px; font-weight: 700; text-decoration: none; z-index: 999; font-size: 0.95rem; }
         footer { background: #003d82 !important; color: #ddd; padding: 3rem 1.25rem; margin-top: 4rem; }
@@ -675,121 +736,6 @@
             height: 100% !important;
         }
 </style>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      "@id": "https://chandlerinsurancemn.com/#organization",
-      "name": "Chandler Insurance Agency",
-      "url": "https://chandlerinsurancemn.com/",
-      "logo": "https://chandlerinsurancemn.com/images/logo-full-color.png",
-      "description": "Locally owned insurance agency serving Grand Rapids, Virginia, and all of Minnesota since 1977. Expert in auto, home, business, recreational, life, and landlord insurance.",
-      "telephone": "+1-218-326-4655",
-      "email": "home@chandlerinsurancemn.com",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "322 NE 5th Street",
-        "addressLocality": "Grand Rapids",
-        "addressRegion": "MN",
-        "postalCode": "55744",
-        "addressCountry": "US"
-      },
-      "sameAs": [
-        "https://www.facebook.com/ChandlerInsuranceAgency"
-      ]
-    },
-    {
-      "@type": "LocalBusiness",
-      "@id": "https://chandlerinsurancemn.com/#grandrapids",
-      "name": "Chandler Insurance Agency — Grand Rapids",
-      "image": "https://chandlerinsurancemn.com/images/logo-full-color.png",
-      "telephone": "+1-218-326-4655",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "322 NE 5th Street",
-        "addressLocality": "Grand Rapids",
-        "addressRegion": "MN",
-        "postalCode": "55744",
-        "addressCountry": "US"
-      },
-      "areaServed": [
-        "Grand Rapids MN",
-        "Itasca County",
-        "Minnesota"
-      ],
-      "openingHoursSpecification": [
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday"],
-          "opens": "08:30",
-          "closes": "16:00"
-        },
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": ["Friday"],
-          "opens": "08:30",
-          "closes": "15:00"
-        }
-      ],
-      "priceRange": "$$"
-    },
-    {
-      "@type": "LocalBusiness",
-      "@id": "https://chandlerinsurancemn.com/#virginia",
-      "name": "Chandler Insurance Agency — Virginia",
-      "image": "https://chandlerinsurancemn.com/images/logo-full-color.png",
-      "telephone": "+1-218-741-9582",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "67 Midway Dr",
-        "addressLocality": "Virginia",
-        "addressRegion": "MN",
-        "postalCode": "55792",
-        "addressCountry": "US"
-      },
-      "areaServed": [
-        "Virginia MN",
-        "Iron Range",
-        "Minnesota"
-      ],
-      "openingHoursSpecification": {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday", "Wednesday"],
-        "opens": "09:00",
-        "closes": "15:00"
-      },
-      "priceRange": "$$"
-    },
-    {
-      "@type": "WebSite",
-      "@id": "https://chandlerinsurancemn.com/#website",
-      "url": "https://chandlerinsurancemn.com/",
-      "name": "Chandler Insurance Agency",
-      "description": "Independent insurance agency serving Grand Rapids, Virginia, and all of Minnesota since 1977."
-    },
-    {
-      "@type": "InsuranceAgency",
-      "name": "Chandler Insurance Agency",
-      "description": "Independent insurance agency offering personalized quotes for Auto, Home, Business, Commercial, Recreational Vehicle, Life, and Landlord insurance throughout Minnesota.",
-      "url": "https://chandlerinsurancemn.com/",
-      "areaServed": "Minnesota",
-      "hasOfferCatalog": {
-        "@type": "OfferCatalog",
-        "name": "Insurance Services",
-        "itemListElement": [
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Auto Insurance"}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Home & Cabin Insurance"}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Business Insurance"}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Recreational Vehicle Insurance"}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Life Insurance"}}
-        ]
-      }
-    }
-  ]
-}
-</script>
     <link rel="stylesheet" href="css/site.css">
 </head>
 <body>
@@ -801,16 +747,16 @@
     <nav>
         <div class="nav-content">
             <div style="display:flex; align-items:center; gap:12px;">
-                <a href="index.html"><img src="images/logo-full-color.png" alt="Chandler Insurance Agency - Grand Rapids &amp; Virginia MN" width="142" height="45" style="height:45px; width:auto;"></a>
+                <a href='/'><img src="images/logo-full-color.png" alt="Chandler Insurance Agency - Grand Rapids &amp; Virginia MN" width="142" height="45" style="height:45px; width:auto;"></a>
             </div>
             
             <div class="nav-links" id="navLinks">
-                <a href="index.html">Home</a>
-                <a href="about.html">About Us</a>
-                <a href="services.html">Services</a>
-                <a href="quote.html">Get Quote</a>
-                <a href="blog.html">Blog</a>
-                <a href="schedule.html">Schedule Appointment</a>
+                <a href='/'>Home</a>
+                <a href='/about'>About Us</a>
+                <a href='/services'>Services</a>
+                <a href='/quote'>Get Quote</a>
+                <a href='/blog'>Blog</a>
+                <a href='/schedule'>Schedule Appointment</a>
                 <a href="tel:2183264655">Contact</a>
                 <a href="https://customerservice.agentinsure.com/EzLynxCustomerService/web/chandleria/account/login" target="_blank" style="background: #003d82; color: white; padding: 10px 20px; border-radius: 50px; font-weight: 600; margin-left: 1.5rem; text-decoration: none; font-size: 0.95rem;">Client Center</a>
             </div>
@@ -833,11 +779,13 @@
             <p style="max-width:680px; margin:0 auto 1.5rem; font-size:1.15rem; opacity:0.92;">Locally owned insurance agency in Grand Rapids &amp; Virginia, MN. Expert auto, home, business, recreational, life &amp; landlord insurance.</p>
             
             <div style="display:flex; flex-wrap:wrap; gap:0.85rem; justify-content:center; margin-top:1.25rem;">
-                <a href="quote.html" style="background:white; color:#003d82; padding:14px 32px; border-radius:50px; font-weight:700; text-decoration:none; font-size:1.1rem;">GET A FREE QUOTE</a>
+                <a href='/quote' style='background:white; color:#003d82; padding:14px 32px; border-radius:50px; font-weight:700; text-decoration:none; font-size:1.1rem;'>GET A FREE QUOTE</a>
                 <a href="#" onclick="openContactModal()" style="background:transparent; color:white; border:3px solid white; padding:14px 32px; border-radius:50px; font-weight:700; text-decoration:none; font-size:1.1rem;">GET IN TOUCH</a>
             </div>
         </div>
     </div>
+
+
 
     <!-- QUICK CALL BAR -->
     <div class="quick-call-bar" style="background:white; padding:0.9rem 0; box-shadow:0 6px 20px rgba(0,0,0,0.08); margin:1.5rem auto; max-width:1100px; border-radius:9999px; display:flex; flex-wrap:wrap; gap:12px; justify-content:center;">
@@ -908,27 +856,27 @@
     </div>
     
     <div class="card-grid">
-        <a href="auto-quote.html" style="text-decoration:none; color:inherit;">
+        <a href='/auto-quote' style='text-decoration:none; color:inherit;'>
             <div class="service-card"><i class="fa fa-car"></i><h3>Auto Insurance</h3><p>Full coverage for cars, trucks, motorcycles &amp; RVs with discounts for safe drivers in Grand Rapids &amp; Virginia MN. <span style="color:#0056b3; font-weight:600;">Get a quote →</span></p></div>
         </a>
         
-        <a href="home-quote.html" style="text-decoration:none; color:inherit;">
+        <a href='/home-quote' style='text-decoration:none; color:inherit;'>
             <div class="service-card"><i class="fa fa-home"></i><h3>Home &amp; Cabin</h3><p>Protect your house or cabin with comprehensive coverage including ice dam protection for Minnesota winters. <span style="color:#0056b3; font-weight:600;">Get a quote →</span></p></div>
         </a>
         
-        <a href="life-quote.html" style="text-decoration:none; color:inherit;">
+        <a href='/life-quote' style='text-decoration:none; color:inherit;'>
             <div class="service-card"><i class="fa fa-user-shield"></i><h3>Life Insurance</h3><p>Term life, whole life, and final expense policies to protect your family’s future in Grand Rapids &amp; Virginia MN. <span style="color:#0056b3; font-weight:600;">Get a quote →</span></p></div>
         </a>
         
-        <a href="business-quote.html" style="text-decoration:none; color:inherit;">
+        <a href='/business-quote' style='text-decoration:none; color:inherit;'>
             <div class="service-card"><i class="fa fa-briefcase"></i><h3>Business &amp; Commercial</h3><p>Liability, workers’ comp, property &amp; specialized policies for businesses on the Iron Range. See our expertise in <span>Grand Rapids &amp; Itasca County</span> and <span>Virginia &amp; the Iron Range</span>. <span style="color:#0056b3; font-weight:600;">Get a quote →</span></p></div>
         </a>
         
-        <a href="recreational-quote.html" style="text-decoration:none; color:inherit;">
+        <a href='/recreational-quote' style='text-decoration:none; color:inherit;'>
             <div class="service-card"><i class="fa fa-motorcycle"></i><h3>Recreational Vehicles</h3><p>ATVs, snowmobiles, boats, campers &amp; more — tailored for the Minnesota outdoor lifestyle. <span style="color:#0056b3; font-weight:600;">Get a quote →</span></p></div>
         </a>
         
-        <a href="landlord-quote.html" style="text-decoration:none; color:inherit;">
+        <a href='/landlord-quote' style='text-decoration:none; color:inherit;'>
             <div class="service-card"><i class="fa fa-key"></i><h3>Landlord &amp; Rental Insurance</h3><p>Protection for rental properties, including dwelling, liability, loss of rents, and tenant screening. <span style="color:#0056b3; font-weight:600;">Get a quote →</span></p></div>
         </a>
     </div>
@@ -983,8 +931,8 @@
     <div style="max-width:1100px; margin:0 auto 1.5rem; padding:0 1rem; text-align:center;">
         <p style="color:#444; margin-bottom:0.6rem;">See our specialized local expertise for the communities we serve every day:</p>
         <div style="display:flex; flex-wrap:wrap; gap:0.75rem; justify-content:center;">
-            <a href="grand-rapids-mn-insurance.html" style="background:#003d82; color:white; padding:11px 24px; border-radius:50px; text-decoration:none; font-weight:600; font-size:0.95rem;">Grand Rapids &amp; Itasca County Insurance</a>
-            <a href="virginia-mn-insurance.html" style="background:#003d82; color:white; padding:11px 24px; border-radius:50px; text-decoration:none; font-weight:600; font-size:0.95rem;">Virginia &amp; the Iron Range Insurance</a>
+            <a href='/grand-rapids-mn-insurance' style='background:#003d82; color:white; padding:11px 24px; border-radius:50px; text-decoration:none; font-weight:600; font-size:0.95rem;'>Grand Rapids &amp; Itasca County Insurance</a>
+            <a href='/virginia-mn-insurance' style='background:#003d82; color:white; padding:11px 24px; border-radius:50px; text-decoration:none; font-weight:600; font-size:0.95rem;'>Virginia &amp; the Iron Range Insurance</a>
         </div>
     </div>
 
@@ -1008,7 +956,7 @@
     <div class="final-cta">
         <h2>Ready to Protect What Matters Most?</h2>
         <p style="font-size:1.3rem; max-width:700px; margin:0 auto 2rem; opacity:0.95;">Get your free quote in minutes. Serving Grand Rapids, Virginia &amp; all of Minnesota.</p>
-        <a href="quote.html" style="background:white; color:#003d82; padding:18px 50px; border-radius:50px; font-weight:700; text-decoration:none; font-size:1.3rem; display:inline-block;">START YOUR FREE QUOTE NOW</a>
+        <a href='/quote' style='background:white; color:#003d82; padding:18px 50px; border-radius:50px; font-weight:700; text-decoration:none; font-size:1.3rem; display:inline-block;'>START YOUR FREE QUOTE NOW</a>
     </div>
 
     <!-- FLOATING TEXT BUTTON -->
@@ -1029,7 +977,7 @@
             </div>
             <div>
                 <h4>Quick Links</h4>
-                <p><a href="index.html" style="color:#ddd;">Home</a><br><a href="about.html" style="color:#ddd;">About Us</a><br><a href="services.html" style="color:#ddd;">Services</a><br><a href="quote.html" style="color:#ddd;">Get Quote</a><br><a href="schedule.html" style="color:#ddd;">Schedule Appointment</a><br><a href="grand-rapids-mn-insurance.html" style="color:#ddd;">Grand Rapids Insurance</a><br><a href="virginia-mn-insurance.html" style="color:#ddd;">Virginia / Iron Range Insurance</a></p>
+                <p><a href='/' style='color:#ddd;'>Home</a><br><a href='/about' style='color:#ddd;'>About Us</a><br><a href='/services' style='color:#ddd;'>Services</a><br><a href='/quote' style='color:#ddd;'>Get Quote</a><br><a href='/schedule' style='color:#ddd;'>Schedule Appointment</a><br><a href='/grand-rapids-mn-insurance' style='color:#ddd;'>Grand Rapids Insurance</a><br><a href='/virginia-mn-insurance' style='color:#ddd;'>Virginia / Iron Range Insurance</a></p>
             </div>
             <div>
                 <h4>Follow Us</h4>
@@ -1038,7 +986,7 @@
         </div>
         
         <div style="text-align:center; margin-top:2.5rem; padding-top:2rem; border-top:1px solid #0056b3; font-size:0.9rem;">
-            © 2026 Chandler Insurance Agency. All rights reserved. &nbsp;|&nbsp; <a href="privacy.html" style="color:#ddd; text-decoration:underline;">Privacy Policy</a> &nbsp;|&nbsp; <a href="terms.html" style="color:#ddd; text-decoration:underline;">Terms of Service</a> &nbsp;|&nbsp; <a href="cookies.html" style="color:#ddd; text-decoration:underline;">Cookies Policy</a>
+            © 2026 Chandler Insurance Agency. All rights reserved. &nbsp;|&nbsp; <a href='/privacy' style='color:#ddd; text-decoration:underline;'>Privacy Policy</a> &nbsp;|&nbsp; <a href='/terms' style='color:#ddd; text-decoration:underline;'>Terms of Service</a> &nbsp;|&nbsp; <a href='/cookies' style='color:#ddd; text-decoration:underline;'>Cookies Policy</a>
         </div>
     </footer>
 
@@ -1047,7 +995,7 @@
         <div onclick="event.stopImmediatePropagation()" style="background:white; margin:4% auto; padding:2rem 2.5rem; border-radius:20px; max-width:520px; width:94%; max-height:92vh; overflow-y:auto; box-shadow:0 25px 60px rgba(0,61,130,0.35);">
             <span onclick="closeContactModal()" style="float:right; font-size:2rem; cursor:pointer;">&times;</span>
             <h2 style="color:#003d82; margin-bottom:1.5rem;">Get In Touch</h2>
-            <form id="contactForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="submitContactForm(event)">
+            <form id='contactForm' method='POST' name='contact' onsubmit='submitContactForm(event)'>
                 <input type="hidden" name="form-name" value="contact">
                 <p style="display:none;"><label>Don’t fill this out if you’re human: <input name="bot-field"></label></p>
                 <label for="contact-name" style="display:block; font-weight:600; color:#003d82; margin-bottom:0.35rem;">Your Name</label>
@@ -1143,13 +1091,10 @@
     </script>
 
     <!-- FLOATING QUOTE BUTTON (Tasteful, Non-Tacky) -->
-    <a href="quote.html" id="floatingQuoteBtn" 
-       style="display: none; position: fixed; bottom: 90px; right: 24px; background: #003d82; color: white; 
+    <a href='/quote' id='floatingQuoteBtn' onmouseout='this.style.transform=\'translateY(0)\'; this.style.boxShadow=\'0 10px 25px rgba(0, 61, 130, 0.3)\';' onmouseover='this.style.transform=\'translateY(-3px)\'; this.style.boxShadow=\'0 15px 35px rgba(0, 61, 130, 0.35)\';' style='display: none; position: fixed; bottom: 90px; right: 24px; background: #003d82; color: white; 
               padding: 14px 26px; border-radius: 50px; text-decoration: none; font-weight: 700; 
               box-shadow: 0 10px 25px rgba(0, 61, 130, 0.3); align-items: center; gap: 10px; 
-              font-size: 0.95rem; z-index: 999; transition: all 0.3s ease;"
-       onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 15px 35px rgba(0, 61, 130, 0.35)';"
-       onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 25px rgba(0, 61, 130, 0.3)';">
+              font-size: 0.95rem; z-index: 999; transition: all 0.3s ease;'>
         <i class="fa fa-file-invoice-dollar" style="font-size: 1.1rem;"></i>
         <span>Get Free Quote</span>
     </a>

@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Schedule Appointment | Chandler Insurance Agency Grand Rapids &amp; Virginia MN</title>
-    <meta name="description" content="Book a consultation at our Grand Rapids office (Mon–Fri) or Virginia office (appointments Monday and Wednesday only). Call (218) 326-4655 or request a time online.">
+    <title>Schedule Appointment | Chandler Insurance | Grand Rapids MN</title>
+    <meta name="description" content="Book a consultation at our Grand Rapids office (Mon–Fri) or Virginia office (appointments Mon &amp; Wed). Call (218) 326-4655 or request a time online.">
     
     <!-- Favicon & PWA -->
     <link rel="icon" href="/favicon.ico?v=4" sizes="32x32">
@@ -191,15 +191,15 @@
     <!-- Open Graph / Social Sharing -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Chandler Insurance Agency">
-    <meta property="og:title" content="Schedule Appointment | Chandler Insurance Agency Grand Rapids &amp; Virginia MN">
-    <meta property="og:description" content="Book a free insurance consultation at our Grand Rapids or Virginia office. Available Mon–Fri. Call (218) 326-4655 or schedule online today.">
+    <meta property="og:title" content="Schedule Appointment | Chandler Insurance | Grand Rapids MN">
+    <meta property="og:description" content="Book a consultation at our Grand Rapids office (Mon–Fri) or Virginia office (appointments Mon &amp; Wed). Call (218) 326-4655 or request a time online.">
     <meta property="og:url" content="https://chandlerinsurancemn.com/schedule.html">
     <meta property="og:image" content="https://chandlerinsurancemn.com/images/social-share.jpg">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Schedule Appointment | Chandler Insurance Agency Grand Rapids &amp; Virginia MN">
-    <meta name="twitter:description" content="Book a free insurance consultation at our Grand Rapids or Virginia office. Available Mon–Fri. Call (218) 326-4655 or schedule online today.">
+    <meta name="twitter:title" content="Schedule Appointment | Chandler Insurance | Grand Rapids MN">
+    <meta name="twitter:description" content="Book a consultation at our Grand Rapids office (Mon–Fri) or Virginia office (appointments Mon &amp; Wed). Call (218) 326-4655 or request a time online.">
     <meta name="twitter:image" content="https://chandlerinsurancemn.com/images/social-share.jpg">
 
     <script type="application/ld+json">
@@ -256,16 +256,16 @@
     <nav>
         <div class="nav-content">
             <div style="display:flex; align-items:center; gap:12px;">
-                <a href="index.html"><img src="images/logo-full-color.png" alt="Chandler Insurance Agency - Grand Rapids &amp; Virginia MN" style="height:45px;"></a>
+                <a href='/'><img src="images/logo-full-color.png" alt="Chandler Insurance Agency - Grand Rapids &amp; Virginia MN" style="height:45px;"></a>
             </div>
             
             <div class="nav-links" id="navLinks">
-                <a href="index.html">Home</a>
-                <a href="about.html">About Us</a>
-                <a href="services.html">Services</a>
-                <a href="quote.html">Get Quote</a>
-                <a href="blog.html">Blog</a>
-                <a href="schedule.html">Schedule Appointment</a>
+                <a href='/'>Home</a>
+                <a href='/about'>About Us</a>
+                <a href='/services'>Services</a>
+                <a href='/quote'>Get Quote</a>
+                <a href='/blog'>Blog</a>
+                <a href='/schedule'>Schedule Appointment</a>
                 <a href="tel:2183264655">Contact</a>
                 <a href="https://customerservice.agentinsure.com/EzLynxCustomerService/web/chandleria/account/login" target="_blank" style="background: #003d82; color: white; padding: 10px 20px; border-radius: 50px; font-weight: 600; margin-left: 1.5rem; text-decoration: none; font-size: 0.95rem;">Client Center</a>
             </div>
@@ -308,7 +308,7 @@
             </div>
         </div>
 
-        <p style="text-align:center; margin-top:0.5rem; font-size:0.85rem; color:#555;">See our specialized local expertise: <a href="grand-rapids-mn-insurance.html" style="color:#003d82; font-weight:600;">Grand Rapids &amp; Itasca County</a> and <a href="virginia-mn-insurance.html" style="color:#003d82; font-weight:600;">Virginia &amp; the Iron Range</a>.</p>
+        <p style="text-align:center; margin-top:0.5rem; font-size:0.85rem; color:#555;">See our specialized local expertise: <a href='/grand-rapids-mn-insurance' style='color:#003d82; font-weight:600;'>Grand Rapids &amp; Itasca County</a> and <a href='/virginia-mn-insurance' style='color:#003d82; font-weight:600;'>Virginia &amp; the Iron Range</a>.</p>
 
         <!-- VIRGINIA OFFICE -->
         <div id="virginiaForm" class="form-container" style="display:none;">
@@ -318,7 +318,7 @@
             <h3 style="color:#003d82; text-align:center; margin-bottom:1.5rem;">Virginia Office Appointment</h3>
             <p style="text-align:center; color:#555; margin-bottom:1rem; font-size:0.95rem;">Virginia is appointment-only on Mondays &amp; Wednesdays, 9:00 AM – 3:00 PM (45-min visits).</p>
             
-            <form id="virginiaAppointmentForm" name="appointment" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="submitAppointment(event, 'Virginia')">
+            <form id='virginiaAppointmentForm' method='POST' name='appointment' onsubmit='submitAppointment(event, \'Virginia\')'>
                 <input type="hidden" name="form-name" value="appointment">
                 <input type="hidden" name="office" value="Virginia">
                 <p style="display:none;"><label>Don’t fill this out if you’re human: <input name="bot-field"></label></p>
@@ -386,7 +386,7 @@
             <h3 style="color:#003d82; text-align:center; margin-bottom:1.5rem;">Grand Rapids Office Appointment</h3>
             <p style="text-align:center; color:#555; margin-bottom:1rem; font-size:0.95rem;">Mon–Thu 8:30 AM – 4:00 PM • Friday 8:30 AM – 3:00 PM (45-min appointments)</p>
             
-            <form id="grandrapidsAppointmentForm" name="appointment" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="submitAppointment(event, 'Grand Rapids')">
+            <form id='grandrapidsAppointmentForm' method='POST' name='appointment' onsubmit='submitAppointment(event, \'Grand Rapids\')'>
                 <input type="hidden" name="form-name" value="appointment">
                 <input type="hidden" name="office" value="Grand Rapids">
                 <p style="display:none;"><label>Don’t fill this out if you’re human: <input name="bot-field"></label></p>
@@ -467,7 +467,7 @@
             </div>
             <div>
                 <h4>Quick Links</h4>
-                <p><a href="index.html" style="color:#ddd;">Home</a><br><a href="about.html" style="color:#ddd;">About Us</a><br><a href="services.html" style="color:#ddd;">Services</a><br><a href="quote.html" style="color:#ddd;">Get Quote</a><br><a href="schedule.html" style="color:#ddd;">Schedule Appointment</a><br><a href="grand-rapids-mn-insurance.html" style="color:#ddd;">Grand Rapids Insurance</a><br><a href="virginia-mn-insurance.html" style="color:#ddd;">Virginia / Iron Range Insurance</a></p>
+                <p><a href='/' style='color:#ddd;'>Home</a><br><a href='/about' style='color:#ddd;'>About Us</a><br><a href='/services' style='color:#ddd;'>Services</a><br><a href='/quote' style='color:#ddd;'>Get Quote</a><br><a href='/schedule' style='color:#ddd;'>Schedule Appointment</a><br><a href='/grand-rapids-mn-insurance' style='color:#ddd;'>Grand Rapids Insurance</a><br><a href='/virginia-mn-insurance' style='color:#ddd;'>Virginia / Iron Range Insurance</a></p>
             </div>
             <div>
                 <h4>Follow Us</h4>
@@ -476,7 +476,7 @@
         </div>
         
         <div style="text-align:center; margin-top:2.5rem; padding-top:2rem; border-top:1px solid #0056b3; font-size:0.9rem;">
-            © 2026 Chandler Insurance Agency. All rights reserved. &nbsp;|&nbsp; <a href="privacy.html" style="color:#ddd; text-decoration:underline;">Privacy Policy</a> &nbsp;|&nbsp; <a href="terms.html" style="color:#ddd; text-decoration:underline;">Terms of Service</a> &nbsp;|&nbsp; <a href="cookies.html" style="color:#ddd; text-decoration:underline;">Cookies Policy</a>
+            © 2026 Chandler Insurance Agency. All rights reserved. &nbsp;|&nbsp; <a href='/privacy' style='color:#ddd; text-decoration:underline;'>Privacy Policy</a> &nbsp;|&nbsp; <a href='/terms' style='color:#ddd; text-decoration:underline;'>Terms of Service</a> &nbsp;|&nbsp; <a href='/cookies' style='color:#ddd; text-decoration:underline;'>Cookies Policy</a>
         </div>
     </footer>
 
