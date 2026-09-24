@@ -55,7 +55,7 @@
   
   <url>
     <loc>https://chandlerinsurancemn.com/blog.html</loc>
-    <lastmod>2026-08-03</lastmod>
+    <lastmod>2026-09-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -215,6 +215,35 @@
   <url>
     <loc>https://chandlerinsurancemn.com/blog/independent-vs-captive-insurance.html</loc>
     <lastmod>2026-08-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  
+
+  <url>
+    <loc>https://chandlerinsurancemn.com/blog/snowmobile-insurance-minnesota-need-separate.html</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  
+  <url>
+    <loc>https://chandlerinsurancemn.com/blog/deer-hail-black-ice-auto-insurance-grand-rapids.html</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  
+  <url>
+    <loc>https://chandlerinsurancemn.com/blog/cabin-vs-homeowners-insurance-minnesota.html</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  
+  <url>
+    <loc>https://chandlerinsurancemn.com/blog/winter-vacancy-frozen-pipes-minnesota-cabins.html</loc>
+    <lastmod>2026-09-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.65</priority>
   </url>
