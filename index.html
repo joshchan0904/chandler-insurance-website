@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+    <script>
+    /* Columbus Day banner: show through Mon 2026-10-12 America/Chicago; hide at 2026-10-13T00:00:00-05:00 (12:00 AM Tue CT) */
+    (function () {
+      try {
+        if (Date.now() >= Date.parse('2026-10-13T00:00:00-05:00')) {
+          document.documentElement.classList.add('columbus-day-over');
+        }
+      } catch (e) { /* keep visible if date check fails */ }
+    })();
+    </script>
+    <style>
+      html.columbus-day-over .columbus-day-notice { display: none !important; }
+    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chandler Insurance | Grand Rapids, MN</title>
@@ -446,6 +460,68 @@
         
         .announcement { background: #fff8e1; border: 3px solid #ffc107; padding: 2rem; border-radius: 16px; margin: 3rem auto; max-width: 1100px; text-align: center; }
 
+        /* Columbus Day 2026 — full-width notice (homepage only; same style as Labor Day 2026) */
+        .columbus-day-notice {
+            max-width: 1100px;
+            width: calc(100% - 2rem);
+            margin: 1.5rem auto;
+            padding: 1.35rem 1.75rem 1.4rem;
+            text-align: center;
+            box-sizing: border-box;
+            background:
+              linear-gradient(#fff 0 0) padding-box,
+              repeating-linear-gradient(
+                90deg,
+                #003d82 0 12px,
+                #ffffff 12px 24px,
+                #b22234 24px 36px,
+                #ffffff 36px 48px
+              ) border-box;
+            border: 3px solid transparent;
+            border-radius: 16px;
+            box-shadow: 0 8px 22px rgba(0, 61, 130, 0.12);
+            position: relative;
+        }
+        .columbus-day-notice::before,
+        .columbus-day-notice::after {
+            content: "★";
+            font-size: 1rem;
+            position: absolute;
+            top: 0.85rem;
+            opacity: 0.9;
+            line-height: 1;
+        }
+        .columbus-day-notice::before { left: 1rem; color: #003d82; }
+        .columbus-day-notice::after { right: 1rem; color: #b22234; }
+        .columbus-day-notice h2 {
+            color: #003d82;
+            margin: 0 0 0.45rem;
+            font-size: 1.35rem;
+            letter-spacing: 0.01em;
+            padding: 0 1.5rem;
+        }
+        .columbus-day-notice p {
+            margin: 0 auto;
+            color: #333;
+            line-height: 1.55;
+            font-size: 1rem;
+            max-width: 46rem;
+            padding: 0 0.5rem;
+        }
+        @media (max-width: 600px) {
+            .columbus-day-notice {
+                max-width: calc(100% - 1.5rem);
+                width: calc(100% - 1.25rem);
+                margin: 1rem auto;
+                padding: 1rem 1.1rem 1.05rem;
+                border-radius: 14px;
+            }
+            .columbus-day-notice::before,
+            .columbus-day-notice::after { display: none; }
+            .columbus-day-notice h2 { font-size: 1.08rem; padding: 0 1.1rem; line-height: 1.25; }
+            .columbus-day-notice p { font-size: 0.9rem; line-height: 1.5; padding: 0; }
+        }
+
         .final-cta { background: linear-gradient(135deg, #003d82, #0056b3); color: white; padding: 3.5rem 2rem; border-radius: 20px; text-align: center; margin: 4rem auto; max-width: 1100px; }
         .floating-text { position: fixed; bottom: 20px; right: 20px; background: #00a651; color: white; padding: 12px 18px; border-radius: 50px; box-shadow: 0 10px 25px rgba(0,166,81,0.4); display: flex; align-items: center; gap: 8px; font-weight: 700; text-decoration: none; z-index: 999; font-size: 0.95rem; }
         footer { background: #003d82 !important; color: #ddd; padding: 3rem 1.25rem; margin-top: 4rem; }
@@ -786,6 +862,22 @@
     </div>
 
 
+
+    <!-- COLUMBUS DAY 2026 NOTICE (auto-hides 2026-10-13T00:00:00-05:00) -->
+    <div class="columbus-day-notice" role="status">
+        <h2>Office Closed Monday</h2>
+        <p>Our office will be closed Monday, October 12th for Columbus Day. We&rsquo;ll reopen Tuesday, October 13th at 8:30 AM. Need to report a claim? Please call your insurance company&rsquo;s 24-hour claims line.</p>
+    </div>
+
+    <script>
+    (function () {
+      var el = document.querySelector('.columbus-day-notice');
+      if (!el) return;
+      try {
+        if (Date.now() >= Date.parse('2026-10-13T00:00:00-05:00')) el.remove();
+      } catch (e) {}
+    })();
+    </script>
 
     <!-- QUICK CALL BAR -->
     <div class="quick-call-bar" style="background:white; padding:0.9rem 0; box-shadow:0 6px 20px rgba(0,0,0,0.08); margin:1.5rem auto; max-width:1100px; border-radius:9999px; display:flex; flex-wrap:wrap; gap:12px; justify-content:center;">
