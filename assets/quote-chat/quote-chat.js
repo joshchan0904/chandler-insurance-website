@@ -64,11 +64,11 @@ function render(){const p=document.getElementById('prog');const n=STEPS.length;r
 
 // ---------- chat primitives ----------
 let lastQK=null;
-const say=(t,c='b')=>{removeError();const d=document.createElement('div');d.className='m '+c;if(c==='u'&&typeof cur!=='undefined'&&lastQK){d.dataset.step=String(cur);d.dataset.qkey=lastQK;d.classList.add('editable');d.title='Tap to change this answer';d.onclick=e=>{if(e.target.tagName==='BUTTON')return;const qk=d.dataset.qkey;if(qk){startEdit(qk);return}const step=parseInt(d.dataset.step);if(!isNaN(step)&&step<STEPS.length&&document.getElementById('sum').style.display!=='block')goto(step)}};d.textContent=t;chat.append(d);ROOT.scrollIntoView({block:'start'});return d};
-const box=()=>{document.getElementById('in')?.remove();const d=document.createElement('div');d.id='in';chat.append(d);return d};
+const say=(t,c='b')=>{removeError();const d=document.createElement('div');d.className='m '+c;if(c==='u'&&typeof cur!=='undefined'&&lastQK){d.dataset.step=String(cur);d.dataset.qkey=lastQK;d.classList.add('editable');d.title='Tap to change this answer';d.onclick=e=>{if(e.target.tagName==='BUTTON')return;const qk=d.dataset.qkey;if(qk){startEdit(qk);return}const step=parseInt(d.dataset.step);if(!isNaN(step)&&step<STEPS.length&&document.getElementById('sum').style.display!=='block')goto(step)}};d.textContent=t;chat.append(d);chat.scrollTop=chat.scrollHeight;return d};
+const box=()=>{document.getElementById('in')?.remove();const d=document.createElement('div');d.id='in';chat.append(d);requestAnimationFrame(()=>{chat.scrollTop=chat.scrollHeight});return d};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function ask(q,{type='text',opt=true,valid,multi,ph=''}={}){const pv=this&&this.pv;const k=qkeyFor(q);if(EDIT&&k!==EDIT.k&&ANSWERS.has(k)){const a=ANSWERS.get(k).a;record(k,q,a);return Promise.resolve(a);}return new Promise(res=>{say(q);const b=box();
- const i=document.createElement(multi?'textarea':'input');if(!multi)i.type=type;i.placeholder=ph;if(typeof pv==='string'&&pv)i.value=pv;b.append(i);i.focus();
+ const i=document.createElement(multi?'textarea':'input');if(!multi)i.type=type;i.placeholder=ph;if(typeof pv==='string'&&pv)i.value=pv;b.append(i);i.focus({preventScroll:true});
  const go=document.createElement('button');go.textContent='Next';b.append(go);
  if(typeof pv==='string'&&pv){const kb=document.createElement('button');kb.className='go';kb.textContent='Keep: '+(pv.length>30?pv.slice(0,30)+'…':pv);kb.onclick=()=>{b.remove();lastQK=k;say(pv,'u');record(k,q,pv);res(pv);lastQK=null};b.append(kb)}
  if(opt){const s=document.createElement('button');s.className='alt';s.textContent="Don't know / Skip";s.onclick=()=>{b.remove();lastQK=k;say('(skipped)','u');record(k,q,'');res('');saveDraft();lastQK=null};b.append(s)}
@@ -82,7 +82,7 @@ function choose(q,opts,{opt=true}={}){const pv=this&&this.pv;const k=qkeyFor(q);
  if(typeof pv==='string'&&pv){const kb=document.createElement('button');kb.className='go';kb.textContent='Keep: '+pv;kb.onclick=()=>{b.remove();lastQK=k;say(pv,'u');record(k,q,pv);res(pv);lastQK=null};b.append(kb)}
  [...opts,...(opt?["Don't know / Skip"]:[])].forEach(o=>{const x=document.createElement('button');if(o==="Don't know / Skip")x.className='alt';x.textContent=o;x.onclick=()=>{removeError();b.remove();const val=o==="Don't know / Skip"?'':o;lastQK=k;say(o==="Don't know / Skip"?'(skipped)':o,'u');record(k,q,val);res(val);saveDraft();lastQK=null};b.append(x)})})}
 function pick(q,opts,{opt=true}={}){const pv=this&&this.pv;const k=qkeyFor(q);if(EDIT&&k!==EDIT.k&&ANSWERS.has(k)){const a=ANSWERS.get(k).a;record(k,q,a);return Promise.resolve(a);}return new Promise(res=>{say(q);const b=box();const s=document.createElement('select');
- s.innerHTML='<option value="">Select…</option>'+opts.map(o=>`<option>${esc(o)}</option>`).join('');if(pv)s.value=pv;b.append(s);s.focus();
+ s.innerHTML='<option value="">Select…</option>'+opts.map(o=>`<option>${esc(o)}</option>`).join('');if(pv)s.value=pv;b.append(s);s.focus({preventScroll:true});
  const go=document.createElement('button');go.textContent='Next';b.append(go);
  if(opt){const sk=document.createElement('button');sk.className='alt';sk.textContent="Don't know / Skip";sk.onclick=()=>{removeError();b.remove();lastQK=k;say('(skipped)','u');record(k,q,'');res('');saveDraft();lastQK=null};b.append(sk)}
  const sub=()=>{if(!s.value&&!opt)return;removeError();b.remove();lastQK=k;say(s.value||'(skipped)','u');record(k,q,s.value||'');res(s.value||'');saveDraft();lastQK=null};go.onclick=sub;
@@ -597,7 +597,7 @@ function review(){step();const s=document.getElementById('sum');s.style.display=
   try{const r=await fetch('/',{method:'POST',body:fd});if(!r.ok)throw r.status;sessionStorage.setItem(DONE_KEY,'1');localStorage.setItem(DONE_KEY,'1');removeListeners();btn.dataset.done='1';btn.disabled=true;btn.textContent='Submitted ✓';
    st.innerHTML='<b style="color:#00a651">✓ Submitted! An agent will follow up shortly.</b>';say('Submitted — thank you! An agent will be in touch.');clearDraft();}
   catch(err){st.textContent='Submit failed ('+err+'). Please try again or call us.';btn.disabled=false}};
- say('Please review your answers below and press Submit.');s.scrollIntoView()}
+ say('Please review your answers below and press Submit.');s.scrollIntoView({block:'nearest'})}
 const C='https://chandlerinsurancemn.com/';
 const TILES=[
  ['Home + Auto Bundle','🏡🚗','quote.html'],['Auto','🚗','auto-quote.html'],['Home & Cabin','🏡','home-quote.html'],['Condo / Townhouse','🏢','home-quote.html'],
@@ -648,7 +648,7 @@ const INTRO="Hi! This takes about 2 minutes. Skip anything you don't know — we
 // Clean transcript: wipe chat and show only intro (+ types and completed steps when resuming mid-flow)
 function resetChat(upto){chat.innerHTML='';say(INTRO);
  if(upto!=null&&D.types){say(D.types.join(' + '),'u');const done=STEPS.slice(0,upto).map(LBL);if(done.length)say('✓ Done: '+done.join(' · '),'sec')}
- ROOT.scrollIntoView({block:'start'})}
+ chat.scrollTop=0}
 function goto(i){if(i<0)return changeType();editContact=STEPS[i].s==='Contact';resetChat(i);runFrom(i)}
 async function changeType(){const g=++gen;document.getElementById('sum').style.display='none';const prev=D.types||[];
  for(const k of Object.keys(D))if(!CONTACT_KEYS.includes(k))delete D[k]; D.rec_shared_asked=false; D.rec_operators=[]; decFile=null;sessionStorage.removeItem(DONE_KEY);localStorage.removeItem(DONE_KEY);
