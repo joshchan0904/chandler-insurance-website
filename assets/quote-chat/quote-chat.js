@@ -1,3 +1,4 @@
+(function(){const ROOT=document.getElementById('qchat-embed');if(!ROOT)return;const PRE_TYPE=ROOT.dataset.qtype||'';
 // Chandler Quote Chat (PREVIEW) — mirrors live auto-quote / home-quote fields; submits via Netlify Forms (HTTPS POST).
 const chat=document.getElementById('chat'),D={};let decFile=null;let currentError=null;let partialSent=false;let sentEarly=false;
 const DONE_KEY='chandler-quote-complete';
@@ -605,7 +606,7 @@ const TILES=[
  ['Motorcycle','🏍️','recreational-quote.html'],['RV / Travel Trailer','🚐','recreational-quote.html'],
  ['Other / not sure','❓','quote.html']];
 function setClassic(u){} // no-op for embed
-function tiles(pre=[]){return new Promise(res=>{say('What would you like a quote for? Select all that apply, then press Continue.');const b=box();b.className='tiles';const sel=new Set(pre || (PRE_TYPE ? [PRE_TYPE] : []));
+function tiles(pre=[]){return new Promise(res=>{say('What would you like a quote for? Select all that apply, then press Continue.');const b=box();b.className='tiles';const sel=new Set(pre&&pre.length?pre:(PRE_TYPE?[PRE_TYPE]:[]));
  const go=document.createElement('button');go.className='go tgo';const upd=()=>{go.disabled=!sel.size;go.textContent=sel.size?`Continue with ${sel.size} type${sel.size>1?'s':''} →`:'Select at least one type';};
  TILES.forEach(([t,i,u])=>{const x=document.createElement('button');x.type='button';x.className='tile'+(sel.has(t)?' sel':'');x.setAttribute('aria-pressed',sel.has(t));x.dataset.type=t;x.innerHTML=`<span>${i}</span>${esc(t)}`;
   x.onclick=()=>{sel.has(t)?sel.delete(t):sel.add(t);x.classList.toggle('sel',sel.has(t));x.setAttribute('aria-pressed',sel.has(t));upd()};b.append(x)});
@@ -676,3 +677,4 @@ async function run(){setClassic(C+'quote.html');render();
   resetChat(cur);runFrom(cur);return}
  say(INTRO);pickType()}
 run();
+})();
