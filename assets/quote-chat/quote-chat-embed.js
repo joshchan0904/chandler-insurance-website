@@ -44,9 +44,6 @@
 
       if (classicShown) {
         var classicEl = document.getElementById('qchat-classic') || document.querySelector('[data-classic]');
-        if (classicEl) {
-          classicEl.scrollIntoView({ block: 'start' });
-        }
       }
     });
 
@@ -58,7 +55,7 @@
 
     // Append the chat JS
     var script = document.createElement('script');
-    script.src = '/assets/quote-chat/quote-chat.js?v=20';
+    script.src = '/assets/quote-chat/quote-chat.js?v=21';
     document.body.appendChild(script);
   });
 })();

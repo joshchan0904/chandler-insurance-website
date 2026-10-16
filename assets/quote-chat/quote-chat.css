@@ -6,7 +6,7 @@
 #qchat-embed .qchat-toggle-wrap{text-align:center;margin:12px 0 0}
 #qchat-embed .qchat-toggle{background:white;color:var(--navy);border:1px solid var(--navy);border-radius:4px;padding:10px 18px;font-weight:600;cursor:pointer;text-decoration:none}
 #qchat-embed #prog{position:static;margin-bottom:12px;max-width:720px;margin:14px auto 0;background:#fff;border:2px solid var(--navy);border-radius:12px;padding:12px 16px;box-shadow:0 4px 16px #0004}
-#qchat-embed #chat{max-width:680px;margin:18px auto;background:#fff;border-radius:12px;box-shadow:0 2px 12px #0002;padding:16px;min-height:320px;max-height:min(560px,70vh);overflow-y:auto;overscroll-behavior:contain}
+#qchat-embed #chat{max-width:680px;margin:18px auto;background:#fff;border-radius:12px;box-shadow:0 2px 12px #0002;padding:16px}
 #qchat-embed .m{margin:8px 0;padding:10px 14px;border-radius:12px;max-width:85%;white-space:pre-wrap}
 #qchat-embed .b{background:#f8fafd;border:1px solid #dbe4f0}
 #qchat-embed .u{background:var(--blue);color:#fff;margin-left:auto}

@@ -64,8 +64,8 @@ function render(){const p=document.getElementById('prog');const n=STEPS.length;r
 
 // ---------- chat primitives ----------
 let lastQK=null;
-const say=(t,c='b')=>{removeError();const d=document.createElement('div');d.className='m '+c;if(c==='u'&&typeof cur!=='undefined'&&lastQK){d.dataset.step=String(cur);d.dataset.qkey=lastQK;d.classList.add('editable');d.title='Tap to change this answer';d.onclick=e=>{if(e.target.tagName==='BUTTON')return;const qk=d.dataset.qkey;if(qk){startEdit(qk);return}const step=parseInt(d.dataset.step);if(!isNaN(step)&&step<STEPS.length&&document.getElementById('sum').style.display!=='block')goto(step)}};d.textContent=t;chat.append(d);if(QC_LIVE)chat.scrollTop=chat.scrollHeight;else chat.scrollTop=0;return d};
-const box=()=>{document.getElementById('in')?.remove();const d=document.createElement('div');d.id='in';chat.append(d);requestAnimationFrame(()=>{if(QC_LIVE)chat.scrollTop=chat.scrollHeight;else chat.scrollTop=0});return d};
+const say=(t,c='b')=>{removeError();const d=document.createElement('div');d.className='m '+c;if(c==='u'&&typeof cur!=='undefined'&&lastQK){d.dataset.step=String(cur);d.dataset.qkey=lastQK;d.classList.add('editable');d.title='Tap to change this answer';d.onclick=e=>{if(e.target.tagName==='BUTTON')return;const qk=d.dataset.qkey;if(qk){startEdit(qk);return}const step=parseInt(d.dataset.step);if(!isNaN(step)&&step<STEPS.length&&document.getElementById('sum').style.display!=='block')goto(step)}};d.textContent=t;chat.append(d);return d};
+const box=()=>{document.getElementById('in')?.remove();const d=document.createElement('div');d.id='in';chat.append(d);return d};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function ask(q,{type='text',opt=true,valid,multi,ph=''}={}){const pv=this&&this.pv;const k=qkeyFor(q);if(EDIT&&k!==EDIT.k&&ANSWERS.has(k)){const a=ANSWERS.get(k).a;record(k,q,a);return Promise.resolve(a);}return new Promise(res=>{say(q);const b=box();
  const i=document.createElement(multi?'textarea':'input');if(!multi)i.type=type;i.placeholder=ph;if(typeof pv==='string'&&pv)i.value=pv;b.append(i);if(QC_LIVE)i.focus({preventScroll:true});
@@ -607,7 +607,7 @@ function review(){step();const s=document.getElementById('sum');s.style.display=
   try{const r=await fetch('/',{method:'POST',body:fd});if(!r.ok)throw r.status;sessionStorage.setItem(DONE_KEY,'1');localStorage.setItem(DONE_KEY,'1');removeListeners();btn.dataset.done='1';btn.disabled=true;btn.textContent='Submitted ✓';
    st.innerHTML='<b style="color:#00a651">✓ Submitted! An agent will follow up shortly.</b>';say('Submitted — thank you! An agent will be in touch.');clearDraft();}
   catch(err){st.textContent='Submit failed ('+err+'). Please try again or call us.';btn.disabled=false}};
- say('Please review your answers below and press Submit.');s.scrollIntoView({block:'nearest'})}
+ say('Please review your answers below and press Submit.')}
 const C='https://chandlerinsurancemn.com/';
 const TILES=[
  ['Home + Auto Bundle','🏡🚗','quote.html'],['Auto','🚗','auto-quote.html'],['Home & Cabin','🏡','home-quote.html'],['Condo / Townhouse','🏢','home-quote.html'],
@@ -658,8 +658,7 @@ async function runFrom(i){const g=++gen;document.getElementById('sum').style.dis
 const INTRO="Hi! This takes about 2 minutes. Skip anything you don't know — we'll fill it in together.";
 // Clean transcript: wipe chat and show only intro (+ types and completed steps when resuming mid-flow)
 function resetChat(upto){chat.innerHTML='';say(INTRO);
- if(upto!=null&&D.types){say(D.types.join(' + '),'u');const done=STEPS.slice(0,upto).map(LBL);if(done.length)say('✓ Done: '+done.join(' · '),'sec')}
- chat.scrollTop=0}
+ if(upto!=null&&D.types){say(D.types.join(' + '),'u');const done=STEPS.slice(0,upto).map(LBL);if(done.length)say('✓ Done: '+done.join(' · '),'sec')}}
 function goto(i){if(i<0)return changeType();editContact=STEPS[i].s==='Contact';resetChat(i);runFrom(i)}
 async function changeType(){const g=++gen;document.getElementById('sum').style.display='none';const prev=D.types||[];
  for(const k of Object.keys(D))if(!CONTACT_KEYS.includes(k))delete D[k]; D.rec_shared_asked=false; D.rec_operators=[]; decFile=null;sessionStorage.removeItem(DONE_KEY);localStorage.removeItem(DONE_KEY);
