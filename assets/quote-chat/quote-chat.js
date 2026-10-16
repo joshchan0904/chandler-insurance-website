@@ -1,6 +1,6 @@
 (function(){const ROOT=document.getElementById('qchat-embed');if(!ROOT)return;const PRE_TYPE=ROOT.dataset.qtype||'';
 // Chandler Quote Chat (PREVIEW) — mirrors live auto-quote / home-quote fields; submits via Netlify Forms (HTTPS POST).
-const chat=document.getElementById('chat'),D={};let decFile=null;let currentError=null;let partialSent=false;let sentEarly=false;
+const chat=document.getElementById('chat'),D={};let QC_LIVE=false;const qcLive=()=>{QC_LIVE=true};chat.addEventListener('pointerdown',qcLive,{once:true});chat.addEventListener('keydown',qcLive,{once:true});let decFile=null;let currentError=null;let partialSent=false;let sentEarly=false;
 const DONE_KEY='chandler-quote-complete';
 const DRAFT_KEY='chandler-quote-draft';
 // Block ONLY SSNs and bank/card numbers. Driver's license numbers and VINs are allowed (live forms collect them).
@@ -64,11 +64,11 @@ function render(){const p=document.getElementById('prog');const n=STEPS.length;r
 
 // ---------- chat primitives ----------
 let lastQK=null;
-const say=(t,c='b')=>{removeError();const d=document.createElement('div');d.className='m '+c;if(c==='u'&&typeof cur!=='undefined'&&lastQK){d.dataset.step=String(cur);d.dataset.qkey=lastQK;d.classList.add('editable');d.title='Tap to change this answer';d.onclick=e=>{if(e.target.tagName==='BUTTON')return;const qk=d.dataset.qkey;if(qk){startEdit(qk);return}const step=parseInt(d.dataset.step);if(!isNaN(step)&&step<STEPS.length&&document.getElementById('sum').style.display!=='block')goto(step)}};d.textContent=t;chat.append(d);chat.scrollTop=chat.scrollHeight;return d};
-const box=()=>{document.getElementById('in')?.remove();const d=document.createElement('div');d.id='in';chat.append(d);requestAnimationFrame(()=>{chat.scrollTop=chat.scrollHeight});return d};
+const say=(t,c='b')=>{removeError();const d=document.createElement('div');d.className='m '+c;if(c==='u'&&typeof cur!=='undefined'&&lastQK){d.dataset.step=String(cur);d.dataset.qkey=lastQK;d.classList.add('editable');d.title='Tap to change this answer';d.onclick=e=>{if(e.target.tagName==='BUTTON')return;const qk=d.dataset.qkey;if(qk){startEdit(qk);return}const step=parseInt(d.dataset.step);if(!isNaN(step)&&step<STEPS.length&&document.getElementById('sum').style.display!=='block')goto(step)}};d.textContent=t;chat.append(d);if(QC_LIVE)chat.scrollTop=chat.scrollHeight;else chat.scrollTop=0;return d};
+const box=()=>{document.getElementById('in')?.remove();const d=document.createElement('div');d.id='in';chat.append(d);requestAnimationFrame(()=>{if(QC_LIVE)chat.scrollTop=chat.scrollHeight;else chat.scrollTop=0});return d};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function ask(q,{type='text',opt=true,valid,multi,ph=''}={}){const pv=this&&this.pv;const k=qkeyFor(q);if(EDIT&&k!==EDIT.k&&ANSWERS.has(k)){const a=ANSWERS.get(k).a;record(k,q,a);return Promise.resolve(a);}return new Promise(res=>{say(q);const b=box();
- const i=document.createElement(multi?'textarea':'input');if(!multi)i.type=type;i.placeholder=ph;if(typeof pv==='string'&&pv)i.value=pv;b.append(i);i.focus({preventScroll:true});
+ const i=document.createElement(multi?'textarea':'input');if(!multi)i.type=type;i.placeholder=ph;if(typeof pv==='string'&&pv)i.value=pv;b.append(i);if(QC_LIVE)i.focus({preventScroll:true});
  const go=document.createElement('button');go.textContent='Next';b.append(go);
  if(typeof pv==='string'&&pv){const kb=document.createElement('button');kb.className='go';kb.textContent='Keep: '+(pv.length>30?pv.slice(0,30)+'…':pv);kb.onclick=()=>{b.remove();lastQK=k;say(pv,'u');record(k,q,pv);res(pv);lastQK=null};b.append(kb)}
  if(opt){const s=document.createElement('button');s.className='alt';s.textContent="Don't know / Skip";s.onclick=()=>{b.remove();lastQK=k;say('(skipped)','u');record(k,q,'');res('');saveDraft();lastQK=null};b.append(s)}
@@ -82,7 +82,7 @@ function choose(q,opts,{opt=true}={}){const pv=this&&this.pv;const k=qkeyFor(q);
  if(typeof pv==='string'&&pv){const kb=document.createElement('button');kb.className='go';kb.textContent='Keep: '+pv;kb.onclick=()=>{b.remove();lastQK=k;say(pv,'u');record(k,q,pv);res(pv);lastQK=null};b.append(kb)}
  [...opts,...(opt?["Don't know / Skip"]:[])].forEach(o=>{const x=document.createElement('button');if(o==="Don't know / Skip")x.className='alt';x.textContent=o;x.onclick=()=>{removeError();b.remove();const val=o==="Don't know / Skip"?'':o;lastQK=k;say(o==="Don't know / Skip"?'(skipped)':o,'u');record(k,q,val);res(val);saveDraft();lastQK=null};b.append(x)})})}
 function pick(q,opts,{opt=true}={}){const pv=this&&this.pv;const k=qkeyFor(q);if(EDIT&&k!==EDIT.k&&ANSWERS.has(k)){const a=ANSWERS.get(k).a;record(k,q,a);return Promise.resolve(a);}return new Promise(res=>{say(q);const b=box();const s=document.createElement('select');
- s.innerHTML='<option value="">Select…</option>'+opts.map(o=>`<option>${esc(o)}</option>`).join('');if(pv)s.value=pv;b.append(s);s.focus({preventScroll:true});
+ s.innerHTML='<option value="">Select…</option>'+opts.map(o=>`<option>${esc(o)}</option>`).join('');if(pv)s.value=pv;b.append(s);if(QC_LIVE)s.focus({preventScroll:true});
  const go=document.createElement('button');go.textContent='Next';b.append(go);
  if(opt){const sk=document.createElement('button');sk.className='alt';sk.textContent="Don't know / Skip";sk.onclick=()=>{removeError();b.remove();lastQK=k;say('(skipped)','u');record(k,q,'');res('');saveDraft();lastQK=null};b.append(sk)}
  const sub=()=>{if(!s.value&&!opt)return;removeError();b.remove();lastQK=k;say(s.value||'(skipped)','u');record(k,q,s.value||'');res(s.value||'');saveDraft();lastQK=null};go.onclick=sub;
@@ -607,11 +607,12 @@ const TILES=[
  ['Other / not sure','❓','quote.html']];
 function setClassic(u){} // no-op for embed
 function tiles(pre=[]){return new Promise(res=>{say('What would you like a quote for? Select all that apply, then press Continue.');const b=box();b.className='tiles';const sel=new Set(pre&&pre.length?pre:(PRE_TYPE?[PRE_TYPE]:[]));
- const go=document.createElement('button');go.className='go tgo';const upd=()=>{go.disabled=!sel.size;go.textContent=sel.size?`Continue with ${sel.size} type${sel.size>1?'s':''} →`:'Select at least one type';};
+ const go=document.createElement('button');go.className='go tgo';const bar=document.createElement('div');bar.className='tbar';const hint=document.createElement('div');hint.className='thint';hint.textContent='Pick more or tap Continue';
+ const upd=()=>{go.disabled=!sel.size;go.textContent=sel.size?`Continue (${sel.size} selected) →`:'Select at least one type';bar.classList.toggle('show',sel.size>0);};
  TILES.forEach(([t,i,u])=>{const x=document.createElement('button');x.type='button';x.className='tile'+(sel.has(t)?' sel':'');x.setAttribute('aria-pressed',sel.has(t));x.dataset.type=t;x.innerHTML=`<span>${i}</span>${esc(t)}`;
   x.onclick=()=>{sel.has(t)?sel.delete(t):sel.add(t);x.classList.toggle('sel',sel.has(t));x.setAttribute('aria-pressed',sel.has(t));upd()};b.append(x)});
  go.onclick=()=>{if(!sel.size)return;const T=TILES.filter(x=>sel.has(x[0]));b.remove();say(T.map(x=>x[0]).join(' + '),'u');setClassic(C+(T.length===1?T[0][2]:'quote.html'));res(T.map(x=>x[0]))};
- upd();b.append(go)})}
+ upd();bar.append(hint,go);b.append(bar)})}
 // ---------- navigation ----------
 const REC=['ATV / UTV','Snowmobile','Boat / PWC','Motorcycle','RV / Travel Trailer'];
 const PLANS={'Auto':['Drivers','Vehicles','Auto Coverage'],'Home + Auto Bundle':['Drivers','Vehicles','Household','Property','Auto Coverage','Home Coverage'],

@@ -5,7 +5,7 @@
 #qchat-embed .qchat-sub{text-align:center;color:#475569;font-size:14px}
 #qchat-embed .qchat-toggle-wrap{text-align:center;margin:12px 0 0}
 #qchat-embed .qchat-toggle{background:white;color:var(--navy);border:1px solid var(--navy);border-radius:4px;padding:10px 18px;font-weight:600;cursor:pointer;text-decoration:none}
-#qchat-embed #prog{position:sticky;top:0;z-index:20;max-width:720px;margin:14px auto 0;background:#fff;border:2px solid var(--navy);border-radius:12px;padding:12px 16px;box-shadow:0 4px 16px #0004}
+#qchat-embed #prog{position:static;margin-bottom:12px;max-width:720px;margin:14px auto 0;background:#fff;border:2px solid var(--navy);border-radius:12px;padding:12px 16px;box-shadow:0 4px 16px #0004}
 #qchat-embed #chat{max-width:680px;margin:18px auto;background:#fff;border-radius:12px;box-shadow:0 2px 12px #0002;padding:16px;min-height:320px;max-height:min(560px,70vh);overflow-y:auto;overscroll-behavior:contain}
 #qchat-embed .m{margin:8px 0;padding:10px 14px;border-radius:12px;max-width:85%;white-space:pre-wrap}
 #qchat-embed .b{background:#f8fafd;border:1px solid #dbe4f0}
@@ -42,6 +42,11 @@
 #qchat-embed .crumbs a.done:hover{color:var(--navy)}
 #qchat-embed .tile.sel{border-color:var(--blue);background:#e8f1ff;box-shadow:inset 0 0 0 2px var(--blue)}
 #qchat-embed .tile.sel::after{content:'✓ Selected';font-size:12px;color:var(--blue)}
+#qchat-embed .tiles{padding-bottom:88px}
+#qchat-embed .tbar{display:none;grid-column:1/-1;position:sticky;bottom:0;z-index:5;background:rgba(255,255,255,.96);padding:10px 0 4px;border-top:1px solid #dbe4f0;box-shadow:0 -6px 12px -8px #0003;text-align:center}
+#qchat-embed .tbar.show{display:block}
+#qchat-embed .tbar .tgo{width:100%;padding:14px;font-size:17px}
+#qchat-embed .thint{font-size:13px;color:#475569;margin-bottom:6px}
 #qchat-embed .tgo{grid-column:1/-1;padding:14px;font-size:16px}
 #qchat-embed .tgo:disabled{opacity:.5;cursor:not-allowed}
 #qchat-embed .sub{font-size:13px!important}
@@ -49,7 +54,7 @@ html.qchat-on:not(.qchat-show-classic) [data-classic]{display:none!important}
 @media(max-width:700px){
   #qchat-embed{padding:0 8px}
   #qchat-embed input,#qchat-embed textarea,#qchat-embed select{min-width:0;width:100%}
-  #qchat-embed #prog{margin:0;border-radius:0;border-width:0 0 3px;padding:10px 14px}
+  #qchat-embed #prog{margin:0;border-radius:0;border-width:0 0 3px;padding:10px 14px;position:static!important}
   #qchat-embed .pt{font-size:16px}
   #qchat-embed .crumbs{font-size:11px}
   #qchat-embed #chat{max-height:65vh}

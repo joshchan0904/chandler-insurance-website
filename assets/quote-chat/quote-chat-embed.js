@@ -14,10 +14,9 @@
     var toggleBtn = embed.querySelector('.qchat-toggle');
     var classicShown = false;
     var urlParams = new URLSearchParams(window.location.search);
-    var hashClassic = window.location.hash === '#classic';
     var queryClassic = urlParams.get('form') === 'classic';
 
-    if (hashClassic || queryClassic) {
+    if (queryClassic) {
       classicShown = true;
       document.documentElement.classList.add('qchat-show-classic');
       toggleBtn.setAttribute('aria-expanded', 'true');
@@ -59,7 +58,7 @@
 
     // Append the chat JS
     var script = document.createElement('script');
-    script.src = '/assets/quote-chat/quote-chat.js?v=16';
+    script.src = '/assets/quote-chat/quote-chat.js?v=17';
     document.body.appendChild(script);
   });
 })();
