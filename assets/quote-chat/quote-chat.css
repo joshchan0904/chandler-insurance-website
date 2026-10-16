@@ -12,6 +12,7 @@
 #qchat-embed .u{background:var(--blue);color:#fff;margin-left:auto}
 #qchat-embed .w{background:#fff8e1;border:1px solid #f5c518}
 #qchat-embed #in{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+#qchat-embed input,#qchat-embed textarea,#qchat-embed select{font-size:16px!important}
 #qchat-embed input,#qchat-embed textarea{flex:1;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font:inherit;min-width:200px}
 #qchat-embed button{background:var(--blue);color:#fff;border:0;border-radius:8px;padding:10px 16px;font:inherit;cursor:pointer}
 #qchat-embed button.alt{background:#fff;color:var(--blue);border:1px solid var(--blue)}
@@ -57,9 +58,13 @@ html.qchat-on:not(.qchat-show-classic) [data-classic]{display:none!important}
   #qchat-embed #prog{margin:0;border-radius:0;border-width:0 0 3px;padding:10px 14px;position:static!important}
   #qchat-embed .pt{font-size:16px}
   #qchat-embed .crumbs{font-size:11px}
-  #qchat-embed #chat{max-height:65vh}
+  #qchat-embed #chat{max-height:calc(100vh - 140px);max-height:calc(100dvh - 140px);min-height:60vh}
 }
 @media print{
   #qchat-embed #prog,#qchat-embed #chat,#qchat-embed .np{display:none!important}
   #qchat-embed #sum{display:block!important;box-shadow:none}
 }
+
+html.qchat-kb #qchat-embed #chat{position:fixed;left:0;right:0;margin:0;border-radius:0;z-index:9999;padding-bottom:12px;max-width:none;width:100%;box-shadow:none}
+html.qchat-kb #qchat-embed .qchat-toggle-wrap{display:none}
+html.qchat-kb #qchat-embed #in{padding-bottom:4px}

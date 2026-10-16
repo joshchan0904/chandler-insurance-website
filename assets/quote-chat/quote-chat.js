@@ -8,6 +8,15 @@ const BAD=/\b\d{3}-\d{2}-\d{4}\b|\b(?:\d[ -]?){13,19}\b|\b(ssn|social security|r
 const VIN_OK=v=>/^[A-HJ-NPR-Z0-9]{5,17}$/i.test(v.replace(/\s/g,''));
 const YEAR_OK=v=>{const y=parseInt(v);return /^\d{4}$/.test(v)&&y>=1800&&y<=new Date().getFullYear()+1};
 
+const qcMobile=()=>matchMedia('(max-width:700px)').matches;
+const vv=window.visualViewport;
+function qcFit(){if(!document.documentElement.classList.contains('qchat-kb'))return;const h=vv?vv.height:innerHeight;const top=vv?vv.offsetTop:0;chat.style.top=top+'px';chat.style.height=h+'px';chat.style.maxHeight=h+'px';const inp=document.getElementById('in');if(inp){chat.scrollTop=chat.scrollHeight}}
+function qcKbOn(){if(!qcMobile())return;document.documentElement.classList.add('qchat-kb');qcFit();setTimeout(qcFit,120);setTimeout(qcFit,400)}
+function qcKbOff(){document.documentElement.classList.remove('qchat-kb');chat.style.top='';chat.style.height='';chat.style.maxHeight=''}
+chat.addEventListener('focusin',e=>{if(e.target.matches('input,textarea,select'))qcKbOn()});
+chat.addEventListener('focusout',()=>{setTimeout(()=>{const a=document.activeElement;if(!a||!chat.contains(a)||!a.matches('input,textarea,select'))qcKbOff()},150)});
+if(vv){vv.addEventListener('resize',qcFit);vv.addEventListener('scroll',qcFit)}
+
 async function decodeVin(vin){vin=(vin||'').replace(/\s/g,'').toUpperCase();if(!/^[A-HJ-NPR-Z0-9]{17}$/.test(vin))return null;
   const ctl=new AbortController();const t=setTimeout(()=>ctl.abort(),5000);
   try{const r=await fetch(`https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVinValues/${vin}?format=json`,{signal:ctl.signal});const j=await r.json();const x=(j.Results||[])[0]||{};
@@ -69,6 +78,16 @@ const box=()=>{document.getElementById('in')?.remove();const d=document.createEl
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function ask(q,{type='text',opt=true,valid,multi,ph=''}={}){const pv=this&&this.pv;const k=qkeyFor(q);if(EDIT&&k!==EDIT.k&&ANSWERS.has(k)){const a=ANSWERS.get(k).a;record(k,q,a);return Promise.resolve(a);}return new Promise(res=>{say(q);const b=box();
  const i=document.createElement(multi?'textarea':'input');if(!multi)i.type=type;i.placeholder=ph;if(typeof pv==='string'&&pv)i.value=pv;b.append(i);if(QC_LIVE)i.focus({preventScroll:true});
+ const ql=q.toLowerCase();if(!multi){i.setAttribute('enterkeyhint','next');
+ if(ql.includes('email')){i.type='email';i.inputMode='email';i.autocomplete='email';i.autocapitalize='off';i.spellcheck=false}
+ else if(ql.includes('phone')){i.type='tel';i.inputMode='tel';i.autocomplete='tel'}
+ else if(ql.includes('full name'))i.autocomplete='name';
+ else if(ql.includes('zip')){i.inputMode='numeric';i.autocomplete='postal-code'}
+ else if((/\byear\b|miles|odometer|square foot|sq/.test(ql))&&i.type==='text'){i.inputMode='numeric'}
+ else if(ql.includes('vin')){i.autocapitalize='characters';i.spellcheck=false;i.autocomplete='off'}
+ else if(ql.includes('address')&&!ql.includes('email'))i.autocomplete='street-address';
+ else if(ql.includes('city'))i.autocomplete='address-level2';
+ }
  const go=document.createElement('button');go.textContent='Next';b.append(go);
  if(typeof pv==='string'&&pv){const kb=document.createElement('button');kb.className='go';kb.textContent='Keep: '+(pv.length>30?pv.slice(0,30)+'…':pv);kb.onclick=()=>{b.remove();lastQK=k;say(pv,'u');record(k,q,pv);res(pv);lastQK=null};b.append(kb)}
  if(opt){const s=document.createElement('button');s.className='alt';s.textContent="Don't know / Skip";s.onclick=()=>{b.remove();lastQK=k;say('(skipped)','u');record(k,q,'');res('');saveDraft();lastQK=null};b.append(s)}
