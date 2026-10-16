@@ -306,6 +306,7 @@
     }
     </script>
     <link rel="stylesheet" href="css/site.css">
+    <link rel="stylesheet" href="/assets/quote-chat/quote-chat.css?v=15">
 </head>
 <body class="bg-slate-50">
 
@@ -350,7 +351,8 @@
             <p class="mt-3 text-lg text-slate-600 max-w-xl mx-auto">Fast quotes from a local Minnesota agency since 1977. <a class='text-[#003d82] underline' href='/grand-rapids-mn-insurance'>Grand Rapids &amp; Itasca County</a> and <a class='text-[#003d82] underline' href='/virginia-mn-insurance'>Virginia &amp; the Iron Range</a>.</p>
         </div>
 
-        <form class='form-card p-8 md:p-10' enctype='multipart/form-data' method='POST' name='auto-quote' onsubmit='return requireEmailOrPhone(this)'>
+        <div id="qchat-embed" data-qtype="Auto"></div>
+        <form class='form-card p-8 md:p-10' enctype='multipart/form-data' method='POST' name='auto-quote' onsubmit='return requireEmailOrPhone(this)' data-classic>
             <input type="hidden" name="form-name" value="auto-quote">
             <p class="hidden"><label>Don’t fill this out if you’re human: <input name="bot-field"></label></p>
 
@@ -1176,6 +1178,10 @@
             document.querySelectorAll('input[name="requested_effective_date"]').forEach(function (el) { el.min = today; });
         }
     </script>
+
+<form name="chat-quote" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data" hidden>
+<input type="hidden" name="form-name" value="chat-quote"><input name="bot-field"><input type="hidden" name="request_status"><input type="hidden" name="subject"><input type="hidden" name="quote_form"><input type="text" name="full_name"><input type="text" name="email"><input type="text" name="phone"><textarea name="summary"></textarea><input type="file" name="current_policy_declarations"></form>
+<script src="/assets/quote-chat/quote-chat-embed.js?v=15" defer></script>
 
     <!-- CONSISTENT FOOTER -->
         <!-- FOOTER -->

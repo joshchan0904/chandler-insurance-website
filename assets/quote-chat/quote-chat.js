@@ -63,7 +63,7 @@ function render(){const p=document.getElementById('prog');const n=STEPS.length;r
 
 // ---------- chat primitives ----------
 let lastQK=null;
-const say=(t,c='b')=>{removeError();const d=document.createElement('div');d.className='m '+c;if(c==='u'&&typeof cur!=='undefined'&&lastQK){d.dataset.step=String(cur);d.dataset.qkey=lastQK;d.classList.add('editable');d.title='Tap to change this answer';d.onclick=e=>{if(e.target.tagName==='BUTTON')return;const qk=d.dataset.qkey;if(qk){startEdit(qk);return}const step=parseInt(d.dataset.step);if(!isNaN(step)&&step<STEPS.length&&document.getElementById('sum').style.display!=='block')goto(step)}};d.textContent=t;chat.append(d);d.scrollIntoView({block:'nearest'});return d};
+const say=(t,c='b')=>{removeError();const d=document.createElement('div');d.className='m '+c;if(c==='u'&&typeof cur!=='undefined'&&lastQK){d.dataset.step=String(cur);d.dataset.qkey=lastQK;d.classList.add('editable');d.title='Tap to change this answer';d.onclick=e=>{if(e.target.tagName==='BUTTON')return;const qk=d.dataset.qkey;if(qk){startEdit(qk);return}const step=parseInt(d.dataset.step);if(!isNaN(step)&&step<STEPS.length&&document.getElementById('sum').style.display!=='block')goto(step)}};d.textContent=t;chat.append(d);ROOT.scrollIntoView({block:'start'});return d};
 const box=()=>{document.getElementById('in')?.remove();const d=document.createElement('div');d.id='in';chat.append(d);return d};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function ask(q,{type='text',opt=true,valid,multi,ph=''}={}){const pv=this&&this.pv;const k=qkeyFor(q);if(EDIT&&k!==EDIT.k&&ANSWERS.has(k)){const a=ANSWERS.get(k).a;record(k,q,a);return Promise.resolve(a);}return new Promise(res=>{say(q);const b=box();
@@ -604,8 +604,8 @@ const TILES=[
  ['ATV / UTV','🛻','recreational-quote.html'],['Snowmobile','❄️','recreational-quote.html'],['Boat / PWC','🚤','recreational-quote.html'],
  ['Motorcycle','🏍️','recreational-quote.html'],['RV / Travel Trailer','🚐','recreational-quote.html'],
  ['Other / not sure','❓','quote.html']];
-function setClassic(u){document.getElementById('classic').innerHTML=`Prefer the classic form? <a href="${u}" target="_blank" rel="noopener">Use the classic quote form</a>`}
-function tiles(pre=[]){return new Promise(res=>{say('What would you like a quote for? Select all that apply, then press Continue.');const b=box();b.className='tiles';const sel=new Set(pre);
+function setClassic(u){} // no-op for embed
+function tiles(pre=[]){return new Promise(res=>{say('What would you like a quote for? Select all that apply, then press Continue.');const b=box();b.className='tiles';const sel=new Set(pre || (PRE_TYPE ? [PRE_TYPE] : []));
  const go=document.createElement('button');go.className='go tgo';const upd=()=>{go.disabled=!sel.size;go.textContent=sel.size?`Continue with ${sel.size} type${sel.size>1?'s':''} →`:'Select at least one type';};
  TILES.forEach(([t,i,u])=>{const x=document.createElement('button');x.type='button';x.className='tile'+(sel.has(t)?' sel':'');x.setAttribute('aria-pressed',sel.has(t));x.dataset.type=t;x.innerHTML=`<span>${i}</span>${esc(t)}`;
   x.onclick=()=>{sel.has(t)?sel.delete(t):sel.add(t);x.classList.toggle('sel',sel.has(t));x.setAttribute('aria-pressed',sel.has(t));upd()};b.append(x)});
@@ -647,7 +647,7 @@ const INTRO="Hi! This takes about 2 minutes. Skip anything you don't know — we
 // Clean transcript: wipe chat and show only intro (+ types and completed steps when resuming mid-flow)
 function resetChat(upto){chat.innerHTML='';say(INTRO);
  if(upto!=null&&D.types){say(D.types.join(' + '),'u');const done=STEPS.slice(0,upto).map(LBL);if(done.length)say('✓ Done: '+done.join(' · '),'sec')}
- window.scrollTo({top:0})}
+ ROOT.scrollIntoView({block:'start'})}
 function goto(i){if(i<0)return changeType();editContact=STEPS[i].s==='Contact';resetChat(i);runFrom(i)}
 async function changeType(){const g=++gen;document.getElementById('sum').style.display='none';const prev=D.types||[];
  for(const k of Object.keys(D))if(!CONTACT_KEYS.includes(k))delete D[k]; D.rec_shared_asked=false; D.rec_operators=[]; decFile=null;sessionStorage.removeItem(DONE_KEY);localStorage.removeItem(DONE_KEY);
@@ -666,55 +666,7 @@ visibilityHandler=()=>{if(document.visibilityState==='hidden')sendPartial()};add
 // bfcache: if restored from back/forward cache, reload so no stale chat chrome lingers
 addEventListener('pageshow',e=>{if(e.persisted)location.reload()});
 
-// Quote link handler - opens chat from any CTA (nav, header button, footer, in-page)
-function openQuoteChat(e) {
-  if (e) e.preventDefault();
-  
-  // Close mobile menu if open
-  const navLinks = document.getElementById('navLinks');
-  const hamburger = document.querySelector('.hamburger');
-  const body = document.body;
-  if (navLinks && navLinks.classList.contains('active')) {
-    navLinks.classList.remove('active');
-    body.classList.remove('menu-open');
-    if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
-  }
-  
-  // Scroll #chat into view smoothly (sticky header offset via scroll-margin-top)
-  const chat = document.getElementById('chat');
-  if (chat) {
-    chat.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    
-    // Focus first interactive element in chat input area, or chat itself
-    setTimeout(() => {
-      const inputArea = document.getElementById('in');
-      if (inputArea) {
-        const focusable = inputArea.querySelector('input, textarea, select, button');
-        if (focusable) {
-          focusable.focus();
-          return;
-        }
-      }
-      chat.focus();
-    }, 600);
-  }
-}
 
-// Delegated handler for ALL quote links (header, nav desktop+mobile, footer, any CTA)
-document.addEventListener('click', e => {
-  const link = e.target.closest('a[href="#chat"], [data-quote-link]');
-  if (link) openQuoteChat(e);
-});
-
-// Handle direct page load with #chat hash (or browser back/forward)
-function handleHash() {
-  if (location.hash === '#chat') {
-    // Small delay to let page settle
-    setTimeout(openQuoteChat, 100);
-  }
-}
-addEventListener('hashchange', handleHash);
-addEventListener('load', handleHash);
 
 async function run(){setClassic(C+'quote.html');render();
  const draft=loadDraft();if(draft&&hasMeaningfulDraft(draft)){

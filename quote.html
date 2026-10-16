@@ -317,6 +317,7 @@
     }
     </script>
     <link rel="stylesheet" href="css/site.css">
+    <link rel="stylesheet" href="/assets/quote-chat/quote-chat.css?v=15">
 </head>
 <body>
     <!-- NAVIGATION -->
@@ -465,6 +466,8 @@
             Not sure what you need? <a href="services.html" style="color: #003d82; font-weight: 600;">Browse all our services →</a>
         </p>
     </div>
+    <div id="qchat-embed" data-qtype=""></div>
+    <div data-classic>
 
     <!-- Local Agents / E-E-A-T Callout - Moved below quote choices so visitors see the options first -->
     <div class="section" style="max-width:1100px; background:#f0f5fc; border-radius:16px; padding:1.75rem 1.5rem; margin: 1.5rem auto 2rem;">
@@ -474,6 +477,7 @@
             <a href="grand-rapids-mn-insurance.html" style="background:#003d82; color:white; padding:10px 22px; border-radius:50px; text-decoration:none; font-weight:600; font-size:0.9rem;">Grand Rapids &amp; Itasca County</a>
             <a href="virginia-mn-insurance.html" style="background:#003d82; color:white; padding:10px 22px; border-radius:50px; text-decoration:none; font-weight:600; font-size:0.9rem;">Virginia &amp; the Iron Range</a>
         </div>
+    </div>
     </div>
 
     <!-- FOOTER -->
@@ -510,6 +514,10 @@
             navLinks.classList.toggle('active');
         }
     </script>
+
+<form name="chat-quote" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data" hidden>
+<input type="hidden" name="form-name" value="chat-quote"><input name="bot-field"><input type="hidden" name="request_status"><input type="hidden" name="subject"><input type="hidden" name="quote_form"><input type="text" name="full_name"><input type="text" name="email"><input type="text" name="phone"><textarea name="summary"></textarea><input type="file" name="current_policy_declarations"></form>
+<script src="/assets/quote-chat/quote-chat-embed.js?v=15" defer></script>
 
     <!-- SCHEMA.ORG STRUCTURED DATA -->
     <script type="application/ld+json">
