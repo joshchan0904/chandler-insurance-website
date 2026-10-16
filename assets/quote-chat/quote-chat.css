@@ -52,7 +52,7 @@
 #qchat-embed .tgo:disabled{opacity:.5;cursor:not-allowed}
 #qchat-embed .sub{font-size:13px!important}
 html.qchat-on:not(.qchat-show-classic) [data-classic]{display:none!important}
-html.qchat-on,html.qchat-on body{overflow-x:clip}
+:root,:root body{overflow-x:clip}
 @media(max-width:700px){
   #qchat-embed{padding:0 8px}
   #qchat-embed input,#qchat-embed textarea,#qchat-embed select{min-width:0;width:100%}
@@ -66,3 +66,5 @@ html.qchat-on,html.qchat-on body{overflow-x:clip}
   #qchat-embed #sum{display:block!important;box-shadow:none}
 }
 @media(max-width:700px){[data-classic] input,[data-classic] select,[data-classic] textarea{font-size:16px!important}}
+@media(max-width:900px){body nav{position:sticky;top:0;z-index:100}}
+:has(> #qchat-embed){overflow:clip}
