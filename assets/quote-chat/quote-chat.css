@@ -52,26 +52,17 @@
 #qchat-embed .tgo:disabled{opacity:.5;cursor:not-allowed}
 #qchat-embed .sub{font-size:13px!important}
 html.qchat-on:not(.qchat-show-classic) [data-classic]{display:none!important}
+html.qchat-on,html.qchat-on body{overflow-x:clip}
 @media(max-width:700px){
   #qchat-embed{padding:0 8px}
   #qchat-embed input,#qchat-embed textarea,#qchat-embed select{min-width:0;width:100%}
   #qchat-embed #prog{margin:0;border-radius:0;border-width:0 0 3px;padding:10px 14px;position:static!important}
   #qchat-embed .pt{font-size:16px}
   #qchat-embed .crumbs{font-size:11px}
-  #qchat-embed #chat{max-height:calc(100vh - 140px);max-height:calc(100dvh - 140px);min-height:60vh}
+  #qchat-embed #chat{max-height:none;min-height:0;overflow:visible}
 }
 @media print{
   #qchat-embed #prog,#qchat-embed #chat,#qchat-embed .np{display:none!important}
   #qchat-embed #sum{display:block!important;box-shadow:none}
 }
-
-html.qchat-full,html.qchat-full body{overflow:hidden!important;overscroll-behavior:none}
-html.qchat-full #qchat-embed{position:fixed;left:0;right:0;top:0;width:100%;max-width:none;height:100vh;height:100dvh;margin:0;padding:0;z-index:2147483000;background:#fff;display:flex;flex-direction:column;touch-action:pan-y;overscroll-behavior:contain}
-html.qchat-full #qchat-embed .qchat-head,html.qchat-full #qchat-embed .qchat-toggle-wrap,html.qchat-full #qchat-embed #classic{display:none}
-html.qchat-full #qchat-embed #prog{flex:0 0 auto;margin:0;border-radius:0;border-width:0 0 2px;padding:8px 12px;padding-right:84px;touch-action:none}
-html.qchat-full #qchat-embed #chat{flex:1 1 auto;min-height:0;max-height:none;height:auto;margin:0;border-radius:0;box-shadow:none;max-width:none;width:100%;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y}
-html.qchat-full #qchat-embed #chat::after{content:'';display:block;height:1px;margin-bottom:-1px}
-html.qchat-full #qchat-embed #in{position:sticky;bottom:0;background:#fff;padding:8px 0 6px;z-index:4}
-#qchat-exit{display:none}
-html.qchat-full #qchat-exit{display:block;position:absolute;top:6px;right:8px;z-index:6;background:#fff;color:#003d82;border:1px solid #003d82;border-radius:16px;padding:6px 12px;font-size:14px;font-weight:600}
 @media(max-width:700px){[data-classic] input,[data-classic] select,[data-classic] textarea{font-size:16px!important}}
