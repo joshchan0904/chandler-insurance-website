@@ -59,6 +59,7 @@
         }
     </style>
     <link rel="stylesheet" href="css/site.css">
+    <link rel="stylesheet" href="/assets/quote-chat/quote-chat.css?v=15">
 </head>
 <body>
     <nav>
@@ -83,7 +84,8 @@
         <p>This is for rental property — not a homeowners policy. The more we know, the closer the first quote will be.</p>
     </div>
 
-    <form name="landlord-quote" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="return submitQuote(event)">
+    <div id="qchat-embed" data-qtype="Landlord / Rental"></div>
+    <form name="landlord-quote" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="return submitQuote(event)" data-classic>
         <input type="hidden" name="form-name" value="landlord-quote">
         <p style="display:none;"><label>Don’t fill this out: <input name="bot-field"></label></p>
 
@@ -395,5 +397,9 @@
             document.querySelectorAll('input[name="requested_effective_date"]').forEach(function (el) { el.min = today; });
         })();
     </script>
+
+<form name="chat-quote" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data" hidden>
+<input type="hidden" name="form-name" value="chat-quote"><input name="bot-field"><input type="hidden" name="request_status"><input type="hidden" name="subject"><input type="hidden" name="quote_form"><input type="text" name="full_name"><input type="text" name="email"><input type="text" name="phone"><textarea name="summary"></textarea><input type="file" name="current_policy_declarations"></form>
+<script src="/assets/quote-chat/quote-chat-embed.js?v=15" defer></script>
 </body>
 </html>
