@@ -55,7 +55,7 @@
 
     // Append the chat JS
     var script = document.createElement('script');
-    script.src = '/assets/quote-chat/quote-chat.js?v=21';
+    script.src = '/assets/quote-chat/quote-chat.js?v=22';
     document.body.appendChild(script);
   });
 })();

@@ -1,6 +1,6 @@
 (function(){const ROOT=document.getElementById('qchat-embed');if(!ROOT)return;const PRE_TYPE=ROOT.dataset.qtype||'';
 // Chandler Quote Chat (PREVIEW) — mirrors live auto-quote / home-quote fields; submits via Netlify Forms (HTTPS POST).
-const chat=document.getElementById('chat'),D={};let QC_LIVE=false;const qcLive=()=>{QC_LIVE=true};chat.addEventListener('pointerdown',qcLive,{once:true});chat.addEventListener('keydown',qcLive,{once:true});let decFile=null;let currentError=null;let partialSent=false;let sentEarly=false;
+const chat=document.getElementById('chat'),D={};let QC_LIVE=false;const QC_TOUCH=matchMedia('(pointer:coarse)').matches;const qcLive=()=>{QC_LIVE=true};chat.addEventListener('pointerdown',qcLive,{once:true});chat.addEventListener('keydown',qcLive,{once:true});let decFile=null;let currentError=null;let partialSent=false;let sentEarly=false;
 const DONE_KEY='chandler-quote-complete';
 const DRAFT_KEY='chandler-quote-draft';
 // Block ONLY SSNs and bank/card numbers. Driver's license numbers and VINs are allowed (live forms collect them).
@@ -68,7 +68,7 @@ const say=(t,c='b')=>{removeError();const d=document.createElement('div');d.clas
 const box=()=>{document.getElementById('in')?.remove();const d=document.createElement('div');d.id='in';chat.append(d);return d};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function ask(q,{type='text',opt=true,valid,multi,ph=''}={}){const pv=this&&this.pv;const k=qkeyFor(q);if(EDIT&&k!==EDIT.k&&ANSWERS.has(k)){const a=ANSWERS.get(k).a;record(k,q,a);return Promise.resolve(a);}return new Promise(res=>{say(q);const b=box();
- const i=document.createElement(multi?'textarea':'input');if(!multi)i.type=type;i.placeholder=ph;if(typeof pv==='string'&&pv)i.value=pv;b.append(i);if(QC_LIVE)i.focus({preventScroll:true});
+ const i=document.createElement(multi?'textarea':'input');if(!multi)i.type=type;i.placeholder=ph;if(typeof pv==='string'&&pv)i.value=pv;b.append(i);if(QC_LIVE&&!QC_TOUCH)i.focus({preventScroll:true});
  const ql=q.toLowerCase();if(!multi){i.setAttribute('enterkeyhint','next');
  if(ql.includes('email')){i.type='email';i.inputMode='email';i.autocomplete='email';i.autocapitalize='off';i.spellcheck=false}
  else if(ql.includes('phone')){i.type='tel';i.inputMode='tel';i.autocomplete='tel'}
@@ -92,7 +92,7 @@ function choose(q,opts,{opt=true}={}){const pv=this&&this.pv;const k=qkeyFor(q);
  if(typeof pv==='string'&&pv){const kb=document.createElement('button');kb.className='go';kb.textContent='Keep: '+pv;kb.onclick=()=>{b.remove();lastQK=k;say(pv,'u');record(k,q,pv);res(pv);lastQK=null};b.append(kb)}
  [...opts,...(opt?["Don't know / Skip"]:[])].forEach(o=>{const x=document.createElement('button');if(o==="Don't know / Skip")x.className='alt';x.textContent=o;x.onclick=()=>{removeError();b.remove();const val=o==="Don't know / Skip"?'':o;lastQK=k;say(o==="Don't know / Skip"?'(skipped)':o,'u');record(k,q,val);res(val);saveDraft();lastQK=null};b.append(x)})})}
 function pick(q,opts,{opt=true}={}){const pv=this&&this.pv;const k=qkeyFor(q);if(EDIT&&k!==EDIT.k&&ANSWERS.has(k)){const a=ANSWERS.get(k).a;record(k,q,a);return Promise.resolve(a);}return new Promise(res=>{say(q);const b=box();const s=document.createElement('select');
- s.innerHTML='<option value="">Select…</option>'+opts.map(o=>`<option>${esc(o)}</option>`).join('');if(pv)s.value=pv;b.append(s);if(QC_LIVE)s.focus({preventScroll:true});
+ s.innerHTML='<option value="">Select…</option>'+opts.map(o=>`<option>${esc(o)}</option>`).join('');if(pv)s.value=pv;b.append(s);if(QC_LIVE&&!QC_TOUCH)s.focus({preventScroll:true});
  const go=document.createElement('button');go.textContent='Next';b.append(go);
  if(opt){const sk=document.createElement('button');sk.className='alt';sk.textContent="Don't know / Skip";sk.onclick=()=>{removeError();b.remove();lastQK=k;say('(skipped)','u');record(k,q,'');res('');saveDraft();lastQK=null};b.append(sk)}
  const sub=()=>{if(!s.value&&!opt)return;removeError();b.remove();lastQK=k;say(s.value||'(skipped)','u');record(k,q,s.value||'');res(s.value||'');saveDraft();lastQK=null};go.onclick=sub;
