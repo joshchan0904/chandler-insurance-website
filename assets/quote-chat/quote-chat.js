@@ -1,6 +1,10 @@
 (function(){const ROOT=document.getElementById('qchat-embed');if(!ROOT)return;const PRE_TYPE=ROOT.dataset.qtype||'';
 // Chandler Quote Chat (PREVIEW) — mirrors live auto-quote / home-quote fields; submits via Netlify Forms (HTTPS POST).
-const chat=document.getElementById('chat'),D={};let QC_LIVE=false;const QC_TOUCH=matchMedia('(pointer:coarse)').matches;const qcLive=()=>{QC_LIVE=true};chat.addEventListener('pointerdown',qcLive,{once:true});chat.addEventListener('keydown',qcLive,{once:true});let decFile=null;let currentError=null;let partialSent=false;let sentEarly=false;
+const chat=document.getElementById('chat'),D={};let QC_LIVE=false;const QC_TOUCH=matchMedia('(pointer:coarse)').matches;
+function qcHdr(){const n=document.querySelector('body nav');if(!n)return 0;const p=getComputedStyle(n).position;return(p==='sticky'||p==='fixed')?Math.max(0,n.getBoundingClientRect().bottom):0}
+let qcPosT=0;
+function qcPosition(){if(!QC_LIVE)return;cancelAnimationFrame(qcPosT);qcPosT=requestAnimationFrame(()=>{const qs=chat.querySelectorAll('.m.b');const q=qs[qs.length-1];if(!q)return;const want=qcHdr()+12;const top=q.getBoundingClientRect().top;if(top>=want-2&&top<=want+40)return;window.scrollTo({top:Math.max(0,Math.round(window.scrollY+top-want)),behavior:'auto'})})}
+const qcLive=()=>{QC_LIVE=true};chat.addEventListener('pointerdown',qcLive,{once:true});chat.addEventListener('keydown',qcLive,{once:true});let decFile=null;let currentError=null;let partialSent=false;let sentEarly=false;
 const DONE_KEY='chandler-quote-complete';
 const DRAFT_KEY='chandler-quote-draft';
 // Block ONLY SSNs and bank/card numbers. Driver's license numbers and VINs are allowed (live forms collect them).
@@ -65,7 +69,7 @@ function render(){const p=document.getElementById('prog');const n=STEPS.length;r
 // ---------- chat primitives ----------
 let lastQK=null;
 const say=(t,c='b')=>{removeError();const d=document.createElement('div');d.className='m '+c;if(c==='u'&&typeof cur!=='undefined'&&lastQK){d.dataset.step=String(cur);d.dataset.qkey=lastQK;d.classList.add('editable');d.title='Tap to change this answer';d.onclick=e=>{if(e.target.tagName==='BUTTON')return;const qk=d.dataset.qkey;if(qk){startEdit(qk);return}const step=parseInt(d.dataset.step);if(!isNaN(step)&&step<STEPS.length&&document.getElementById('sum').style.display!=='block')goto(step)}};d.textContent=t;chat.append(d);return d};
-const box=()=>{document.getElementById('in')?.remove();const d=document.createElement('div');d.id='in';chat.append(d);return d};
+const box=()=>{document.getElementById('in')?.remove();const d=document.createElement('div');d.id='in';chat.append(d);qcPosition();return d};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function ask(q,{type='text',opt=true,valid,multi,ph=''}={}){const pv=this&&this.pv;const k=qkeyFor(q);if(EDIT&&k!==EDIT.k&&ANSWERS.has(k)){const a=ANSWERS.get(k).a;record(k,q,a);return Promise.resolve(a);}return new Promise(res=>{say(q);const b=box();
  const i=document.createElement(multi?'textarea':'input');if(!multi)i.type=type;i.placeholder=ph;if(typeof pv==='string'&&pv)i.value=pv;b.append(i);if(QC_LIVE&&!QC_TOUCH)i.focus({preventScroll:true});
@@ -607,7 +611,7 @@ function review(){step();const s=document.getElementById('sum');s.style.display=
   try{const r=await fetch('/',{method:'POST',body:fd});if(!r.ok)throw r.status;sessionStorage.setItem(DONE_KEY,'1');localStorage.setItem(DONE_KEY,'1');removeListeners();btn.dataset.done='1';btn.disabled=true;btn.textContent='Submitted ✓';
    st.innerHTML='<b style="color:#00a651">✓ Submitted! An agent will follow up shortly.</b>';say('Submitted — thank you! An agent will be in touch.');clearDraft();}
   catch(err){st.textContent='Submit failed ('+err+'). Please try again or call us.';btn.disabled=false}};
- say('Please review your answers below and press Submit.')}
+ say('Please review your answers below and press Submit.');if(QC_LIVE){const t=s.getBoundingClientRect().top-(qcHdr()+12);if(Math.abs(t)>40)window.scrollTo({top:Math.max(0,Math.round(window.scrollY+t)),behavior:'auto'})}}
 const C='https://chandlerinsurancemn.com/';
 const TILES=[
  ['Home + Auto Bundle','🏡🚗','quote.html'],['Auto','🚗','auto-quote.html'],['Home & Cabin','🏡','home-quote.html'],['Condo / Townhouse','🏢','home-quote.html'],
