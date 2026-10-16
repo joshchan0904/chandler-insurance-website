@@ -9,13 +9,15 @@ const VIN_OK=v=>/^[A-HJ-NPR-Z0-9]{5,17}$/i.test(v.replace(/\s/g,''));
 const YEAR_OK=v=>{const y=parseInt(v);return /^\d{4}$/.test(v)&&y>=1800&&y<=new Date().getFullYear()+1};
 
 const qcMobile=()=>matchMedia('(max-width:700px)').matches;
-const vv=window.visualViewport;
-function qcFit(){if(!document.documentElement.classList.contains('qchat-kb'))return;const h=vv?vv.height:innerHeight;const top=vv?vv.offsetTop:0;chat.style.top=top+'px';chat.style.height=h+'px';chat.style.maxHeight=h+'px';const inp=document.getElementById('in');if(inp){chat.scrollTop=chat.scrollHeight}}
-function qcKbOn(){if(!qcMobile())return;document.documentElement.classList.add('qchat-kb');qcFit();setTimeout(qcFit,120);setTimeout(qcFit,400)}
-function qcKbOff(){document.documentElement.classList.remove('qchat-kb');chat.style.top='';chat.style.height='';chat.style.maxHeight=''}
-chat.addEventListener('focusin',e=>{if(e.target.matches('input,textarea,select'))qcKbOn()});
-chat.addEventListener('focusout',()=>{setTimeout(()=>{const a=document.activeElement;if(!a||!chat.contains(a)||!a.matches('input,textarea,select'))qcKbOff()},150)});
-if(vv){vv.addEventListener('resize',qcFit);vv.addEventListener('scroll',qcFit)}
+const vv=window.visualViewport;let QC_FULL=false,QC_Y=0,QC_EXITED=false;
+function qcSize(){if(!QC_FULL)return;const h=vv?vv.height:innerHeight;const t=vv?vv.offsetTop:0;ROOT.style.height=h+'px';ROOT.style.top=t+'px';if(QC_LIVE)chat.scrollTop=chat.scrollHeight}
+function qcFullOn(){if(QC_FULL||!qcMobile()||QC_EXITED)return;QC_FULL=true;QC_Y=window.scrollY||document.documentElement.scrollTop||0;const b=document.body;b.style.position='fixed';b.style.top=(-QC_Y)+'px';b.style.left='0';b.style.right='0';b.style.width='100%';b.style.overflow='hidden';document.documentElement.classList.add('qchat-full');
+ let x=document.getElementById('qchat-exit');if(!x){x=document.createElement('button');x.type='button';x.id='qchat-exit';x.textContent='✕ Exit';x.setAttribute('aria-label','Exit full-screen chat');x.onclick=()=>{QC_EXITED=true;qcFullOff()};ROOT.prepend(x)}
+ qcSize()}
+function qcFullOff(){if(!QC_FULL)return;QC_FULL=false;const b=document.body;b.style.position='';b.style.top='';b.style.left='';b.style.right='';b.style.width='';b.style.overflow='';document.documentElement.classList.remove('qchat-full');ROOT.style.height='';ROOT.style.top='';window.scrollTo(0,QC_Y)}
+if(vv)vv.addEventListener('resize',qcSize);
+chat.addEventListener('focusin',e=>{if(QC_EXITED&&e.target.matches('input,textarea,select')){QC_EXITED=false;qcFullOn()}});
+ROOT.qcExit=()=>{QC_EXITED=true;qcFullOff()};
 
 async function decodeVin(vin){vin=(vin||'').replace(/\s/g,'').toUpperCase();if(!/^[A-HJ-NPR-Z0-9]{17}$/.test(vin))return null;
   const ctl=new AbortController();const t=setTimeout(()=>ctl.abort(),5000);
@@ -583,7 +585,7 @@ function buildSummary(status){const types=D.types||[];const qtypes=[...new Set(t
  const decl = decFile ? `${decFile.name} (attached)` : 'none uploaded';
  lines.push(`Declarations page: ${decl}`);
  return lines.filter(l=>l!==undefined).join('\n').trim()}
-function review(){step();const s=document.getElementById('sum');s.style.display='block';
+function review(){qcFullOff();step();const s=document.getElementById('sum');s.style.display='block';
  const summaryText=buildSummary('COMPLETE');
  const blocks=summaryText.split(/==\s*(.+?)\s*==/g);
  let html=`<h2>Review Your Quote Request</h2>`;
@@ -657,6 +659,7 @@ const SEC={'Contact':contact,'Drivers':drivers,'Vehicles':vehicles,'Household':h
 async function checkpoint(){step();say("Thanks — that covers the key rating details. You can send it now and an agent will follow up on anything else, or keep going for a more accurate quote."); return (await choose('What would you like to do?',['Keep going','Send what I have'],{opt:false}))==='Send what I have'}
 async function runFrom(i){const g=++gen;document.getElementById('sum').style.display='none';
  if(i===0){QCOUNT={};QSEEN=new Set()}
+ qcFullOn();
  for(let k=i;k<STEPS.length;k++){cur=k;const x=STEPS[k];
   if(x.s==='Review'){
    if(QSEEN){for(const kk of ANSWERS.keys())if(!QSEEN.has(kk))ANSWERS.delete(kk);}

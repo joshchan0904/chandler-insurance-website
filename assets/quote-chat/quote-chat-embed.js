@@ -36,6 +36,7 @@
     toggleBtn.addEventListener('click', function() {
       classicShown = !classicShown;
       if (classicShown) {
+        if (embed.qcExit) embed.qcExit();
         document.documentElement.classList.add('qchat-show-classic');
       } else {
         document.documentElement.classList.remove('qchat-show-classic');
@@ -58,7 +59,7 @@
 
     // Append the chat JS
     var script = document.createElement('script');
-    script.src = '/assets/quote-chat/quote-chat.js?v=18';
+    script.src = '/assets/quote-chat/quote-chat.js?v=19';
     document.body.appendChild(script);
   });
 })();
