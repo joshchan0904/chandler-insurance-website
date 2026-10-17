@@ -66,7 +66,7 @@ function render(){const p=document.getElementById('prog');const n=STEPS.length;r
 // ---------- chat primitives ----------
 let lastQK=null;
 const say=(t,c='b')=>{removeError();if(c==='u'){chat.querySelectorAll('.m:not(.qold)').forEach(x=>x.classList.add('qold'))}const d=document.createElement('div');d.className='m '+c;if(c==='u'&&typeof cur!=='undefined'&&lastQK){d.dataset.step=String(cur);d.dataset.qkey=lastQK;d.classList.add('editable');d.title='Tap to change this answer';d.onclick=e=>{if(e.target.tagName==='BUTTON')return;const qk=d.dataset.qkey;if(qk){startEdit(qk);return}const step=parseInt(d.dataset.step);if(!isNaN(step)&&step<STEPS.length&&document.getElementById('sum').style.display!=='block')goto(step)}};d.textContent=t;chat.append(d);if(c==='u')d.classList.add('qold');return d};
-const box=()=>{document.getElementById('in')?.remove();const d=document.createElement('div');d.id='in';chat.append(d);return d};
+const box=()=>{document.getElementById('in')?.remove();const d=document.createElement('div');d.id='in';chat.append(d);qcHist();return d};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function qcHist(){let h=document.getElementById('qhist');if(!h){h=document.createElement('details');h.id='qhist';chat.parentNode.insertBefore(h,chat)}
  const skip=/what would you like to do|add another|anyone else|use this contact|resume your|keep them|correct\?/i;
