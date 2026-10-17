@@ -79,3 +79,5 @@ html.qchat-on:not(.qchat-show-classic) [data-classic]{display:none!important}
 #qchat-embed #qhist .qha{font-weight:600;color:#1e293b}
 #qchat-embed #qhist .qhe{color:#0056b3;text-decoration:underline;margin-left:auto}
 @media(max-width:700px){#qchat-embed .crumbs{display:none}}
+#qchat-embed #prog{box-sizing:border-box;min-height:147px}
+@media(max-width:700px){#qchat-embed #prog{min-height:121px}}
