@@ -82,3 +82,5 @@ html.qchat-on:not(.qchat-show-classic) [data-classic]{display:none!important}
 #qchat-embed #prog{box-sizing:border-box;min-height:147px}
 @media(max-width:700px){#qchat-embed #prog{min-height:121px}}
 #qchat-embed #qhist.hidden:not([style*="none"]){display:block!important}
+#qchat-embed .crumbs{flex-wrap:nowrap!important;white-space:nowrap;overflow:hidden}
+#qchat-embed #qhist summary{min-height:22px}

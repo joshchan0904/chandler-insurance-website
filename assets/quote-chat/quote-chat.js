@@ -71,7 +71,7 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 function qcHist(){let h=document.getElementById('qhist');if(!h){h=document.createElement('details');h.id='qhist';chat.parentNode.insertBefore(h,chat.nextSibling)}
  const skip=/what would you like to do|add another|anyone else|use this contact|resume your|keep them|correct\?/i;
  const items=[...ANSWERS.entries()].filter(([k,v])=>!skip.test(v.q));
- const open=h.open;h.style.display=items.length?'':'none';
+ const open=h.open;h.style.display='';h.style.visibility=items.length?'':'hidden';
  h.innerHTML=`<summary>Edit answers (${items.length})</summary>`+items.map(([k,v])=>`<div class="qh"><span class="qhq">${esc(v.q)}</span> <span class="qha">${esc(v.a||'(skipped)')}</span> <a href="#" class="qhe" data-qkey="${esc(k)}">Edit</a></div>`).join('');
  h.open=open;h.querySelectorAll('.qhe').forEach(a=>a.onclick=e=>{e.preventDefault();startEdit(a.dataset.qkey)})}
 
