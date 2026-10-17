@@ -1,9 +1,6 @@
 (function(){const ROOT=document.getElementById('qchat-embed');if(!ROOT)return;const PRE_TYPE=ROOT.dataset.qtype||'';
 // Chandler Quote Chat (PREVIEW) — mirrors live auto-quote / home-quote fields; submits via Netlify Forms (HTTPS POST).
 const chat=document.getElementById('chat'),D={};let QC_LIVE=false;const QC_TOUCH=matchMedia('(pointer:coarse)').matches;
-function qcHdr(){const n=document.querySelector('body nav');if(!n)return 0;const p=getComputedStyle(n).position;return(p==='sticky'||p==='fixed')?Math.max(0,n.getBoundingClientRect().bottom):0}
-let qcPosT=0;
-function qcPosition(){if(!QC_LIVE)return;cancelAnimationFrame(qcPosT);qcPosT=requestAnimationFrame(()=>{const qs=chat.querySelectorAll('.m.b');const q=qs[qs.length-1];if(!q)return;const want=qcHdr()+12;const top=q.getBoundingClientRect().top;if(top>=want-2&&top<=want+40)return;window.scrollTo({top:Math.max(0,Math.round(window.scrollY+top-want)),behavior:'auto'})})}
 const qcLive=()=>{QC_LIVE=true};chat.addEventListener('pointerdown',qcLive,{once:true});chat.addEventListener('keydown',qcLive,{once:true});let decFile=null;let currentError=null;let partialSent=false;let sentEarly=false;
 const DONE_KEY='chandler-quote-complete';
 const DRAFT_KEY='chandler-quote-draft';
@@ -68,9 +65,16 @@ function render(){const p=document.getElementById('prog');const n=STEPS.length;r
 
 // ---------- chat primitives ----------
 let lastQK=null;
-const say=(t,c='b')=>{removeError();const d=document.createElement('div');d.className='m '+c;if(c==='u'&&typeof cur!=='undefined'&&lastQK){d.dataset.step=String(cur);d.dataset.qkey=lastQK;d.classList.add('editable');d.title='Tap to change this answer';d.onclick=e=>{if(e.target.tagName==='BUTTON')return;const qk=d.dataset.qkey;if(qk){startEdit(qk);return}const step=parseInt(d.dataset.step);if(!isNaN(step)&&step<STEPS.length&&document.getElementById('sum').style.display!=='block')goto(step)}};d.textContent=t;chat.append(d);return d};
-const box=()=>{document.getElementById('in')?.remove();const d=document.createElement('div');d.id='in';chat.append(d);qcPosition();return d};
+const say=(t,c='b')=>{removeError();if(c==='u'){chat.querySelectorAll('.m:not(.qold)').forEach(x=>x.classList.add('qold'))}const d=document.createElement('div');d.className='m '+c;if(c==='u'&&typeof cur!=='undefined'&&lastQK){d.dataset.step=String(cur);d.dataset.qkey=lastQK;d.classList.add('editable');d.title='Tap to change this answer';d.onclick=e=>{if(e.target.tagName==='BUTTON')return;const qk=d.dataset.qkey;if(qk){startEdit(qk);return}const step=parseInt(d.dataset.step);if(!isNaN(step)&&step<STEPS.length&&document.getElementById('sum').style.display!=='block')goto(step)}};d.textContent=t;chat.append(d);if(c==='u')d.classList.add('qold');return d};
+const box=()=>{document.getElementById('in')?.remove();const d=document.createElement('div');d.id='in';chat.append(d);return d};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function qcHist(){let h=document.getElementById('qhist');if(!h){h=document.createElement('details');h.id='qhist';chat.parentNode.insertBefore(h,chat)}
+ const skip=/what would you like to do|add another|anyone else|use this contact|resume your|keep them|correct\?/i;
+ const items=[...ANSWERS.entries()].filter(([k,v])=>!skip.test(v.q));
+ const open=h.open;h.style.display=items.length?'':'none';
+ h.innerHTML=`<summary>Edit answers (${items.length})</summary>`+items.map(([k,v])=>`<div class="qh"><span class="qhq">${esc(v.q)}</span> <span class="qha">${esc(v.a||'(skipped)')}</span> <a href="#" class="qhe" data-qkey="${esc(k)}">Edit</a></div>`).join('');
+ h.open=open;h.querySelectorAll('.qhe').forEach(a=>a.onclick=e=>{e.preventDefault();startEdit(a.dataset.qkey)})}
+
 function ask(q,{type='text',opt=true,valid,multi,ph=''}={}){const pv=this&&this.pv;const k=qkeyFor(q);if(EDIT&&k!==EDIT.k&&ANSWERS.has(k)){const a=ANSWERS.get(k).a;record(k,q,a);return Promise.resolve(a);}return new Promise(res=>{say(q);const b=box();
  const i=document.createElement(multi?'textarea':'input');if(!multi)i.type=type;i.placeholder=ph;if(typeof pv==='string'&&pv)i.value=pv;b.append(i);if(QC_LIVE&&!QC_TOUCH)i.focus({preventScroll:true});
  const ql=q.toLowerCase();if(!multi){i.setAttribute('enterkeyhint','next');
@@ -578,7 +582,7 @@ function buildSummary(status){const types=D.types||[];const qtypes=[...new Set(t
  const decl = decFile ? `${decFile.name} (attached)` : 'none uploaded';
  lines.push(`Declarations page: ${decl}`);
  return lines.filter(l=>l!==undefined).join('\n').trim()}
-function review(){step();const s=document.getElementById('sum');s.style.display='block';
+function review(){step();const _h=document.getElementById('qhist');if(_h)_h.style.display='none';const s=document.getElementById('sum');s.style.display='block';
  const summaryText=buildSummary('COMPLETE');
  const blocks=summaryText.split(/==\s*(.+?)\s*==/g);
  let html=`<h2>Review Your Quote Request</h2>`;
@@ -611,7 +615,7 @@ function review(){step();const s=document.getElementById('sum');s.style.display=
   try{const r=await fetch('/',{method:'POST',body:fd});if(!r.ok)throw r.status;sessionStorage.setItem(DONE_KEY,'1');localStorage.setItem(DONE_KEY,'1');removeListeners();btn.dataset.done='1';btn.disabled=true;btn.textContent='Submitted ✓';
    st.innerHTML='<b style="color:#00a651">✓ Submitted! An agent will follow up shortly.</b>';say('Submitted — thank you! An agent will be in touch.');clearDraft();}
   catch(err){st.textContent='Submit failed ('+err+'). Please try again or call us.';btn.disabled=false}};
- say('Please review your answers below and press Submit.');if(QC_LIVE){const t=s.getBoundingClientRect().top-(qcHdr()+12);if(Math.abs(t)>40)window.scrollTo({top:Math.max(0,Math.round(window.scrollY+t)),behavior:'auto'})}}
+ say('Please review your answers below and press Submit.')}
 const C='https://chandlerinsurancemn.com/';
 const TILES=[
  ['Home + Auto Bundle','🏡🚗','quote.html'],['Auto','🚗','auto-quote.html'],['Home & Cabin','🏡','home-quote.html'],['Condo / Townhouse','🏢','home-quote.html'],
@@ -650,7 +654,7 @@ const SEC={'Contact':contact,'Drivers':drivers,'Vehicles':vehicles,'Household':h
  'Unit Details':t=>rec(t),'Safety':t=>recSafety(t),'Final details':finalDetails,
  'Send or continue':checkpoint};
 async function checkpoint(){step();say("Thanks — that covers the key rating details. You can send it now and an agent will follow up on anything else, or keep going for a more accurate quote."); return (await choose('What would you like to do?',['Keep going','Send what I have'],{opt:false}))==='Send what I have'}
-async function runFrom(i){const g=++gen;document.getElementById('sum').style.display='none';
+async function runFrom(i){const g=++gen;document.getElementById('sum').style.display='none';qcHist();
  if(i===0){QCOUNT={};QSEEN=new Set()}
  for(let k=i;k<STEPS.length;k++){cur=k;const x=STEPS[k];
   if(x.s==='Review'){
