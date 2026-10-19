@@ -58,9 +58,9 @@ const LBL=x=>x.t?SHORT(x.t)+' · '+x.s:x.s;
 function setSteps(s){STEPS=s;render()}
 function step(){if(EDIT)return;render();say('— '+LBL(STEPS[cur])+' —','sec');saveDraft()}
 function render(){const p=document.getElementById('prog');const n=STEPS.length;requestAnimationFrame(()=>document.documentElement.style.setProperty('--progh',(p.offsetHeight+16)+'px'));
- if(!D.types||!n){p.innerHTML='<div class="pt">Getting started — choose one or more quote types</div>';return}
+ if(!D.types||!n){p.innerHTML='<div class="pt">Getting started — choose one or more quote types</div>';ROOT.classList.remove('qchat-stepping');return}
  const nav=D.types?`<div class="qnav"><button type="button" class="alt" data-nav="back">← Back</button><span class="qt">${esc(D.types.map(SHORT).join(' + '))}</span><button type="button" class="alt" data-nav="type">Change quote type</button></div>`:'';
- p.innerHTML=nav+`<div class="pt">Step ${cur+1} of ${n}: <b>${esc(LBL(STEPS[cur]))}</b></div><div class="bar"><i style="width:${Math.round((cur+1)/n*100)}%"></i></div><div class="crumbs">${STEPS.map((x,i)=>{const s=esc(LBL(x));return i<cur?`<a href="#" class="done" data-step="${i}" title="Edit ${s}">✓ ${s}</a>`:`<span class="${i===cur?'on':''}">${s}</span>`}).join('<em>›</em>')}</div>`}
+ p.innerHTML=nav+`<div class="pt">Step ${cur+1} of ${n}: <b>${esc(LBL(STEPS[cur]))}</b></div><div class="bar"><i style="width:${Math.round((cur+1)/n*100)}%"></i></div><div class="crumbs">${STEPS.map((x,i)=>{const s=esc(LBL(x));return i<cur?`<a href="#" class="done" data-step="${i}" title="Edit ${s}">✓ ${s}</a>`:`<span class="${i===cur?'on':''}">${s}</span>`}).join('<em>›</em>')}</div>`;ROOT.classList.add('qchat-stepping')}
  if(!document.getElementById('editstyle')){const st=document.createElement('style');st.id='editstyle';st.textContent=`.m.u.editable{cursor:pointer}.m.u.editable:hover::after{content:" ✎ edit";font-size:0.8em;color:#666;margin-left:8px}`;document.head.appendChild(st);}
 
 // ---------- chat primitives ----------
@@ -71,7 +71,7 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 function qcHist(){let h=document.getElementById('qhist');if(!h){h=document.createElement('details');h.id='qhist';chat.parentNode.insertBefore(h,chat.nextSibling)}
  const skip=/what would you like to do|add another|anyone else|use this contact|resume your|keep them|correct\?/i;
  const items=[...ANSWERS.entries()].filter(([k,v])=>!skip.test(v.q));
- const open=h.open;h.style.display='';h.style.visibility=items.length?'':'hidden';
+ const open=h.open;h.style.display=items.length?'':'none';h.style.visibility='';
  h.innerHTML=`<summary>Edit answers (${items.length})</summary>`+items.map(([k,v])=>`<div class="qh"><span class="qhq">${esc(v.q)}</span> <span class="qha">${esc(v.a||'(skipped)')}</span> <a href="#" class="qhe" data-qkey="${esc(k)}">Edit</a></div>`).join('');
  h.open=open;h.querySelectorAll('.qhe').forEach(a=>a.onclick=e=>{e.preventDefault();startEdit(a.dataset.qkey)})}
 
