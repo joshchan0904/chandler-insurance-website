@@ -31,7 +31,10 @@
 #qchat-embed .sec{background:var(--navy);color:#fff;font-weight:700;font-size:13px;padding:4px 12px;margin:14px auto;text-align:center;max-width:60%}
 #qchat-embed select{flex:1;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font:inherit}
 #qchat-embed .ck{display:inline-flex;gap:4px;align-items:center;padding:6px 10px;border:1px solid #cbd5e1;border-radius:8px}
-#qchat-embed .tiles{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+#qchat-embed .tiles{display:grid!important;grid-template-columns:1fr 1fr;gap:10px;align-items:stretch}
+#qchat-embed .tiles .qhint{grid-column:1/-1;margin:0 0 2px;font-size:13px;color:#64748b;line-height:1.35;text-align:left}
+#qchat-embed .tiles .tile-featured,#qchat-embed .tiles .tile-span{grid-column:1/-1}
+#qchat-embed .tiles .tile{width:100%;justify-self:stretch}
 #qchat-embed .tile{background:#fff;color:var(--navy);border:2px solid #dbe4f0;padding:16px 8px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:6px}
 #qchat-embed .tile:hover{border-color:var(--blue);background:#f0f6ff}
 #qchat-embed .tile span{font-size:28px}
@@ -184,3 +187,7 @@ html.qchat-on:not(.qchat-show-classic) [data-classic]{display:none!important}
   #qchat-embed .tiles{grid-template-columns:1fr 1fr}
   #qchat-embed .sec{display:none} /* section banners redundant with prog */
 }
+
+/* type picker: Bundle full-width on top; no orphan half-rows */
+#qchat-embed .tiles{grid-template-columns:1fr 1fr}
+#qchat-embed .tiles .qhint,#qchat-embed .tiles .tile-featured,#qchat-embed .tiles .tile-span,#qchat-embed .tiles .tbar{grid-column:1/-1}

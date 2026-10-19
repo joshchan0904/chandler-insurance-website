@@ -672,8 +672,9 @@ function setClassic(u){} // no-op for embed
 function tiles(pre=[]){return new Promise(res=>{say(shortenQ('What do you need quoted? Select all that apply.'));const b=box();b.className='tiles choice-step';addHint(b,'Select all that apply, then Continue');const sel=new Set(pre&&pre.length?pre:(PRE_TYPE?[PRE_TYPE]:[]));
  const go=document.createElement('button');go.className='go tgo';const bar=document.createElement('div');bar.className='tbar';const hint=document.createElement('div');hint.className='thint';hint.textContent='Pick more or tap Continue';
  const upd=()=>{go.disabled=!sel.size;go.textContent=sel.size?`Continue (${sel.size} selected) →`:'Select at least one type';bar.classList.toggle('show',sel.size>0);};
- TILES.forEach(([t,i,u])=>{const x=document.createElement('button');x.type='button';x.className='tile'+(sel.has(t)?' sel':'');x.setAttribute('aria-pressed',sel.has(t));x.dataset.type=t;x.innerHTML=`<span>${i}</span>${esc(t)}`;
+ TILES.forEach(([t,i,u])=>{const x=document.createElement('button');x.type='button';x.className='tile'+(sel.has(t)?' sel':'');if(t==='Home + Auto Bundle')x.classList.add('tile-featured');x.setAttribute('aria-pressed',sel.has(t));x.dataset.type=t;x.innerHTML=`<span>${i}</span>${esc(t)}`;
   x.onclick=()=>{sel.has(t)?sel.delete(t):sel.add(t);x.classList.toggle('sel',sel.has(t));x.setAttribute('aria-pressed',sel.has(t));upd()};b.append(x)});
+ const rest=[...b.querySelectorAll('.tile:not(.tile-featured)')];if(rest.length%2===1)rest[rest.length-1].classList.add('tile-span');
  go.onclick=()=>{if(!sel.size)return;const T=TILES.filter(x=>sel.has(x[0]));b.remove();say(T.map(x=>x[0]).join(' + '),'u');setClassic(C+(T.length===1?T[0][2]:'quote.html'));res(T.map(x=>x[0]))};
  upd();bar.append(hint,go);b.append(bar)})}
 // ---------- navigation ----------
