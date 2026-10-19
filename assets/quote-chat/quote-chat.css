@@ -1,5 +1,5 @@
 #qchat-embed{--navy:#003d82;--blue:#0056b3;--green:#00a651;--bg:#f1f5f9}
-#qchat-embed{overflow-anchor:none}
+#qchat-embed,#qchat-embed #chat,#qchat-embed #chat .m,#qchat-embed #in{overflow-anchor:none}
 #qchat-embed{max-width:720px;margin:24px auto;padding:0 12px;box-sizing:border-box;font-family:system-ui,Segoe UI,Arial,sans-serif;color:#1e293b}
 #qchat-embed *{box-sizing:border-box}
 #qchat-embed .qchat-title{color:var(--navy);font-size:1.4rem;text-align:center;margin:0 0 4px}
