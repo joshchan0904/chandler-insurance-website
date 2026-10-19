@@ -29,7 +29,7 @@ const STATES='MN|WI|IA|ND|SD|AL|AK|AZ|AR|CA|CO|CT|DE|DC|FL|GA|HI|ID|IL|IN|KS|KY|
 
 const ANSWERS=new Map(); let EDIT=null; let QSEEN=null; let QCOUNT={};
 function qkeyFor(q){QCOUNT[q]=(QCOUNT[q]||0)+1;return q+'#'+QCOUNT[q];}
-function record(k,q,a){ANSWERS.set(k,{q,a,step:cur});if(QSEEN)QSEEN.add(k);if(D.types&&STEPS.length){qInSec++;render()}}
+function record(k,q,a){ANSWERS.set(k,{q,a,step:cur});if(QSEEN)QSEEN.add(k);if(D.types&&STEPS.length){qInSec++;render()}if(ANSWERS.size>=3)armUnload()}
 
 function saveDraft(){try{localStorage.setItem(DRAFT_KEY,JSON.stringify({D,cur,STEPS,partialSent,sentEarly,ts:Date.now()}))}catch(e){}}
 function loadDraft(){try{const s=localStorage.getItem(DRAFT_KEY);return s?JSON.parse(s):null}catch(e){return null}}
@@ -58,12 +58,11 @@ const LBL=x=>x.t?SHORT(x.t)+' · '+x.s:x.s;
 function setSteps(s){STEPS=s;render()}
 function step(){qInSec=0;render();if(EDIT)return;say('— '+LBL(STEPS[cur])+' —','sec');saveDraft()}
 function render(){const p=document.getElementById('prog');const n=STEPS.length;requestAnimationFrame(()=>document.documentElement.style.setProperty('--progh',(p.offsetHeight+16)+'px'));
- if(!D.types||!n){p.innerHTML='<div class="pt qc-line">Getting started — choose quote types</div><div class="bar qc-bar"><i style="width:0%"></i></div>';ROOT.classList.remove('qchat-stepping');return}
- const label=esc(LBL(STEPS[cur]));
+ if(!D.types||!n){p.innerHTML='<div class="pt qc-line"><span class="qc-mid">Getting started — choose quote types</span></div><div class="bar qc-bar"><i style="width:0%"></i></div>';ROOT.classList.remove('qchat-stepping');return}
+ const label=esc(friendlyProg());
  const frac=Math.min(qInSec/10,0.95);
  const pct=Math.round(((cur+frac)/n)*100);
- const qbit=qInSec?` · ${qInSec}`:'';
- p.innerHTML=`<div class="pt qc-line"><button type="button" class="alt qmini" data-nav="back" aria-label="Back">←</button><span class="qc-mid">Step ${cur+1} of ${n} · <b>${label}</b>${qbit}</span><button type="button" class="alt qmini" data-nav="type">Change</button></div><div class="bar qc-bar"><i style="width:${pct}%"></i></div>`;ROOT.classList.add('qchat-stepping')}
+ p.innerHTML=`<div class="pt qc-line"><button type="button" class="alt qmini" data-nav="back" aria-label="Back">←</button><span class="qc-mid">${label}</span><button type="button" class="alt qmini" data-nav="type">Change</button></div><div class="bar qc-bar"><i style="width:${pct}%"></i></div>`;ROOT.classList.add('qchat-stepping')}
  if(!document.getElementById('editstyle')){const st=document.createElement('style');st.id='editstyle';st.textContent=`.m.u.editable{cursor:pointer}.m.u.editable:hover::after{content:" ✎ edit";font-size:0.8em;color:#666;margin-left:8px}`;document.head.appendChild(st);}
 
 // ---------- chat primitives ----------
@@ -71,14 +70,51 @@ let lastQK=null;
 const say=(t,c='b')=>{removeError();if(c==='u'){chat.querySelectorAll('.m:not(.qold)').forEach(x=>x.classList.add('qold'))}if(c==='b'||c==='sec'){chat.querySelectorAll('.m.qcur').forEach(x=>x.classList.remove('qcur'))}const d=document.createElement('div');d.className='m '+c+(c==='b'?' qcur':'');if(c==='u'&&typeof cur!=='undefined'&&lastQK){d.dataset.step=String(cur);d.dataset.qkey=lastQK;d.classList.add('editable');d.title='Tap to change this answer';d.onclick=e=>{if(e.target.tagName==='BUTTON')return;const qk=d.dataset.qkey;if(qk){startEdit(qk);return}const step=parseInt(d.dataset.step);if(!isNaN(step)&&step<STEPS.length&&document.getElementById('sum').style.display!=='block')goto(step)}};d.textContent=t;chat.append(d);if(c==='u')d.classList.add('qold');return d};
 const box=()=>{document.getElementById('in')?.remove();const d=document.createElement('div');d.id='in';chat.append(d);qcHist();return d};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function friendlySec(s){return ({Contact:'Your contact info',Drivers:'Drivers',Vehicles:'Your vehicles',Household:'Household members',Property:'Your home','Home Coverage':'Home coverage','Auto Coverage':'Auto coverage','Rental Property':'Rental property',Business:'Your business',Life:'Life insurance','What you need':'What you need','Unit Details':'Vehicle details',Safety:'Safety details','Final details':'Final details','Send or continue':'Almost done',Review:'Review'}[s]||s)}
+function friendlyProg(){if(!D.types||!STEPS.length)return 'Getting started — choose quote types';
+ const x=STEPS[cur]||{},n=STEPS.length,sec=friendlySec(x.s);
+ if(x.s==='Vehicles'&&D.vehicles&&D.vehicles.length){const i=Math.min(Math.max(1,qInSec),D.vehicles.length);return `Vehicle ${i} of ${D.vehicles.length} · Mileage & details`}
+ if(x.s==='Drivers'&&D.drivers&&D.drivers.length){const i=Math.min(Math.max(1,qInSec),D.drivers.length);return `Driver ${i} of ${D.drivers.length}`}
+ return `Step ${cur+1} of ${n} · ${sec}`}
+function helperFor(q){const ql=String(q).toLowerCase();
+ if(/odometer|miles driven|mileage/.test(ql))return 'Approximate is fine';
+ if(/year built|year of|year installed|roof.*year|heat.*year/.test(ql))return '4-digit year — estimate OK';
+ if(/square|sq\s*ft|footage/.test(ql))return 'Approximate is fine';
+ if(/vin/.test(ql))return '17 characters — skip if you do not have it handy';
+ if(/phone/.test(ql))return 'We will only use this to follow up on your quote';
+ if(/email/.test(ql))return 'We will send your quote options here';
+ if(/full name|driver.*name/.test(ql))return 'Legal name as on the license';
+ if(/zip/.test(ql))return '5-digit ZIP';
+ if(/address/.test(ql))return 'Street address is fine';
+ if(/deductible|liability|coverage|limit/.test(ql))return 'You can change this later with your agent';
+ if(/license/.test(ql))return 'Optional — skip if you prefer';
+ return ''}
+function shortenQ(q){return String(q)
+ .replace('Current odometer (approx)?','Current mileage?')
+ .replace('Miles driven per year (approx)?','Miles per year?')
+ .replace('What do you need quoted? Select all that apply.','What do you need quoted?')
+ .replace('What would you like a quote for? Select all that apply, then press Continue.','What do you need quoted?')
+ .replace('Where is it parked overnight?','Where is it parked at night?')
+ .replace('Any prior claims in last 5 years?','Claims in the last 5 years?')
+ .replace('Current insurance status?','Do you have insurance now?')
+ .replace(/\s*\(optional\)\s*/gi,' ')
+ .replace(/\s{2,}/g,' ').trim()}
+function addBackLink(b){const items=[...ANSWERS.entries()];if(items.length<1)return;
+ const a=document.createElement('button');a.type='button';a.className='qback';a.textContent='← Back';
+ a.onclick=e=>{e.preventDefault();const last=items[items.length-1];if(last)startEdit(last[0])};b.prepend(a)}
+function addHelper(b,q){const h=helperFor(q);if(!h)return;const p=document.createElement('p');p.className='qhelp';p.textContent=h;b.append(p)}
+function addHint(b,t){const p=document.createElement('p');p.className='qhint';p.textContent=t;b.append(p)}
+function addSkip(b,opt,onSkip){if(!opt)return;const s=document.createElement('button');s.type='button';s.className='qskip';s.textContent="Don't know / Skip";s.onclick=onSkip;b.append(s)}
+
 function qcHist(){let h=document.getElementById('qhist');if(!h){h=document.createElement('details');h.id='qhist';chat.parentNode.insertBefore(h,chat.nextSibling)}
  const skip=/what would you like to do|add another|anyone else|use this contact|resume your|keep them|correct\?/i;
  const items=[...ANSWERS.entries()].filter(([k,v])=>!skip.test(v.q));
  const open=h.open;h.style.display=items.length?'':'none';h.style.visibility='';
- h.innerHTML=`<summary>Edit answers (${items.length})</summary>`+items.map(([k,v])=>`<div class="qh"><span class="qhq">${esc(v.q)}</span> <span class="qha">${esc(v.a||'(skipped)')}</span> <a href="#" class="qhe" data-qkey="${esc(k)}">Edit</a></div>`).join('');
+ h.innerHTML=`<summary class="qhist-sum">Edit ${items.length} answer${items.length===1?'':'s'}</summary>`+items.map(([k,v])=>`<div class="qh"><span class="qhq">${esc(v.q)}</span> <span class="qha">${esc(v.a||'(skipped)')}</span> <a href="#" class="qhe" data-qkey="${esc(k)}">Edit</a></div>`).join('');
  h.open=open;h.querySelectorAll('.qhe').forEach(a=>a.onclick=e=>{e.preventDefault();startEdit(a.dataset.qkey)})}
 
-function ask(q,{type='text',opt=true,valid,multi,ph=''}={}){const pv=this&&this.pv;const k=qkeyFor(q);if(EDIT&&k!==EDIT.k&&ANSWERS.has(k)){const a=ANSWERS.get(k).a;record(k,q,a);return Promise.resolve(a);}return new Promise(res=>{say(q);const b=box();
+function ask(q,{type='text',opt=true,valid,multi,ph=''}={}){const pv=this&&this.pv;const k=qkeyFor(q);if(EDIT&&k!==EDIT.k&&ANSWERS.has(k)){const a=ANSWERS.get(k).a;record(k,q,a);return Promise.resolve(a);}return new Promise(res=>{say(shortenQ(q));const b=box();b.className='qin text-step';
+ addBackLink(b);addHelper(b,q);
  const i=document.createElement(multi?'textarea':'input');if(!multi)i.type=type;i.placeholder=ph;if(typeof pv==='string'&&pv)i.value=pv;b.append(i);if(QC_LIVE&&!QC_TOUCH)i.focus({preventScroll:true});
  const ql=q.toLowerCase();if(!multi){i.setAttribute('enterkeyhint','next');
  if(ql.includes('email')){i.type='email';i.inputMode='email';i.autocomplete='email';i.autocapitalize='off';i.spellcheck=false}
@@ -90,33 +126,39 @@ function ask(q,{type='text',opt=true,valid,multi,ph=''}={}){const pv=this&&this.
  else if(ql.includes('address')&&!ql.includes('email'))i.autocomplete='street-address';
  else if(ql.includes('city'))i.autocomplete='address-level2';
  }
- const go=document.createElement('button');go.textContent='Next';b.append(go);
- if(typeof pv==='string'&&pv){const kb=document.createElement('button');kb.className='go';kb.textContent='Keep: '+(pv.length>30?pv.slice(0,30)+'…':pv);kb.onclick=()=>{b.remove();lastQK=k;say(pv,'u');record(k,q,pv);res(pv);lastQK=null};b.append(kb)}
- if(opt){const s=document.createElement('button');s.className='alt';s.textContent="Don't know / Skip";s.onclick=()=>{b.remove();lastQK=k;say('(skipped)','u');record(k,q,'');res('');saveDraft();lastQK=null};b.append(s)}
+ const go=document.createElement('button');go.type='button';go.className='qnext';go.textContent='Next';b.append(go);
+ if(typeof pv==='string'&&pv){const kb=document.createElement('button');kb.type='button';kb.className='go';kb.textContent='Keep: '+(pv.length>30?pv.slice(0,30)+'…':pv);kb.onclick=()=>{b.remove();lastQK=k;say(pv,'u');record(k,q,pv);res(pv);lastQK=null};b.append(kb)}
+ addSkip(b,opt,()=>{b.remove();lastQK=k;say('(skipped)','u');record(k,q,'');res('');saveDraft();lastQK=null});
  const sub=()=>{const v=i.value.trim();if(!v&&!opt)return;
   if(BAD.test(v)){showError("For your security we don't collect Social Security numbers or bank/credit card numbers here. Please re-enter without it.");i.value='';return}
   if(v&&valid&&!valid(v)){showError("That doesn't look right — please check and try again.");return}
   removeError();b.remove();lastQK=k;say(v||'(skipped)','u');record(k,q,v||'');res(v);saveDraft();lastQK=null};
  go.onclick=sub;if(!multi)i.onkeydown=e=>{if(e.key==='Enter'&&!e.isComposing){e.preventDefault();sub()}};
  if(!multi&&valid)i.oninput=()=>{if(i.value.trim()&&valid(i.value.trim()))removeError()};})}
-function choose(q,opts,{opt=true}={}){const pv=this&&this.pv;const k=qkeyFor(q);if(EDIT&&k!==EDIT.k&&ANSWERS.has(k)){const a=ANSWERS.get(k).a;record(k,q,a);return Promise.resolve(a);}return new Promise(res=>{say(q);const b=box();
- if(typeof pv==='string'&&pv){const kb=document.createElement('button');kb.className='go';kb.textContent='Keep: '+pv;kb.onclick=()=>{b.remove();lastQK=k;say(pv,'u');record(k,q,pv);res(pv);lastQK=null};b.append(kb)}
- [...opts,...(opt?["Don't know / Skip"]:[])].forEach(o=>{const x=document.createElement('button');if(o==="Don't know / Skip")x.className='alt';x.textContent=o;x.onclick=()=>{removeError();b.remove();const val=o==="Don't know / Skip"?'':o;lastQK=k;say(o==="Don't know / Skip"?'(skipped)':o,'u');record(k,q,val);res(val);saveDraft();lastQK=null};b.append(x)})})}
-function pick(q,opts,{opt=true}={}){const pv=this&&this.pv;const k=qkeyFor(q);if(EDIT&&k!==EDIT.k&&ANSWERS.has(k)){const a=ANSWERS.get(k).a;record(k,q,a);return Promise.resolve(a);}return new Promise(res=>{say(q);const b=box();const s=document.createElement('select');
+function choose(q,opts,{opt=true}={}){const pv=this&&this.pv;const k=qkeyFor(q);if(EDIT&&k!==EDIT.k&&ANSWERS.has(k)){const a=ANSWERS.get(k).a;record(k,q,a);return Promise.resolve(a);}return new Promise(res=>{say(shortenQ(q));const b=box();b.className='qin choice-step'+(opts.length===2?' two-col':'');
+ addBackLink(b);addHint(b,'Tap one');
+ if(typeof pv==='string'&&pv){const kb=document.createElement('button');kb.type='button';kb.className='qchoice go';kb.textContent='Keep: '+pv;kb.onclick=()=>{b.remove();lastQK=k;say(pv,'u');record(k,q,pv);res(pv);lastQK=null};b.append(kb)}
+ opts.forEach(o=>{const x=document.createElement('button');x.type='button';x.className='qchoice';x.textContent=o;x.onclick=()=>{removeError();b.remove();lastQK=k;say(o,'u');record(k,q,o);res(o);saveDraft();lastQK=null};b.append(x)});
+ addSkip(b,opt,()=>{removeError();b.remove();lastQK=k;say('(skipped)','u');record(k,q,'');res('');saveDraft();lastQK=null})})}
+function pick(q,opts,{opt=true}={}){const pv=this&&this.pv;const k=qkeyFor(q);if(EDIT&&k!==EDIT.k&&ANSWERS.has(k)){const a=ANSWERS.get(k).a;record(k,q,a);return Promise.resolve(a);}return new Promise(res=>{say(shortenQ(q));const b=box();
+ // Prefer tappable cards when a short list; otherwise select
+ if(opts.length<=12){b.className='qin choice-step'+(opts.length<=4?' two-col':'');addBackLink(b);addHint(b,'Tap one');addHelper(b,q);
+  if(typeof pv==='string'&&pv){const kb=document.createElement('button');kb.type='button';kb.className='qchoice go';kb.textContent='Keep: '+pv;kb.onclick=()=>{b.remove();lastQK=k;say(pv,'u');record(k,q,pv);res(pv);lastQK=null};b.append(kb)}
+  opts.forEach(o=>{const x=document.createElement('button');x.type='button';x.className='qchoice';x.textContent=o;x.onclick=()=>{removeError();b.remove();lastQK=k;say(o,'u');record(k,q,o);res(o);saveDraft();lastQK=null};b.append(x)});
+  addSkip(b,opt,()=>{removeError();b.remove();lastQK=k;say('(skipped)','u');record(k,q,'');res('');saveDraft();lastQK=null});return}
+ b.className='qin text-step';addBackLink(b);addHelper(b,q);
+ const s=document.createElement('select');
  s.innerHTML='<option value="">Select…</option>'+opts.map(o=>`<option>${esc(o)}</option>`).join('');if(pv)s.value=pv;b.append(s);if(QC_LIVE&&!QC_TOUCH)s.focus({preventScroll:true});
- const go=document.createElement('button');go.textContent='Next';b.append(go);
- if(opt){const sk=document.createElement('button');sk.className='alt';sk.textContent="Don't know / Skip";sk.onclick=()=>{removeError();b.remove();lastQK=k;say('(skipped)','u');record(k,q,'');res('');saveDraft();lastQK=null};b.append(sk)}
+ const go=document.createElement('button');go.type='button';go.className='qnext';go.textContent='Next';b.append(go);
+ addSkip(b,opt,()=>{removeError();b.remove();lastQK=k;say('(skipped)','u');record(k,q,'');res('');saveDraft();lastQK=null});
  const sub=()=>{if(!s.value&&!opt)return;removeError();b.remove();lastQK=k;say(s.value||'(skipped)','u');record(k,q,s.value||'');res(s.value||'');saveDraft();lastQK=null};go.onclick=sub;
- if(typeof pv==='string'&&pv){const kb=document.createElement('button');kb.className='go';kb.textContent='Keep: '+pv;kb.onclick=()=>{b.remove();lastQK=k;say(pv,'u');record(k,q,pv);res(pv);lastQK=null};b.append(kb)}
+ if(typeof pv==='string'&&pv){const kb=document.createElement('button');kb.type='button';kb.className='go';kb.textContent='Keep: '+pv;kb.onclick=()=>{b.remove();lastQK=k;say(pv,'u');record(k,q,pv);res(pv);lastQK=null};b.append(kb)}
  s.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();sub()}}})}
-
-
-
-
-
-function checks(q,opts){const pv=(this&&this.pv)||'';const pre=pv.split(', ');const k=qkeyFor(q);if(EDIT&&k!==EDIT.k&&ANSWERS.has(k)){const a=ANSWERS.get(k).a;record(k,q,a);return Promise.resolve(a);}return new Promise(res=>{say(q);const b=box();const cs=opts.map(o=>{const l=document.createElement('label');l.className='ck';const c=document.createElement('input');c.type='checkbox';c.value=o;c.checked=pre.includes(o);l.append(c,' '+o);b.append(l);return c});
- const go=document.createElement('button');go.textContent='Next';
- const sk=document.createElement('button');sk.className='alt';sk.textContent="Don't know / Skip";sk.onclick=()=>{removeError();b.remove();lastQK=k;say('(skipped)','u');record(k,q,'');res('');saveDraft();lastQK=null};b.append(go,sk);
+function checks(q,opts){const pv=(this&&this.pv)||'';const pre=pv.split(', ');const k=qkeyFor(q);if(EDIT&&k!==EDIT.k&&ANSWERS.has(k)){const a=ANSWERS.get(k).a;record(k,q,a);return Promise.resolve(a);}return new Promise(res=>{say(shortenQ(q));const b=box();b.className='qin choice-step';
+ addBackLink(b);addHint(b,'Select all that apply');
+ const cs=opts.map(o=>{const l=document.createElement('label');l.className='ck qchoice-ck';const c=document.createElement('input');c.type='checkbox';c.value=o;c.checked=pre.includes(o);l.append(c,' '+o);b.append(l);return c});
+ const go=document.createElement('button');go.type='button';go.className='qnext';go.textContent='Next';b.append(go);
+ addSkip(b,true,()=>{removeError();b.remove();lastQK=k;say('(skipped)','u');record(k,q,'');res('');saveDraft();lastQK=null});
  go.onclick=()=>{const v=cs.filter(c=>c.checked).map(c=>c.value).join(', ');removeError();b.remove();lastQK=k;say(v||'(none)','u');record(k,q,v||'');res(v);saveDraft();lastQK=null}})}
 const yes=async q=>(await choose(q,['Yes','No'],{opt:false}))==='Yes';
 const dobOK=v=>/^\d{4}-\d{2}-\d{2}$/.test(v)||/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(v);
@@ -615,7 +657,7 @@ function review(){step();const _h=document.getElementById('qhist');if(_h)_h.styl
   fd.append('subject',`Chandler Quote Request: ${qtypes} (COMPLETE) - ${D.full_name||'Unknown'}`);
   const summary=buildSummary('COMPLETE');fd.append('summary',summary);if(decFile)fd.append('current_policy_declarations',decFile);
   if(D.full_name)fd.append('full_name',D.full_name);if(D.email)fd.append('email',D.email);if(D.phone)fd.append('phone',D.phone);
-  try{const r=await fetch('/',{method:'POST',body:fd});if(!r.ok)throw r.status;sessionStorage.setItem(DONE_KEY,'1');localStorage.setItem(DONE_KEY,'1');removeListeners();btn.dataset.done='1';btn.disabled=true;btn.textContent='Submitted ✓';
+  try{const r=await fetch('/',{method:'POST',body:fd});if(!r.ok)throw r.status;sessionStorage.setItem(DONE_KEY,'1');localStorage.setItem(DONE_KEY,'1');disarmUnload();removeListeners();btn.dataset.done='1';btn.disabled=true;btn.textContent='Submitted ✓';
    st.innerHTML='<b style="color:#00a651">✓ Submitted! An agent will follow up shortly.</b>';say('Submitted — thank you! An agent will be in touch.');clearDraft();}
   catch(err){st.textContent='Submit failed ('+err+'). Please try again or call us.';btn.disabled=false}};
  say('Please review your answers below and press Submit.')}
@@ -627,7 +669,7 @@ const TILES=[
  ['Motorcycle','🏍️','recreational-quote.html'],['RV / Travel Trailer','🚐','recreational-quote.html'],
  ['Other / not sure','❓','quote.html']];
 function setClassic(u){} // no-op for embed
-function tiles(pre=[]){return new Promise(res=>{say('What do you need quoted? Select all that apply.');const b=box();b.className='tiles';const sel=new Set(pre&&pre.length?pre:(PRE_TYPE?[PRE_TYPE]:[]));
+function tiles(pre=[]){return new Promise(res=>{say(shortenQ('What do you need quoted? Select all that apply.'));const b=box();b.className='tiles choice-step';addHint(b,'Select all that apply, then Continue');const sel=new Set(pre&&pre.length?pre:(PRE_TYPE?[PRE_TYPE]:[]));
  const go=document.createElement('button');go.className='go tgo';const bar=document.createElement('div');bar.className='tbar';const hint=document.createElement('div');hint.className='thint';hint.textContent='Pick more or tap Continue';
  const upd=()=>{go.disabled=!sel.size;go.textContent=sel.size?`Continue (${sel.size} selected) →`:'Select at least one type';bar.classList.toggle('show',sel.size>0);};
  TILES.forEach(([t,i,u])=>{const x=document.createElement('button');x.type='button';x.className='tile'+(sel.has(t)?' sel':'');x.setAttribute('aria-pressed',sel.has(t));x.dataset.type=t;x.innerHTML=`<span>${i}</span>${esc(t)}`;
@@ -680,6 +722,11 @@ document.getElementById('prog').addEventListener('click',e=>{const s=e.target.cl
  if(s){e.preventDefault();goto(+s.dataset.step);return}
  if(n){e.preventDefault();if(n.dataset.nav==='type')changeType();else goto(cur===0?-1:cur-1)}});
 
+let unloadArmed=false;
+function shouldConfirmLeave(){if(sessionStorage.getItem(DONE_KEY)||localStorage.getItem(DONE_KEY))return false;return [...ANSWERS.keys()].length>=3}
+function onBeforeUnload(e){if(!shouldConfirmLeave())return;e.preventDefault();e.returnValue=''}
+function armUnload(){if(unloadArmed)return;unloadArmed=true;addEventListener('beforeunload',onBeforeUnload)}
+function disarmUnload(){if(!unloadArmed)return;unloadArmed=false;removeEventListener('beforeunload',onBeforeUnload)}
 let pageHideHandler,visibilityHandler;
 function removeListeners(){if(pageHideHandler)removeEventListener('pagehide',pageHideHandler);if(visibilityHandler)removeEventListener('visibilitychange',visibilityHandler);pageHideHandler=visibilityHandler=null;}
 // Partial submission on leave (once per draft). Max one partial; skip after COMPLETE.

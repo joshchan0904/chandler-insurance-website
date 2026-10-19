@@ -151,3 +151,36 @@ html.qchat-on:not(.qchat-show-classic) [data-classic]{display:none!important}
   #qchat-embed #qhist{margin:8px auto 0;padding:6px 12px;font-size:13px}
   #qchat-embed .qchat-toggle{padding:8px 14px;font-size:14px}
 }
+
+/* UX pass: stacked answer UI, choice cards, quiet edit/toggle */
+#qchat-embed #in.qin{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+#qchat-embed #in .qback{align-self:flex-start;background:none!important;border:0!important;color:#0056b3!important;font-size:14px;font-weight:600;padding:4px 0;min-height:0!important;width:auto!important;cursor:pointer;box-shadow:none}
+#qchat-embed #in .qhelp,#qchat-embed #in .qhint{margin:0;font-size:13px;color:#64748b;line-height:1.35}
+#qchat-embed #in .qnext{width:100%;min-height:52px;font-size:17px;font-weight:700;border-radius:10px}
+#qchat-embed #in .qskip{width:100%;min-height:40px;background:none!important;border:0!important;color:#64748b!important;font-size:14px;font-weight:500;text-decoration:underline;box-shadow:none;padding:8px}
+#qchat-embed #in .qchoice{width:100%;min-height:52px;text-align:left;padding:14px 16px;border:2px solid #dbe4f0!important;background:#fff!important;color:var(--navy)!important;border-radius:12px;font-weight:600}
+#qchat-embed #in .qchoice:hover,#qchat-embed #in .qchoice:focus{border-color:var(--blue)!important;background:#f0f6ff!important}
+#qchat-embed #in .qchoice.go{border-color:var(--green)!important}
+#qchat-embed #in.choice-step{gap:8px}
+#qchat-embed #in .ck.qchoice-ck{display:flex;align-items:center;gap:10px;width:100%;min-height:52px;padding:12px 14px;border:2px solid #dbe4f0;border-radius:12px;background:#fff;font-weight:600;color:var(--navy)}
+@media(min-width:480px){
+  #qchat-embed #in.choice-step.two-col{display:grid;grid-template-columns:1fr 1fr;align-items:stretch}
+  #qchat-embed #in.choice-step.two-col .qback,
+  #qchat-embed #in.choice-step.two-col .qhint,
+  #qchat-embed #in.choice-step.two-col .qhelp,
+  #qchat-embed #in.choice-step.two-col .qskip,
+  #qchat-embed #in.choice-step.two-col .qnext{grid-column:1/-1}
+}
+#qchat-embed .tiles .tile{min-height:72px}
+#qchat-embed #qhist{border:0;background:transparent;padding:4px 0;box-shadow:none;margin:8px auto 0}
+#qchat-embed #qhist summary.qhist-sum{color:#0056b3;font-weight:600;font-size:14px;cursor:pointer;list-style:none}
+#qchat-embed #qhist summary.qhist-sum::-webkit-details-marker{display:none}
+#qchat-embed .qchat-toggle{background:none!important;border:0!important;color:#64748b!important;font-size:13px;font-weight:500;text-decoration:underline;padding:6px 0;box-shadow:none;min-height:0}
+#qchat-embed .qchat-toggle-wrap{margin:6px 0 0;text-align:center}
+@media(max-width:700px){
+  #qchat-embed #in input,#qchat-embed #in textarea,#qchat-embed #in select{min-height:52px!important;font-size:18px!important}
+  #qchat-embed #chat .m.qcur{font-size:18px;font-weight:700}
+  #qchat-embed #in .qchoice,#qchat-embed #in .ck.qchoice-ck{min-height:52px}
+  #qchat-embed .tiles{grid-template-columns:1fr 1fr}
+  #qchat-embed .sec{display:none} /* section banners redundant with prog */
+}

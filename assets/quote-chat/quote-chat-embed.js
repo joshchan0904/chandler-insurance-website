@@ -5,7 +5,7 @@
 
     var html = '<div class="qchat-head"><h2 class="qchat-title">Quick quote chat</h2><p class="qchat-sub">About 2 minutes — skip anything you don\'t know.</p></div>' +
       '<div id="prog"></div><div id="chat" tabindex="-1"></div><div id="sum"></div><div id="classic" class="np"></div>' +
-      '<p class="qchat-toggle-wrap"><button type="button" class="qchat-toggle" aria-expanded="false" aria-controls="qchat-classic">Prefer the classic form? Show it</button></p>';
+      '<p class="qchat-toggle-wrap"><button type="button" class="qchat-toggle" aria-expanded="false" aria-controls="qchat-classic">Prefer the classic form?</button></p>';
 
     embed.innerHTML = html;
 
@@ -20,16 +20,16 @@
       classicShown = true;
       document.documentElement.classList.add('qchat-show-classic');
       toggleBtn.setAttribute('aria-expanded', 'true');
-      toggleBtn.textContent = 'Hide the classic form';
+      toggleBtn.textContent = 'Hide classic form';
     }
 
     function updateToggle() {
       if (classicShown) {
         toggleBtn.setAttribute('aria-expanded', 'true');
-        toggleBtn.textContent = 'Hide the classic form';
+        toggleBtn.textContent = 'Hide classic form';
       } else {
         toggleBtn.setAttribute('aria-expanded', 'false');
-        toggleBtn.textContent = 'Prefer the classic form? Show it';
+        toggleBtn.textContent = 'Prefer the classic form?';
       }
     }
 
@@ -55,7 +55,7 @@
 
     // Append the chat JS
     var script = document.createElement('script');
-    script.src = '/assets/quote-chat/quote-chat.js?v=35';
+    script.src = '/assets/quote-chat/quote-chat.js?v=36';
     document.body.appendChild(script);
   });
 })();
