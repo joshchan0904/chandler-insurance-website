@@ -29,7 +29,7 @@ const STATES='MN|WI|IA|ND|SD|AL|AK|AZ|AR|CA|CO|CT|DE|DC|FL|GA|HI|ID|IL|IN|KS|KY|
 
 const ANSWERS=new Map(); let EDIT=null; let QSEEN=null; let QCOUNT={};
 function qkeyFor(q){QCOUNT[q]=(QCOUNT[q]||0)+1;return q+'#'+QCOUNT[q];}
-function record(k,q,a){ANSWERS.set(k,{q,a,step:cur});if(QSEEN)QSEEN.add(k);}
+function record(k,q,a){ANSWERS.set(k,{q,a,step:cur});if(QSEEN)QSEEN.add(k);if(D.types&&STEPS.length){qInSec++;render()}}
 
 function saveDraft(){try{localStorage.setItem(DRAFT_KEY,JSON.stringify({D,cur,STEPS,partialSent,sentEarly,ts:Date.now()}))}catch(e){}}
 function loadDraft(){try{const s=localStorage.getItem(DRAFT_KEY);return s?JSON.parse(s):null}catch(e){return null}}
@@ -52,16 +52,18 @@ async function sendPartial(){if(sessionStorage.getItem(DONE_KEY)||sessionStorage
 
 // ---------- progress ----------
 // STEPS: [{t:type|null,s:section}] — contact once, then each selected type's sections, then Final details + Review
-let STEPS=[],cur=0;
+let STEPS=[],cur=0,qInSec=0;
 const SHORT=t=>({'Home & Cabin':'Home','Condo / Townhouse':'Condo','Landlord / Rental':'Landlord','ATV / UTV':'ATV/UTV','Boat / PWC':'Boat','RV / Travel Trailer':'RV','Home + Auto Bundle':'Bundle','Home + Auto bundle':'Bundle','Other / not sure':'Other'}[t]||t);
 const LBL=x=>x.t?SHORT(x.t)+' · '+x.s:x.s;
 function setSteps(s){STEPS=s;render()}
-function step(){if(EDIT)return;render();say('— '+LBL(STEPS[cur])+' —','sec');saveDraft()}
+function step(){qInSec=0;render();if(EDIT)return;say('— '+LBL(STEPS[cur])+' —','sec');saveDraft()}
 function render(){const p=document.getElementById('prog');const n=STEPS.length;requestAnimationFrame(()=>document.documentElement.style.setProperty('--progh',(p.offsetHeight+16)+'px'));
  if(!D.types||!n){p.innerHTML='<div class="pt qc-line">Getting started — choose quote types</div><div class="bar qc-bar"><i style="width:0%"></i></div>';ROOT.classList.remove('qchat-stepping');return}
  const label=esc(LBL(STEPS[cur]));
- const pct=Math.round((cur+1)/n*100);
- p.innerHTML=`<div class="pt qc-line"><button type="button" class="alt qmini" data-nav="back" aria-label="Back">←</button><span class="qc-mid">Step ${cur+1} of ${n} · <b>${label}</b></span><button type="button" class="alt qmini" data-nav="type">Change</button></div><div class="bar qc-bar"><i style="width:${pct}%"></i></div>`;ROOT.classList.add('qchat-stepping')}
+ const frac=Math.min(qInSec/10,0.95);
+ const pct=Math.round(((cur+frac)/n)*100);
+ const qbit=qInSec?` · ${qInSec}`:'';
+ p.innerHTML=`<div class="pt qc-line"><button type="button" class="alt qmini" data-nav="back" aria-label="Back">←</button><span class="qc-mid">Step ${cur+1} of ${n} · <b>${label}</b>${qbit}</span><button type="button" class="alt qmini" data-nav="type">Change</button></div><div class="bar qc-bar"><i style="width:${pct}%"></i></div>`;ROOT.classList.add('qchat-stepping')}
  if(!document.getElementById('editstyle')){const st=document.createElement('style');st.id='editstyle';st.textContent=`.m.u.editable{cursor:pointer}.m.u.editable:hover::after{content:" ✎ edit";font-size:0.8em;color:#666;margin-left:8px}`;document.head.appendChild(st);}
 
 // ---------- chat primitives ----------

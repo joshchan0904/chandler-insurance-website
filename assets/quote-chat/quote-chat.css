@@ -109,7 +109,10 @@ html.qchat-on:not(.qchat-show-classic) [data-classic]{display:none!important}
   html.qchat-on .hero{padding:.45rem .7rem .35rem!important}
   html.qchat-on .hero h1{font-size:1.15rem!important;line-height:1.2!important;margin:0!important}
   html.qchat-on .hero p{font-size:.75rem!important;line-height:1.25!important;margin:.15rem auto 0!important;max-width:100%!important}
-  html.qchat-on .hero > div{margin-top:.25rem!important;gap:.3rem .75rem!important;font-size:.68rem!important}
+  html.qchat-on .hero > div{margin-top:.2rem!important;gap:.25rem .6rem!important;font-size:.65rem!important;opacity:.92}
+  html.qchat-on .hero{padding:.35rem .65rem .3rem!important}
+  html.qchat-on .hero h1{font-size:1.05rem!important}
+  html.qchat-on .hero p{font-size:.7rem!important;margin:.1rem auto 0!important}
   html.qchat-on nav{padding:.5rem .9rem!important}
   html.qchat-on nav img{height:34px!important}
   html.qchat-on [class*="max-w-"][class*="py-"],
