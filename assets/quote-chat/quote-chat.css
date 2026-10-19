@@ -116,10 +116,12 @@ html.qchat-on:not(.qchat-show-classic) [data-classic]{display:none!important}
   #qchat-embed .qchat-head{margin:0 0 2px!important}
   #qchat-embed #prog{padding:6px 10px!important;margin:0!important;min-height:0!important;box-shadow:none}
   #qchat-embed #prog .pt{font-size:13px!important;font-weight:600;line-height:1.3}
-  #qchat-embed #prog .qc-line{display:flex;align-items:center;gap:6px;min-height:28px}
-  #qchat-embed #prog .qc-mid{flex:1;text-align:center}
-  #qchat-embed #prog .qmini{padding:4px 8px!important;font-size:12px!important;line-height:1.2}
+  #qchat-embed #prog .qc-line{display:flex;align-items:center;gap:6px;height:36px;min-height:36px;max-height:36px;overflow:hidden}
+  #qchat-embed #prog .qc-mid{flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #qchat-embed #prog .pt.qc-line{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #qchat-embed #prog .qmini{padding:4px 8px!important;font-size:12px!important;line-height:1.2;flex-shrink:0}
   #qchat-embed .desk-only{display:none!important}
+  #qchat-embed #prog{height:48px;box-sizing:border-box}
   #qchat-embed #chat{margin:6px auto!important;padding:8px!important;min-height:0!important;box-shadow:none}
   #qchat-embed .m{margin:4px 0!important;padding:8px 10px!important;font-size:14px;line-height:1.35;max-width:100%}
   #qchat-embed .tiles{gap:8px;padding-bottom:72px}
@@ -127,9 +129,14 @@ html.qchat-on:not(.qchat-show-classic) [data-classic]{display:none!important}
   #qchat-embed .tile span{font-size:22px}
   #qchat-embed .tbar .tgo,#qchat-embed .tgo{padding:12px!important;font-size:15px!important}
 }
+/* Compact prog on all viewports so Continue never shifts card top */
+#qchat-embed #prog .qc-line{display:flex;align-items:center;gap:8px;height:36px;min-height:36px;max-height:36px;overflow:hidden}
+#qchat-embed #prog .qc-mid{flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#qchat-embed #prog .pt.qc-line{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#qchat-embed #prog{box-sizing:border-box;height:48px;min-height:48px;max-height:48px;padding:6px 12px}
+#qchat-embed .desk-only{display:none!important}
 @media(min-width:701px){
-  #qchat-embed .desk-only{display:block}
-  #qchat-embed .crumbs.desk-only{display:flex}
-  #qchat-embed .qt.desk-only{text-align:center;font-size:13px;color:#475569;font-weight:600;margin-top:4px}
-  #qchat-embed #prog .qc-line .qmini{padding:6px 10px;font-size:13px}
+  #qchat-embed #prog{height:52px;min-height:52px;max-height:52px;padding:8px 14px}
+  #qchat-embed #prog .qc-line{height:36px}
+  #qchat-embed #prog .qmini{padding:6px 10px;font-size:13px}
 }

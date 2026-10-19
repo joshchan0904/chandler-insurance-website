@@ -58,7 +58,7 @@ const LBL=x=>x.t?SHORT(x.t)+' · '+x.s:x.s;
 function setSteps(s){STEPS=s;render()}
 function step(){if(EDIT)return;render();say('— '+LBL(STEPS[cur])+' —','sec');saveDraft()}
 function render(){const p=document.getElementById('prog');const n=STEPS.length;requestAnimationFrame(()=>document.documentElement.style.setProperty('--progh',(p.offsetHeight+16)+'px'));
- if(!D.types||!n){p.innerHTML='<div class="pt qc-line">Getting started — choose one or more quote types</div>';ROOT.classList.remove('qchat-stepping');return}
+ if(!D.types||!n){p.innerHTML='<div class="pt qc-line">Getting started — choose quote types</div>';ROOT.classList.remove('qchat-stepping');return}
  const types=esc(D.types.map(SHORT).join(' + '));
  const label=esc(LBL(STEPS[cur]));
  p.innerHTML=`<div class="pt qc-line"><button type="button" class="alt qmini" data-nav="back" aria-label="Back">←</button><span class="qc-mid">Step ${cur+1}/${n}: <b>${label}</b></span><button type="button" class="alt qmini" data-nav="type">Change</button></div><div class="bar desk-only"><i style="width:${Math.round((cur+1)/n*100)}%"></i></div><div class="crumbs desk-only">${STEPS.map((x,i)=>{const s=esc(LBL(x));return i<cur?`<a href="#" class="done" data-step="${i}" title="Edit ${s}">✓ ${s}</a>`:`<span class="${i===cur?'on':''}">${s}</span>`}).join('<em>›</em>')}</div><div class="qt desk-only">${types}</div>`;ROOT.classList.add('qchat-stepping')}
