@@ -83,60 +83,68 @@ html.qchat-on:not(.qchat-show-classic) [data-classic]{display:none!important}
 #qchat-embed .crumbs{flex-wrap:nowrap!important;white-space:nowrap;overflow:hidden}
 #qchat-embed #qhist summary{min-height:22px}
 
-/* fixB3: compact mobile load so type cards sit above the fold (~390x664) */
+
+/* fixB3: compact mobile load + visible step bar + question priority */
+#qchat-embed #prog{
+  box-sizing:border-box;height:56px;min-height:56px;max-height:56px;
+  padding:6px 12px 4px;display:flex;flex-direction:column;justify-content:center;gap:4px;
+}
+#qchat-embed #prog .qc-line{
+  display:flex;align-items:center;gap:8px;height:32px;min-height:32px;max-height:32px;overflow:hidden;margin:0;
+}
+#qchat-embed #prog .qc-mid{flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px}
+#qchat-embed #prog .pt.qc-line{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px}
+#qchat-embed #prog .qmini{padding:4px 8px;font-size:12px;line-height:1.2;flex-shrink:0}
+#qchat-embed #prog .bar.qc-bar{display:block!important;height:6px;min-height:6px;margin:0;flex-shrink:0}
+#qchat-embed #prog .crumbs,#qchat-embed #prog .qt.desk-only,#qchat-embed .desk-only{display:none!important}
+#qchat-embed #chat .m.qcur{font-size:17px;font-weight:600;padding:12px 14px;max-width:100%;border-color:#93c5fd;background:#f0f7ff}
+#qchat-embed #in{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+#qchat-embed #in input,#qchat-embed #in textarea,#qchat-embed #in select{
+  width:100%;min-width:0;min-height:48px;font-size:16px!important;padding:12px 14px
+}
+#qchat-embed #in>button{width:100%;min-height:48px;font-size:16px;font-weight:600;padding:12px 16px}
+
 @media(max-width:700px){
   /* Page chrome above the embed — keep text, shrink spacing */
-  html.qchat-on .hero{padding:.55rem .75rem .45rem!important}
-  html.qchat-on .hero h1{font-size:1.2rem!important;line-height:1.25!important;margin:0!important}
-  html.qchat-on .hero p{font-size:.78rem!important;line-height:1.3!important;margin:.2rem auto 0!important;max-width:100%!important}
-  html.qchat-on .hero > div{margin-top:.35rem!important;gap:.45rem 1rem!important;font-size:.72rem!important}
-  html.qchat-on nav{padding:.55rem 1rem!important}
-  html.qchat-on nav img{height:36px!important}
-  html.qchat-on .max-w-5xl.py-8,
-  html.qchat-on .max-w-4xl.py-10,
-  html.qchat-on .max-w-\[1200px\].py-6,
-  html.qchat-on [class*="max-w-"][class*="py-"]{padding-top:.55rem!important;padding-bottom:.55rem!important}
-  html.qchat-on .mb-10{margin-bottom:.55rem!important}
-  html.qchat-on .mb-6{margin-bottom:.4rem!important}
-  html.qchat-on .mb-4{margin-bottom:.3rem!important}
-  html.qchat-on .mt-3{margin-top:.25rem!important}
-  html.qchat-on .mt-1{margin-top:.15rem!important}
-  html.qchat-on .text-4xl{font-size:1.3rem!important;line-height:1.25!important}
-  html.qchat-on .text-3xl{font-size:1.2rem!important;line-height:1.25!important}
-  html.qchat-on .text-2xl{font-size:1rem!important;line-height:1.3!important}
-  html.qchat-on .text-lg{font-size:.82rem!important;line-height:1.35!important}
-  html.qchat-on .navy-blue{padding:.45rem .7rem!important}
-  html.qchat-on .navy-blue .text-sm{font-size:.68rem!important;margin-top:0!important}
-  html.qchat-on .inline-flex.items-center{padding:.2rem .55rem!important;font-size:.68rem!important;margin-bottom:.3rem!important}
+  html.qchat-on .hero{padding:.45rem .7rem .35rem!important}
+  html.qchat-on .hero h1{font-size:1.15rem!important;line-height:1.2!important;margin:0!important}
+  html.qchat-on .hero p{font-size:.75rem!important;line-height:1.25!important;margin:.15rem auto 0!important;max-width:100%!important}
+  html.qchat-on .hero > div{margin-top:.25rem!important;gap:.3rem .75rem!important;font-size:.68rem!important}
+  html.qchat-on nav{padding:.5rem .9rem!important}
+  html.qchat-on nav img{height:34px!important}
+  html.qchat-on [class*="max-w-"][class*="py-"],
+  html.qchat-on .max-w-5xl,html.qchat-on .max-w-4xl{padding-top:.45rem!important;padding-bottom:.45rem!important}
+  html.qchat-on .mb-10{margin-bottom:.45rem!important}
+  html.qchat-on .mb-6{margin-bottom:.35rem!important}
+  html.qchat-on .mb-4{margin-bottom:.25rem!important}
+  html.qchat-on .mt-3{margin-top:.2rem!important}
+  html.qchat-on .mt-1{margin-top:.1rem!important}
+  html.qchat-on .text-4xl{font-size:1.25rem!important;line-height:1.2!important}
+  html.qchat-on .text-3xl{font-size:1.15rem!important;line-height:1.2!important}
+  html.qchat-on .text-2xl{font-size:.95rem!important;line-height:1.25!important}
+  html.qchat-on .text-lg{font-size:.78rem!important;line-height:1.3!important}
+  html.qchat-on .navy-blue{padding:.4rem .65rem!important}
+  html.qchat-on .navy-blue .text-sm{font-size:.65rem!important;margin-top:0!important}
+  html.qchat-on .inline-flex.items-center{padding:.15rem .45rem!important;font-size:.65rem!important;margin-bottom:.25rem!important}
 
-  /* Chat intro + prog + bubbles */
-  #qchat-embed{margin:6px auto!important;padding:0 8px!important}
-  #qchat-embed .qchat-title{font-size:1.05rem!important;margin:0!important;line-height:1.2}
-  #qchat-embed .qchat-sub{font-size:12px!important;margin:0!important;line-height:1.25}
+  /* Chat intro + prog */
+  #qchat-embed{margin:4px auto!important;padding:0 8px!important}
+  #qchat-embed .qchat-title{font-size:1rem!important;margin:0!important;line-height:1.15}
+  #qchat-embed .qchat-sub{font-size:11px!important;margin:0!important;line-height:1.2}
   #qchat-embed .qchat-head{margin:0 0 2px!important}
-  #qchat-embed #prog{padding:6px 10px!important;margin:0!important;min-height:0!important;box-shadow:none}
-  #qchat-embed #prog .pt{font-size:13px!important;font-weight:600;line-height:1.3}
-  #qchat-embed #prog .qc-line{display:flex;align-items:center;gap:6px;height:36px;min-height:36px;max-height:36px;overflow:hidden}
-  #qchat-embed #prog .qc-mid{flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  #qchat-embed #prog .pt.qc-line{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  #qchat-embed #prog .qmini{padding:4px 8px!important;font-size:12px!important;line-height:1.2;flex-shrink:0}
-  #qchat-embed .desk-only{display:none!important}
-  #qchat-embed #prog{height:48px;box-sizing:border-box}
-  #qchat-embed #chat{margin:6px auto!important;padding:8px!important;min-height:0!important;box-shadow:none}
-  #qchat-embed .m{margin:4px 0!important;padding:8px 10px!important;font-size:14px;line-height:1.35;max-width:100%}
+  #qchat-embed #prog{height:56px;min-height:56px;max-height:56px;padding:6px 10px 4px!important;margin:0!important;box-shadow:none}
+  #qchat-embed #prog .pt,#qchat-embed #prog .qc-mid{font-size:13px!important}
+  #qchat-embed #chat{margin:6px auto!important;padding:10px!important;min-height:0!important;box-shadow:none}
+  #qchat-embed #chat .m{margin:4px 0!important}
+  #qchat-embed #chat .m.qcur{font-size:18px!important;font-weight:700;padding:14px 14px!important;line-height:1.35}
+  #qchat-embed #in input,#qchat-embed #in textarea,#qchat-embed #in select{
+    min-height:52px!important;font-size:18px!important;padding:14px!important
+  }
+  #qchat-embed #in>button{min-height:48px!important;font-size:16px!important}
   #qchat-embed .tiles{gap:8px;padding-bottom:72px}
   #qchat-embed .tile{padding:10px 6px!important;font-size:13px}
   #qchat-embed .tile span{font-size:22px}
-  #qchat-embed .tbar .tgo,#qchat-embed .tgo{padding:12px!important;font-size:15px!important}
-}
-/* Compact prog on all viewports so Continue never shifts card top */
-#qchat-embed #prog .qc-line{display:flex;align-items:center;gap:8px;height:36px;min-height:36px;max-height:36px;overflow:hidden}
-#qchat-embed #prog .qc-mid{flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#qchat-embed #prog .pt.qc-line{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#qchat-embed #prog{box-sizing:border-box;height:48px;min-height:48px;max-height:48px;padding:6px 12px}
-#qchat-embed .desk-only{display:none!important}
-@media(min-width:701px){
-  #qchat-embed #prog{height:52px;min-height:52px;max-height:52px;padding:8px 14px}
-  #qchat-embed #prog .qc-line{height:36px}
-  #qchat-embed #prog .qmini{padding:6px 10px;font-size:13px}
+  #qchat-embed .tbar .tgo,#qchat-embed .tgo{padding:12px!important;font-size:15px!important;min-height:48px}
+  #qchat-embed #qhist{margin:8px auto 0;padding:6px 12px;font-size:13px}
+  #qchat-embed .qchat-toggle{padding:8px 14px;font-size:14px}
 }
