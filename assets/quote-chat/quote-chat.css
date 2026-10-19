@@ -82,3 +82,54 @@ html.qchat-on:not(.qchat-show-classic) [data-classic]{display:none!important}
 #qchat-embed #qhist.hidden:not([style*="none"]){display:block!important}
 #qchat-embed .crumbs{flex-wrap:nowrap!important;white-space:nowrap;overflow:hidden}
 #qchat-embed #qhist summary{min-height:22px}
+
+/* fixB3: compact mobile load so type cards sit above the fold (~390x664) */
+@media(max-width:700px){
+  /* Page chrome above the embed — keep text, shrink spacing */
+  html.qchat-on .hero{padding:.55rem .75rem .45rem!important}
+  html.qchat-on .hero h1{font-size:1.2rem!important;line-height:1.25!important;margin:0!important}
+  html.qchat-on .hero p{font-size:.78rem!important;line-height:1.3!important;margin:.2rem auto 0!important;max-width:100%!important}
+  html.qchat-on .hero > div{margin-top:.35rem!important;gap:.45rem 1rem!important;font-size:.72rem!important}
+  html.qchat-on nav{padding:.55rem 1rem!important}
+  html.qchat-on nav img{height:36px!important}
+  html.qchat-on .max-w-5xl.py-8,
+  html.qchat-on .max-w-4xl.py-10,
+  html.qchat-on .max-w-\[1200px\].py-6,
+  html.qchat-on [class*="max-w-"][class*="py-"]{padding-top:.55rem!important;padding-bottom:.55rem!important}
+  html.qchat-on .mb-10{margin-bottom:.55rem!important}
+  html.qchat-on .mb-6{margin-bottom:.4rem!important}
+  html.qchat-on .mb-4{margin-bottom:.3rem!important}
+  html.qchat-on .mt-3{margin-top:.25rem!important}
+  html.qchat-on .mt-1{margin-top:.15rem!important}
+  html.qchat-on .text-4xl{font-size:1.3rem!important;line-height:1.25!important}
+  html.qchat-on .text-3xl{font-size:1.2rem!important;line-height:1.25!important}
+  html.qchat-on .text-2xl{font-size:1rem!important;line-height:1.3!important}
+  html.qchat-on .text-lg{font-size:.82rem!important;line-height:1.35!important}
+  html.qchat-on .navy-blue{padding:.45rem .7rem!important}
+  html.qchat-on .navy-blue .text-sm{font-size:.68rem!important;margin-top:0!important}
+  html.qchat-on .inline-flex.items-center{padding:.2rem .55rem!important;font-size:.68rem!important;margin-bottom:.3rem!important}
+
+  /* Chat intro + prog + bubbles */
+  #qchat-embed{margin:6px auto!important;padding:0 8px!important}
+  #qchat-embed .qchat-title{font-size:1.05rem!important;margin:0!important;line-height:1.2}
+  #qchat-embed .qchat-sub{font-size:12px!important;margin:0!important;line-height:1.25}
+  #qchat-embed .qchat-head{margin:0 0 2px!important}
+  #qchat-embed #prog{padding:6px 10px!important;margin:0!important;min-height:0!important;box-shadow:none}
+  #qchat-embed #prog .pt{font-size:13px!important;font-weight:600;line-height:1.3}
+  #qchat-embed #prog .qc-line{display:flex;align-items:center;gap:6px;min-height:28px}
+  #qchat-embed #prog .qc-mid{flex:1;text-align:center}
+  #qchat-embed #prog .qmini{padding:4px 8px!important;font-size:12px!important;line-height:1.2}
+  #qchat-embed .desk-only{display:none!important}
+  #qchat-embed #chat{margin:6px auto!important;padding:8px!important;min-height:0!important;box-shadow:none}
+  #qchat-embed .m{margin:4px 0!important;padding:8px 10px!important;font-size:14px;line-height:1.35;max-width:100%}
+  #qchat-embed .tiles{gap:8px;padding-bottom:72px}
+  #qchat-embed .tile{padding:10px 6px!important;font-size:13px}
+  #qchat-embed .tile span{font-size:22px}
+  #qchat-embed .tbar .tgo,#qchat-embed .tgo{padding:12px!important;font-size:15px!important}
+}
+@media(min-width:701px){
+  #qchat-embed .desk-only{display:block}
+  #qchat-embed .crumbs.desk-only{display:flex}
+  #qchat-embed .qt.desk-only{text-align:center;font-size:13px;color:#475569;font-weight:600;margin-top:4px}
+  #qchat-embed #prog .qc-line .qmini{padding:6px 10px;font-size:13px}
+}

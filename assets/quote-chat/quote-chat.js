@@ -58,9 +58,10 @@ const LBL=x=>x.t?SHORT(x.t)+' · '+x.s:x.s;
 function setSteps(s){STEPS=s;render()}
 function step(){if(EDIT)return;render();say('— '+LBL(STEPS[cur])+' —','sec');saveDraft()}
 function render(){const p=document.getElementById('prog');const n=STEPS.length;requestAnimationFrame(()=>document.documentElement.style.setProperty('--progh',(p.offsetHeight+16)+'px'));
- if(!D.types||!n){p.innerHTML='<div class="pt">Getting started — choose one or more quote types</div>';ROOT.classList.remove('qchat-stepping');return}
- const nav=D.types?`<div class="qnav"><button type="button" class="alt" data-nav="back">← Back</button><span class="qt">${esc(D.types.map(SHORT).join(' + '))}</span><button type="button" class="alt" data-nav="type">Change quote type</button></div>`:'';
- p.innerHTML=nav+`<div class="pt">Step ${cur+1} of ${n}: <b>${esc(LBL(STEPS[cur]))}</b></div><div class="bar"><i style="width:${Math.round((cur+1)/n*100)}%"></i></div><div class="crumbs">${STEPS.map((x,i)=>{const s=esc(LBL(x));return i<cur?`<a href="#" class="done" data-step="${i}" title="Edit ${s}">✓ ${s}</a>`:`<span class="${i===cur?'on':''}">${s}</span>`}).join('<em>›</em>')}</div>`;ROOT.classList.add('qchat-stepping')}
+ if(!D.types||!n){p.innerHTML='<div class="pt qc-line">Getting started — choose one or more quote types</div>';ROOT.classList.remove('qchat-stepping');return}
+ const types=esc(D.types.map(SHORT).join(' + '));
+ const label=esc(LBL(STEPS[cur]));
+ p.innerHTML=`<div class="pt qc-line"><button type="button" class="alt qmini" data-nav="back" aria-label="Back">←</button><span class="qc-mid">Step ${cur+1}/${n}: <b>${label}</b></span><button type="button" class="alt qmini" data-nav="type">Change</button></div><div class="bar desk-only"><i style="width:${Math.round((cur+1)/n*100)}%"></i></div><div class="crumbs desk-only">${STEPS.map((x,i)=>{const s=esc(LBL(x));return i<cur?`<a href="#" class="done" data-step="${i}" title="Edit ${s}">✓ ${s}</a>`:`<span class="${i===cur?'on':''}">${s}</span>`}).join('<em>›</em>')}</div><div class="qt desk-only">${types}</div>`;ROOT.classList.add('qchat-stepping')}
  if(!document.getElementById('editstyle')){const st=document.createElement('style');st.id='editstyle';st.textContent=`.m.u.editable{cursor:pointer}.m.u.editable:hover::after{content:" ✎ edit";font-size:0.8em;color:#666;margin-left:8px}`;document.head.appendChild(st);}
 
 // ---------- chat primitives ----------
@@ -624,7 +625,7 @@ const TILES=[
  ['Motorcycle','🏍️','recreational-quote.html'],['RV / Travel Trailer','🚐','recreational-quote.html'],
  ['Other / not sure','❓','quote.html']];
 function setClassic(u){} // no-op for embed
-function tiles(pre=[]){return new Promise(res=>{say('What would you like a quote for? Select all that apply, then press Continue.');const b=box();b.className='tiles';const sel=new Set(pre&&pre.length?pre:(PRE_TYPE?[PRE_TYPE]:[]));
+function tiles(pre=[]){return new Promise(res=>{say('What do you need quoted? Select all that apply.');const b=box();b.className='tiles';const sel=new Set(pre&&pre.length?pre:(PRE_TYPE?[PRE_TYPE]:[]));
  const go=document.createElement('button');go.className='go tgo';const bar=document.createElement('div');bar.className='tbar';const hint=document.createElement('div');hint.className='thint';hint.textContent='Pick more or tap Continue';
  const upd=()=>{go.disabled=!sel.size;go.textContent=sel.size?`Continue (${sel.size} selected) →`:'Select at least one type';bar.classList.toggle('show',sel.size>0);};
  TILES.forEach(([t,i,u])=>{const x=document.createElement('button');x.type='button';x.className='tile'+(sel.has(t)?' sel':'');x.setAttribute('aria-pressed',sel.has(t));x.dataset.type=t;x.innerHTML=`<span>${i}</span>${esc(t)}`;
@@ -663,7 +664,7 @@ async function runFrom(i){const g=++gen;document.getElementById('sum').style.dis
   }
   const r=await SEC[x.s](x.t);if(g!==gen)return;
   if(x.s==='Send or continue'&&r===true){sentEarly=true;k=STEPS.findIndex(s=>s.s==='Final details')-1}}}
-const INTRO="Hi! This takes about 2 minutes. Skip anything you don't know — we'll fill it in together.";
+const INTRO="About 2 minutes — skip anything you don't know.";
 // Clean transcript: wipe chat and show only intro (+ types and completed steps when resuming mid-flow)
 function resetChat(upto){chat.innerHTML='';say(INTRO);
  if(upto!=null&&D.types){say(D.types.join(' + '),'u');const done=STEPS.slice(0,upto).map(LBL);if(done.length)say('✓ Done: '+done.join(' · '),'sec')}}
@@ -693,6 +694,6 @@ async function run(){setClassic(C+'quote.html');render();
   if(choice==='Start over'){clearDraft();sessionStorage.removeItem(DONE_KEY);localStorage.removeItem(DONE_KEY);resetChat();pickType();return}
   Object.assign(D,draft.D||{});cur=draft.cur||0;STEPS=draft.STEPS||[];partialSent=draft.partialSent||false;sentEarly=draft.sentEarly||false;
   resetChat(cur);runFrom(cur);return}
- say(INTRO);pickType()}
+ pickType()}
 run();
 })();
