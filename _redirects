@@ -2,6 +2,10 @@
 # Format: old-path    new-path    301
 # Use 301! (force) when overriding Netlify Pretty URLs that would otherwise 200.
 
+# --- Host canonicalization (one-directional: www -> apex; apex never redirects to www) ---
+https://www.chandlerinsurancemn.com/*                  https://chandlerinsurancemn.com/:splat   301!
+http://www.chandlerinsurancemn.com/*                   https://chandlerinsurancemn.com/:splat   301!
+
 # --- Canonical path consolidation (Pretty URL near-duplicates) ---
 # Preferred form: https://chandlerinsurancemn.com/<page>.html (homepage: /)
 /index.html                                            /                              301!
@@ -40,6 +44,10 @@
 /blog/minnesota-auto-insurance-cost-2026               /blog/minnesota-auto-insurance-cost-2026.html 301!
 /blog/summer-driving-minnesota                         /blog/summer-driving-minnesota.html 301!
 /blog/summer-storm-hail-minnesota                      /blog/summer-storm-hail-minnesota.html 301!
+/blog/snowmobile-insurance-minnesota-need-separate     /blog/snowmobile-insurance-minnesota-need-separate.html 301!
+/blog/deer-hail-black-ice-auto-insurance-grand-rapids  /blog/deer-hail-black-ice-auto-insurance-grand-rapids.html 301!
+/blog/cabin-vs-homeowners-insurance-minnesota          /blog/cabin-vs-homeowners-insurance-minnesota.html 301!
+/blog/winter-vacancy-frozen-pipes-minnesota-cabins     /blog/winter-vacancy-frozen-pipes-minnesota-cabins.html 301!
 
 # Legacy Client Center path (old Wix / external citations)
 /client-center                                         /                              301
