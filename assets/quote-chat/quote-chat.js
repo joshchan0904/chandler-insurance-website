@@ -1,6 +1,8 @@
 (function(){const ROOT=document.getElementById('qchat-embed');if(!ROOT)return;const PRE_TYPE=ROOT.dataset.qtype||'';
 // PREVIEW options (A/B/C) — window.QC_PREVIEW is only set by /assets/quote-preview/quote-preview.js off-production. OPT==='' => current behavior.
 const QP=window.QC_PREVIEW||null;const OPT=(QP&&QP.on&&QP.opt)||'';
+const QP_KEEP_REQ=/^(your full name\?|best phone or email\?)$|use this contact|what would you like to do|resume your|keep them\?|correct\?|add more details now|have your dec page/i;
+const qpOpt=(q,opt)=>(OPT&&!opt&&!QP_KEEP_REQ.test(String(q).trim()))?true:opt;
 // Chandler Quote Chat (PREVIEW) — mirrors live auto-quote / home-quote fields; submits via Netlify Forms (HTTPS POST).
 const chat=document.getElementById('chat'),D={};let QC_LIVE=false;const QC_TOUCH=matchMedia('(pointer:coarse)').matches;
 const qcLive=()=>{QC_LIVE=true};chat.addEventListener('pointerdown',qcLive,{once:true});chat.addEventListener('keydown',qcLive,{once:true});let decFile=null;let currentError=null;let partialSent=false;let sentEarly=false;
@@ -116,7 +118,7 @@ function qcHist(){let h=document.getElementById('qhist');if(!h){h=document.creat
  h.innerHTML=`<summary class="qhist-sum">Edit ${items.length} answer${items.length===1?'':'s'}</summary>`+items.map(([k,v])=>`<div class="qh"><span class="qhq">${esc(v.q)}</span> <span class="qha">${esc(v.a||'(skipped)')}</span> <a href="#" class="qhe" data-qkey="${esc(k)}">Edit</a></div>`).join('');
  h.open=open;h.querySelectorAll('.qhe').forEach(a=>a.onclick=e=>{e.preventDefault();startEdit(a.dataset.qkey)})}
 
-function ask(q,{type='text',opt=true,valid,multi,ph=''}={}){const pv=this&&this.pv;const k=qkeyFor(q);if(EDIT&&k!==EDIT.k&&ANSWERS.has(k)){const a=ANSWERS.get(k).a;record(k,q,a);return Promise.resolve(a);}return new Promise(res=>{say(shortenQ(q));const b=box();b.className='qin text-step';
+function ask(q,{type='text',opt=true,valid,multi,ph=''}={}){opt=qpOpt(q,opt);const pv=this&&this.pv;const k=qkeyFor(q);if(EDIT&&k!==EDIT.k&&ANSWERS.has(k)){const a=ANSWERS.get(k).a;record(k,q,a);return Promise.resolve(a);}return new Promise(res=>{say(shortenQ(q));const b=box();b.className='qin text-step';
  addBackLink(b);addHelper(b,q);
  const i=document.createElement(multi?'textarea':'input');if(!multi)i.type=type;i.placeholder=ph;if(typeof pv==='string'&&pv)i.value=pv;b.append(i);if(QC_LIVE&&!QC_TOUCH)i.focus({preventScroll:true});
  const ql=q.toLowerCase();if(!multi){i.setAttribute('enterkeyhint','next');
@@ -139,12 +141,12 @@ function ask(q,{type='text',opt=true,valid,multi,ph=''}={}){const pv=this&&this.
   removeError();b.remove();lastQK=k;say(v||'(skipped)','u');record(k,q,v||'');res(v);saveDraft();lastQK=null};
  go.onclick=sub;if(!multi)i.onkeydown=e=>{if(e.key==='Enter'&&!e.isComposing){e.preventDefault();sub()}};
  if(!multi&&valid)i.oninput=()=>{if(i.value.trim()&&valid(i.value.trim()))removeError()};})}
-function choose(q,opts,{opt=true}={}){const pv=this&&this.pv;const k=qkeyFor(q);if(EDIT&&k!==EDIT.k&&ANSWERS.has(k)){const a=ANSWERS.get(k).a;record(k,q,a);return Promise.resolve(a);}return new Promise(res=>{say(shortenQ(q));const b=box();b.className='qin choice-step'+(opts.length===2?' two-col':'');
+function choose(q,opts,{opt=true}={}){opt=qpOpt(q,opt);const pv=this&&this.pv;const k=qkeyFor(q);if(EDIT&&k!==EDIT.k&&ANSWERS.has(k)){const a=ANSWERS.get(k).a;record(k,q,a);return Promise.resolve(a);}return new Promise(res=>{say(shortenQ(q));const b=box();b.className='qin choice-step'+(opts.length===2?' two-col':'');
  addBackLink(b);addHint(b,'Tap one');
  if(typeof pv==='string'&&pv){const kb=document.createElement('button');kb.type='button';kb.className='qchoice go';kb.textContent='Keep: '+pv;kb.onclick=()=>{b.remove();lastQK=k;say(pv,'u');record(k,q,pv);res(pv);lastQK=null};b.append(kb)}
  opts.forEach(o=>{const x=document.createElement('button');x.type='button';x.className='qchoice';x.textContent=o;x.onclick=()=>{removeError();b.remove();lastQK=k;say(o,'u');record(k,q,o);res(o);saveDraft();lastQK=null};b.append(x)});
  addSkip(b,opt,()=>{removeError();b.remove();lastQK=k;say('(skipped)','u');record(k,q,'');res('');saveDraft();lastQK=null})})}
-function pick(q,opts,{opt=true}={}){const pv=this&&this.pv;const k=qkeyFor(q);if(EDIT&&k!==EDIT.k&&ANSWERS.has(k)){const a=ANSWERS.get(k).a;record(k,q,a);return Promise.resolve(a);}return new Promise(res=>{say(shortenQ(q));const b=box();
+function pick(q,opts,{opt=true}={}){opt=qpOpt(q,opt);const pv=this&&this.pv;const k=qkeyFor(q);if(EDIT&&k!==EDIT.k&&ANSWERS.has(k)){const a=ANSWERS.get(k).a;record(k,q,a);return Promise.resolve(a);}return new Promise(res=>{say(shortenQ(q));const b=box();
  // Prefer tappable cards when a short list; otherwise select
  if(opts.length<=12){b.className='qin choice-step'+(opts.length<=4?' two-col':'');addBackLink(b);addHint(b,'Tap one');addHelper(b,q);
   if(typeof pv==='string'&&pv){const kb=document.createElement('button');kb.type='button';kb.className='qchoice go';kb.textContent='Keep: '+pv;kb.onclick=()=>{b.remove();lastQK=k;say(pv,'u');record(k,q,pv);res(pv);lastQK=null};b.append(kb)}
@@ -746,9 +748,9 @@ addEventListener('pageshow',e=>{if(e.persisted)location.reload()});
 // ================= PREVIEW OPTIONS A/B/C (all guarded by OPT; inert when OPT==='') =================
 function buildStepsOpt(types){const one=types.length===1?types[0]:null;let s;
  if(OPT==='c'&&one==='Auto')s=[{t:null,s:'Contact'},{t:'Auto',s:'Quick vehicle'},{t:null,s:'More details?'},{t:null,s:'Final details'},{t:null,s:'Review'}];
- else if(OPT==='c'&&one==='Business')s=[{t:'Business',s:'Industry'},{t:'Business',s:'Coverage needed'},{t:null,s:'Contact'},{t:null,s:'More details?'},{t:null,s:'Final details'},{t:null,s:'Review'}];
- else{s=buildSteps(types);if(one==='Business'){const i=s.findIndex(x=>x.s==='Business');if(i>0){const[b]=s.splice(i,1);s.unshift(b)}}}
- if(OPT==='b'||OPT==='c')s.unshift({t:null,s:'Dec page'});
+ else if(OPT==='c'&&one==='Business')s=[{t:null,s:'Contact'},{t:'Business',s:'Industry'},{t:'Business',s:'Coverage needed'},{t:null,s:'More details?'},{t:null,s:'Final details'},{t:null,s:'Review'}];
+ else s=buildSteps(types);
+ if(OPT==='b'||OPT==='c')s.splice(1,0,{t:null,s:'Dec page'});
  return s}
 const isBizC=()=>OPT==='c'&&(D.types||[]).length===1&&D.types[0]==='Business';
 const isAutoC=()=>OPT==='c'&&(D.types||[]).length===1&&D.types[0]==='Auto';
@@ -759,9 +761,9 @@ async function contactQuick(){step();
  D.full_name=await ask.call({pv:D.full_name},'Your full name?',{opt:false});
  const pe=await ask.call({pv:D.phone||D.email},'Best phone or email?',{opt:false,valid:v=>/^\S+@\S+\.\S+$/.test(v)||v.replace(/\D/g,'').length>=10});
  if(/@/.test(pe)){D.email=pe;delete D.phone}else{D.phone=pe;delete D.email}
- if(isBizC()){D.business_zip=await ask.call({pv:D.business_zip},'Business ZIP code?',{opt:false,valid:v=>/^\d{5}(-\d{4})?$/.test(v)});return false}
- if(isAutoC()){D.zip=await ask.call({pv:D.zip},'ZIP code?',{opt:false,valid:v=>/^\d{5}(-\d{4})?$/.test(v)});
-  D.date_of_birth=await ask.call({pv:D.date_of_birth},'Your date of birth?',{type:'date',opt:false});return false}
+ if(isBizC()){D.business_zip=await ask.call({pv:D.business_zip},'Business ZIP code? (optional)',{valid:v=>/^\d{5}(-\d{4})?$/.test(v)});return false}
+ if(isAutoC()){D.zip=await ask.call({pv:D.zip},'ZIP code? (optional)',{valid:v=>/^\d{5}(-\d{4})?$/.test(v)});
+  D.date_of_birth=await ask.call({pv:D.date_of_birth},'Date of birth? (optional)',{type:'date'});return false}
  D.date_of_birth=await ask.call({pv:D.date_of_birth},'Date of birth? (optional)',{type:'date'});
  D.address=await ask.call({pv:D.address},'Street address? (optional)');D.city=await ask.call({pv:D.city},'City? (optional)');D.zip=await ask.call({pv:D.zip},'ZIP code? (optional)',{valid:v=>/^\d{5}(-\d{4})?$/.test(v)});
  D.requested_effective_date=await ask.call({pv:D.requested_effective_date},'When should coverage start? (optional)',{type:'date'});
@@ -777,8 +779,8 @@ async function decShortcut(){step();
  else if(c==='I\'ll text a photo'){D.dec_via_text='Customer will text a photo of the dec page to (218) 520-8790';
   const m=say('Text a photo of each page to (218) 520-8790. We\'ll match it to your request.');const a=document.createElement('a');a.href='sms:2185208790';a.className='qp-sms';a.textContent='📱 Text a photo to (218) 520-8790';m.append(document.createElement('br'),a)}
  else{delete D.dec_via_text;return}
- say('Great, that skips most questions. Just your contact info and we\'re done.','sec');
- const i=STEPS.findIndex(x=>x.s==='Dec page');STEPS=[STEPS[i],{t:null,s:'Contact'},{t:null,s:'Final details'},{t:null,s:'Review'}];cur=0;render();saveDraft()}
+ say('Great, that skips most questions. Just a quick note and we\'re done.','sec');
+ const i=STEPS.findIndex(x=>x.s==='Dec page');STEPS=[...STEPS.slice(0,i+1),{t:null,s:'Final details'},{t:null,s:'Review'}];cur=i;render();saveDraft()}
 async function quickVehicle(){step();const o=(D.vehicles&&D.vehicles[0])||{};
  await vinStep(o,{vin:'vin',year:'year',make:'make',model:'model',trim:'trim'},'Vehicle 1');
  D.vehicles=[o,...((D.vehicles||[]).slice(1))];
@@ -793,9 +795,10 @@ async function industry(){step();const q='What kind of business?';const k=qkeyFo
  if(EDIT&&k!==EDIT.k&&ANSWERS.has(k)){v=ANSWERS.get(k).a;record(k,q,v)}
  else v=await new Promise(res=>{say(q);const b=box();b.className='tiles choice-step';addHint(b,'Tap one');
   INDUSTRIES.forEach(([t,ic])=>{const x=document.createElement('button');x.type='button';x.className='tile'+(D.business_industry===t?' sel':'');x.innerHTML=`<span>${ic}</span>${esc(t)}`;
-   x.onclick=()=>{b.remove();lastQK=k;D.business_industry=t;say(t,'u');record(k,q,t);res(t);saveDraft();lastQK=null};b.append(x)})});
+   x.onclick=()=>{b.remove();lastQK=k;D.business_industry=t;say(t,'u');record(k,q,t);res(t);saveDraft();lastQK=null};b.append(x)});
+  addSkip(b,true,()=>{b.remove();lastQK=k;say("(not sure)",'u');record(k,q,'');res('');saveDraft();lastQK=null})});
  D.business_industry=v;
- if(v==='Other')D.business_description=await ask.call({pv:D.business_description},'Briefly, what does the business do?',{opt:false})}
+ if(v==='Other')D.business_description=await ask.call({pv:D.business_description},'Briefly, what does the business do? (optional)')}
 async function coverageNeeded(){step();
  D.business_coverages=await checks.call({pv:D.business_coverages||''},'What coverage do you need? (select all that apply)',['General Liability','Business Owners Policy (BOP)',"Workers' Comp",'Commercial Auto','Not sure'])}
 async function businessMore(){step();

@@ -147,6 +147,7 @@
   '.qp-stuck-f{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:6px}.qp-stuck-f input{padding:9px;border:1px solid #94a3b8;border-radius:8px;font-size:16px;min-width:0;flex:1 1 140px}'+
   '.qp-stuck-f button{background:#00a651;color:#fff;border:0;border-radius:8px;padding:10px 14px;font-weight:700}'+
   '#qchat-embed a.qp-sms{display:inline-block;margin-top:6px;background:#00a651;color:#fff;padding:9px 14px;border-radius:8px;text-decoration:none;font-weight:700}'+
+  '#qchat-embed .tiles .qskip{grid-column:1/-1}'+
   'html.qp-opt-c #qchat-embed .qchoice-ck{display:inline-flex;align-items:center;gap:6px;border:2px solid #dbe4f0;border-radius:999px;padding:8px 14px;background:#fff;cursor:pointer;font-weight:600;color:#003d82}'+
   'html.qp-opt-c #qchat-embed .qchoice-ck:has(input:checked){border-color:#003d82;background:#e8f0fb}';
   var st=document.createElement('style');st.id='qp-style';st.textContent=css;(document.head||de).appendChild(st);
