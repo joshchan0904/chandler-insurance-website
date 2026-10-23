@@ -62,11 +62,12 @@ async function sendPartial(){if(sessionStorage.getItem(DONE_KEY)||sessionStorage
 
 // ---------- progress ----------
 // STEPS: [{t:type|null,s:section}] — contact once, then each selected type's sections, then Final details + Review
-let STEPS=[],cur=0,qInSec=0;
+let STEPS=[],cur=0,qInSec=0,SUB=null;
+const setSub=t=>{SUB=t;render()};
 const SHORT=t=>({'Home & Cabin':'Home','Condo / Townhouse':'Condo','Landlord / Rental':'Landlord','ATV / UTV':'ATV/UTV','Boat / PWC':'Boat','RV / Travel Trailer':'RV','Home + Auto Bundle':'Bundle','Home + Auto bundle':'Bundle','Other / not sure':'Other'}[t]||t);
 const LBL=x=>x.t?SHORT(x.t)+' · '+x.s:x.s;
 function setSteps(s){STEPS=s;render()}
-function step(){qInSec=0;render();if(EDIT)return;say('— '+LBL(STEPS[cur])+' —','sec');saveDraft()}
+function step(){qInSec=0;SUB=null;render();if(EDIT)return;say('— '+LBL(STEPS[cur])+' —','sec');saveDraft()}
 function render(){const p=document.getElementById('prog');const n=STEPS.length;requestAnimationFrame(()=>document.documentElement.style.setProperty('--progh',(p.offsetHeight+16)+'px'));
  if(!D.types||!n){p.innerHTML='<div class="pt qc-line"><span class="qc-mid">Getting started — choose quote types</span></div><div class="bar qc-bar"><i style="width:0%"></i></div>';ROOT.classList.remove('qchat-stepping');return}
  const label=esc(friendlyProg());
@@ -83,6 +84,7 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 function friendlySec(s){return ({Contact:'Your contact info',Drivers:'Drivers',Vehicles:'Your vehicles',Household:'Household members',Property:'Your home','Home Coverage':'Home coverage','Auto Coverage':'Auto coverage','Rental Property':'Rental property',Business:'Your business',Life:'Life insurance','What you need':'What you need','Unit Details':'Vehicle details',Safety:'Safety details','Final details':'Final details','Send or continue':'Almost done',Review:'Review','Dec page':'Dec page shortcut','Quick vehicle':'Your vehicle','More details?':'Almost done','Industry':'Your business','Coverage needed':'Coverage','Business details':'Business details','Quick home':'Your home','Named insureds':'Named insureds'}[s]||s)}
 function friendlyProg(){if(!D.types||!STEPS.length)return 'Getting started — choose quote types';
  const x=STEPS[cur]||{},n=STEPS.length,sec=friendlySec(x.s);
+ if(OPT)return SUB?`Step ${cur+1} of ${n} · ${SUB}`:`Step ${cur+1} of ${n} · ${sec}`;
  if(x.s==='Vehicles'&&D.vehicles&&D.vehicles.length){const i=Math.min(Math.max(1,qInSec),D.vehicles.length);return `Vehicle ${i} of ${D.vehicles.length} · Mileage & details`}
  if(x.s==='Drivers'&&D.drivers&&D.drivers.length){const i=Math.min(Math.max(1,qInSec),D.drivers.length);return `Driver ${i} of ${D.drivers.length}`}
  return `Step ${cur+1} of ${n} · ${sec}`}
@@ -175,7 +177,8 @@ function checks(q,opts){const pv=(this&&this.pv)||'';const pre=pv.split(', ');co
  const go=document.createElement('button');go.type='button';go.className='qnext';go.textContent='Next';b.append(go);
  addSkip(b,true,()=>{removeError();b.remove();lastQK=k;say('(skipped)','u');record(k,q,'');res('');saveDraft();lastQK=null});
  go.onclick=()=>{const v=cs.filter(c=>c.checked).map(c=>c.value).join(', ');removeError();b.remove();lastQK=k;say(v||'(none)','u');record(k,q,v||'');res(v);saveDraft();lastQK=null}})}
-const yes=async q=>(await choose(q,['Yes','No'],{opt:false}))==='Yes';
+const YN_LOOP=/add another|anyone else|list the|add a |is .* a driver/i;
+const yes=async q=>{const pv=OPT&&!YN_LOOP.test(q)?(D._yn||{})[q]:undefined;const a=await choose.call({pv},q,['Yes','No'],{opt:false});if(OPT&&!YN_LOOP.test(q)){D._yn=D._yn||{};if(a)D._yn[q]=a}return a==='Yes'};
 const dobOK=v=>/^\d{4}-\d{2}-\d{2}$/.test(v)||/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(v);
 async function carrier(q){let c=await pick(q,['None / new to insurance',...CARRIERS],{opt:true});if(c==='Other')c=await ask('Which carrier?');return c}
 
@@ -195,9 +198,13 @@ async function contact(){if(OPT)return contactQuick();step();
  return false}
 async function drivers(){step();
  if(D.drivers&&D.drivers.length&& !EDIT &&(await choose(`You have ${D.drivers.length} driver(s) entered. Keep them?`,['Keep as entered','Re-enter'],{opt:false}))==='Keep as entered')return;const L=[];
+ if(OPT)setSub('Driver 1 (you)');
  L.push({name:D.full_name,dob:D.date_of_birth,relation:'Self',license:await ask("Your driver's license number? (optional)"),license_state:await pick('License state?',STATES),occupation:await ask.call({pv:D.occupation},'Occupation for driver 1? (optional)')});
- while(L.length<5&&await yes('Add another driver?')){const d={name:await ask(`Driver ${L.length+1} name?`),dob:await ask('Date of birth?',{type:'date'}),relation:await choose('Relationship to you?',['Spouse','Domestic partner','Child','Parent','Other relative','Other'])};d.license=await ask('Driver\'s license number? (optional)');d.license_state=await pick('License state? (optional)',STATES,{opt:true});d.occupation=await ask('Occupation? (optional)');L.push(d)}
- D.drivers=L; D.current_insurance_status=await choose.call({pv:D.current_insurance_status},'Current insurance status?',['No - New to Auto Insurance','Yes - With Another Carrier','Yes - Renewing with Current Carrier']); D.auto_prior_claims=await choose('Any prior claims in last 5 years?',['None','1 claim','2 or more claims']);
+ if(OPT&&D.named_insureds&&D.named_insureds.length){const NI=D.named_insureds.filter(x=>x&&x.name);if(NI.length)say('Named insureds are added as drivers by default: '+NI.map(x=>x.name).join(', ')+'. Remove anyone who doesn\'t drive.','sec');
+  for(const ni of NI){setSub(`Driver ${L.length+1} · ${ni.name}`);const pr=choose(`Is ${ni.name} a driver on this policy?`,['Yes, keep as driver','Remove from drivers']);qpDefault('Yes, keep as driver','Keeps them as a driver','Skip (keep as driver)');if((await pr)==='Remove from drivers')continue;
+   const d={name:ni.name,dob:ni.dob,relation:ni.relation};d.license=await ask(`${ni.name}'s driver's license number? (optional)`);d.license_state=await pick('License state? (optional)',STATES,{opt:true});d.occupation=await ask('Occupation? (optional)');L.push(d)}}
+ while(L.length<5&&await (OPT?(setSub('Drivers · add another?'),yes('Add another driver?')):yes('Add another driver?'))){if(OPT)setSub(`Driver ${L.length+1}`);const d={name:await ask(`Driver ${L.length+1} name?`),dob:await ask('Date of birth?',{type:'date'}),relation:await choose('Relationship to you?',['Spouse','Domestic partner','Child','Parent','Other relative','Other'])};d.license=await ask('Driver\'s license number? (optional)');d.license_state=await pick('License state? (optional)',STATES,{opt:true});d.occupation=await ask('Occupation? (optional)');L.push(d)}
+ D.drivers=L;if(OPT)setSub('Insurance & claims');if(!(OPT&&STEPS.some(x=>x.s==='Quick vehicle')&&('current_insurance_status' in D)))D.current_insurance_status=await choose.call({pv:D.current_insurance_status},'Current insurance status?',['No - New to Auto Insurance','Yes - With Another Carrier','Yes - Renewing with Current Carrier']); D.auto_prior_claims=await choose('Any prior claims in last 5 years?',['None','1 claim','2 or more claims']);
  if(D.auto_prior_claims && !D.auto_prior_claims.startsWith('None')){
   D.auto_prior_claims_details=await ask.call({pv:D.auto_prior_claims_details},'Claim details: date, type and amount for each (approx is fine)',{multi:true});
  } else {
@@ -373,7 +380,7 @@ async function landlord(){step();
  D.additional_properties=await pick('Other rentals to quote?',['Just this property','Yes — I’ll list them below']);
 }
 async function business(){step();
- D.business_name=await ask.call({pv:D.business_name},'Business name?');
+ if(!(OPT==='c'&&D.business_name))D.business_name=await ask.call({pv:D.business_name},'Business name?');
  D.dba=await ask.call({pv:D.dba},'DBA / trade name (if different)? (optional)');
  if(OPT&&!D.phone)D.phone=await ask('Business phone? (optional)',{type:'tel',valid:v=>v.replace(/\D/g,'').length>=10});
  if(OPT&&!D.email)D.email=await ask('Email address? (optional)',{type:'email',valid:v=>/^\S+@\S+\.\S+$/.test(v)});
@@ -389,13 +396,13 @@ async function business(){step();
  D.business_city=await ask.call({pv:D.business_city},'Business city?');
  D.business_state=await pick.call({pv:D.business_state},'Business state?',STATES,{opt:true});
  D.business_zip=await ask.call({pv:D.business_zip},'Business ZIP code?',{valid:v=>/^\d{5}(-\d{4})?$/.test(v)});
- D.business_description=await ask.call({pv:D.business_description},'Brief description of the business (what you do)?',{multi:true});
+ if(!(OPT&&D.business_description))D.business_description=await ask.call({pv:D.business_description},'Brief description of the business (what you do)?',{multi:true});
  if(OPT){D.insurance_class=await ask.call({pv:D.insurance_class},'Business class / specialty, if you know it (e.g. excavation contractor)? (optional)');
   D.eligibility_notes=await ask.call({pv:D.eligibility_notes},'Anything unusual about the operations (hazardous work, out-of-state jobs, etc.)? (optional)',{multi:true})}
  if(!(OPT&&D.business_coverages))D.business_coverages=await checks.call({pv:D.business_coverages||''},'Coverages wanted? (select all that apply)',['General Liability','Business Owners Package (BOP)','Commercial Auto',"Workers' Compensation",'Commercial Property','Professional Liability (E&O)','Directors & Officers (D&O)','Commercial Crime']);
  const covs=(D.business_coverages||'').split(', ');
  if(covs.includes('Commercial Auto')){
-  D.total_vehicles=await ask.call({pv:D.total_vehicles},'Total owned/leased vehicles?');
+  if(!OPT)D.total_vehicles=await ask.call({pv:D.total_vehicles},'Total owned/leased vehicles?');
   D.hired_autos=await pick.call({pv:D.hired_autos},'Any hired or non-owned autos?',['No','Yes - Occasionally','Yes - Regularly']);
   if(OPT)await bizAutoLoops();
  }
@@ -408,6 +415,7 @@ async function business(){step();
  }
  if(covs.includes('Commercial Property')||covs.includes('Business Owners Package (BOP)')){
   D.no_building_coverage=await choose.call({pv:D.no_building_coverage},'No building coverage requested (liability + contents only)?',['No','Yes']);
+  if(OPT&&D.no_building_coverage!=='Yes')await buildingsLoop();
  }
  if(covs.includes('Professional Liability (E&O)')){
   D.eo_services=await ask.call({pv:D.eo_services},'Description of professional services?',{multi:true});
@@ -423,7 +431,7 @@ async function business(){step();
   D.do_claims=await pick.call({pv:D.do_claims},'Any claims/investigations in last 5 years?',['No','Yes']);
  }
  if(covs.includes('Commercial Crime')){
-  D.crime_employees=await ask.call({pv:D.crime_employees},'Total number of employees?');
+  if(!OPT)D.crime_employees=await ask.call({pv:D.crime_employees},'Total number of employees?');
   D.crime_handlers=await ask.call({pv:D.crime_handlers},'Employees handling money/securities/inventory?');
   D.crime_limit=await pick.call({pv:D.crime_limit},'Employee dishonesty limit?',['$25,000','$50,000','$100,000','$250,000+']);
   D.crime_claims=await pick.call({pv:D.crime_claims},'Any crime/fidelity losses in last 5 years?',['No','Yes']);
@@ -608,7 +616,7 @@ function buildSummary(status){const types=D.types||[];const qtypes=[...new Set(t
  const hh=D.household||[];if(hh.length){lines.push('== Household ==');hh.forEach(h=>{const parts=[h.name,h.dob,h.relation].filter(Boolean);if(parts.length)lines.push(parts.join(' — '))});lines.push(''); printed.add('household');}
  if((D.types||[]).some(t=>['Home & Cabin','Condo / Townhouse','Home + Auto Bundle'].includes(t))) addSection('Home Coverage',['dwelling_value','deductible','current_home_carrier','home_liability_limit','personal_property','add_ons','home_claims_history','home_claims_history_details']);
  if(D.drivers&&D.drivers.length){lines.push('== Drivers ==');D.drivers.forEach((dr,i)=>{const parts=[];if(dr.name)parts.push(`Name: ${dr.name}`);if(dr.dob)parts.push(`DOB: ${dr.dob}`);if(dr.relation)parts.push(`Relation: ${dr.relation}`);if(dr.license)parts.push(`License #: ${dr.license}`);if(dr.license_state)parts.push(`License state: ${dr.license_state}`);if(dr.occupation!==undefined)parts.push(`Occupation: ${dr.occupation||''}`);lines.push(`Driver ${i+1}: ` + parts.join('; '))});lines.push(''); printed.add('drivers');}
- if(D.vehicles&&D.vehicles.length){lines.push('== Vehicles ==');D.vehicles.forEach((v,i)=>{lines.push('Vehicle '+(i+1)+':');const add=(l,val)=>{if(val)lines.push('  '+l+': '+val)};add('Year/Make/Model',[v.year,v.make,v.model].filter(Boolean).join(' '));if(v.vin)add('VIN',v.vin);if(v.trim)add('  Trim/Body',v.trim);add('Ownership',v.ownership);add('Use',v.use);add('Parking',v.parking);add('Odometer',v.mileage);add('Annual miles',v.annual_miles);add('Coverages',v.coverages);add('Comprehensive deductible',v.comp_deductible);add('Collision deductible',v.coll_deductible);add('Rental reimbursement',v.rental_limit);add('Liability limits',v.liability_limit);lines.push('')});lines.push(''); printed.add('vehicles');}
+ if(D.vehicles&&D.vehicles.length){lines.push('== Vehicles ==');D.vehicles.forEach((v,i)=>{lines.push('Vehicle '+(i+1)+':');const add=(l,val)=>{if(val)lines.push('  '+l+': '+val)};add('Year/Make/Model',[v.year,v.make,v.model].filter(Boolean).join(' '));if(v.vin)add('VIN',v.vin);if(v.trim)add('  Trim/Body',v.trim);add('Ownership',v.ownership);add('Use',v.use);add('Parking',v.parking);add(OPT?'Current mileage (odometer)':'Odometer',v.mileage);add('Annual miles',v.annual_miles);add('Coverages',v.coverages);add('Comprehensive deductible',v.comp_deductible);add('Collision deductible',v.coll_deductible);add('Rental reimbursement',v.rental_limit);add('Liability limits',v.liability_limit);lines.push('')});lines.push(''); printed.add('vehicles');}
  addSection('Auto Coverage',['auto_liability_limit','current_auto_carrier','current_insurance_status','auto_prior_claims','auto_prior_claims_details']);
  if((D.types||[]).includes('Landlord / Rental')) addSection('Rental Property',['mailing_address','county','rental_units','square_feet','dwelling_value','monthly_rent','stories','construction','roof','electrical_year','plumbing_year','wood_heat','wood_heat_type','wood_heat_location','wood_heat_role','wood_heat_pro_installed','wood_heat_year','occupancy','owner_occupied_unit','tenant_screening','require_renters','coverages','landlord_liability_limit','current_carrier','prior_claims','prior_claims_details','additional_properties']);
  addSection('Business',['business_name','dba','ein','years_in_business','annual_revenue','annual_payroll','owner_experience','business_entity','business_employees','business_address','business_city','business_state','business_zip','business_description','business_coverages','total_vehicles','hired_autos','gl_operations','gl_per_occurrence','gl_aggregate','subcontractors_used','no_building_coverage','eo_services','eo_revenue','eo_per_claim','eo_claims','do_org_type','do_directors','do_assets','do_limit','do_claims','crime_employees','crime_handlers','crime_limit','crime_claims','crime_dual_control','prior_line','prior_carrier','prior_expiration','current_business_carrier','loss_history']);
@@ -648,7 +656,7 @@ function buildSummary(status){const types=D.types||[];const qtypes=[...new Set(t
    }
   }
   lines.push(''); printed.add('units');}
- if(OPT){const LST=[['named_insureds','Additional named insureds','Named insured'],['biz_drivers','Business drivers','Driver'],['biz_vehicles','Business vehicles','Vehicle'],['wc_classes',"Workers' comp job classes",'Class']];
+ if(OPT){const LST=[['named_insureds','Additional named insureds','Named insured'],['biz_drivers','Business drivers','Driver'],['biz_vehicles','Business vehicles','Vehicle'],['wc_classes',"Workers' comp job classes",'Class'],['buildings','Buildings','Building']];
   for(const[key,title,one]of LST){const a=D[key];if(!a||!a.length)continue;lines.push(`== ${title} ==`);a.forEach((r,i)=>{const parts=Object.entries(r).filter(([k,v])=>v&&typeof v==='string').map(([k,v])=>`${LABEL(k)}: ${v}`);lines.push(`${one} ${i+1}: `+(parts.join('; ')||'(details skipped)'))});lines.push('');printed.add(key)}}
  const nd=D.need_description;if(nd)lines.push('== What you need ==',nd,''); printed.add('need_description');
  const ai=D.additional_info;if(ai)lines.push('== Notes ==',ai,''); printed.add('additional_info');
@@ -785,13 +793,14 @@ function buildStepsOpt(types){const T=cTypes(types);let s;
  if(OPT==='c'){s=[];const bizFirst=T.length===1&&T[0]==='Business';if(bizFirst)s.push({t:'Business',s:'Industry'});s.push({t:null,s:'Contact'});const seen=new Set();
   for(const t of T)for(const x of (CQ[t]||(REC.includes(t)?['Unit Details']:[]))){if(bizFirst&&x==='Industry')continue;const key=REC.includes(t)?x+t:x;if(seen.has(key))continue;seen.add(key);s.push({t,s:x})}
   s.push({t:null,s:'More details?'},{t:null,s:'Final details'},{t:null,s:'Review'})}
- else{s=buildSteps(T);if(T.some(PERSONAL)){const fi=s.findIndex(x=>x.s==='Final details');s.splice(fi,0,{t:null,s:'Named insureds'})}}
+ else{s=buildSteps(T);if(T.some(PERSONAL)){const fi=s.findIndex(x=>x.t&&PERSONAL(x.t));s.splice(fi<0?s.findIndex(x=>x.s==='Final details'):fi,0,{t:null,s:'Named insureds'})}}
  if(OPT==='b'||OPT==='c'){const ci=s.findIndex(x=>x.s==='Contact');s.splice(ci+1,0,{t:null,s:'Dec page'})}
  return s}
 function moreStepsC(){const T=cTypes(D.types);const add=[],seen=new Set();if(T.some(PERSONAL))add.push({t:null,s:'Named insureds'});
  for(const t of T)for(const x of (CM[t]||(REC.includes(t)?['Safety']:[]))){const key=REC.includes(t)?x+t:x;if(seen.has(key))continue;seen.add(key);add.push({t,s:x})}return add}
 const isBizC=()=>OPT==='c'&&(D.types||[]).length===1&&D.types[0]==='Business';
 const isAutoC=()=>OPT==='c'&&(D.types||[]).length===1&&D.types[0]==='Auto';
+function qpDefault(label,hint,skipTxt){if(EDIT)return;const bx=document.getElementById('in');if(!bx)return;const e=[...bx.querySelectorAll('button.qchoice')].find(x=>x.textContent===label);if(e){e.classList.add('qp-default');e.setAttribute('aria-pressed','true')}const h=bx.querySelector('.qhint');if(h&&hint)h.textContent=hint;const sk=bx.querySelector('.qskip');if(sk&&skipTxt)sk.textContent=skipTxt}
 async function contactQuick(){step();
  if(D.full_name&&(D.email||D.phone)&&!editContact&&!EDIT){say(`We have your contact info:\n${D.full_name}\n${[D.phone,D.email].filter(Boolean).join('\n')}`);
   if((await choose('Use this contact info?',['Looks good','Edit'],{opt:false}))==='Looks good')return false}
@@ -799,8 +808,7 @@ async function contactQuick(){step();
  D.full_name=await ask.call({pv:D.full_name},'Your full name?',{opt:false});
  const M=['Email me my quote','Call me','Text me'],EM=v=>/^\S+@\S+\.\S+$/.test(v),PH=v=>v.replace(/\D/g,'').length>=10;
  const pr=choose.call({pv:D.contact_pref},'How should we send your quote?',M);
- {const bx=document.getElementById('in');if(bx){const e=[...bx.querySelectorAll('button.qchoice')].find(x=>x.textContent===M[0]);if(e){e.classList.add('qp-default');e.setAttribute('aria-pressed','true')}
-  const h=bx.querySelector('.qhint');if(h)h.textContent='Email is selected. Tap it, or choose Call or Text.';const sk=bx.querySelector('.qskip');if(sk)sk.textContent='Skip (use email)'}}
+ qpDefault(M[0],'Email is selected. Tap it, or choose Call or Text.','Skip (use email)');
  D.contact_pref=(await pr)||M[0];
  const partial=()=>{saveDraft();clearTimeout(window.__qpPartialT);window.__qpPartialT=setTimeout(()=>{try{sendPartial()}catch(e){}},1500)};
  if(D.contact_pref===M[0]){
@@ -861,21 +869,22 @@ async function namedInsureds(){step();const L=[];
 const VK={vin:'vin',year:'year',make:'make',model:'model',trim:'trim'};
 const LIAB=['Not sure / match current','100/300/100 (Recommended)','50/100/50','250/500/100','500/500/250','30/60/10 (MN minimum)'];
 const DED=n=>['Not sure / match current','$250','$500','$1,000','$2,500','No '+n];
-async function vehicleDetails(o,n){const nm=[o.year,o.make,o.model].filter(Boolean).join(' ');say(`Vehicle ${n}${nm?': '+nm:''}`,'sec');
+async function vehicleDetails(o,n,tot){const nm=[o.year,o.make,o.model].filter(Boolean).join(' ');say(`Vehicle ${n}${nm?': '+nm:''}`,'sec');setSub(`Vehicle ${n}${tot&&tot>=n?' of '+tot:''} · details`);
  o.ownership=await choose.call({pv:o.ownership},'Ownership?',['Owned Outright','Financed (Loan)','Leased']);
  o.use=await choose.call({pv:o.use},'Primary use?',['Personal / Pleasure','Commuting to Work','Business / Work','Farm / Ranch','Ride Share / Delivery']);
  o.parking=await choose.call({pv:o.parking},'Where is it parked overnight?',['Garage','Carport','Driveway','Street','Apartment / Condo Lot','Work Parking Lot']);
  o.mileage=await ask.call({pv:o.mileage},'Current odometer (approx)?');
  o.annual_miles=await ask.call({pv:o.annual_miles},'Miles driven per year (approx)?');
- o.liability_limit=await choose.call({pv:o.liability_limit},`Liability limits for vehicle ${n}?`,LIAB);
+ setSub(`Vehicle ${n}${tot&&tot>=n?' of '+tot:''} · coverage`);o.liability_limit=await choose.call({pv:o.liability_limit},`Liability limits for vehicle ${n}?`,LIAB);
  o.comp_deductible=await choose.call({pv:o.comp_deductible},`Comprehensive deductible for vehicle ${n}?`,DED('comprehensive'));
  o.coll_deductible=await choose.call({pv:o.coll_deductible},`Collision deductible for vehicle ${n}?`,DED('collision'));
  o.coverages=await checks.call({pv:o.coverages||''},'Any extras?',['Glass','Roadside','Rental','GAP']);
  if((o.coverages||'').split(', ').includes('Rental'))o.rental_limit=await choose('Rental reimbursement?',['Not sure / match current','Up to $20/day','Up to $30/day (most common)','Up to $50/day']);else delete o.rental_limit}
 async function vehiclesOpt(){step();const L=OPT==='c'?(D.vehicles||[]).slice(0,1):[];
- if(!L.length){const o={};await vinStep(o,VK,'Vehicle 1');L.push(o)}
- for(let i=0;i<L.length;i++)await vehicleDetails(L[i],i+1);
- while(L.length<6&&await yes('Add another vehicle?')){const o={};await vinStep(o,VK,`Vehicle ${L.length+1}`);await vehicleDetails(o,L.length+1);L.push(o)}
+ if(!L.length){const o={};setSub('Vehicle 1 · VIN or year/make/model');await vinStep(o,VK,'Vehicle 1');L.push(o)}
+ for(let i=0;i<L.length;i++)await vehicleDetails(L[i],i+1,L.length);
+ while(L.length<6&&(setSub('Vehicles · add another?'),await yes('Add another vehicle?'))){const o={};setSub(`Vehicle ${L.length+1} · VIN or year/make/model`);await vinStep(o,VK,`Vehicle ${L.length+1}`);await vehicleDetails(o,L.length+1,L.length+1);L.push(o)}
+ setSub(null);
  D.vehicles=L}
 // Business parity with live business-quote.html: commercial auto drivers/vehicles + workers' comp classes
 async function bizAutoLoops(){const V=[];
@@ -895,7 +904,23 @@ async function bizAutoLoops(){const V=[];
 async function wcLoop(){const L=[];
  while(L.length<8&&await yes(L.length?"Add another workers' comp job class?":"Add a job class for workers' comp (job type, employees, payroll)?")){
   L.push({job_description:await ask('Job description / duties?'),ft_employees:await ask('Full-time employees in this class?'),pt_employees:await ask('Part-time employees in this class?'),payroll:await ask('Annual payroll for this class (approx)?')})}
- D.wc_classes=L}
+ D.wc_classes=L;
+ D.wc_states=await ask.call({pv:D.wc_states},'States where employees work? (e.g. MN, WI)')}
+const CONSTR=['Frame','Masonry','Fire Resistive','Non-Combustible','Not sure'];
+async function buildingsLoop(){const L=[];
+ while(L.length<10&&await yes(L.length?'Add another building?':'Add building details now? (address, values, year, updates)')){const n=L.length+1,o={};setSub(`Building ${n}`);say(`Building ${n}`,'sec');
+  o.address=await ask(`Building ${n} address?`);
+  o.building_value_rcv=await ask('Building value (replacement cost)?');
+  o.contents_value=await ask('Contents / business property value?');
+  o.sq_ft=await ask('Square feet (approx)?');
+  o.year_built=await ask('Building year built? (4-digit)',{valid:YEAR_OK});
+  o.construction=await choose('Construction type?',CONSTR);
+  o.roof_year=await ask('Year roof last replaced? (4-digit)',{valid:YEAR_OK});
+  o.electrical_year=await ask('Year electrical last updated? (4-digit)',{valid:YEAR_OK});
+  o.hvac_year=await ask('Year HVAC last updated? (4-digit)',{valid:YEAR_OK});
+  o.plumbing_year=await ask('Year plumbing last updated? (4-digit)',{valid:YEAR_OK});
+  L.push(o)}
+ setSub(null);D.buildings=L}
 // Address autocomplete (Photon by komoot; OSM data). Free-typing always works; US results only.
 const ST_AB={'alabama':'AL','alaska':'AK','arizona':'AZ','arkansas':'AR','california':'CA','colorado':'CO','connecticut':'CT','delaware':'DE','district of columbia':'DC','florida':'FL','georgia':'GA','hawaii':'HI','idaho':'ID','illinois':'IL','indiana':'IN','iowa':'IA','kansas':'KS','kentucky':'KY','louisiana':'LA','maine':'ME','maryland':'MD','massachusetts':'MA','michigan':'MI','minnesota':'MN','mississippi':'MS','missouri':'MO','montana':'MT','nebraska':'NE','nevada':'NV','new hampshire':'NH','new jersey':'NJ','new mexico':'NM','new york':'NY','north carolina':'NC','north dakota':'ND','ohio':'OH','oklahoma':'OK','oregon':'OR','pennsylvania':'PA','rhode island':'RI','south carolina':'SC','south dakota':'SD','tennessee':'TN','texas':'TX','utah':'UT','vermont':'VT','virginia':'VA','washington':'WA','west virginia':'WV','wisconsin':'WI','wyoming':'WY'};
 function photonAC(i,ql){i.setAttribute('autocomplete','off');i.setAttribute('aria-autocomplete','list');
@@ -907,12 +932,21 @@ function photonAC(i,ql){i.setAttribute('autocomplete','off');i.setAttribute('ari
   i.focus({preventScroll:true})};
  i.addEventListener('input',()=>{clearTimeout(t);const v=i.value.trim();if(v.length<3){seq++;if(ctl)ctl.abort();close();return}
   t=setTimeout(async()=>{const my=++seq;if(ctl)ctl.abort();const c=ctl=new AbortController();const to=setTimeout(()=>c.abort(),3000);
-   try{const r=await fetch('https://photon.komoot.io/api/?q='+encodeURIComponent(v)+'&limit=5&lang=en&lat=47.24&lon=-93.53',{signal:c.signal});if(!r.ok)throw 0;const j=await r.json();if(my!==seq)return;
-    const ps=(j.features||[]).map(f=>f.properties||{}).filter(p=>String(p.countrycode||'').toUpperCase()==='US');
-    if(!ps.length){close();return}L.innerHTML='';
+   try{const last=v.toLowerCase().replace(/[.,]+$/,'').split(/[\s,]+/).pop()||'',low=v.toLowerCase().replace(/[.,\s]+$/,'');
+    const hasSt=/^\d{5}$/.test(last)||Object.values(ST_AB).includes(last.toUpperCase())||Object.keys(ST_AB).some(n=>low.endsWith(' '+n));
+    const hn=(v.match(/^\s*(\d+[a-z]?)\b/i)||[])[1]||'';
+    const get=async u=>{const r=await fetch(u,{signal:c.signal});if(!r.ok)throw 0;const j=await r.json();return (j.features||[]).map(f=>f.properties||{}).filter(p=>String(p.countrycode||'').toUpperCase()==='US')};
+    const B='https://photon.komoot.io/api/?limit=5&lang=en&lat=47.24&lon=-93.53&q=';
+    const DIR={n:'North',s:'South',e:'East',w:'West',ne:'Northeast',nw:'Northwest',se:'Southeast',sw:'Southwest'},SUF={st:'Street',ave:'Avenue',av:'Avenue',rd:'Road',dr:'Drive',ln:'Lane',blvd:'Boulevard',ct:'Court',hwy:'Highway',pl:'Place',cir:'Circle',pkwy:'Parkway',trl:'Trail'};
+    const tk=v.split(/\s+/),nv=tk.map((w,ix)=>{const l=w.toLowerCase().replace(/\.$/,'');if(DIR[l]&&tk[ix+1]&&/^\d/.test(tk[ix+1]))return DIR[l];if(SUF[l]&&ix>1&&!/^\d+$/.test(tk[ix-1]))return SUF[l];return w}).join(' ');
+    const inMN=!hasSt||/(^|\s)(mn|minnesota)$/.test(low)||/^5[56]\d{3}$/.test(last);
+    let ps=inMN?await get(B+encodeURIComponent(hasSt?nv:nv+', MN')+'&bbox=-97.24,43.50,-89.49,49.38'):[];if(my!==seq)return;if(my!==seq)return;
+    if(!ps.length){ps=await get(B+encodeURIComponent(nv));if(my!==seq)return}
+    ps=ps.map(p=>(!p.housenumber&&hn&&(p.street||(p.osm_key==='highway'&&p.name)))?Object.assign({},p,{housenumber:hn,street:p.street||p.name}):p);
+    if(!ps.length){close();return}L.innerHTML='';const seenL=new Set();
     ps.forEach(p=>{const line1=[p.housenumber,p.street||p.name].filter(Boolean).join(' ');const city=p.city||p.town||p.village||p.locality||p.district||'';const st=ST_AB[String(p.state||'').toLowerCase()]||p.state||'';
      const label=[line1,city,[st,p.postcode].filter(Boolean).join(' ')].filter(Boolean).join(', ');
-     const b=document.createElement('button');b.type='button';b.className='qp-ac-i';b.setAttribute('role','option');b.textContent=label;b.onmousedown=e=>e.preventDefault();b.onclick=()=>pickIt({line1,city,state:st,zip:p.postcode||'',label});L.append(b)});
+     if(seenL.has(label))return;seenL.add(label);const b=document.createElement('button');b.type='button';b.className='qp-ac-i';b.setAttribute('role','option');b.textContent=label;b.onmousedown=e=>e.preventDefault();b.onclick=()=>pickIt({line1,city,state:st,zip:p.postcode||'',label});L.append(b)});
     const at=document.createElement('div');at.className='qp-ac-at';at.textContent='Suggestions by Photon · © OpenStreetMap contributors';L.append(at);L.hidden=false}
    catch(e){if(my===seq)close()}finally{clearTimeout(to)}},300)});
  i.addEventListener('keydown',e=>{if(e.key==='Escape')close()})}
@@ -932,7 +966,9 @@ async function industry(){step();const q='What kind of business?';const k=qkeyFo
  D.business_industry=v;
  if(v==='Other')D.business_description=await ask.call({pv:D.business_description},'Briefly, what does the business do? (optional)')}
 async function coverageNeeded(){step();
- D.business_coverages=await checks.call({pv:D.business_coverages||''},'What coverage do you need? (select all that apply)',['General Liability','Business Owners Package (BOP)','Commercial Auto',"Workers' Compensation",'Commercial Property','Professional Liability (E&O)','Directors & Officers (D&O)','Commercial Crime','Not sure'])}
+ D.business_coverages=await checks.call({pv:D.business_coverages||''},'What coverage do you need? (select all that apply)',['General Liability','Business Owners Package (BOP)','Commercial Auto',"Workers' Compensation",'Commercial Property','Professional Liability (E&O)','Directors & Officers (D&O)','Commercial Crime','Not sure']);
+ if(OPT==='c'){D.business_name=await ask.call({pv:D.business_name},'Business name?');
+  if(!D.business_description)D.business_description=await ask.call({pv:D.business_description},'What does the business do? (one line)')}}
 // Option B/C: in-chat "Stuck? Leave your number" exit (same chat-quote form destination; stubbed in preview).
 if(OPT==='b'||OPT==='c'){const sw=document.createElement('div');sw.className='qp-stuck';
  sw.innerHTML='<button type="button" class="qp-stuck-btn">Stuck? Leave your number and we\'ll call or text you</button><form class="qp-stuck-f" hidden novalidate><input name="n" placeholder="Name" autocomplete="name" aria-label="Name"><input name="p" type="tel" inputmode="tel" placeholder="Phone" autocomplete="tel" aria-label="Phone"><button type="submit">Call me</button></form>';
