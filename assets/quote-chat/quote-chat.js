@@ -754,9 +754,9 @@ addEventListener('pageshow',e=>{if(e.persisted)location.reload()});
 // ================= PREVIEW OPTIONS A/B/C (all guarded by OPT; inert when OPT==='') =================
 function buildStepsOpt(types){const one=types.length===1?types[0]:null;let s;
  if(OPT==='c'&&one==='Auto')s=[{t:null,s:'Contact'},{t:'Auto',s:'Quick vehicle'},{t:null,s:'More details?'},{t:null,s:'Final details'},{t:null,s:'Review'}];
- else if(OPT==='c'&&one==='Business')s=[{t:null,s:'Contact'},{t:'Business',s:'Industry'},{t:'Business',s:'Coverage needed'},{t:null,s:'More details?'},{t:null,s:'Final details'},{t:null,s:'Review'}];
+ else if(OPT==='c'&&one==='Business')s=[{t:'Business',s:'Industry'},{t:null,s:'Contact'},{t:'Business',s:'Coverage needed'},{t:null,s:'More details?'},{t:null,s:'Final details'},{t:null,s:'Review'}];
  else s=buildSteps(types);
- if(OPT==='b'||OPT==='c')s.splice(1,0,{t:null,s:'Dec page'});
+ if(OPT==='b'||OPT==='c'){const ci=s.findIndex(x=>x.s==='Contact');s.splice(ci+1,0,{t:null,s:'Dec page'})}
  return s}
 const isBizC=()=>OPT==='c'&&(D.types||[]).length===1&&D.types[0]==='Business';
 const isAutoC=()=>OPT==='c'&&(D.types||[]).length===1&&D.types[0]==='Auto';
