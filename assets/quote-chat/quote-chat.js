@@ -18,13 +18,13 @@ async function decodeVin(vin){vin=(vin||'').replace(/\s/g,'').toUpperCase();if(!
   try{const r=await fetch(`https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVinValues/${vin}?format=json`,{signal:ctl.signal});const j=await r.json();const x=(j.Results||[])[0]||{};
    if(!x.ModelYear||!x.Make)return null;return {year:x.ModelYear,make:x.Make,model:x.Model||'',trim:[x.Trim,x.BodyClass].filter(Boolean).join(' / ')}}catch(e){return null}finally{clearTimeout(t)}}
 async function vinStep(obj,keys,label){ // keys: {vin,year,make,model,trim}
-  obj[keys.vin]=await ask.call({pv:obj[keys.vin]},`${label}: VIN? (optional — we'll look up the year/make/model)`,{valid:VIN_OK});
+  obj[keys.vin]=await ask.call({pv:obj[keys.vin]},`${label}: VIN? (optional — we'll look up the year/make/model)`,{valid:(typeof OPT!=='undefined'&&OPT)?(v=>/^[A-HJ-NPR-Z0-9]{17}$/i.test(v.replace(/\s/g,''))):VIN_OK});
   let ok=false;
   if(obj[keys.vin]){const st=say('Looking up that VIN…');const d=await decodeVin(obj[keys.vin]);st.remove();
    if(d){const desc=[d.year,d.make,d.model,d.trim].filter(Boolean).join(' ');
-    if((await choose(`We found: ${desc}. Correct?`,['Yes','Edit'],{opt:false}))==='Yes'){obj[keys.year]=String(d.year);obj[keys.make]=d.make;obj[keys.model]=d.model;if(d.trim)obj[keys.trim]=d.trim;ok=true}}
+    const yn=await choose(`We found: ${desc}. Correct?`,['Yes','Edit'],{opt:false});obj[keys.year]=String(d.year);obj[keys.make]=d.make;obj[keys.model]=d.model;if(d.trim)obj[keys.trim]=d.trim;if(yn==='Yes')ok=true;else if(typeof OPT!=='undefined'&&OPT){say('No problem. The boxes below are pre-filled, so just change what\'s wrong.');ok=false}else{delete obj[keys.year];delete obj[keys.make];delete obj[keys.model]}}
    else say("We couldn't decode that VIN automatically — a few quick questions instead.")}
-  if(!ok){delete obj[keys.trim];
+  if(!ok){if(!(typeof OPT!=='undefined'&&OPT))delete obj[keys.trim];
    obj[keys.year]=await ask.call({pv:obj[keys.year]},'Year?',{valid:v=>/^(19|20)\d\d$/.test(v)});
    obj[keys.make]=await ask.call({pv:obj[keys.make]},'Make?');
    obj[keys.model]=await ask.call({pv:obj[keys.model]},'Model?');}}
@@ -215,7 +215,7 @@ async function household(){step();
   L.push({name:await ask('Name?'),dob:await ask('Date of birth?',{type:'date'}),relation:await choose('Relationship?',['Spouse','Domestic partner','Child','Parent','Other relative','Roommate / other'])})}
  D.household=L}
 async function property(preset){step();
- if(!EDIT)say('Update years and property details make a big difference in your premium. A best guess is fine, or you can skip.');
+ if(!EDIT)say('Update years and property details make a big difference in your quote. A best guess is fine, or you can skip.');
  if(!preset&&!D.property_type&&D.types.includes('Condo / Townhouse')&&!D.types.some(t=>/Home/.test(t)))preset='Townhouse / Condo';
  D.property_type=preset||await choose.call({pv:D.property_type},'Property type?',['Home','Cabin / Vacation Home','Townhouse / Condo','Rental / landlord property']);
  if(preset)say('Property type: '+preset);
@@ -314,7 +314,7 @@ async function decUpload(){say('Optional: upload your current declarations page 
   n.onclick=()=>{decFile=f.files[0]||null;if(decFile&&decFile.size>8e6){say('File too large (max 8 MB).','m w');return}b.remove();say(decFile?decFile.name:'(no file)','u');res()}})}
 async function notes(){D.additional_info=await ask.call({pv:D.additional_info},'Anything else we should know? (optional)',{multi:true})}
 async function landlord(){step();
- say('Update years and property details make a big difference in your premium. A best guess is fine, or you can skip.');
+ say('Update years and property details make a big difference in your quote. A best guess is fine, or you can skip.');
  D.property_type='Rental / landlord property';
  D.mailing_address=await ask.call({pv:D.mailing_address},'Mailing address (if different)? (optional)');
  D.county=await ask('County?');
