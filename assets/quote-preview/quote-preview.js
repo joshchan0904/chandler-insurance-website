@@ -68,7 +68,7 @@
 
   function ui(){
     var b=document.createElement('div');b.className='qp-banner';b.setAttribute('role','note');b.innerHTML='<strong>PREVIEW, not a real quote request. Nothing is sent.</strong> <span class="qp-badge">'+esc(NAMES[OPT])+'</span>';document.body.insertBefore(b,document.body.firstChild);
-    [].forEach.call(document.querySelectorAll('input[name*="license" i],select[name*="license" i]'),function(el){var w=el.closest('div')||el;w.style.display='none';el.disabled=true;});
+    if(OPT)[].forEach.call(document.querySelectorAll('input[name*="license" i]:not([name*="state" i])'),function(el){if(el.type!=='text')return;el.type='password';el.setAttribute('autocomplete','off');el.spellcheck=false;var t=document.createElement('button');t.type='button';t.className='qp-dl-show';t.textContent='Show';t.onclick=function(){var h=el.type==='password';el.type=h?'text':'password';t.textContent=h?'Hide':'Show'};el.insertAdjacentElement('afterend',t);});
     var sw=document.createElement('div');sw.className='qp-switch';sw.innerHTML='<button type="button" class="qp-sw-toggle" aria-expanded="true">Compare options ▾</button><div class="qp-sw-btns">'+
       [['0','Now','Current'],['a','A','A · Quick start'],['b','B','B · Talk or quote'],['c','C','C · Short form']].map(function(x){return '<a href="'+esc(withOpt(location.href,x[0]))+'" class="qp-sw-btn'+(opt===x[0]?' on':'')+'" data-opt="'+x[0]+'"><span class="l">'+x[2]+'</span><span class="s">'+x[1]+'</span></a>'}).join('')+
       '<div class="qp-sw-note">Test preview — nothing is sent</div></div>';
@@ -121,6 +121,7 @@
 
   // ---------- styles ----------
   var css=
+  '.qp-dl-show{margin:6px 0 0;background:#fff;color:#003d82;border:1px solid #003d82;border-radius:999px;padding:4px 12px;font:600 13px Roboto,sans-serif;cursor:pointer}'+
   '.qp-banner{position:relative;z-index:2147483000;background:#b91c1c;color:#fff;font:500 14px/1.35 Roboto,sans-serif;text-align:center;padding:9px 14px}.qp-banner strong{font-weight:700}.qp-badge{display:inline-block;margin-left:8px;background:#fff;color:#b91c1c;font:700 12px/1 Roboto,sans-serif;padding:5px 10px;border-radius:999px;vertical-align:middle}'+
   '@media(max-width:640px){.qp-badge{top:auto;bottom:10px;left:8px;font-size:11px;padding:6px 9px}}'+
   '.qp-toast{position:fixed;left:50%;top:14px;transform:translate(-50%,-140%);z-index:2147483001;background:#111827;color:#fff;border:3px solid #facc15;border-radius:16px;padding:12px 18px;max-width:92vw;font:15px/1.35 Roboto,sans-serif;box-shadow:0 10px 30px #0007;transition:transform .25s}'+

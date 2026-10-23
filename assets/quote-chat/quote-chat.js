@@ -2,7 +2,10 @@
 // PREVIEW options (A/B/C) — window.QC_PREVIEW is only set by /assets/quote-preview/quote-preview.js off-production. OPT==='' => current behavior.
 const QP=window.QC_PREVIEW||null;const OPT=(QP&&QP.on&&QP.opt)||'';
 const QP_KEEP_REQ=/^(your full name\?|best phone or email\?)$|use this contact|what would you like to do|resume your|keep them\?|correct\?|add more details now|have your dec page/i;
-const NO_DL=!!(QP&&QP.on); // preview: no driver's license questions in any option (incl. Current)
+// Options A/B/C: driver's license # stays (optional + Skip), input is masked and never echoed/displayed in full
+const DLQ=q=>!!OPT&&/license (number|#)/i.test(String(q));
+const dlMask=v=>v?('Provided (ends '+String(v).trim().slice(-2)+')'):'(skipped)';
+const dlMaskText=t=>OPT?String(t).replace(/(License #: |Driver's License: |DL )(?!-)([^\s|\n]+)/g,(m,a,b)=>a+dlMask(b)):t;
 const qpOpt=(q,opt)=>(OPT&&!opt&&!QP_KEEP_REQ.test(String(q).trim()))?true:opt;
 // Chandler Quote Chat (PREVIEW) — mirrors live auto-quote / home-quote fields; submits via Netlify Forms (HTTPS POST).
 const chat=document.getElementById('chat'),D={};let QC_LIVE=false;const QC_TOUCH=matchMedia('(pointer:coarse)').matches;
@@ -116,7 +119,7 @@ function qcHist(){let h=document.getElementById('qhist');if(!h){h=document.creat
  const skip=/what would you like to do|add another|anyone else|use this contact|resume your|keep them|correct\?/i;
  const items=[...ANSWERS.entries()].filter(([k,v])=>!skip.test(v.q));
  const open=h.open;h.style.display=items.length?'':'none';h.style.visibility='';
- h.innerHTML=`<summary class="qhist-sum">Edit ${items.length} answer${items.length===1?'':'s'}</summary>`+items.map(([k,v])=>`<div class="qh"><span class="qhq">${esc(v.q)}</span> <span class="qha">${esc(v.a||'(skipped)')}</span> <a href="#" class="qhe" data-qkey="${esc(k)}">Edit</a></div>`).join('');
+ h.innerHTML=`<summary class="qhist-sum">Edit ${items.length} answer${items.length===1?'':'s'}</summary>`+items.map(([k,v])=>`<div class="qh"><span class="qhq">${esc(v.q)}</span> <span class="qha">${esc(DLQ(v.q)?dlMask(v.a):(v.a||'(skipped)'))}</span> <a href="#" class="qhe" data-qkey="${esc(k)}">Edit</a></div>`).join('');
  h.open=open;h.querySelectorAll('.qhe').forEach(a=>a.onclick=e=>{e.preventDefault();startEdit(a.dataset.qkey)})}
 
 function ask(q,{type='text',opt=true,valid,multi,ph=''}={}){opt=qpOpt(q,opt);const pv=this&&this.pv;const k=qkeyFor(q);if(EDIT&&k!==EDIT.k&&ANSWERS.has(k)){const a=ANSWERS.get(k).a;record(k,q,a);return Promise.resolve(a);}return new Promise(res=>{say(shortenQ(q));const b=box();b.className='qin text-step';
@@ -133,13 +136,15 @@ function ask(q,{type='text',opt=true,valid,multi,ph=''}={}){opt=qpOpt(q,opt);con
  else if(ql.includes('address')&&!ql.includes('email'))i.autocomplete='street-address';
  else if(ql.includes('city'))i.autocomplete='address-level2';
  }
+ const dlq=!multi&&DLQ(q);if(dlq){i.type='password';i.autocomplete='off';i.setAttribute('autocomplete','off');i.spellcheck=false;i.autocapitalize='characters';i.setAttribute('data-lpignore','true');const tg=document.createElement('button');tg.type='button';tg.className='alt qp-dl-show';tg.textContent='Show';tg.onclick=()=>{const h=i.type==='password';i.type=h?'text':'password';tg.textContent=h?'Hide':'Show'};b.append(tg)}
+ const echo=v=>dlq?dlMask(v):v;
  const go=document.createElement('button');go.type='button';go.className='qnext';go.textContent='Next';b.append(go);
- if(typeof pv==='string'&&pv){const kb=document.createElement('button');kb.type='button';kb.className='go';kb.textContent='Keep: '+(pv.length>30?pv.slice(0,30)+'…':pv);kb.onclick=()=>{b.remove();lastQK=k;say(pv,'u');record(k,q,pv);res(pv);lastQK=null};b.append(kb)}
+ if(typeof pv==='string'&&pv){const kb=document.createElement('button');kb.type='button';kb.className='go';kb.textContent='Keep: '+(dlq?dlMask(pv):(pv.length>30?pv.slice(0,30)+'…':pv));kb.onclick=()=>{b.remove();lastQK=k;say(echo(pv),'u');record(k,q,pv);res(pv);lastQK=null};b.append(kb)}
  addSkip(b,opt,()=>{b.remove();lastQK=k;say('(skipped)','u');record(k,q,'');res('');saveDraft();lastQK=null});
  const sub=()=>{const v=i.value.trim();if(!v&&!opt)return;
   if(BAD.test(v)){showError("For your security we don't collect Social Security numbers or bank/credit card numbers here. Please re-enter without it.");i.value='';return}
   if(v&&valid&&!valid(v)){showError("That doesn't look right — please check and try again.");return}
-  removeError();b.remove();lastQK=k;say(v||'(skipped)','u');record(k,q,v||'');res(v);saveDraft();lastQK=null};
+  removeError();b.remove();lastQK=k;say(v?echo(v):'(skipped)','u');record(k,q,v||'');res(v);saveDraft();lastQK=null};
  go.onclick=sub;if(!multi)i.onkeydown=e=>{if(e.key==='Enter'&&!e.isComposing){e.preventDefault();sub()}};
  if(!multi&&valid)i.oninput=()=>{if(i.value.trim()&&valid(i.value.trim()))removeError()};})}
 function choose(q,opts,{opt=true}={}){opt=qpOpt(q,opt);const pv=this&&this.pv;const k=qkeyFor(q);if(EDIT&&k!==EDIT.k&&ANSWERS.has(k)){const a=ANSWERS.get(k).a;record(k,q,a);return Promise.resolve(a);}return new Promise(res=>{say(shortenQ(q));const b=box();b.className='qin choice-step'+(opts.length===2?' two-col':'');
@@ -187,8 +192,8 @@ async function contact(){if(OPT)return contactQuick();step();
  return false}
 async function drivers(){step();
  if(D.drivers&&D.drivers.length&& !EDIT &&(await choose(`You have ${D.drivers.length} driver(s) entered. Keep them?`,['Keep as entered','Re-enter'],{opt:false}))==='Keep as entered')return;const L=[];
- L.push({name:D.full_name,dob:D.date_of_birth,relation:'Self',license:NO_DL?'':await ask("Your driver's license number? (optional)"),license_state:NO_DL?'':await pick('License state?',STATES),occupation:await ask.call({pv:D.occupation},'Occupation for driver 1? (optional)')});
- while(L.length<5&&await yes('Add another driver?')){const d={name:await ask(`Driver ${L.length+1} name?`),dob:await ask('Date of birth?',{type:'date'}),relation:await choose('Relationship to you?',['Spouse','Domestic partner','Child','Parent','Other relative','Other'])};d.license=NO_DL?'':await ask('Driver\'s license number? (optional)');d.license_state=await pick('License state? (optional)',STATES,{opt:true});d.occupation=await ask('Occupation? (optional)');L.push(d)}
+ L.push({name:D.full_name,dob:D.date_of_birth,relation:'Self',license:await ask("Your driver's license number? (optional)"),license_state:await pick('License state?',STATES),occupation:await ask.call({pv:D.occupation},'Occupation for driver 1? (optional)')});
+ while(L.length<5&&await yes('Add another driver?')){const d={name:await ask(`Driver ${L.length+1} name?`),dob:await ask('Date of birth?',{type:'date'}),relation:await choose('Relationship to you?',['Spouse','Domestic partner','Child','Parent','Other relative','Other'])};d.license=await ask('Driver\'s license number? (optional)');d.license_state=await pick('License state? (optional)',STATES,{opt:true});d.occupation=await ask('Occupation? (optional)');L.push(d)}
  D.drivers=L; D.current_insurance_status=await choose('Current insurance status?',['No - New to Auto Insurance','Yes - With Another Carrier','Yes - Renewing with Current Carrier']); D.auto_prior_claims=await choose('Any prior claims in last 5 years?',['None','1 claim','2 or more claims']);
  if(D.auto_prior_claims && !D.auto_prior_claims.startsWith('None')){
   D.auto_prior_claims_details=await ask.call({pv:D.auto_prior_claims_details},'Claim details: date, type and amount for each (approx is fine)',{multi:true});
@@ -527,7 +532,7 @@ async function rec(kind){step();const U=(D.units=D.units||{})[kind]=(D.units||{}
  }
 
  if(!D.rec_shared_asked){
-  D.drivers_license=NO_DL?(D.drivers_license||''):await ask.call({pv:D.drivers_license},'Driver\'s license #? (optional)');
+  D.drivers_license=await ask.call({pv:D.drivers_license},'Driver\'s license #? (optional)');
   D.anti_theft=await pick.call({pv:D.anti_theft},'Anti-theft devices?',['None','Alarm System','GPS Tracker','Wheel Lock / Chain','Multiple Security Features']);
   D.safety_course=await pick.call({pv:D.safety_course},'Safety course completed?',['No','Yes - ATV/Snowmobile Safety Course','Yes - Boating Safety Course','Yes - Motorcycle Safety Course']);
   D.current_rec_insurance=await choose.call({pv:D.current_rec_insurance},'Current recreational insurance?',['No - new to recreational insurance','Yes - with another carrier','Yes - renewing with current carrier']);
@@ -547,7 +552,7 @@ async function rec(kind){step();const U=(D.units=D.units||{})[kind]=(D.units||{}
     const op = {};
     op.name = await ask(`Operator ${opNum} name?`);
     op.dob = await ask('Date of birth?',{type:'date'});
-    op.license = NO_DL?'':await ask("Driver's license # (optional)");
+    op.license = await ask("Driver's license # (optional)");
     op.relationship = await pick('Relationship to you?',['Spouse','Domestic Partner','Child (18+)','Parent','Other Family Member','Friend / Roommate','Employee','Other']);
     op.experience = await pick('Riding/operating experience or safety course?',['Less than 1 year','1-3 years','4-10 years','10+ years','Completed safety course','Not sure']);
     D.rec_operators.push(op);
@@ -641,12 +646,12 @@ function review(){step();const _h=document.getElementById('qhist');if(_h)_h.styl
  let i=1;while(i<blocks.length){const title=blocks[i].trim();const content=blocks[i+1]||'';const secTitle=title.replace(/==/g,'').trim();
   let stepName=secTitle==='Contact'?'Contact':secTitle==='Property'?'Property':secTitle==='Home Coverage'?'Home Coverage':secTitle==='Household'?'Household':secTitle==='Drivers'?'Drivers':secTitle==='Vehicles'?'Vehicles':secTitle==='Auto Coverage'?'Auto Coverage':secTitle==='Rental Property'?'Rental Property':secTitle==='Business'?'Business':secTitle==='Life'?'Life':secTitle==='What you need'?'What you need':secTitle==='Notes'?'Final details':secTitle.includes('Recreational')||secTitle.includes('Riders')||secTitle.includes('Unit Details')?'Unit Details':'Final details';
   const stepIdx=STEPS.findIndex(st=>st.s===stepName);
-  html+=`<div class="sumblock"><h3>${esc(secTitle)}</h3><div style="white-space:pre-wrap;background:#f8fafd;padding:16px;border-radius:8px;margin-bottom:8px">${esc(content.trim())}</div>`;
+  html+=`<div class="sumblock"><h3>${esc(secTitle)}</h3><div style="white-space:pre-wrap;background:#f8fafd;padding:16px;border-radius:8px;margin-bottom:8px">${esc(dlMaskText(content.trim()))}</div>`;
   if(stepIdx!==-1){
    html+=`<details><summary>Edit answers in this section</summary>`;
    const secAnswers = Array.from(ANSWERS.entries()).filter(([kk,v]) => v.step === stepIdx && !['What would you like to do?','Add another…','Keep them?','Is the property at the address you gave?'].some(nav => v.q.includes(nav)));
    secAnswers.forEach(([kk,v]) => {
-    html += `<div style="margin:4px 0;padding-left:20px">• ${esc(v.q)} → ${esc(v.a||'(skipped)')} <a href="#" class="editq" data-qkey="${kk}" style="color:#0066cc;text-decoration:underline">Edit</a></div>`;
+    html += `<div style="margin:4px 0;padding-left:20px">• ${esc(v.q)} → ${esc(DLQ(v.q)?dlMask(v.a):(v.a||'(skipped)'))} <a href="#" class="editq" data-qkey="${kk}" style="color:#0066cc;text-decoration:underline">Edit</a></div>`;
    });
    html += `</details>`;
   }
