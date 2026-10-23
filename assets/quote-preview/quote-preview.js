@@ -55,7 +55,7 @@
   XMLHttpRequest.prototype.send=function(b){if(this.__qp){blocked('xhr',b);var x=this;setTimeout(function(){try{Object.defineProperty(x,'readyState',{value:4});Object.defineProperty(x,'status',{value:200});x.onreadystatechange&&x.onreadystatechange();x.onload&&x.onload()}catch(e){}},0);return}return XS.apply(this,arguments)};
   var FS=HTMLFormElement.prototype.submit;
   HTMLFormElement.prototype.submit=function(){if(String(this.method).toLowerCase()==='post'){blocked('form.submit()',new FormData(this));return}return FS.apply(this,arguments)};
-  document.addEventListener('submit',function(e){var f=e.target;if(f&&String(f.method).toLowerCase()==='post'){e.preventDefault();
+  document.addEventListener('submit',function(e){var f=e.target;if(OPT&&f&&f.querySelectorAll)setTimeout(function(){[].forEach.call(f.querySelectorAll('input[name*="license" i]:not([name*="state" i])'),function(el){el.value=''})},0);if(f&&String(f.method).toLowerCase()==='post'){e.preventDefault();
     // Let the page's own handler run (validation / success UI). Native POST is cancelled here.
     setTimeout(function(){if(!e.__qpCounted&&Date.now()-lastNet>300){blocked('native submit',new FormData(f))}},50)}},true);
 
@@ -122,6 +122,7 @@
   // ---------- styles ----------
   var css=
   '.qp-dl-show{margin:6px 0 0;background:#fff;color:#003d82;border:1px solid #003d82;border-radius:999px;padding:4px 12px;font:600 13px Roboto,sans-serif;cursor:pointer}'+
+  'html.qp-opt-a #qchat-embed .qback,html.qp-opt-b #qchat-embed .qback,html.qp-opt-c #qchat-embed .qback{min-width:44px!important;min-height:44px!important;padding:10px 12px!important;display:inline-flex;align-items:center}'+
   '.qp-banner{position:relative;z-index:2147483000;background:#b91c1c;color:#fff;font:500 14px/1.35 Roboto,sans-serif;text-align:center;padding:9px 14px}.qp-banner strong{font-weight:700}.qp-badge{display:inline-block;margin-left:8px;background:#fff;color:#b91c1c;font:700 12px/1 Roboto,sans-serif;padding:5px 10px;border-radius:999px;vertical-align:middle}'+
   '@media(max-width:640px){.qp-badge{top:auto;bottom:10px;left:8px;font-size:11px;padding:6px 9px}}'+
   '.qp-toast{position:fixed;left:50%;top:14px;transform:translate(-50%,-140%);z-index:2147483001;background:#111827;color:#fff;border:3px solid #facc15;border-radius:16px;padding:12px 18px;max-width:92vw;font:15px/1.35 Roboto,sans-serif;box-shadow:0 10px 30px #0007;transition:transform .25s}'+
