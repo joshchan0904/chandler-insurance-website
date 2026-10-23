@@ -102,7 +102,7 @@
       '<select name="qp_for" aria-label="What is it for?"><option value="">What\'s it for?</option>'+types.map(function(x){return '<option'+(x===pre?' selected':'')+'>'+esc(x)+'</option>'}).join('')+'</select>'+
       '<span class="qp-ct" role="radiogroup" aria-label="Call or text"><label><input type="radio" name="qp_ct" value="Call" checked> Call</label><label><input type="radio" name="qp_ct" value="Text"> Text</label></span>'+
       '<button type="submit" class="qp-talk-go">Have us reach out</button><p class="qp-talk-msg" aria-live="polite"></p></form>';
-    embed.parentNode.insertBefore(t,embed);
+    var top=document.querySelector('.qp-trust')||embed;top.parentNode.insertBefore(t,top);
     var h=t.querySelector('.qp-talk-h');h.onclick=function(){var c=t.classList.toggle('collapsed');h.setAttribute('aria-expanded',String(!c))};
     if(matchMedia('(max-width:640px)').matches){t.classList.add('collapsed');h.setAttribute('aria-expanded','false')}
     var f=t.querySelector('form');
