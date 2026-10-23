@@ -2,6 +2,7 @@
 // PREVIEW options (A/B/C) — window.QC_PREVIEW is only set by /assets/quote-preview/quote-preview.js off-production. OPT==='' => current behavior.
 const QP=window.QC_PREVIEW||null;const OPT=(QP&&QP.on&&QP.opt)||'';
 const QP_KEEP_REQ=/^(your full name\?|best phone or email\?)$|use this contact|what would you like to do|resume your|keep them\?|correct\?|add more details now|have your dec page/i;
+const NO_DL=!!(QP&&QP.on); // preview: no driver's license questions in any option (incl. Current)
 const qpOpt=(q,opt)=>(OPT&&!opt&&!QP_KEEP_REQ.test(String(q).trim()))?true:opt;
 // Chandler Quote Chat (PREVIEW) — mirrors live auto-quote / home-quote fields; submits via Netlify Forms (HTTPS POST).
 const chat=document.getElementById('chat'),D={};let QC_LIVE=false;const QC_TOUCH=matchMedia('(pointer:coarse)').matches;
@@ -186,8 +187,8 @@ async function contact(){if(OPT)return contactQuick();step();
  return false}
 async function drivers(){step();
  if(D.drivers&&D.drivers.length&& !EDIT &&(await choose(`You have ${D.drivers.length} driver(s) entered. Keep them?`,['Keep as entered','Re-enter'],{opt:false}))==='Keep as entered')return;const L=[];
- L.push({name:D.full_name,dob:D.date_of_birth,relation:'Self',license:await ask("Your driver's license number? (optional)"),license_state:await pick('License state?',STATES),occupation:await ask.call({pv:D.occupation},'Occupation for driver 1? (optional)')});
- while(L.length<5&&await yes('Add another driver?')){const d={name:await ask(`Driver ${L.length+1} name?`),dob:await ask('Date of birth?',{type:'date'}),relation:await choose('Relationship to you?',['Spouse','Domestic partner','Child','Parent','Other relative','Other'])};d.license=await ask('Driver\'s license number? (optional)');d.license_state=await pick('License state? (optional)',STATES,{opt:true});d.occupation=await ask('Occupation? (optional)');L.push(d)}
+ L.push({name:D.full_name,dob:D.date_of_birth,relation:'Self',license:NO_DL?'':await ask("Your driver's license number? (optional)"),license_state:NO_DL?'':await pick('License state?',STATES),occupation:await ask.call({pv:D.occupation},'Occupation for driver 1? (optional)')});
+ while(L.length<5&&await yes('Add another driver?')){const d={name:await ask(`Driver ${L.length+1} name?`),dob:await ask('Date of birth?',{type:'date'}),relation:await choose('Relationship to you?',['Spouse','Domestic partner','Child','Parent','Other relative','Other'])};d.license=NO_DL?'':await ask('Driver\'s license number? (optional)');d.license_state=await pick('License state? (optional)',STATES,{opt:true});d.occupation=await ask('Occupation? (optional)');L.push(d)}
  D.drivers=L; D.current_insurance_status=await choose('Current insurance status?',['No - New to Auto Insurance','Yes - With Another Carrier','Yes - Renewing with Current Carrier']); D.auto_prior_claims=await choose('Any prior claims in last 5 years?',['None','1 claim','2 or more claims']);
  if(D.auto_prior_claims && !D.auto_prior_claims.startsWith('None')){
   D.auto_prior_claims_details=await ask.call({pv:D.auto_prior_claims_details},'Claim details: date, type and amount for each (approx is fine)',{multi:true});
@@ -526,7 +527,7 @@ async function rec(kind){step();const U=(D.units=D.units||{})[kind]=(D.units||{}
  }
 
  if(!D.rec_shared_asked){
-  D.drivers_license=await ask.call({pv:D.drivers_license},'Driver\'s license #? (optional)');
+  D.drivers_license=NO_DL?(D.drivers_license||''):await ask.call({pv:D.drivers_license},'Driver\'s license #? (optional)');
   D.anti_theft=await pick.call({pv:D.anti_theft},'Anti-theft devices?',['None','Alarm System','GPS Tracker','Wheel Lock / Chain','Multiple Security Features']);
   D.safety_course=await pick.call({pv:D.safety_course},'Safety course completed?',['No','Yes - ATV/Snowmobile Safety Course','Yes - Boating Safety Course','Yes - Motorcycle Safety Course']);
   D.current_rec_insurance=await choose.call({pv:D.current_rec_insurance},'Current recreational insurance?',['No - new to recreational insurance','Yes - with another carrier','Yes - renewing with current carrier']);
@@ -546,7 +547,7 @@ async function rec(kind){step();const U=(D.units=D.units||{})[kind]=(D.units||{}
     const op = {};
     op.name = await ask(`Operator ${opNum} name?`);
     op.dob = await ask('Date of birth?',{type:'date'});
-    op.license = await ask("Driver's license # (optional)");
+    op.license = NO_DL?'':await ask("Driver's license # (optional)");
     op.relationship = await pick('Relationship to you?',['Spouse','Domestic Partner','Child (18+)','Parent','Other Family Member','Friend / Roommate','Employee','Other']);
     op.experience = await pick('Riding/operating experience or safety course?',['Less than 1 year','1-3 years','4-10 years','10+ years','Completed safety course','Not sure']);
     D.rec_operators.push(op);
