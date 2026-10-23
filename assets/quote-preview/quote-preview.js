@@ -101,19 +101,20 @@
       '<form class="qp-talk-f" novalidate><input name="qp_name" autocomplete="name" placeholder="Your name" aria-label="Your name">'+
       '<input name="qp_phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="Phone" aria-label="Phone">'+
       '<select name="qp_for" aria-label="What is it for?"><option value="">What\'s it for?</option>'+types.map(function(x){return '<option'+(x===pre?' selected':'')+'>'+esc(x)+'</option>'}).join('')+'</select>'+
-      '<span class="qp-ct" role="radiogroup" aria-label="Call or text"><label><input type="radio" name="qp_ct" value="Call" checked> Call</label><label><input type="radio" name="qp_ct" value="Text"> Text</label></span>'+
+      '<span class="qp-ct" role="radiogroup" aria-label="Call or text"><label><input type="radio" name="qp_ct" value="Call"> Call</label><label><input type="radio" name="qp_ct" value="Text"> Text</label></span>'+
+      '<select name="qp_time" class="qp-time" aria-label="Best time to reach you"><option value="">Best time to reach you?</option><option>Morning</option><option>Midday</option><option>Afternoon</option><option>Any time</option></select>'+
       '<button type="submit" class="qp-talk-go">Have us reach out</button><p class="qp-talk-msg" aria-live="polite"></p></form>';
     var top=document.querySelector('.qp-trust')||embed;top.parentNode.insertBefore(t,top);
     var h=t.querySelector('.qp-talk-h');h.onclick=function(){var c=t.classList.toggle('collapsed');h.setAttribute('aria-expanded',String(!c))};
     if(matchMedia('(max-width:640px)').matches){t.classList.add('collapsed');h.setAttribute('aria-expanded','false')}
-    var f=t.querySelector('form');
+    var f=t.querySelector('form');var syncT=function(){var c=(f.querySelector('input[name=qp_ct]:checked')||{}).value==='Call';f.classList.toggle('call',c);if(!c)f.qp_time.value=''};f.addEventListener('change',syncT);syncT();
     f.addEventListener('submit',function(e){e.preventDefault();e.__qpCounted=true;e.stopPropagation();
-      var n=f.qp_name.value.trim(),p=f.qp_phone.value.trim(),w=f.qp_for.value||'Not specified',ct=(f.querySelector('input[name=qp_ct]:checked')||{}).value||'Call',m=f.querySelector('.qp-talk-msg');
+      var n=f.qp_name.value.trim(),p=f.qp_phone.value.trim(),w=f.qp_for.value||'Not specified',ct=(f.querySelector('input[name=qp_ct]:checked')||{}).value||'Either',m=f.querySelector('.qp-talk-msg');
       if(!n){m.textContent='Please add your name.';return}if(p.replace(/\D/g,'').length<10){m.textContent='Please add a 10-digit phone number.';return}
       var fd=new FormData();fd.append('form-name','chat-quote');fd.append('request_status','CALLBACK REQUEST');fd.append('quote_form',w);
       fd.append('subject','Chandler Quote Request: '+w+' (CALLBACK - '+ct+') - '+n);fd.append('full_name',n);fd.append('phone',p);
-      fd.append('summary','== Callback request ==\nName: '+n+'\nPhone: '+p+'\nFor: '+w+'\nPrefers: '+ct+'\nFrom page: '+page());
-      fetch('/',{method:'POST',body:fd}).then(function(r){if(!r.ok)throw r.status;f.innerHTML='<p class="qp-talk-ok">✓ Thanks, '+esc(n.split(' ')[0])+'! We\'ll '+(ct==='Text'?'text':'call')+' you shortly during office hours.</p>'})
+      fd.append('summary','== Callback request ==\nName: '+n+'\nPhone: '+p+'\nFor: '+w+'\nPrefers: '+ct+(ct==='Call'&&f.qp_time.value?'\nBest time: '+f.qp_time.value:'')+'\nFrom page: '+page());
+      fetch('/',{method:'POST',body:fd}).then(function(r){if(!r.ok)throw r.status;f.innerHTML='<p class="qp-talk-ok">✓ Thanks, '+esc(n.split(' ')[0])+'! We\'ll '+(ct==='Text'?'text':(ct==='Call'?'call':'reach out to'))+' you shortly during office hours.</p>'})
         .catch(function(){m.textContent='Could not send — please call (218) 326-4655.'});
     },true);
   }
@@ -121,8 +122,13 @@
 
   // ---------- styles ----------
   var css=
+  '.qp-ac{margin:4px 0 6px;border:1px solid #cbd5e1;border-radius:12px;background:#fff;overflow:hidden;box-shadow:0 6px 16px #0002}.qp-ac[hidden]{display:none}'+
+  '.qp-ac-i{display:block;width:100%;text-align:left;background:#fff;border:0;border-bottom:1px solid #eef2f7;padding:11px 12px;font:15px Roboto,sans-serif;color:#0f172a;cursor:pointer;min-height:44px}.qp-ac-i:hover,.qp-ac-i:focus{background:#eff6ff}'+
+  '.qp-ac-at{font:11px Roboto,sans-serif;color:#64748b;padding:5px 12px}'+
+  '.qp-later{text-align:center;margin:6px 0 0;font:13px Roboto,sans-serif}.qp-later a{color:#64748b;text-decoration:underline}'+
+  '.qp-time{display:none}.qp-talk-f.call .qp-time{display:block}'+
   '.qp-dl-show{margin:6px 0 0;background:#fff;color:#003d82;border:1px solid #003d82;border-radius:999px;padding:4px 12px;font:600 13px Roboto,sans-serif;cursor:pointer}'+
-  'html.qp-opt-a #qchat-embed .qback,html.qp-opt-b #qchat-embed .qback,html.qp-opt-c #qchat-embed .qback{min-width:44px!important;min-height:44px!important;padding:10px 12px!important;display:inline-flex;align-items:center}'+
+  'html.qp-opt-a #qchat-embed .qback,html.qp-opt-b #qchat-embed .qback,html.qp-opt-c #qchat-embed .qback,html.qp-opt-a #qchat-embed .qmini,html.qp-opt-b #qchat-embed .qmini,html.qp-opt-c #qchat-embed .qmini{min-width:44px!important;min-height:44px!important;padding:10px 12px!important;display:inline-flex;align-items:center}'+
   '.qp-banner{position:relative;z-index:2147483000;background:#b91c1c;color:#fff;font:500 14px/1.35 Roboto,sans-serif;text-align:center;padding:9px 14px}.qp-banner strong{font-weight:700}.qp-badge{display:inline-block;margin-left:8px;background:#fff;color:#b91c1c;font:700 12px/1 Roboto,sans-serif;padding:5px 10px;border-radius:999px;vertical-align:middle}'+
   '@media(max-width:640px){.qp-badge{top:auto;bottom:10px;left:8px;font-size:11px;padding:6px 9px}}'+
   '.qp-toast{position:fixed;left:50%;top:14px;transform:translate(-50%,-140%);z-index:2147483001;background:#111827;color:#fff;border:3px solid #facc15;border-radius:16px;padding:12px 18px;max-width:92vw;font:15px/1.35 Roboto,sans-serif;box-shadow:0 10px 30px #0007;transition:transform .25s}'+
@@ -140,7 +146,7 @@
   '@media(max-width:760px){.qp-talk{margin:12px 12px 0}}'+
   '.qp-talk-h{display:flex;width:100%;gap:6px;align-items:center;background:none;border:0;padding:10px 14px;font:15px Roboto,sans-serif;color:#14532d;cursor:pointer;text-align:left}.qp-talk-h .qp-chev{margin-left:auto}'+
   '.qp-talk.collapsed .qp-talk-f{display:none}.qp-talk.collapsed .qp-chev{transform:rotate(-90deg)}'+
-  '.qp-talk-f{display:grid;grid-template-columns:1.2fr 1fr 1fr auto auto;gap:8px;padding:0 14px 12px;align-items:center}'+
+  '.qp-talk-f{display:grid;grid-template-columns:1.2fr 1fr 1fr auto auto auto;gap:8px;padding:0 14px 12px;align-items:center}'+
   '.qp-talk-f input[type=text],.qp-talk-f input:not([type]),.qp-talk-f input[type=tel],.qp-talk-f select{padding:10px;border:1px solid #94a3b8;border-radius:12px;font-size:16px;min-width:0;background:#fff}'+
   '.qp-ct{display:flex;gap:10px;white-space:nowrap}.qp-talk-go{background:#00a651;color:#fff;border:0;border-radius:999px;padding:11px 14px;font-weight:700;cursor:pointer;white-space:nowrap}'+
   '.qp-talk-msg{grid-column:1/-1;margin:0;color:#b91c1c;font-size:13px}.qp-talk-msg:empty{display:none}.qp-talk-ok{grid-column:1/-1;margin:4px 0;color:#14532d;font-weight:700}'+

@@ -5,7 +5,7 @@ const QP_KEEP_REQ=/^(your full name\?|best phone or email\?)$|use this contact|w
 // Options A/B/C: driver's license # stays (optional + Skip), input is masked and never echoed/displayed in full
 const DLQ=q=>!!OPT&&/license (number|#)/i.test(String(q));
 const dlMask=v=>{const c=String(v||'').replace(/[^A-Za-z0-9]/g,'');return c?('Provided (ends '+c.slice(-2)+')'):'(skipped)'};
-const DL_PATHS=()=>{const o=[];if(D.drivers_license)o.push([D,'drivers_license']);(D.drivers||[]).forEach(x=>{if(x&&x.license)o.push([x,'license'])});(D.rec_operators||[]).forEach(x=>{if(x&&x.license)o.push([x,'license'])});return o};
+const DL_PATHS=()=>{const o=[];if(D.drivers_license)o.push([D,'drivers_license']);(D.drivers||[]).forEach(x=>{if(x&&x.license)o.push([x,'license'])});(D.rec_operators||[]).forEach(x=>{if(x&&x.license)o.push([x,'license'])});(D.biz_drivers||[]).forEach(x=>{if(x&&x.license)o.push([x,'license'])});return o};
 const withMaskedDL=fn=>{if(!OPT)return fn();const ps=DL_PATHS(),orig=ps.map(([o,k])=>o[k]);ps.forEach(([o,k])=>{o[k]=dlMask(o[k])});try{return fn()}finally{ps.forEach(([o,k],i)=>{o[k]=orig[i]})}};
 const wipeDL=()=>{if(!OPT)return;DL_PATHS().forEach(([o,k])=>{o[k]=''});ANSWERS.forEach((v,k)=>{if(DLQ(v.q))ANSWERS.set(k,Object.assign({},v,{a:''}))});document.querySelectorAll('#qchat-embed input[type=password]').forEach(i=>{i.value=''})};
 const qpOpt=(q,opt)=>(OPT&&!opt&&!QP_KEEP_REQ.test(String(q).trim()))?true:opt;
@@ -44,7 +44,7 @@ function record(k,q,a){ANSWERS.set(k,{q,a,step:cur});if(QSEEN)QSEEN.add(k);if(D.
 function saveDraft(){try{localStorage.setItem(DRAFT_KEY,JSON.stringify({D:(typeof OPT!=='undefined'&&OPT)?JSON.parse(JSON.stringify(D,(k,v)=>(k==='license'||k==='drivers_license')?undefined:v)):D,cur,STEPS,partialSent,sentEarly,ts:Date.now()}))}catch(e){}}
 function loadDraft(){try{const s=localStorage.getItem(DRAFT_KEY);return s?JSON.parse(s):null}catch(e){return null}}
 function clearDraft(){localStorage.removeItem(DRAFT_KEY);partialSent=false;sentEarly=false}
-function hasMeaningfulDraft(d){if(!d||!d.D)return false;const dd=d.D;return !!(dd.full_name||dd.phone||dd.email)}
+function hasMeaningfulDraft(d){if(!d||!d.D)return false;const dd=d.D;return !!(dd.full_name||dd.phone||dd.email||(typeof OPT!=='undefined'&&OPT&&dd.types&&dd.types.length&&d.saved))}
 function removeError(){if(currentError){currentError.remove();currentError=null}}
 function showError(msg){removeError();currentError=say(msg,'m w');}
 
@@ -72,7 +72,7 @@ function render(){const p=document.getElementById('prog');const n=STEPS.length;r
  const label=esc(friendlyProg());
  const frac=Math.min(qInSec/10,0.95);
  const pct=Math.round(((cur+frac)/n)*100);
- p.innerHTML=`<div class="pt qc-line"><button type="button" class="alt qmini" data-nav="back" aria-label="Back">←</button><span class="qc-mid">${label}</span><button type="button" class="alt qmini" data-nav="type">Change</button></div><div class="bar qc-bar"><i style="width:${pct}%"></i></div>`;ROOT.classList.add('qchat-stepping')}
+ p.innerHTML=`<div class="pt qc-line"><button type="button" class="alt qmini" data-nav="back" aria-label="Back">←</button><span class="qc-mid">${label}</span><button type="button" class="alt qmini" data-nav="type">${OPT?'Change products':'Change'}</button></div><div class="bar qc-bar"><i style="width:${pct}%"></i></div>`;ROOT.classList.add('qchat-stepping')}
  if(!document.getElementById('editstyle')){const st=document.createElement('style');st.id='editstyle';st.textContent=`.m.u.editable{cursor:pointer}.m.u.editable:hover::after{content:" ✎ edit";font-size:0.8em;color:#666;margin-left:8px}`;document.head.appendChild(st);}
 
 // ---------- chat primitives ----------
@@ -80,7 +80,7 @@ let lastQK=null;
 const say=(t,c='b')=>{removeError();if(c==='u'){chat.querySelectorAll('.m:not(.qold)').forEach(x=>x.classList.add('qold'))}if(c==='b'||c==='sec'){chat.querySelectorAll('.m.qcur').forEach(x=>x.classList.remove('qcur'))}const d=document.createElement('div');d.className='m '+c+(c==='b'?' qcur':'');if(c==='u'&&typeof cur!=='undefined'&&lastQK){d.dataset.step=String(cur);d.dataset.qkey=lastQK;d.classList.add('editable');d.title='Tap to change this answer';d.onclick=e=>{if(e.target.tagName==='BUTTON')return;const qk=d.dataset.qkey;if(qk){startEdit(qk);return}const step=parseInt(d.dataset.step);if(!isNaN(step)&&step<STEPS.length&&document.getElementById('sum').style.display!=='block')goto(step)}};d.textContent=t;chat.append(d);if(c==='u')d.classList.add('qold');return d};
 const box=()=>{document.getElementById('in')?.remove();const d=document.createElement('div');d.id='in';chat.append(d);qcHist();return d};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-function friendlySec(s){return ({Contact:'Your contact info',Drivers:'Drivers',Vehicles:'Your vehicles',Household:'Household members',Property:'Your home','Home Coverage':'Home coverage','Auto Coverage':'Auto coverage','Rental Property':'Rental property',Business:'Your business',Life:'Life insurance','What you need':'What you need','Unit Details':'Vehicle details',Safety:'Safety details','Final details':'Final details','Send or continue':'Almost done',Review:'Review','Dec page':'Dec page shortcut','Quick vehicle':'Your vehicle','More details?':'Almost done','Industry':'Your business','Coverage needed':'Coverage','Business details':'Business details'}[s]||s)}
+function friendlySec(s){return ({Contact:'Your contact info',Drivers:'Drivers',Vehicles:'Your vehicles',Household:'Household members',Property:'Your home','Home Coverage':'Home coverage','Auto Coverage':'Auto coverage','Rental Property':'Rental property',Business:'Your business',Life:'Life insurance','What you need':'What you need','Unit Details':'Vehicle details',Safety:'Safety details','Final details':'Final details','Send or continue':'Almost done',Review:'Review','Dec page':'Dec page shortcut','Quick vehicle':'Your vehicle','More details?':'Almost done','Industry':'Your business','Coverage needed':'Coverage','Business details':'Business details','Quick home':'Your home','Named insureds':'Named insureds'}[s]||s)}
 function friendlyProg(){if(!D.types||!STEPS.length)return 'Getting started — choose quote types';
  const x=STEPS[cur]||{},n=STEPS.length,sec=friendlySec(x.s);
  if(x.s==='Vehicles'&&D.vehicles&&D.vehicles.length){const i=Math.min(Math.max(1,qInSec),D.vehicles.length);return `Vehicle ${i} of ${D.vehicles.length} · Mileage & details`}
@@ -138,6 +138,7 @@ function ask(q,{type='text',opt=true,valid,multi,ph=''}={}){opt=qpOpt(q,opt);con
  else if(ql.includes('address')&&!ql.includes('email'))i.autocomplete='street-address';
  else if(ql.includes('city'))i.autocomplete='address-level2';
  }
+ if(OPT&&!multi&&/address\?/i.test(q)&&!/email|ip address/i.test(q))photonAC(i,ql);
  const dlq=!multi&&DLQ(q);if(dlq){i.type='password';i.autocomplete='off';i.setAttribute('autocomplete','off');i.spellcheck=false;i.autocapitalize='characters';i.setAttribute('data-lpignore','true');const tg=document.createElement('button');tg.type='button';tg.className='alt qp-dl-show';tg.textContent='Show';tg.onclick=()=>{const h=i.type==='password';i.type=h?'text':'password';tg.textContent=h?'Hide':'Show'};b.append(tg)}
  const echo=v=>dlq?dlMask(v):v;
  const go=document.createElement('button');go.type='button';go.className='qnext';go.textContent='Next';b.append(go);
@@ -196,13 +197,13 @@ async function drivers(){step();
  if(D.drivers&&D.drivers.length&& !EDIT &&(await choose(`You have ${D.drivers.length} driver(s) entered. Keep them?`,['Keep as entered','Re-enter'],{opt:false}))==='Keep as entered')return;const L=[];
  L.push({name:D.full_name,dob:D.date_of_birth,relation:'Self',license:await ask("Your driver's license number? (optional)"),license_state:await pick('License state?',STATES),occupation:await ask.call({pv:D.occupation},'Occupation for driver 1? (optional)')});
  while(L.length<5&&await yes('Add another driver?')){const d={name:await ask(`Driver ${L.length+1} name?`),dob:await ask('Date of birth?',{type:'date'}),relation:await choose('Relationship to you?',['Spouse','Domestic partner','Child','Parent','Other relative','Other'])};d.license=await ask('Driver\'s license number? (optional)');d.license_state=await pick('License state? (optional)',STATES,{opt:true});d.occupation=await ask('Occupation? (optional)');L.push(d)}
- D.drivers=L; D.current_insurance_status=await choose('Current insurance status?',['No - New to Auto Insurance','Yes - With Another Carrier','Yes - Renewing with Current Carrier']); D.auto_prior_claims=await choose('Any prior claims in last 5 years?',['None','1 claim','2 or more claims']);
+ D.drivers=L; D.current_insurance_status=await choose.call({pv:D.current_insurance_status},'Current insurance status?',['No - New to Auto Insurance','Yes - With Another Carrier','Yes - Renewing with Current Carrier']); D.auto_prior_claims=await choose('Any prior claims in last 5 years?',['None','1 claim','2 or more claims']);
  if(D.auto_prior_claims && !D.auto_prior_claims.startsWith('None')){
   D.auto_prior_claims_details=await ask.call({pv:D.auto_prior_claims_details},'Claim details: date, type and amount for each (approx is fine)',{multi:true});
  } else {
   delete D.auto_prior_claims_details;
  }}
-async function vehicles(){step();
+async function vehicles(){if(OPT)return vehiclesOpt();step();
  if(D.vehicles&&D.vehicles.length&& !EDIT &&(await choose(`You have ${D.vehicles.length} vehicle(s) entered. Keep them?`,['Keep as entered','Re-enter'],{opt:false}))==='Keep as entered')return;const L=[];
  do{const o={},n=L.length+1;
   await vinStep(o,{vin:'vin',year:'year',make:'make',model:'model',trim:'trim'},`Vehicle ${n}`);
@@ -227,8 +228,8 @@ async function property(preset){step();
  if(!preset&&!D.property_type&&D.types.includes('Condo / Townhouse')&&!D.types.some(t=>/Home/.test(t)))preset='Townhouse / Condo';
  D.property_type=preset||await choose.call({pv:D.property_type},'Property type?',['Home','Cabin / Vacation Home','Townhouse / Condo','Rental / landlord property']);
  if(preset)say('Property type: '+preset);
- D.property_address=(D.address&&await yes('Is the property at the address you gave?'))?`${D.address}, ${D.city} ${D.zip}`:await ask('Property address? (optional)');
- D.year_built=await ask.call({pv:D.year_built},'Year built? (4-digit)',{valid:YEAR_OK});
+ if(!(OPT&&D._hq)){D.property_address=(D.address&&await yes('Is the property at the address you gave?'))?`${D.address}, ${D.city} ${D.zip}`:await ask('Property address? (optional)');
+ D.year_built=await ask.call({pv:D.year_built},'Year built? (4-digit)',{valid:YEAR_OK});}
  D.square_footage=await ask.call({pv:D.square_footage},'Square footage (approx)?');
  D.num_stories=await pick('Number of stories?',['1 Story','1.5 Stories','2 Stories','3+ Stories','Split Level / Bi-Level']);
  D.foundation_type=await pick('Foundation type?',['Basement','Crawlspace','Slab','Pier & Beam']);
@@ -239,7 +240,7 @@ async function property(preset){step();
  }
  D.exterior_wall=await pick('Exterior wall type?',['Vinyl Siding','Wood Siding','Brick','Stucco','Log','Metal']);
  D.roof_type=await pick('Roof type?',['Asphalt Shingles (3-tab or Architectural)','Metal','Wood Shake / Shingle','Tile','Rubber / EPDM (Flat)','TPO (Flat)','Other']);
- D.roof_year=await ask.call({pv:D.roof_year||''},'Year roof installed/replaced? (4-digit)',{valid:YEAR_OK}) || 'Skipped';
+ if(!OPT)D.roof_year=await ask.call({pv:D.roof_year||''},'Year roof installed/replaced? (4-digit)',{valid:YEAR_OK}) || 'Skipped';
  D.roof_condition=await pick('Roof condition?',['Excellent - New or Like New','Good','Fair - Some Wear','Poor - Needs Replacement Soon']);
  D.garage_type=await pick('Garage type?',['No Garage','Attached Garage','Detached Garage']);
  if(D.garage_type==='Detached Garage'){
@@ -252,12 +253,13 @@ async function property(preset){step();
   D.detached_garage_use=await pick('Primary use of detached garage?',['Vehicle Storage Only','Workshop / Hobby Space','General Storage','Living Space / Apartment','Mixed Use']);
  }
  D.heat_type=await choose.call({pv:D.heat_type},'Primary heat?',['Gas Forced Air','Electric','Oil','Propane','Wood','Geothermal']);
+ if(OPT){if(!D._hq)await homeUpdates(false)}else{
  D.heat_update_year=await ask.call({pv:D.heat_update_year||''},'Year of last heat update? (4-digit)',{valid:YEAR_OK}) || 'Skipped';
  D.electrical_update_year=await ask.call({pv:D.electrical_update_year||''},'Electrical update year? (4-digit)',{valid:YEAR_OK}) || 'Skipped';
  D.plumbing_update_year=await ask.call({pv:D.plumbing_update_year||''},'Plumbing update year? (4-digit)',{valid:YEAR_OK}) || 'Skipped';
- D.wood_heat=await choose.call({pv:D.wood_heat},'Any wood heat (stove/insert)?',['No','Yes']);
- if(D.wood_heat && D.wood_heat.startsWith('Yes')){
-  D.wood_heat_type=await pick.call({pv:D.wood_heat_type},'Type of wood/solid-fuel heat?',['Wood stove','Fireplace insert','Outdoor wood boiler','Pellet stove','Other']);
+ D.wood_heat=await choose.call({pv:D.wood_heat},'Any wood heat (stove/insert)?',['No','Yes'])}
+ if(D.wood_heat && (D.wood_heat.startsWith('Yes')||(OPT&&D.wood_heat!=='None'))){
+  if(!OPT)D.wood_heat_type=await pick.call({pv:D.wood_heat_type},'Type of wood/solid-fuel heat?',['Wood stove','Fireplace insert','Outdoor wood boiler','Pellet stove','Other']);
   D.wood_heat_location=await pick.call({pv:D.wood_heat_location},'Where is it located?',['In the house (main floor)','Basement','Attached garage','Detached garage / outbuilding']);
   D.wood_heat_role=await pick.call({pv:D.wood_heat_role},'Primary or supplemental heat?',['Primary','Supplemental']);
   D.wood_heat_pro_installed=await choose.call({pv:D.wood_heat_pro_installed},'Professionally installed?',['Yes','No']);
@@ -309,8 +311,14 @@ async function property(preset){step();
  } else {
   delete D.home_claims_history_details;
  }
- D.security_system=await choose.call({pv:D.security_system},'Security system?',['None','Unmonitored / Local Alarm','Monitored (Professional)'])}
+ D.security_system=await choose.call({pv:D.security_system},'Security system?',['None','Unmonitored / Local Alarm','Monitored (Professional)']);
+ if(OPT&&!D._hq)D.home_anything_else=await ask.call({pv:D.home_anything_else},'Anything else about the home? (optional)',{multi:true})}
 async function coverage(part){step();
+ if(OPT){if(part!=='home'){if(!('current_auto_carrier' in D))D.current_auto_carrier=await carrier('Current auto carrier?')}
+  if(part!=='auto'){D.dwelling_value=await ask.call({pv:D.dwelling_value},'Estimated rebuild value? (optional)');
+   D.deductible=await choose.call({pv:D.deductible},'Home (dwelling) deductible?',['Not sure / match current','$500','$1,000','$2,500 (most common)','$5,000']);
+   if(!('current_home_carrier' in D))D.current_home_carrier=await carrier('Current home carrier?')}
+  return}
  if(part!=='home'){D.auto_liability_limit=await choose.call({pv:D.auto_liability_limit},'Auto liability limits?',['100/300/100 (Recommended)','25,000 / 50,000','50,000 / 100,000','250,000 / 500,000','500,000 / 500,000','Not sure']);
   D.current_auto_carrier=await carrier('Current auto carrier?')}
  if(part!=='auto'){D.dwelling_value=await ask.call({pv:D.dwelling_value},'Estimated rebuild value? (optional)');
@@ -367,7 +375,10 @@ async function landlord(){step();
 async function business(){step();
  D.business_name=await ask.call({pv:D.business_name},'Business name?');
  D.dba=await ask.call({pv:D.dba},'DBA / trade name (if different)? (optional)');
- if(!OPT)D.ein=await ask.call({pv:D.ein},'Federal EIN / Tax ID (optional)');
+ if(OPT&&!D.phone)D.phone=await ask('Business phone? (optional)',{type:'tel',valid:v=>v.replace(/\D/g,'').length>=10});
+ if(OPT&&!D.email)D.email=await ask('Email address? (optional)',{type:'email',valid:v=>/^\S+@\S+\.\S+$/.test(v)});
+ if(OPT&&!D.requested_effective_date)D.requested_effective_date=await ask('When should coverage start? (optional)',{type:'date'});
+ if(!OPT||OPT==='c')D.ein=await ask.call({pv:D.ein},'Federal EIN / Tax ID (optional)');
  D.years_in_business=await pick.call({pv:D.years_in_business},'Years in business (under current ownership)?',['Less than 1 year','1-3 years','4-7 years','8-15 years','15+ years']);
  D.annual_revenue=await pick.call({pv:D.annual_revenue},'Annual revenue?',['Under $50,000','$50,000 - $100,000','$100,000 - $250,000','$250,000 - $500,000','$500,000 - $1,000,000','$1M - $5M','Over $5M']);
  if(!D.annual_payroll)D.annual_payroll = await pick.call({pv:D.annual_payroll},'Annual payroll (approx)?',['Under $50,000','$50,000 - $100,000','$100,000 - $250,000','$250,000 - $500,000','$500,000 - $1,000,000','Over $1,000,000']) 
@@ -379,12 +390,16 @@ async function business(){step();
  D.business_state=await pick.call({pv:D.business_state},'Business state?',STATES,{opt:true});
  D.business_zip=await ask.call({pv:D.business_zip},'Business ZIP code?',{valid:v=>/^\d{5}(-\d{4})?$/.test(v)});
  D.business_description=await ask.call({pv:D.business_description},'Brief description of the business (what you do)?',{multi:true});
- D.business_coverages=await checks.call({pv:D.business_coverages||''},'Coverages wanted? (select all that apply)',['General Liability','Business Owners Package (BOP)','Commercial Auto',"Workers' Compensation",'Commercial Property','Professional Liability (E&O)','Directors & Officers (D&O)','Commercial Crime']);
+ if(OPT){D.insurance_class=await ask.call({pv:D.insurance_class},'Business class / specialty, if you know it (e.g. excavation contractor)? (optional)');
+  D.eligibility_notes=await ask.call({pv:D.eligibility_notes},'Anything unusual about the operations (hazardous work, out-of-state jobs, etc.)? (optional)',{multi:true})}
+ if(!(OPT&&D.business_coverages))D.business_coverages=await checks.call({pv:D.business_coverages||''},'Coverages wanted? (select all that apply)',['General Liability','Business Owners Package (BOP)','Commercial Auto',"Workers' Compensation",'Commercial Property','Professional Liability (E&O)','Directors & Officers (D&O)','Commercial Crime']);
  const covs=(D.business_coverages||'').split(', ');
  if(covs.includes('Commercial Auto')){
   D.total_vehicles=await ask.call({pv:D.total_vehicles},'Total owned/leased vehicles?');
   D.hired_autos=await pick.call({pv:D.hired_autos},'Any hired or non-owned autos?',['No','Yes - Occasionally','Yes - Regularly']);
+  if(OPT)await bizAutoLoops();
  }
+ if(OPT&&covs.includes("Workers' Compensation"))await wcLoop();
  if(covs.some(c=>['General Liability','Business Owners Package (BOP)'].includes(c))){
   D.gl_operations=await ask.call({pv:D.gl_operations},'Detailed description of operations (what you do, how, where)?',{multi:true});
   D.gl_per_occurrence=await pick.call({pv:D.gl_per_occurrence},'GL per occurrence limit?',['$500,000','$1,000,000 (Standard)','$2,000,000','$5,000,000','$10,000,000+']);
@@ -581,7 +596,7 @@ function flat(){const f={};for(const[k,v]of Object.entries(D))if(typeof v==='str
   f.units=rt.map(t=>{const u=U[t]||{};return `${t}: ${[u.unit_year,u.unit_make,u.unit_model].filter(Boolean).join(' ')||'(details skipped)'} | len ${u.unit_length||'-'} | motor ${u.unit_motor||'-'} | VIN/HIN ${u.unit_vin||'-'} | value ${u.unit_value||'-'} | stored ${u.unit_storage||'-'} | ${u.unit_security||'-'}`}).join('\n');
   Object.assign(f,U[rt[0]]||{})}
  if(D.drivers){f.drivers=fmtD(D.drivers);D.drivers.forEach((x,i)=>{const n=i+1;f[`driver${n}_name`]=x.name;f[`driver${n}_dob`]=x.dob;f[`driver${n}_relation`]=x.relation;f[`driver${n}_license`]=x.license;f[`driver${n}_license_state`]=x.license_state;f[`driver${n}_occupation`]=x.occupation})}
- if(D.vehicles){f.vehicles=fmtV(D.vehicles);D.vehicles.forEach((x,i)=>{for(const k of ['vin','year','make','model','ownership','mileage','annual_miles','use','parking','coverages','comp_deductible','coll_deductible','rental_limit'])if(i<6)f[`vehicle_${i+1}_${k}`]=x[k]||''})}
+ if(D.vehicles){f.vehicles=fmtV(D.vehicles);D.vehicles.forEach((x,i)=>{for(const k of ['vin','year','make','model','ownership','mileage','annual_miles','use','parking','coverages','comp_deductible','coll_deductible','rental_limit','liability_limit'])if(i<6)f[`vehicle_${i+1}_${k}`]=x[k]||''})}
  if(D.household)f.household=D.household.map(x=>`${x.name} | ${x.dob||'-'} | ${x.relation}`).join('\n');
  return f}
 const LABEL=k=>k.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
@@ -593,7 +608,7 @@ function buildSummary(status){const types=D.types||[];const qtypes=[...new Set(t
  const hh=D.household||[];if(hh.length){lines.push('== Household ==');hh.forEach(h=>{const parts=[h.name,h.dob,h.relation].filter(Boolean);if(parts.length)lines.push(parts.join(' — '))});lines.push(''); printed.add('household');}
  if((D.types||[]).some(t=>['Home & Cabin','Condo / Townhouse','Home + Auto Bundle'].includes(t))) addSection('Home Coverage',['dwelling_value','deductible','current_home_carrier','home_liability_limit','personal_property','add_ons','home_claims_history','home_claims_history_details']);
  if(D.drivers&&D.drivers.length){lines.push('== Drivers ==');D.drivers.forEach((dr,i)=>{const parts=[];if(dr.name)parts.push(`Name: ${dr.name}`);if(dr.dob)parts.push(`DOB: ${dr.dob}`);if(dr.relation)parts.push(`Relation: ${dr.relation}`);if(dr.license)parts.push(`License #: ${dr.license}`);if(dr.license_state)parts.push(`License state: ${dr.license_state}`);if(dr.occupation!==undefined)parts.push(`Occupation: ${dr.occupation||''}`);lines.push(`Driver ${i+1}: ` + parts.join('; '))});lines.push(''); printed.add('drivers');}
- if(D.vehicles&&D.vehicles.length){lines.push('== Vehicles ==');D.vehicles.forEach((v,i)=>{lines.push('Vehicle '+(i+1)+':');const add=(l,val)=>{if(val)lines.push('  '+l+': '+val)};add('Year/Make/Model',[v.year,v.make,v.model].filter(Boolean).join(' '));if(v.vin)add('VIN',v.vin);if(v.trim)add('  Trim/Body',v.trim);add('Ownership',v.ownership);add('Use',v.use);add('Parking',v.parking);add('Odometer',v.mileage);add('Annual miles',v.annual_miles);add('Coverages',v.coverages);add('Comprehensive deductible',v.comp_deductible);add('Collision deductible',v.coll_deductible);add('Rental reimbursement',v.rental_limit);lines.push('')});lines.push(''); printed.add('vehicles');}
+ if(D.vehicles&&D.vehicles.length){lines.push('== Vehicles ==');D.vehicles.forEach((v,i)=>{lines.push('Vehicle '+(i+1)+':');const add=(l,val)=>{if(val)lines.push('  '+l+': '+val)};add('Year/Make/Model',[v.year,v.make,v.model].filter(Boolean).join(' '));if(v.vin)add('VIN',v.vin);if(v.trim)add('  Trim/Body',v.trim);add('Ownership',v.ownership);add('Use',v.use);add('Parking',v.parking);add('Odometer',v.mileage);add('Annual miles',v.annual_miles);add('Coverages',v.coverages);add('Comprehensive deductible',v.comp_deductible);add('Collision deductible',v.coll_deductible);add('Rental reimbursement',v.rental_limit);add('Liability limits',v.liability_limit);lines.push('')});lines.push(''); printed.add('vehicles');}
  addSection('Auto Coverage',['auto_liability_limit','current_auto_carrier','current_insurance_status','auto_prior_claims','auto_prior_claims_details']);
  if((D.types||[]).includes('Landlord / Rental')) addSection('Rental Property',['mailing_address','county','rental_units','square_feet','dwelling_value','monthly_rent','stories','construction','roof','electrical_year','plumbing_year','wood_heat','wood_heat_type','wood_heat_location','wood_heat_role','wood_heat_pro_installed','wood_heat_year','occupancy','owner_occupied_unit','tenant_screening','require_renters','coverages','landlord_liability_limit','current_carrier','prior_claims','prior_claims_details','additional_properties']);
  addSection('Business',['business_name','dba','ein','years_in_business','annual_revenue','annual_payroll','owner_experience','business_entity','business_employees','business_address','business_city','business_state','business_zip','business_description','business_coverages','total_vehicles','hired_autos','gl_operations','gl_per_occurrence','gl_aggregate','subcontractors_used','no_building_coverage','eo_services','eo_revenue','eo_per_claim','eo_claims','do_org_type','do_directors','do_assets','do_limit','do_claims','crime_employees','crime_handlers','crime_limit','crime_claims','crime_dual_control','prior_line','prior_carrier','prior_expiration','current_business_carrier','loss_history']);
@@ -633,6 +648,8 @@ function buildSummary(status){const types=D.types||[];const qtypes=[...new Set(t
    }
   }
   lines.push(''); printed.add('units');}
+ if(OPT){const LST=[['named_insureds','Additional named insureds','Named insured'],['biz_drivers','Business drivers','Driver'],['biz_vehicles','Business vehicles','Vehicle'],['wc_classes',"Workers' comp job classes",'Class']];
+  for(const[key,title,one]of LST){const a=D[key];if(!a||!a.length)continue;lines.push(`== ${title} ==`);a.forEach((r,i)=>{const parts=Object.entries(r).filter(([k,v])=>v&&typeof v==='string').map(([k,v])=>`${LABEL(k)}: ${v}`);lines.push(`${one} ${i+1}: `+(parts.join('; ')||'(details skipped)'))});lines.push('');printed.add(key)}}
  const nd=D.need_description;if(nd)lines.push('== What you need ==',nd,''); printed.add('need_description');
  const ai=D.additional_info;if(ai)lines.push('== Notes ==',ai,''); printed.add('additional_info');
  const leftovers=[];for(const[k,v]of Object.entries(D)){if(!printed.has(k)&&v&&typeof v==='string'&&v!=='-'&&k!=='types'&&k!=='rec_shared_asked'){leftovers.push(`${LABEL(k)}: ${v}`);printed.add(k)}}
@@ -705,31 +722,36 @@ function buildSteps(types){const out=[{t:null,s:'Contact'}],seen=new Set();
  out.push({t:null,s:'Send or continue'});
  for(const t of types)for(const s of (PLANS[t]||['Unit Details','Safety'])){if(KEY_SECTIONS.includes(s))continue;if(SHARED.includes(s)){if(seen.has(s))continue;seen.add(s)}out.push({t,s})}
  out.push({t:null,s:'Final details'},{t:null,s:'Review'});return out}
-const CONTACT_KEYS=['full_name','email','phone','date_of_birth','address','city','zip','requested_effective_date'];
-const PROPERTY_KEYS=['property_type','property_address','year_built','square_footage','num_stories','foundation_type','basement_finished_percent','walkout_basement','basement_water_history','exterior_wall','roof_type','roof_condition','roof_year','heat_update_year','electrical_update_year','plumbing_update_year','garage_type','heat_type','wood_heat','wood_heat_type','wood_heat_location','wood_heat_role','wood_heat_pro_installed','wood_heat_year','has_dogs','pet_details','pet_count','pet_bite_history','has_pool','pool_type','pool_fenced','pool_board_slide','has_trampoline','trampoline_netting','trampoline_fenced','business_on_premises','home_business_type','home_business_visitors','security_system','smoke_detectors','co_detectors','deadbolts','fire_extinguishers','other_protective_devices','detached_garage_sqft','detached_garage_year','detached_garage_construction','detached_garage_foundation','detached_garage_heating','detached_garage_electrical','detached_garage_use'];
+const CONTACT_KEYS=['full_name','email','phone','contact_pref','best_time','date_of_birth','address','city','zip','requested_effective_date'];
+const PROPERTY_KEYS=['home_anything_else','property_type','property_address','year_built','square_footage','num_stories','foundation_type','basement_finished_percent','walkout_basement','basement_water_history','exterior_wall','roof_type','roof_condition','roof_year','heat_update_year','electrical_update_year','plumbing_update_year','garage_type','heat_type','wood_heat','wood_heat_type','wood_heat_location','wood_heat_role','wood_heat_pro_installed','wood_heat_year','has_dogs','pet_details','pet_count','pet_bite_history','has_pool','pool_type','pool_fenced','pool_board_slide','has_trampoline','trampoline_netting','trampoline_fenced','business_on_premises','home_business_type','home_business_visitors','security_system','smoke_detectors','co_detectors','deadbolts','fire_extinguishers','other_protective_devices','detached_garage_sqft','detached_garage_year','detached_garage_construction','detached_garage_foundation','detached_garage_heating','detached_garage_electrical','detached_garage_use'];
 let gen=0,editContact=false;
 const SEC={'Contact':contact,'Drivers':drivers,'Vehicles':vehicles,'Household':household,
  'Property':()=>property(''),'Auto Coverage':()=>coverage('auto'),'Home Coverage':()=>coverage('home'),
  'Rental Property':landlord,'Business':business,'Life':life,'What you need':other,
  'Unit Details':t=>rec(t),'Safety':t=>recSafety(t),'Final details':finalDetails,
  'Send or continue':checkpoint,
- 'Dec page':decShortcut,'Quick vehicle':quickVehicle,'More details?':moreDetails,'Industry':industry,'Coverage needed':coverageNeeded,'Business details':businessMore};
+ 'Dec page':decShortcut,'Quick vehicle':quickVehicle,'More details?':moreDetails,'Industry':industry,'Coverage needed':coverageNeeded,'Business details':business,'Quick home':quickHome,'Named insureds':namedInsureds};
 async function checkpoint(){step();say("Thanks — that covers the key rating details. You can send it now and an agent will follow up on anything else, or keep going for a more accurate quote."); return (await choose('What would you like to do?',['Keep going','Send what I have'],{opt:false}))==='Send what I have'}
 async function runFrom(i){const g=++gen;document.getElementById('sum').style.display='none';qcHist();
  if(i===0){QCOUNT={};QSEEN=new Set()}
  for(let k=i;k<STEPS.length;k++){cur=k;const x=STEPS[k];
   if(x.s==='Review'){
    if(QSEEN){for(const kk of ANSWERS.keys())if(!QSEEN.has(kk))ANSWERS.delete(kk);}
-   EDIT=null;QSEEN=null;review();return
+   EDIT=null;QSEEN=null;KEEP=false;review();return
   }
+  const dk=(x.t||'')+'|'+x.s;
+  if(OPT&&KEEP&&(D._done||[]).includes(dk)&&!/^(More details\?|Final details|Send or continue)$/.test(x.s)){say('✓ '+LBL(x)+' (kept your answers)','sec');continue}
   const r=await SEC[x.s](x.t);if(g!==gen)return;
+  if(OPT){D._done=[...new Set([...(D._done||[]),dk])]}
   if(x.s==='Send or continue'&&r===true){sentEarly=true;k=STEPS.findIndex(s=>s.s==='Final details')-1}}}
 const INTRO="About 2 minutes — skip anything you don't know.";
 // Clean transcript: wipe chat and show only intro (+ types and completed steps when resuming mid-flow)
 function resetChat(upto){chat.innerHTML='';say(INTRO);
  if(upto!=null&&D.types){say(D.types.join(' + '),'u');const done=STEPS.slice(0,upto).map(LBL);if(done.length)say('✓ Done: '+done.join(' · '),'sec')}}
-function goto(i){if(i<0)return changeType();editContact=STEPS[i].s==='Contact';resetChat(i);runFrom(i)}
+let KEEP=false;
+function goto(i){KEEP=false;if(i<0)return changeType();editContact=STEPS[i].s==='Contact';resetChat(i);runFrom(i)}
 async function changeType(){const g=++gen;document.getElementById('sum').style.display='none';const prev=D.types||[];
+ if(OPT){KEEP=true;QSEEN=null;sessionStorage.removeItem(DONE_KEY);localStorage.removeItem(DONE_KEY);sentEarly=false;STEPS=[];cur=0;render();resetChat();say('Pick your products. Answers you already gave are kept.','sec');await pickType(g,prev);return}
  for(const k of Object.keys(D))if(!CONTACT_KEYS.includes(k))delete D[k]; D.rec_shared_asked=false; D.rec_operators=[]; decFile=null;sessionStorage.removeItem(DONE_KEY);localStorage.removeItem(DONE_KEY);
  sentEarly=false;STEPS=[];cur=0;render();resetChat();await pickType(g,prev)}
 async function pickType(g,prev){g=g||++gen;let T;if(OPT==='c'&&PRE_TYPE==='Business'&&prev===undefined){T=[PRE_TYPE]}else T=await tiles(prev||[]);if(g!==gen)return;D.types=[...new Set(T)];
@@ -754,12 +776,20 @@ addEventListener('pageshow',e=>{if(e.persisted)location.reload()});
 
 
 // ================= PREVIEW OPTIONS A/B/C (all guarded by OPT; inert when OPT==='') =================
-function buildStepsOpt(types){const one=types.length===1?types[0]:null;let s;
- if(OPT==='c'&&one==='Auto')s=[{t:null,s:'Contact'},{t:'Auto',s:'Quick vehicle'},{t:null,s:'More details?'},{t:null,s:'Final details'},{t:null,s:'Review'}];
- else if(OPT==='c'&&one==='Business')s=[{t:'Business',s:'Industry'},{t:null,s:'Contact'},{t:'Business',s:'Coverage needed'},{t:null,s:'More details?'},{t:null,s:'Final details'},{t:null,s:'Review'}];
- else s=buildSteps(types);
+const BUNDLE=/^Home \+ Auto bundle$/i;
+const cTypes=types=>[...new Set((types||[]).flatMap(t=>BUNDLE.test(t)?['Home & Cabin','Auto']:[t]))];
+const PERSONAL=t=>['Auto','Home & Cabin','Condo / Townhouse'].includes(t);
+const CQ={'Auto':['Quick vehicle'],'Home & Cabin':['Quick home'],'Condo / Townhouse':['Quick home'],'Business':['Industry','Coverage needed'],'Landlord / Rental':['Rental Property'],'Life':['Life'],'Other / not sure':['What you need']};
+const CM={'Auto':['Drivers','Vehicles','Auto Coverage'],'Home & Cabin':['Household','Property','Home Coverage'],'Condo / Townhouse':['Household','Property','Home Coverage'],'Business':['Business details']};
+function buildStepsOpt(types){const T=cTypes(types);let s;
+ if(OPT==='c'){s=[];const bizFirst=T.length===1&&T[0]==='Business';if(bizFirst)s.push({t:'Business',s:'Industry'});s.push({t:null,s:'Contact'});const seen=new Set();
+  for(const t of T)for(const x of (CQ[t]||(REC.includes(t)?['Unit Details']:[]))){if(bizFirst&&x==='Industry')continue;const key=REC.includes(t)?x+t:x;if(seen.has(key))continue;seen.add(key);s.push({t,s:x})}
+  s.push({t:null,s:'More details?'},{t:null,s:'Final details'},{t:null,s:'Review'})}
+ else{s=buildSteps(T);if(T.some(PERSONAL)){const fi=s.findIndex(x=>x.s==='Final details');s.splice(fi,0,{t:null,s:'Named insureds'})}}
  if(OPT==='b'||OPT==='c'){const ci=s.findIndex(x=>x.s==='Contact');s.splice(ci+1,0,{t:null,s:'Dec page'})}
  return s}
+function moreStepsC(){const T=cTypes(D.types);const add=[],seen=new Set();if(T.some(PERSONAL))add.push({t:null,s:'Named insureds'});
+ for(const t of T)for(const x of (CM[t]||(REC.includes(t)?['Safety']:[]))){const key=REC.includes(t)?x+t:x;if(seen.has(key))continue;seen.add(key);add.push({t,s:x})}return add}
 const isBizC=()=>OPT==='c'&&(D.types||[]).length===1&&D.types[0]==='Business';
 const isAutoC=()=>OPT==='c'&&(D.types||[]).length===1&&D.types[0]==='Auto';
 async function contactQuick(){step();
@@ -770,6 +800,8 @@ async function contactQuick(){step();
  const pe=await ask.call({pv:D.phone||D.email},'Best phone or email?',{opt:false,valid:v=>/^\S+@\S+\.\S+$/.test(v)||v.replace(/\D/g,'').length>=10});
  if(/@/.test(pe)){D.email=pe;delete D.phone}else{D.phone=pe;delete D.email}
  saveDraft();clearTimeout(window.__qpPartialT);window.__qpPartialT=setTimeout(()=>{try{sendPartial()}catch(e){}},1500);
+ if(D.phone){D.contact_pref=await choose.call({pv:D.contact_pref},'Call or text?',['Call','Text','Either is fine']);
+  if(D.contact_pref==='Call')D.best_time=await choose.call({pv:D.best_time},'Best time to reach you?',['Morning','Midday','Afternoon','Any time']);else delete D.best_time}else{delete D.contact_pref;delete D.best_time}
  if(isBizC()){D.business_zip=await ask.call({pv:D.business_zip},'Business ZIP code? (optional)',{valid:v=>/^\d{5}(-\d{4})?$/.test(v)});return false}
  if(isAutoC()){D.zip=await ask.call({pv:D.zip},'ZIP code? (optional)',{valid:v=>/^\d{5}(-\d{4})?$/.test(v)});
   D.date_of_birth=await ask.call({pv:D.date_of_birth},'Date of birth? (optional)',{type:'date'});return false}
@@ -797,8 +829,91 @@ async function quickVehicle(){step();const o=(D.vehicles&&D.vehicles[0])||{};
  if(/^Yes/.test(D.current_insurance_status||''))D.current_auto_carrier=await carrier('Current auto carrier?');else delete D.current_auto_carrier}
 async function moreDetails(){step();
  const c=await choose('That\'s enough to start your quote. Add more details now? (optional, helps us quote faster)',['Review & submit','Add more details (optional)'],{opt:false});
- if(c!=='Review & submit'){const add=isBizC()?[{t:'Business',s:'Business details'}]:[{t:'Auto',s:'Drivers'},{t:'Auto',s:'Vehicles'},{t:'Auto',s:'Auto Coverage'}];
-  if(!STEPS.some(x=>add.some(a=>a.s===x.s))){const i=STEPS.findIndex(x=>x.s==='More details?');STEPS.splice(i+1,0,...add);render();saveDraft()}}}
+ if(c!=='Review & submit'){const add=moreStepsC();
+  if(!STEPS.some(x=>add.some(a=>a.s===x.s&&a.t===x.t))){const i=STEPS.findIndex(x=>x.s==='More details?');STEPS.splice(i+1,0,...add);render();saveDraft()}}}
+// Home detail (skippable): update years, wood heat, anything else
+async function homeUpdates(withNote){
+ D.roof_year=await ask.call({pv:D.roof_year&&D.roof_year!=='Skipped'?D.roof_year:''},'Year roof installed/replaced? (4-digit)',{valid:YEAR_OK})||'Skipped';
+ D.heat_update_year=await ask.call({pv:D.heat_update_year&&D.heat_update_year!=='Skipped'?D.heat_update_year:''},'Year furnace / heating last updated? (4-digit)',{valid:YEAR_OK})||'Skipped';
+ D.plumbing_update_year=await ask.call({pv:D.plumbing_update_year&&D.plumbing_update_year!=='Skipped'?D.plumbing_update_year:''},'Year plumbing last updated? (4-digit)',{valid:YEAR_OK})||'Skipped';
+ D.electrical_update_year=await ask.call({pv:D.electrical_update_year&&D.electrical_update_year!=='Skipped'?D.electrical_update_year:''},'Year electrical last updated? (4-digit)',{valid:YEAR_OK})||'Skipped';
+ D.wood_heat=await choose.call({pv:D.wood_heat},'Any wood heat?',['None','Wood stove','Fireplace','Outdoor wood boiler']);
+ if(D.wood_heat&&D.wood_heat!=='None')D.wood_heat_type=D.wood_heat;else{delete D.wood_heat_type;delete D.wood_heat_location;delete D.wood_heat_role;delete D.wood_heat_pro_installed;delete D.wood_heat_year}
+ if(withNote)D.home_anything_else=await ask.call({pv:D.home_anything_else},'Anything else about the home? (optional)',{multi:true})}
+async function quickHome(t){step();
+ D.property_address=(D.address&&await yes('Is the property at the address you gave?'))?[D.address,D.city,D.zip].filter(Boolean).join(', '):await ask.call({pv:D.property_address},'Property address? (optional)');
+ D.year_built=await ask.call({pv:D.year_built},'Year built? (4-digit)',{valid:YEAR_OK});
+ await homeUpdates(true);D._hq=true}
+// 'Add another named insured' loop (skippable)
+async function namedInsureds(){step();const L=[];
+ while(L.length<4&&await yes(L.length?'Add another named insured?':'Add another named insured (e.g. a spouse on the policy)?')){
+  L.push({name:await ask(`Named insured ${L.length+2} name?`),dob:await ask('Date of birth? (optional)',{type:'date'}),relation:await choose('Relationship to you?',['Spouse','Domestic partner','Parent','Child','Other relative','Co-owner','Other'])})}
+ D.named_insureds=L}
+// Per-vehicle coverage (all skippable, 'Not sure / match current')
+const VK={vin:'vin',year:'year',make:'make',model:'model',trim:'trim'};
+const LIAB=['Not sure / match current','100/300/100 (Recommended)','50/100/50','250/500/100','500/500/250','30/60/10 (MN minimum)'];
+const DED=n=>['Not sure / match current','$250','$500','$1,000','$2,500','No '+n];
+async function vehicleDetails(o,n){const nm=[o.year,o.make,o.model].filter(Boolean).join(' ');say(`Vehicle ${n}${nm?': '+nm:''}`,'sec');
+ o.ownership=await choose.call({pv:o.ownership},'Ownership?',['Owned Outright','Financed (Loan)','Leased']);
+ o.use=await choose.call({pv:o.use},'Primary use?',['Personal / Pleasure','Commuting to Work','Business / Work','Farm / Ranch','Ride Share / Delivery']);
+ o.parking=await choose.call({pv:o.parking},'Where is it parked overnight?',['Garage','Carport','Driveway','Street','Apartment / Condo Lot','Work Parking Lot']);
+ o.mileage=await ask.call({pv:o.mileage},'Current odometer (approx)?');
+ o.annual_miles=await ask.call({pv:o.annual_miles},'Miles driven per year (approx)?');
+ o.liability_limit=await choose.call({pv:o.liability_limit},`Liability limits for vehicle ${n}?`,LIAB);
+ o.comp_deductible=await choose.call({pv:o.comp_deductible},`Comprehensive deductible for vehicle ${n}?`,DED('comprehensive'));
+ o.coll_deductible=await choose.call({pv:o.coll_deductible},`Collision deductible for vehicle ${n}?`,DED('collision'));
+ o.coverages=await checks.call({pv:o.coverages||''},'Any extras?',['Glass','Roadside','Rental','GAP']);
+ if((o.coverages||'').split(', ').includes('Rental'))o.rental_limit=await choose('Rental reimbursement?',['Not sure / match current','Up to $20/day','Up to $30/day (most common)','Up to $50/day']);else delete o.rental_limit}
+async function vehiclesOpt(){step();const L=OPT==='c'?(D.vehicles||[]).slice(0,1):[];
+ if(!L.length){const o={};await vinStep(o,VK,'Vehicle 1');L.push(o)}
+ for(let i=0;i<L.length;i++)await vehicleDetails(L[i],i+1);
+ while(L.length<6&&await yes('Add another vehicle?')){const o={};await vinStep(o,VK,`Vehicle ${L.length+1}`);await vehicleDetails(o,L.length+1);L.push(o)}
+ D.vehicles=L}
+// Business parity with live business-quote.html: commercial auto drivers/vehicles + workers' comp classes
+async function bizAutoLoops(){const V=[];
+ while(V.length<10&&await yes(V.length?'Add another business vehicle?':'List the business vehicles now? (optional, or send a list later)')){const o={},n=V.length+1;
+  await vinStep(o,VK,`Business vehicle ${n}`);
+  o.type=await pick('Vehicle type?',['Private passenger','Pickup / light truck','Medium truck','Heavy truck / tractor','Trailer','Van','Other']);
+  o.value=await ask('Approximate value? (optional)');
+  o.primary_use=await pick('Primary use?',['Service / contractor','Delivery','Hauling own goods','Hauling for others','Sales / commuting','Other']);
+  o.radius=await pick('Usual driving radius?',['Under 50 miles','50-200 miles','Over 200 miles']);
+  o.comp_ded=await choose('Comprehensive deductible?',DED('comprehensive'));
+  o.collision_ded=await choose('Collision deductible?',DED('collision'));
+  o.glass=await choose('Full glass coverage?',['Not sure','Yes','No']);V.push(o)}
+ D.biz_vehicles=V;const Dr=[];
+ while(Dr.length<10&&await yes(Dr.length?'Add another business driver?':'List the business drivers now? (optional)')){
+  Dr.push({name:await ask(`Driver ${Dr.length+1} name?`),dob:await ask('Date of birth?',{type:'date'}),license:await ask("Driver's license number? (optional)"),years_cdl:await ask('Years licensed / years with CDL? (optional)'),violations:await ask('Any violations or accidents in 5 years? (optional)'),percent_use:await ask('% of time driving business vehicles? (optional)')})}
+ D.biz_drivers=Dr}
+async function wcLoop(){const L=[];
+ while(L.length<8&&await yes(L.length?"Add another workers' comp job class?":"Add a job class for workers' comp (job type, employees, payroll)?")){
+  L.push({job_description:await ask('Job description / duties?'),ft_employees:await ask('Full-time employees in this class?'),pt_employees:await ask('Part-time employees in this class?'),payroll:await ask('Annual payroll for this class (approx)?')})}
+ D.wc_classes=L}
+// Address autocomplete (Photon by komoot; OSM data). Free-typing always works; US results only.
+const ST_AB={'alabama':'AL','alaska':'AK','arizona':'AZ','arkansas':'AR','california':'CA','colorado':'CO','connecticut':'CT','delaware':'DE','district of columbia':'DC','florida':'FL','georgia':'GA','hawaii':'HI','idaho':'ID','illinois':'IL','indiana':'IN','iowa':'IA','kansas':'KS','kentucky':'KY','louisiana':'LA','maine':'ME','maryland':'MD','massachusetts':'MA','michigan':'MI','minnesota':'MN','mississippi':'MS','missouri':'MO','montana':'MT','nebraska':'NE','nevada':'NV','new hampshire':'NH','new jersey':'NJ','new mexico':'NM','new york':'NY','north carolina':'NC','north dakota':'ND','ohio':'OH','oklahoma':'OK','oregon':'OR','pennsylvania':'PA','rhode island':'RI','south carolina':'SC','south dakota':'SD','tennessee':'TN','texas':'TX','utah':'UT','vermont':'VT','virginia':'VA','washington':'WA','west virginia':'WV','wisconsin':'WI','wyoming':'WY'};
+function photonAC(i,ql){i.setAttribute('autocomplete','off');i.setAttribute('aria-autocomplete','list');
+ const L=document.createElement('div');L.className='qp-ac';L.setAttribute('role','listbox');L.hidden=true;i.after(L);let t=null,ctl=null,seq=0;
+ const close=()=>{L.hidden=true;L.innerHTML=''};
+ const pickIt=a=>{close();const street=/street address/.test(ql),biz=/business address/.test(ql);
+  i.value=(street||biz)&&a.line1?a.line1:a.label;
+  if(street){if(a.city)D.city=a.city;if(a.zip)D.zip=a.zip}else if(biz){if(a.city)D.business_city=a.city;if(a.state)D.business_state=a.state;if(a.zip)D.business_zip=a.zip}
+  i.focus({preventScroll:true})};
+ i.addEventListener('input',()=>{clearTimeout(t);const v=i.value.trim();if(v.length<3){seq++;if(ctl)ctl.abort();close();return}
+  t=setTimeout(async()=>{const my=++seq;if(ctl)ctl.abort();const c=ctl=new AbortController();const to=setTimeout(()=>c.abort(),3000);
+   try{const r=await fetch('https://photon.komoot.io/api/?q='+encodeURIComponent(v)+'&limit=5&lang=en&lat=47.24&lon=-93.53',{signal:c.signal});if(!r.ok)throw 0;const j=await r.json();if(my!==seq)return;
+    const ps=(j.features||[]).map(f=>f.properties||{}).filter(p=>String(p.countrycode||'').toUpperCase()==='US');
+    if(!ps.length){close();return}L.innerHTML='';
+    ps.forEach(p=>{const line1=[p.housenumber,p.street||p.name].filter(Boolean).join(' ');const city=p.city||p.town||p.village||p.locality||p.district||'';const st=ST_AB[String(p.state||'').toLowerCase()]||p.state||'';
+     const label=[line1,city,[st,p.postcode].filter(Boolean).join(' ')].filter(Boolean).join(', ');
+     const b=document.createElement('button');b.type='button';b.className='qp-ac-i';b.setAttribute('role','option');b.textContent=label;b.onmousedown=e=>e.preventDefault();b.onclick=()=>pickIt({line1,city,state:st,zip:p.postcode||'',label});L.append(b)});
+    const at=document.createElement('div');at.className='qp-ac-at';at.textContent='Suggestions by Photon · © OpenStreetMap contributors';L.append(at);L.hidden=false}
+   catch(e){if(my===seq)close()}finally{clearTimeout(to)}},300)});
+ i.addEventListener('keydown',e=>{if(e.key==='Escape')close()})}
+// 'Save and finish later' (low-key link; localStorage + the existing resume prompt)
+if(OPT){const sl=document.createElement('p');sl.className='qp-later';sl.innerHTML='<a href="#" class="qp-later-a">Save and finish later</a>';
+ const anchor=ROOT.querySelector('#sum');anchor.parentNode.insertBefore(sl,anchor);
+ sl.querySelector('a').onclick=e=>{e.preventDefault();if(!D.types||!D.types.length){say('Pick what you need quoted first, then you can save and come back.','m w');return}
+  saveDraft();try{const d=JSON.parse(localStorage.getItem(DRAFT_KEY)||'{}');d.saved=true;localStorage.setItem(DRAFT_KEY,JSON.stringify(d))}catch(_){}
+  say('Saved on this device. Come back to this page anytime and tap Resume to pick up where you left off.','sec')}}
 const INDUSTRIES=[['Contractor / Trades','🔨'],['Logging / Timber','🌲'],['Restaurant / Bar','🍽️'],['Retail / Shop','🛍️'],['Trucking / Hauling','🚚'],['Rental Property','🏘️'],['Office / Professional','💼'],['Other','❓']];
 async function industry(){step();const q='What kind of business?';const k=qkeyFor(q);let v;
  if(EDIT&&k!==EDIT.k&&ANSWERS.has(k)){v=ANSWERS.get(k).a;record(k,q,v)}
@@ -809,19 +924,7 @@ async function industry(){step();const q='What kind of business?';const k=qkeyFo
  D.business_industry=v;
  if(v==='Other')D.business_description=await ask.call({pv:D.business_description},'Briefly, what does the business do? (optional)')}
 async function coverageNeeded(){step();
- D.business_coverages=await checks.call({pv:D.business_coverages||''},'What coverage do you need? (select all that apply)',['General Liability','Business Owners Policy (BOP)',"Workers' Comp",'Commercial Auto','Not sure'])}
-async function businessMore(){step();
- D.business_name=await ask.call({pv:D.business_name},'Business name? (optional)');
- D.ein=await ask.call({pv:D.ein},'Federal EIN / Tax ID (optional)');
- D.years_in_business=await pick.call({pv:D.years_in_business},'Years in business (under current ownership)?',['Less than 1 year','1-3 years','4-7 years','8-15 years','15+ years']);
- D.annual_revenue=await pick.call({pv:D.annual_revenue},'Annual revenue? (optional)',['Under $50,000','$50,000 - $100,000','$100,000 - $250,000','$250,000 - $500,000','$500,000 - $1,000,000','$1M - $5M','Over $5M']);
- D.annual_payroll=await pick.call({pv:D.annual_payroll},'Annual payroll (approx)? (optional)',['Under $50,000','$50,000 - $100,000','$100,000 - $250,000','$250,000 - $500,000','$500,000 - $1,000,000','Over $1,000,000']);
- D.business_entity=await choose.call({pv:D.business_entity},'Legal entity type? (optional)',['LLC','Corporation (C-Corp)','Corporation (S-Corp)','Sole Proprietorship','Partnership','Non-Profit']);
- D.business_employees=await choose.call({pv:D.business_employees},'Number of employees?',['1-5','6-10','11-25','26-50','51-100','101+']);
- D.business_address=await ask.call({pv:D.business_address},'Business address? (optional)');D.business_city=await ask.call({pv:D.business_city},'Business city? (optional)');
- if(!D.business_description||D.business_industry!=='Other')D.business_description=await ask.call({pv:D.business_description},'Brief description of the business (what you do)? (optional)',{multi:true});
- D.current_business_carrier=await carrier('Current business insurance carrier?');
- D.loss_history=await ask.call({pv:D.loss_history},'Any claims or losses in the last 5 years? Describe (optional)',{multi:true})}
+ D.business_coverages=await checks.call({pv:D.business_coverages||''},'What coverage do you need? (select all that apply)',['General Liability','Business Owners Package (BOP)','Commercial Auto',"Workers' Compensation",'Commercial Property','Professional Liability (E&O)','Directors & Officers (D&O)','Commercial Crime','Not sure'])}
 // Option B/C: in-chat "Stuck? Leave your number" exit (same chat-quote form destination; stubbed in preview).
 if(OPT==='b'||OPT==='c'){const sw=document.createElement('div');sw.className='qp-stuck';
  sw.innerHTML='<button type="button" class="qp-stuck-btn">Stuck? Leave your number and we\'ll call or text you</button><form class="qp-stuck-f" hidden novalidate><input name="n" placeholder="Name" autocomplete="name" aria-label="Name"><input name="p" type="tel" inputmode="tel" placeholder="Phone" autocomplete="tel" aria-label="Phone"><button type="submit">Call me</button></form>';
