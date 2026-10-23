@@ -1,4 +1,6 @@
 (function(){const ROOT=document.getElementById('qchat-embed');if(!ROOT)return;const PRE_TYPE=ROOT.dataset.qtype||'';
+// PREVIEW options (A/B/C) — window.QC_PREVIEW is only set by /assets/quote-preview/quote-preview.js off-production. OPT==='' => current behavior.
+const QP=window.QC_PREVIEW||null;const OPT=(QP&&QP.on&&QP.opt)||'';
 // Chandler Quote Chat (PREVIEW) — mirrors live auto-quote / home-quote fields; submits via Netlify Forms (HTTPS POST).
 const chat=document.getElementById('chat'),D={};let QC_LIVE=false;const QC_TOUCH=matchMedia('(pointer:coarse)').matches;
 const qcLive=()=>{QC_LIVE=true};chat.addEventListener('pointerdown',qcLive,{once:true});chat.addEventListener('keydown',qcLive,{once:true});let decFile=null;let currentError=null;let partialSent=false;let sentEarly=false;
@@ -70,7 +72,7 @@ let lastQK=null;
 const say=(t,c='b')=>{removeError();if(c==='u'){chat.querySelectorAll('.m:not(.qold)').forEach(x=>x.classList.add('qold'))}if(c==='b'||c==='sec'){chat.querySelectorAll('.m.qcur').forEach(x=>x.classList.remove('qcur'))}const d=document.createElement('div');d.className='m '+c+(c==='b'?' qcur':'');if(c==='u'&&typeof cur!=='undefined'&&lastQK){d.dataset.step=String(cur);d.dataset.qkey=lastQK;d.classList.add('editable');d.title='Tap to change this answer';d.onclick=e=>{if(e.target.tagName==='BUTTON')return;const qk=d.dataset.qkey;if(qk){startEdit(qk);return}const step=parseInt(d.dataset.step);if(!isNaN(step)&&step<STEPS.length&&document.getElementById('sum').style.display!=='block')goto(step)}};d.textContent=t;chat.append(d);if(c==='u')d.classList.add('qold');return d};
 const box=()=>{document.getElementById('in')?.remove();const d=document.createElement('div');d.id='in';chat.append(d);qcHist();return d};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-function friendlySec(s){return ({Contact:'Your contact info',Drivers:'Drivers',Vehicles:'Your vehicles',Household:'Household members',Property:'Your home','Home Coverage':'Home coverage','Auto Coverage':'Auto coverage','Rental Property':'Rental property',Business:'Your business',Life:'Life insurance','What you need':'What you need','Unit Details':'Vehicle details',Safety:'Safety details','Final details':'Final details','Send or continue':'Almost done',Review:'Review'}[s]||s)}
+function friendlySec(s){return ({Contact:'Your contact info',Drivers:'Drivers',Vehicles:'Your vehicles',Household:'Household members',Property:'Your home','Home Coverage':'Home coverage','Auto Coverage':'Auto coverage','Rental Property':'Rental property',Business:'Your business',Life:'Life insurance','What you need':'What you need','Unit Details':'Vehicle details',Safety:'Safety details','Final details':'Final details','Send or continue':'Almost done',Review:'Review','Dec page':'Dec page shortcut','Quick vehicle':'Your vehicle','More details?':'Almost done','Industry':'Your business','Coverage needed':'Coverage','Business details':'Business details'}[s]||s)}
 function friendlyProg(){if(!D.types||!STEPS.length)return 'Getting started — choose quote types';
  const x=STEPS[cur]||{},n=STEPS.length,sec=friendlySec(x.s);
  if(x.s==='Vehicles'&&D.vehicles&&D.vehicles.length){const i=Math.min(Math.max(1,qInSec),D.vehicles.length);return `Vehicle ${i} of ${D.vehicles.length} · Mileage & details`}
@@ -81,6 +83,7 @@ function helperFor(q){const ql=String(q).toLowerCase();
  if(/year built|year of|year installed|roof.*year|heat.*year/.test(ql))return '4-digit year — estimate OK';
  if(/square|sq\s*ft|footage/.test(ql))return 'Approximate is fine';
  if(/vin/.test(ql))return '17 characters — skip if you do not have it handy';
+ if(/phone or email/.test(ql))return 'So we can save your progress. We never sell your info. No spam.';
  if(/phone/.test(ql))return 'We will only use this to follow up on your quote';
  if(/email/.test(ql))return 'We will send your quote options here';
  if(/full name|driver.*name/.test(ql))return 'Legal name as on the license';
@@ -117,7 +120,8 @@ function ask(q,{type='text',opt=true,valid,multi,ph=''}={}){const pv=this&&this.
  addBackLink(b);addHelper(b,q);
  const i=document.createElement(multi?'textarea':'input');if(!multi)i.type=type;i.placeholder=ph;if(typeof pv==='string'&&pv)i.value=pv;b.append(i);if(QC_LIVE&&!QC_TOUCH)i.focus({preventScroll:true});
  const ql=q.toLowerCase();if(!multi){i.setAttribute('enterkeyhint','next');
- if(ql.includes('email')){i.type='email';i.inputMode='email';i.autocomplete='email';i.autocapitalize='off';i.spellcheck=false}
+ if(ql.includes('phone or email')){i.type='text';i.autocomplete='email';i.autocapitalize='off';i.spellcheck=false}
+ else if(ql.includes('email')){i.type='email';i.inputMode='email';i.autocomplete='email';i.autocapitalize='off';i.spellcheck=false}
  else if(ql.includes('phone')){i.type='tel';i.inputMode='tel';i.autocomplete='tel'}
  else if(ql.includes('full name'))i.autocomplete='name';
  else if(ql.includes('zip')){i.inputMode='numeric';i.autocomplete='postal-code'}
@@ -167,7 +171,7 @@ async function carrier(q){let c=await pick(q,['None / new to insurance',...CARRI
 function startEdit(k){ if(!ANSWERS.has(k))return; EDIT={k}; editContact=false; resetChat(); QCOUNT={}; QSEEN=new Set(); runFrom(0); }
 
 // ---------- sections (light, easy) ----------
-async function contact(){step();
+async function contact(){if(OPT)return contactQuick();step();
  if(D.full_name&&D.email&&D.phone&&!editContact&&!EDIT){say(`We have your contact info:\n${D.full_name}\n${D.email}\n${D.phone}${D.address?'\n'+[D.address,D.city,D.zip].filter(Boolean).join(', '):''}`);
   if((await choose('Use this contact info?',['Looks good','Edit'],{opt:false}))==='Looks good')return false}
  editContact=false;
@@ -302,7 +306,7 @@ async function coverage(part){step();
  if(part!=='auto'){D.dwelling_value=await ask.call({pv:D.dwelling_value},'Estimated rebuild value? (optional)');
   D.deductible=await choose.call({pv:D.deductible},'Home deductible?',['$2,500 (most common)','$500','$1,000','$5,000','Not sure']);
   D.current_home_carrier=await carrier('Current home carrier?')}}
-async function finalDetails(){step();await decUpload();await notes()}
+async function finalDetails(){step();if(!(OPT&&(decFile||D.dec_via_text)))await decUpload();await notes()}
 async function decUpload(){say('Optional: upload your current declarations page (PDF or image).');
  await new Promise(res=>{const b=box(),f=document.createElement('input');f.type='file';f.accept='image/*,.pdf';const n=document.createElement('button');n.textContent='Continue';const sk=document.createElement('button');sk.className='alt';sk.textContent="Don't know / Skip";sk.onclick=()=>{decFile=null;b.remove();say('(skipped)','u');res()};b.append(f,n,sk);
   n.onclick=()=>{decFile=f.files[0]||null;if(decFile&&decFile.size>8e6){say('File too large (max 8 MB).','m w');return}b.remove();say(decFile?decFile.name:'(no file)','u');res()}})}
@@ -698,7 +702,8 @@ const SEC={'Contact':contact,'Drivers':drivers,'Vehicles':vehicles,'Household':h
  'Property':()=>property(''),'Auto Coverage':()=>coverage('auto'),'Home Coverage':()=>coverage('home'),
  'Rental Property':landlord,'Business':business,'Life':life,'What you need':other,
  'Unit Details':t=>rec(t),'Safety':t=>recSafety(t),'Final details':finalDetails,
- 'Send or continue':checkpoint};
+ 'Send or continue':checkpoint,
+ 'Dec page':decShortcut,'Quick vehicle':quickVehicle,'More details?':moreDetails,'Industry':industry,'Coverage needed':coverageNeeded,'Business details':businessMore};
 async function checkpoint(){step();say("Thanks — that covers the key rating details. You can send it now and an agent will follow up on anything else, or keep going for a more accurate quote."); return (await choose('What would you like to do?',['Keep going','Send what I have'],{opt:false}))==='Send what I have'}
 async function runFrom(i){const g=++gen;document.getElementById('sum').style.display='none';qcHist();
  if(i===0){QCOUNT={};QSEEN=new Set()}
@@ -717,8 +722,8 @@ function goto(i){if(i<0)return changeType();editContact=STEPS[i].s==='Contact';r
 async function changeType(){const g=++gen;document.getElementById('sum').style.display='none';const prev=D.types||[];
  for(const k of Object.keys(D))if(!CONTACT_KEYS.includes(k))delete D[k]; D.rec_shared_asked=false; D.rec_operators=[]; decFile=null;sessionStorage.removeItem(DONE_KEY);localStorage.removeItem(DONE_KEY);
  sentEarly=false;STEPS=[];cur=0;render();resetChat();await pickType(g,prev)}
-async function pickType(g,prev){g=g||++gen;const T=await tiles(prev||[]);if(g!==gen)return;D.types=[...new Set(T)];
- setSteps(buildSteps(T));runFrom(0)}
+async function pickType(g,prev){g=g||++gen;let T;if(OPT&&PRE_TYPE&&prev===undefined){T=[PRE_TYPE];say(`Starting your ${PRE_TYPE} quote`,'sec')}else T=await tiles(prev||[]);if(g!==gen)return;D.types=[...new Set(T)];
+ setSteps(OPT?buildStepsOpt(T):buildSteps(T));runFrom(0)}
 document.getElementById('prog').addEventListener('click',e=>{const s=e.target.closest('[data-step]'),n=e.target.closest('[data-nav]');
  if(s){e.preventDefault();goto(+s.dataset.step);return}
  if(n){e.preventDefault();if(n.dataset.nav==='type')changeType();else goto(cur===0?-1:cur-1)}});
@@ -737,6 +742,86 @@ visibilityHandler=()=>{if(document.visibilityState==='hidden')sendPartial()};add
 addEventListener('pageshow',e=>{if(e.persisted)location.reload()});
 
 
+
+// ================= PREVIEW OPTIONS A/B/C (all guarded by OPT; inert when OPT==='') =================
+function buildStepsOpt(types){const one=types.length===1?types[0]:null;let s;
+ if(OPT==='c'&&one==='Auto')s=[{t:null,s:'Contact'},{t:'Auto',s:'Quick vehicle'},{t:null,s:'More details?'},{t:null,s:'Final details'},{t:null,s:'Review'}];
+ else if(OPT==='c'&&one==='Business')s=[{t:'Business',s:'Industry'},{t:'Business',s:'Coverage needed'},{t:null,s:'Contact'},{t:null,s:'More details?'},{t:null,s:'Final details'},{t:null,s:'Review'}];
+ else{s=buildSteps(types);if(one==='Business'){const i=s.findIndex(x=>x.s==='Business');if(i>0){const[b]=s.splice(i,1);s.unshift(b)}}}
+ if(OPT==='b'||OPT==='c')s.unshift({t:null,s:'Dec page'});
+ return s}
+const isBizC=()=>OPT==='c'&&(D.types||[]).length===1&&D.types[0]==='Business';
+const isAutoC=()=>OPT==='c'&&(D.types||[]).length===1&&D.types[0]==='Auto';
+async function contactQuick(){step();
+ if(D.full_name&&(D.email||D.phone)&&!editContact&&!EDIT){say(`We have your contact info:\n${D.full_name}\n${[D.phone,D.email].filter(Boolean).join('\n')}`);
+  if((await choose('Use this contact info?',['Looks good','Edit'],{opt:false}))==='Looks good')return false}
+ editContact=false;
+ D.full_name=await ask.call({pv:D.full_name},'Your full name?',{opt:false});
+ const pe=await ask.call({pv:D.phone||D.email},'Best phone or email?',{opt:false,valid:v=>/^\S+@\S+\.\S+$/.test(v)||v.replace(/\D/g,'').length>=10});
+ if(/@/.test(pe)){D.email=pe;delete D.phone}else{D.phone=pe;delete D.email}
+ if(isBizC()){D.business_zip=await ask.call({pv:D.business_zip},'Business ZIP code?',{opt:false,valid:v=>/^\d{5}(-\d{4})?$/.test(v)});return false}
+ if(isAutoC()){D.zip=await ask.call({pv:D.zip},'ZIP code?',{opt:false,valid:v=>/^\d{5}(-\d{4})?$/.test(v)});
+  D.date_of_birth=await ask.call({pv:D.date_of_birth},'Your date of birth?',{type:'date',opt:false});return false}
+ D.date_of_birth=await ask.call({pv:D.date_of_birth},'Date of birth? (optional)',{type:'date'});
+ D.address=await ask.call({pv:D.address},'Street address? (optional)');D.city=await ask.call({pv:D.city},'City? (optional)');D.zip=await ask.call({pv:D.zip},'ZIP code? (optional)',{valid:v=>/^\d{5}(-\d{4})?$/.test(v)});
+ D.requested_effective_date=await ask.call({pv:D.requested_effective_date},'When should coverage start? (optional)',{type:'date'});
+ return false}
+async function decShortcut(){step();
+ const c=await choose('Have your dec page? Upload it or text a photo to (218) 520-8790 and skip most questions.',['Upload dec page','I\'ll text a photo','No, I\'ll answer questions'],{opt:false});
+ if(c==='Upload dec page'){
+  if(!(EDIT&&decFile))await new Promise(res=>{say('Upload your current declarations page (PDF or photo, max 8 MB).');const b=box(),f=document.createElement('input');f.type='file';f.accept='image/*,.pdf';
+   const n=document.createElement('button');n.type='button';n.textContent='Continue';const sk=document.createElement('button');sk.type='button';sk.className='alt';sk.textContent='Never mind';b.append(f,n,sk);
+   sk.onclick=()=>{decFile=null;b.remove();say('(no file)','u');res()};
+   n.onclick=()=>{const x=f.files[0]||null;if(!x)return;if(x.size>8e6){say('File too large (max 8 MB).','m w');return}decFile=x;b.remove();say(x.name,'u');res()}});
+  if(!decFile)return;delete D.dec_via_text}
+ else if(c==='I\'ll text a photo'){D.dec_via_text='Customer will text a photo of the dec page to (218) 520-8790';
+  const m=say('Text a photo of each page to (218) 520-8790. We\'ll match it to your request.');const a=document.createElement('a');a.href='sms:2185208790';a.className='qp-sms';a.textContent='📱 Text a photo to (218) 520-8790';m.append(document.createElement('br'),a)}
+ else{delete D.dec_via_text;return}
+ say('Great, that skips most questions. Just your contact info and we\'re done.','sec');
+ const i=STEPS.findIndex(x=>x.s==='Dec page');STEPS=[STEPS[i],{t:null,s:'Contact'},{t:null,s:'Final details'},{t:null,s:'Review'}];cur=0;render();saveDraft()}
+async function quickVehicle(){step();const o=(D.vehicles&&D.vehicles[0])||{};
+ await vinStep(o,{vin:'vin',year:'year',make:'make',model:'model',trim:'trim'},'Vehicle 1');
+ D.vehicles=[o,...((D.vehicles||[]).slice(1))];
+ D.current_insurance_status=await choose.call({pv:D.current_insurance_status},'Current insurance status?',['No - New to Auto Insurance','Yes - With Another Carrier','Yes - Renewing with Current Carrier']);
+ if(/^Yes/.test(D.current_insurance_status||''))D.current_auto_carrier=await carrier('Current auto carrier?');else delete D.current_auto_carrier}
+async function moreDetails(){step();
+ const c=await choose('That\'s enough to start your quote. Add more details now? (optional, helps us quote faster)',['Review & submit','Add more details (optional)'],{opt:false});
+ if(c!=='Review & submit'){const add=isBizC()?[{t:'Business',s:'Business details'}]:[{t:'Auto',s:'Drivers'},{t:'Auto',s:'Vehicles'},{t:'Auto',s:'Auto Coverage'}];
+  if(!STEPS.some(x=>add.some(a=>a.s===x.s))){const i=STEPS.findIndex(x=>x.s==='More details?');STEPS.splice(i+1,0,...add);render();saveDraft()}}}
+const INDUSTRIES=[['Contractor / Trades','🔨'],['Logging / Timber','🌲'],['Restaurant / Bar','🍽️'],['Retail / Shop','🛍️'],['Trucking / Hauling','🚚'],['Rental Property','🏘️'],['Office / Professional','💼'],['Other','❓']];
+async function industry(){step();const q='What kind of business?';const k=qkeyFor(q);let v;
+ if(EDIT&&k!==EDIT.k&&ANSWERS.has(k)){v=ANSWERS.get(k).a;record(k,q,v)}
+ else v=await new Promise(res=>{say(q);const b=box();b.className='tiles choice-step';addHint(b,'Tap one');
+  INDUSTRIES.forEach(([t,ic])=>{const x=document.createElement('button');x.type='button';x.className='tile'+(D.business_industry===t?' sel':'');x.innerHTML=`<span>${ic}</span>${esc(t)}`;
+   x.onclick=()=>{b.remove();lastQK=k;D.business_industry=t;say(t,'u');record(k,q,t);res(t);saveDraft();lastQK=null};b.append(x)})});
+ D.business_industry=v;
+ if(v==='Other')D.business_description=await ask.call({pv:D.business_description},'Briefly, what does the business do?',{opt:false})}
+async function coverageNeeded(){step();
+ D.business_coverages=await checks.call({pv:D.business_coverages||''},'What coverage do you need? (select all that apply)',['General Liability','Business Owners Policy (BOP)',"Workers' Comp",'Commercial Auto','Not sure'])}
+async function businessMore(){step();
+ D.business_name=await ask.call({pv:D.business_name},'Business name? (optional)');
+ D.years_in_business=await pick.call({pv:D.years_in_business},'Years in business (under current ownership)?',['Less than 1 year','1-3 years','4-7 years','8-15 years','15+ years']);
+ D.annual_revenue=await pick.call({pv:D.annual_revenue},'Annual revenue? (optional)',['Under $50,000','$50,000 - $100,000','$100,000 - $250,000','$250,000 - $500,000','$500,000 - $1,000,000','$1M - $5M','Over $5M']);
+ D.annual_payroll=await pick.call({pv:D.annual_payroll},'Annual payroll (approx)? (optional)',['Under $50,000','$50,000 - $100,000','$100,000 - $250,000','$250,000 - $500,000','$500,000 - $1,000,000','Over $1,000,000']);
+ D.business_entity=await choose.call({pv:D.business_entity},'Legal entity type? (optional)',['LLC','Corporation (C-Corp)','Corporation (S-Corp)','Sole Proprietorship','Partnership','Non-Profit']);
+ D.business_employees=await choose.call({pv:D.business_employees},'Number of employees?',['1-5','6-10','11-25','26-50','51-100','101+']);
+ D.business_address=await ask.call({pv:D.business_address},'Business address? (optional)');D.business_city=await ask.call({pv:D.business_city},'Business city? (optional)');
+ if(!D.business_description||D.business_industry!=='Other')D.business_description=await ask.call({pv:D.business_description},'Brief description of the business (what you do)? (optional)',{multi:true});
+ D.current_business_carrier=await carrier('Current business insurance carrier?');
+ D.loss_history=await ask.call({pv:D.loss_history},'Any claims or losses in the last 5 years? Describe (optional)',{multi:true})}
+// Option B/C: in-chat "Stuck? Leave your number" exit (same chat-quote form destination; stubbed in preview).
+if(OPT==='b'||OPT==='c'){const sw=document.createElement('div');sw.className='qp-stuck';
+ sw.innerHTML='<button type="button" class="qp-stuck-btn">Stuck? Leave your number and we\'ll call or text you</button><form class="qp-stuck-f" hidden novalidate><input name="n" placeholder="Name" autocomplete="name" aria-label="Name"><input name="p" type="tel" inputmode="tel" placeholder="Phone" autocomplete="tel" aria-label="Phone"><button type="submit">Call me</button></form>';
+ const anchor=ROOT.querySelector('#sum');anchor.parentNode.insertBefore(sw,anchor);
+ const f=sw.querySelector('form');sw.querySelector('.qp-stuck-btn').onclick=()=>{f.hidden=!f.hidden;if(!f.hidden){if(D.full_name&&!f.n.value)f.n.value=D.full_name;if(D.phone&&!f.p.value)f.p.value=D.phone;f.p.focus()}};
+ f.addEventListener('submit',async e=>{e.preventDefault();e.__qpCounted=true;const n=f.n.value.trim(),p=f.p.value.trim();if(!n||p.replace(/\D/g,'').length<10){f.p.setCustomValidity('Name and 10-digit phone');f.p.reportValidity();f.p.setCustomValidity('');return}
+  D.full_name=D.full_name||n;D.phone=D.phone||p;const qtypes=(D.types||[]).join(', ')||'Unknown';
+  const fd=new FormData();fd.append('form-name','chat-quote');fd.append('request_status','CALLBACK - stuck in chat');fd.append('quote_form',qtypes);
+  fd.append('subject',`Chandler Quote Request: ${qtypes} (CALLBACK - stuck) - ${n}`);fd.append('full_name',n);fd.append('phone',p);if(D.email)fd.append('email',D.email);
+  fd.append('summary',buildSummary('PARTIAL - stuck in chat'));
+  try{const r=await fetch('/',{method:'POST',body:fd});if(!r.ok)throw r.status;sessionStorage.setItem('chandler-quote-partial-sent','1');sw.innerHTML='<p><b style="color:#00a651">✓ Got it — we\'ll reach out shortly.</b></p>';say('Got it — we\'ll reach out shortly. You can keep going here too.')}
+  catch(err){sw.querySelector('.qp-stuck-btn').textContent='Could not send — please call (218) 326-4655'}},true)}
+// ================= end PREVIEW OPTIONS =================
 
 async function run(){setClassic(C+'quote.html');render();
  const draft=loadDraft();if(draft&&hasMeaningfulDraft(draft)){
