@@ -68,8 +68,8 @@
 
   function ui(){
     var b=document.createElement('div');b.className='qp-banner';b.setAttribute('role','note');b.innerHTML='<strong>PREVIEW, not a real quote request. Nothing is sent.</strong> <span class="qp-badge">'+esc(NAMES[OPT])+'</span>'+
-      '<nav class="qp-ver" aria-label="Preview version"><span class="qp-ver-l">Version:</span> '+[['0','Current'],['a','A'],['b','B'],['c','C']].map(function(x){var on=opt===x[0];return '<a data-qp-keep href="'+esc(withOpt(location.href,x[0]))+'" class="qp-ver-a'+(on?' on':'')+'"'+(on?' aria-current="page"':'')+'>'+x[1]+'</a>'}).join('<span class="qp-ver-sep">|</span>')+
-      ' <a data-qp-keep class="qp-ver-all" href="/versions.html">All versions</a></nav>';document.body.insertBefore(b,document.body.firstChild);
+      '<div class="qp-ver" role="navigation" aria-label="Preview version"><span class="qp-ver-l">Version:</span> '+[['0','Current'],['a','A'],['b','B'],['c','C']].map(function(x){var on=opt===x[0];return '<a data-qp-keep href="'+esc(withOpt(location.href,x[0]))+'" class="qp-ver-a'+(on?' on':'')+'"'+(on?' aria-current="page"':'')+'>'+x[1]+'</a>'}).join('<span class="qp-ver-sep">|</span>')+
+      ' <a data-qp-keep class="qp-ver-all" href="/versions.html">All versions</a></div>';document.body.insertBefore(b,document.body.firstChild);
     if(OPT)[].forEach.call(document.querySelectorAll('input[name*="license" i]:not([name*="state" i])'),function(el){if(el.type!=='text')return;el.type='password';el.setAttribute('autocomplete','off');el.spellcheck=false;var t=document.createElement('button');t.type='button';t.className='qp-dl-show';t.textContent='Show';t.onclick=function(){var h=el.type==='password';el.type=h?'text':'password';t.textContent=h?'Hide':'Show'};el.insertAdjacentElement('afterend',t);});
     var sw=document.createElement('div');sw.className='qp-switch';sw.innerHTML='<button type="button" class="qp-sw-toggle" aria-expanded="true">Compare options ▾</button><div class="qp-sw-btns">'+
       [['0','Now','Current'],['a','A','A · Quick start'],['b','B','B · Talk or quote'],['c','C','C · Short form']].map(function(x){return '<a href="'+esc(withOpt(location.href,x[0]))+'" class="qp-sw-btn'+(opt===x[0]?' on':'')+'" data-opt="'+x[0]+'"><span class="l">'+x[2]+'</span><span class="s">'+x[1]+'</span></a>'}).join('')+
@@ -135,6 +135,7 @@
 
   // ---------- styles ----------
   var css=
+  '.qp-banner .qp-ver{position:static!important;background:none!important;box-shadow:none!important;height:auto!important;width:auto!important;border:0!important;padding:0!important}.qp-banner .qp-ver a{color:#fff!important;background:none}.qp-banner .qp-ver a.on{background:#fff!important;color:#b91c1c!important}'+
   '.qp-ver{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:4px 6px;margin-top:6px;font:600 14px Roboto,sans-serif}.qp-ver-l{font-weight:700}.qp-ver-sep{opacity:.6}'+
   '.qp-ver a{color:#fff;text-decoration:underline;padding:4px 10px;border-radius:999px;min-height:28px;display:inline-flex;align-items:center}.qp-ver a.on{background:#fff;color:#b91c1c;text-decoration:none;font-weight:800}.qp-ver a.qp-ver-all{margin-left:8px;border:1px solid #fff;text-decoration:none}'+
   '#qchat-embed .qchoice.qp-default{outline:3px solid #00a651;background:#ecfdf5;font-weight:700}#qchat-embed .qchoice.qp-default::before{content:"✓ "}'+
