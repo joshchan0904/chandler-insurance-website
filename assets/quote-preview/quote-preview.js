@@ -67,7 +67,9 @@
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 
   function ui(){
-    var b=document.createElement('div');b.className='qp-banner';b.setAttribute('role','note');b.innerHTML='<strong>PREVIEW, not a real quote request. Nothing is sent.</strong> <span class="qp-badge">'+esc(NAMES[OPT])+'</span>';document.body.insertBefore(b,document.body.firstChild);
+    var b=document.createElement('div');b.className='qp-banner';b.setAttribute('role','note');b.innerHTML='<strong>PREVIEW, not a real quote request. Nothing is sent.</strong> <span class="qp-badge">'+esc(NAMES[OPT])+'</span>'+
+      '<nav class="qp-ver" aria-label="Preview version"><span class="qp-ver-l">Version:</span> '+[['0','Current'],['a','A'],['b','B'],['c','C']].map(function(x){var on=opt===x[0];return '<a data-qp-keep href="'+esc(withOpt(location.href,x[0]))+'" class="qp-ver-a'+(on?' on':'')+'"'+(on?' aria-current="page"':'')+'>'+x[1]+'</a>'}).join('<span class="qp-ver-sep">|</span>')+
+      ' <a data-qp-keep class="qp-ver-all" href="/versions.html">All versions</a></nav>';document.body.insertBefore(b,document.body.firstChild);
     if(OPT)[].forEach.call(document.querySelectorAll('input[name*="license" i]:not([name*="state" i])'),function(el){if(el.type!=='text')return;el.type='password';el.setAttribute('autocomplete','off');el.spellcheck=false;var t=document.createElement('button');t.type='button';t.className='qp-dl-show';t.textContent='Show';t.onclick=function(){var h=el.type==='password';el.type=h?'text':'password';t.textContent=h?'Hide':'Show'};el.insertAdjacentElement('afterend',t);});
     var sw=document.createElement('div');sw.className='qp-switch';sw.innerHTML='<button type="button" class="qp-sw-toggle" aria-expanded="true">Compare options ▾</button><div class="qp-sw-btns">'+
       [['0','Now','Current'],['a','A','A · Quick start'],['b','B','B · Talk or quote'],['c','C','C · Short form']].map(function(x){return '<a href="'+esc(withOpt(location.href,x[0]))+'" class="qp-sw-btn'+(opt===x[0]?' on':'')+'" data-opt="'+x[0]+'"><span class="l">'+x[2]+'</span><span class="s">'+x[1]+'</span></a>'}).join('')+
@@ -76,7 +78,8 @@
     sw.querySelector('.qp-sw-toggle').onclick=function(){var c=sw.classList.toggle('collapsed');this.setAttribute('aria-expanded',String(!c));this.textContent=c?'Options ▸':'Compare options ▾'};
     if(matchMedia('(max-width:640px)').matches){sw.classList.add('collapsed');sw.querySelector('.qp-sw-toggle').textContent='Options ▸'}
     // keep the chosen option on internal links
-    document.querySelectorAll('a[href]').forEach(function(a){var h=a.getAttribute('href');if(!h||/^(#|mailto:|tel:|sms:|javascript:)/i.test(h)||a.closest('.qp-switch'))return;if(/^https?:/i.test(h)&&!sameOrigin(h))return;a.setAttribute('href',withOpt(h,opt))});
+    document.querySelectorAll('a[href]').forEach(function(a){var h=a.getAttribute('href');if(!h||/^(#|mailto:|tel:|sms:|javascript:)/i.test(h)||a.closest('.qp-switch')||a.hasAttribute('data-qp-keep'))return;if(/^https?:/i.test(h)&&!sameOrigin(h))return;a.setAttribute('href',withOpt(h,opt))});
+    preselect();
     if(!OPT)return;
     // Option A+: product-page buttons go straight into that product's quote (skips the 13-tile picker)
     var target=PRODUCT[page()];
@@ -91,6 +94,16 @@
       '<span class="qp-spam">🔒 We never sell your info. No spam.</span>';
     embed.parentNode.insertBefore(ts,embed);
     if(OPT==='b'||OPT==='c')talkBox(embed);
+  }
+  function preselect(){
+    var pr=(QS.get('products')||'').toLowerCase().split(/[ ,+]+/).filter(Boolean);if(!pr.length)return;
+    var want=[];var has=function(x){return pr.indexOf(x)>=0};
+    if(has('home')&&has('auto'))want.push('Home + Auto Bundle');else{if(has('auto'))want.push('Auto');if(has('home'))want.push('Home & Cabin')}
+    var M={business:'Business',condo:'Condo / Townhouse',landlord:'Landlord / Rental',life:'Life',bundle:'Home + Auto Bundle'};pr.forEach(function(x){if(M[x]&&want.indexOf(M[x])<0)want.push(M[x])});
+    if(!want.length)return;var done=false;
+    var tryIt=function(){if(done)return;var ts=document.querySelectorAll('#qchat-embed .tile[data-type]');if(!ts.length)return;done=true;
+      [].forEach.call(ts,function(t){var w=want.indexOf(t.dataset.type)>=0,on=t.classList.contains('sel');if(w!==on)t.click()})};
+    var mo=new MutationObserver(function(){tryIt();if(done)mo.disconnect()});mo.observe(document.body,{childList:true,subtree:true});tryIt();
   }
   function talkBox(embed){
     var qt=embed.dataset.qtype||'';var map={'Auto':'Auto','Business':'Business','Home & Cabin':'Home & Cabin','Landlord / Rental':'Landlord / Rental','Life':'Life'};
@@ -107,13 +120,13 @@
     var top=document.querySelector('.qp-trust')||embed;top.parentNode.insertBefore(t,top);
     var h=t.querySelector('.qp-talk-h');h.onclick=function(){var c=t.classList.toggle('collapsed');h.setAttribute('aria-expanded',String(!c))};
     if(matchMedia('(max-width:640px)').matches){t.classList.add('collapsed');h.setAttribute('aria-expanded','false')}
-    var f=t.querySelector('form');var syncT=function(){var c=(f.querySelector('input[name=qp_ct]:checked')||{}).value==='Call';f.classList.toggle('call',c);if(!c)f.qp_time.value=''};f.addEventListener('change',syncT);syncT();
+    var f=t.querySelector('form');var syncT=function(){var c=!!f.querySelector('input[name=qp_ct]:checked');f.classList.toggle('call',c);if(!c)f.qp_time.value=''};f.addEventListener('change',syncT);syncT();
     f.addEventListener('submit',function(e){e.preventDefault();e.__qpCounted=true;e.stopPropagation();
       var n=f.qp_name.value.trim(),p=f.qp_phone.value.trim(),w=f.qp_for.value||'Not specified',ct=(f.querySelector('input[name=qp_ct]:checked')||{}).value||'Either',m=f.querySelector('.qp-talk-msg');
       if(!n){m.textContent='Please add your name.';return}if(p.replace(/\D/g,'').length<10){m.textContent='Please add a 10-digit phone number.';return}
       var fd=new FormData();fd.append('form-name','chat-quote');fd.append('request_status','CALLBACK REQUEST');fd.append('quote_form',w);
       fd.append('subject','Chandler Quote Request: '+w+' (CALLBACK - '+ct+') - '+n);fd.append('full_name',n);fd.append('phone',p);
-      fd.append('summary','== Callback request ==\nName: '+n+'\nPhone: '+p+'\nFor: '+w+'\nPrefers: '+ct+(ct==='Call'&&f.qp_time.value?'\nBest time: '+f.qp_time.value:'')+'\nFrom page: '+page());
+      fd.append('summary','== Callback request ==\nName: '+n+'\nPhone: '+p+'\nFor: '+w+'\nPrefers: '+ct+(f.qp_time.value?'\nBest time: '+f.qp_time.value:'')+'\nFrom page: '+page());
       fetch('/',{method:'POST',body:fd}).then(function(r){if(!r.ok)throw r.status;f.innerHTML='<p class="qp-talk-ok">✓ Thanks, '+esc(n.split(' ')[0])+'! We\'ll '+(ct==='Text'?'text':(ct==='Call'?'call':'reach out to'))+' you shortly during office hours.</p>'})
         .catch(function(){m.textContent='Could not send — please call (218) 326-4655.'});
     },true);
@@ -122,6 +135,9 @@
 
   // ---------- styles ----------
   var css=
+  '.qp-ver{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:4px 6px;margin-top:6px;font:600 14px Roboto,sans-serif}.qp-ver-l{font-weight:700}.qp-ver-sep{opacity:.6}'+
+  '.qp-ver a{color:#fff;text-decoration:underline;padding:4px 10px;border-radius:999px;min-height:28px;display:inline-flex;align-items:center}.qp-ver a.on{background:#fff;color:#b91c1c;text-decoration:none;font-weight:800}.qp-ver a.qp-ver-all{margin-left:8px;border:1px solid #fff;text-decoration:none}'+
+  '#qchat-embed .qchoice.qp-default{outline:3px solid #00a651;background:#ecfdf5;font-weight:700}#qchat-embed .qchoice.qp-default::before{content:"✓ "}'+
   '.qp-ac{margin:4px 0 6px;border:1px solid #cbd5e1;border-radius:12px;background:#fff;overflow:hidden;box-shadow:0 6px 16px #0002}.qp-ac[hidden]{display:none}'+
   '.qp-ac-i{display:block;width:100%;text-align:left;background:#fff;border:0;border-bottom:1px solid #eef2f7;padding:11px 12px;font:15px Roboto,sans-serif;color:#0f172a;cursor:pointer;min-height:44px}.qp-ac-i:hover,.qp-ac-i:focus{background:#eff6ff}'+
   '.qp-ac-at{font:11px Roboto,sans-serif;color:#64748b;padding:5px 12px}'+

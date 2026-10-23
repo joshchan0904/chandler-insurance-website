@@ -1,7 +1,7 @@
 (function(){const ROOT=document.getElementById('qchat-embed');if(!ROOT)return;const PRE_TYPE=ROOT.dataset.qtype||'';
 // PREVIEW options (A/B/C) — window.QC_PREVIEW is only set by /assets/quote-preview/quote-preview.js off-production. OPT==='' => current behavior.
 const QP=window.QC_PREVIEW||null;const OPT=(QP&&QP.on&&QP.opt)||'';
-const QP_KEEP_REQ=/^(your full name\?|best phone or email\?)$|use this contact|what would you like to do|resume your|keep them\?|correct\?|add more details now|have your dec page/i;
+const QP_KEEP_REQ=/^(your full name\?|best phone or email\?|email address\?|phone number\?)$|use this contact|what would you like to do|resume your|keep them\?|correct\?|add more details now|have your dec page/i;
 // Options A/B/C: driver's license # stays (optional + Skip), input is masked and never echoed/displayed in full
 const DLQ=q=>!!OPT&&/license (number|#)/i.test(String(q));
 const dlMask=v=>{const c=String(v||'').replace(/[^A-Za-z0-9]/g,'');return c?('Provided (ends '+c.slice(-2)+')'):'(skipped)'};
@@ -12,8 +12,8 @@ const qpOpt=(q,opt)=>(OPT&&!opt&&!QP_KEEP_REQ.test(String(q).trim()))?true:opt;
 // Chandler Quote Chat (PREVIEW) — mirrors live auto-quote / home-quote fields; submits via Netlify Forms (HTTPS POST).
 const chat=document.getElementById('chat'),D={};let QC_LIVE=false;const QC_TOUCH=matchMedia('(pointer:coarse)').matches;
 const qcLive=()=>{QC_LIVE=true};chat.addEventListener('pointerdown',qcLive,{once:true});chat.addEventListener('keydown',qcLive,{once:true});let decFile=null;let currentError=null;let partialSent=false;let sentEarly=false;
-const DONE_KEY='chandler-quote-complete';
-const DRAFT_KEY='chandler-quote-draft';
+const DONE_KEY='chandler-quote-complete'+(OPT||(QP&&QP.on)?'-qp-'+(OPT||'now'):'');
+const DRAFT_KEY='chandler-quote-draft'+(OPT||(QP&&QP.on)?'-qp-'+(OPT||'now'):'');
 // Block ONLY SSNs and bank/card numbers. Driver's license numbers and VINs are allowed (live forms collect them).
 const BAD=/\b\d{3}-\d{2}-\d{4}\b|\b(?:\d[ -]?){13,19}\b|\b(ssn|social security|routing number|bank account|account number|card number|credit card|debit card|cvv)\b/i;
 const VIN_OK=v=>/^[A-HJ-NPR-Z0-9]{5,17}$/i.test(v.replace(/\s/g,''));
@@ -797,11 +797,19 @@ async function contactQuick(){step();
   if((await choose('Use this contact info?',['Looks good','Edit'],{opt:false}))==='Looks good')return false}
  editContact=false;
  D.full_name=await ask.call({pv:D.full_name},'Your full name?',{opt:false});
- const pe=await ask.call({pv:D.phone||D.email},'Best phone or email?',{opt:false,valid:v=>/^\S+@\S+\.\S+$/.test(v)||v.replace(/\D/g,'').length>=10});
- if(/@/.test(pe)){D.email=pe;delete D.phone}else{D.phone=pe;delete D.email}
- saveDraft();clearTimeout(window.__qpPartialT);window.__qpPartialT=setTimeout(()=>{try{sendPartial()}catch(e){}},1500);
- if(D.phone){D.contact_pref=await choose.call({pv:D.contact_pref},'Call or text?',['Call','Text','Either is fine']);
-  if(D.contact_pref==='Call')D.best_time=await choose.call({pv:D.best_time},'Best time to reach you?',['Morning','Midday','Afternoon','Any time']);else delete D.best_time}else{delete D.contact_pref;delete D.best_time}
+ const M=['Email me my quote','Call me','Text me'],EM=v=>/^\S+@\S+\.\S+$/.test(v),PH=v=>v.replace(/\D/g,'').length>=10;
+ const pr=choose.call({pv:D.contact_pref},'How should we send your quote?',M);
+ {const bx=document.getElementById('in');if(bx){const e=[...bx.querySelectorAll('button.qchoice')].find(x=>x.textContent===M[0]);if(e){e.classList.add('qp-default');e.setAttribute('aria-pressed','true')}
+  const h=bx.querySelector('.qhint');if(h)h.textContent='Email is selected. Tap it, or choose Call or Text.';const sk=bx.querySelector('.qskip');if(sk)sk.textContent='Skip (use email)'}}
+ D.contact_pref=(await pr)||M[0];
+ const partial=()=>{saveDraft();clearTimeout(window.__qpPartialT);window.__qpPartialT=setTimeout(()=>{try{sendPartial()}catch(e){}},1500)};
+ if(D.contact_pref===M[0]){
+  D.email=await ask.call({pv:D.email},'Email address?',{type:'email',opt:false,valid:EM});partial();delete D.best_time;
+  D.phone=await ask.call({pv:D.phone},'Phone number? (optional)',{type:'tel',valid:PH});if(!D.phone)delete D.phone}
+ else{
+  D.phone=await ask.call({pv:D.phone},'Phone number?',{type:'tel',opt:false,valid:PH});partial();
+  D.best_time=await choose.call({pv:D.best_time},'Best time to reach you?',['Morning','Midday','Afternoon','Any time']);if(!D.best_time)delete D.best_time;
+  D.email=await ask.call({pv:D.email},'Email address? (optional)',{type:'email',valid:EM});if(!D.email)delete D.email}
  if(isBizC()){D.business_zip=await ask.call({pv:D.business_zip},'Business ZIP code? (optional)',{valid:v=>/^\d{5}(-\d{4})?$/.test(v)});return false}
  if(isAutoC()){D.zip=await ask.call({pv:D.zip},'ZIP code? (optional)',{valid:v=>/^\d{5}(-\d{4})?$/.test(v)});
   D.date_of_birth=await ask.call({pv:D.date_of_birth},'Date of birth? (optional)',{type:'date'});return false}
