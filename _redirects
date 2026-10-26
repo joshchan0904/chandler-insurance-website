@@ -1,3 +1,19 @@
+# --- FLAGGED variant (launch-quote-b-full): old quote pages 301 to version B. Pages, quote chat files and Netlify Forms stay in place.
+/quote.html                 /get-a-quote/              301!
+/quote                      /get-a-quote/              301!
+/home-quote.html            /get-a-quote/?p=home       301!
+/home-quote                 /get-a-quote/?p=home       301!
+/auto-quote.html            /get-a-quote/?p=auto       301!
+/auto-quote                 /get-a-quote/?p=auto       301!
+/business-quote.html        /get-a-quote/?p=business   301!
+/business-quote             /get-a-quote/?p=business   301!
+/recreational-quote.html    /get-a-quote/?p=rec        301!
+/recreational-quote         /get-a-quote/?p=rec        301!
+/landlord-quote.html        /get-a-quote/?p=dwelling   301!
+/landlord-quote             /get-a-quote/?p=dwelling   301!
+/life-quote.html            /get-a-quote/?p=life       301!
+/life-quote                 /get-a-quote/?p=life       301!
+
 # 301 Redirects for old Wix pages and thin content consolidation
 # Format: old-path    new-path    301
 # Use 301! (force) when overriding Netlify Pretty URLs that would otherwise 200.
@@ -102,22 +118,4 @@ http://www.chandlerinsurancemn.com/*                   https://chandlerinsurance
 /workers-compensation-insurance-minnesota.html         /commercial-insurance.html    301
 /workers-compensation-insurance-grand-rapids-mn.html   /commercial-insurance.html    301
 
-# --- FLAGGED for Josh (NOT active): retire the old quote pages to version B. These pages also carry Grok Build 2's
-# quote chat, so they stay live until Josh decides. To enable, uncomment and move this block ABOVE the
-# "/auto-quote  /auto-quote.html  301!" lines near the top so it wins. Files and Netlify Forms are never deleted.
-# Caution: the auto-quote, home-quote and recreational-quote <form>s have no action and POST to their own URL; with these
-# redirects a copy of those pages already open in someone's browser could not submit (the POST would get the 301).
-# /quote.html                 /get-a-quote/              301!
-# /quote                      /get-a-quote/              301!
-# /home-quote.html            /get-a-quote/?p=home       301!
-# /home-quote                 /get-a-quote/?p=home       301!
-# /auto-quote.html            /get-a-quote/?p=auto       301!
-# /auto-quote                 /get-a-quote/?p=auto       301!
-# /business-quote.html        /get-a-quote/?p=business   301!
-# /business-quote             /get-a-quote/?p=business   301!
-# /recreational-quote.html    /get-a-quote/?p=rec        301!
-# /recreational-quote         /get-a-quote/?p=rec        301!
-# /landlord-quote.html        /get-a-quote/?p=dwelling   301!
-# /landlord-quote             /get-a-quote/?p=dwelling   301!
-# /life-quote.html            /get-a-quote/?p=life       301!
-# /life-quote                 /get-a-quote/?p=life       301!
+# (Old quote page redirects: active at the top of this file in this FLAGGED variant.)
