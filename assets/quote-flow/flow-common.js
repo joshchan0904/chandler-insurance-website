@@ -38,13 +38,13 @@
     { v: 'home', l: 'Home', ic: '🏠' },
     { v: 'auto', l: 'Auto', ic: '🚗' },
     { v: 'bundle', l: 'Home + Auto bundle', ic: '🏡', s: 'Usually the best value' },
+    { v: 'business', l: 'Business', ic: '💼' },
+    { v: 'rec', l: 'Boat & rec', ic: '🛥️', s: 'Boat, ATV, snowmobile, RV' },
     { v: 'cabin', l: 'Cabin / seasonal', ic: '🌲' },
     { v: 'renters', l: 'Renters', ic: '🔑' },
     { v: 'dwelling', l: 'Rental / dwelling', ic: '🏘️', s: 'A place you rent out' },
-    { v: 'rec', l: 'Boat & rec', ic: '🛥️', s: 'Boat, ATV, snowmobile, RV' },
     { v: 'umbrella', l: 'Umbrella', ic: '☂️', s: 'Extra liability' },
     { v: 'life', l: 'Life', ic: '❤️' },
-    { v: 'business', l: 'Business', ic: '💼' },
     { v: 'notsure', l: 'I\'m not sure – talk to an agent', ic: '💬' }
   ];
 
