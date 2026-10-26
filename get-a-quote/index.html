@@ -31,44 +31,22 @@
     <link rel="stylesheet" href="/assets/quote-flow/flow.css?v=1">
     <link rel="stylesheet" href="/css/site.css">
     <style>
-        /* Site header/footer (same markup and rules as the other pages), scoped so the quote flow keeps its own styles. */
+        /* Site header/footer: same markup and rules as services.html, scoped (no global reset) so the quote flow keeps its own styles. */
         :root { --banner-h: 0px; }
-        nav { background: white; padding: 1rem 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: relative; z-index: 100; }
+        nav { background: white; padding: 1rem 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: relative; z-index: 100; font-family: 'Roboto', sans-serif; }
         .nav-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .nav-content img { display: block; }
         .nav-links { display: flex; align-items: center; }
         .nav-links a { color: #003d82; text-decoration: none; font-weight: 600; margin-left: 2rem; }
         .nav-links a:hover { color: #0056b3; }
         .hamburger { display: none; font-size: 1.8rem; color: #003d82; cursor: pointer; }
-        footer { background: #003d82 !important; color: #ddd; padding: 3rem 1.25rem; margin-top: 4rem; }
-        .nav-links { display: none; flex-direction: column; background: white; position: absolute; top: 65px; left: 0; width: 100%; padding: 1.25rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .nav-links.active { display: flex; }
-        .nav-links a { margin: 0.6rem 0; font-size: 1.05rem; }
-        .hamburger { display: block; }
-        nav { background: white; padding: 1rem 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.08); position: relative; z-index: 100; }
-        .nav-links { display: flex; align-items: center; }
-        .nav-links a { color: #003d82; text-decoration: none; font-weight: 600; margin-left: 2rem; }
-        .nav-links a:hover { color: #0056b3; }
-        .hamburger { display: none; font-size: 1.8rem; color: #003d82; cursor: pointer; }
-        .nav-links { display: none; flex-direction: column; background: white; position: absolute; top: 65px; left: 0; width: 100%; padding: 1.25rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .nav-links.active { display: flex; }
-        .nav-links a { margin: 0.6rem 0; font-size: 1.05rem; }
-        .hamburger { display: block; }
-        nav {
-        .nav-links { display: none; flex-direction: column; background: white; position: absolute; top: 70px; left: 0; width: 100%; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .nav-links.active { display: flex; }
-        .nav-links a { margin: 0.75rem 0; font-size: 1.05rem; }
-        .hamburger { display: block; }
-        footer > div:last-of-type,
-        footer > div[style*="text-align:center"] {
-        footer > div:last-of-type a,
-        footer > div[style*="text-align:center"] a {
-        nav .nav-content img { display: block; }
+        footer { background: #003d82 !important; color: #ddd; padding: 3rem 1.25rem calc(3rem + var(--foot-h, 0px)); margin-top: 4rem; line-height: 1.7; font-family: 'Roboto', sans-serif; }
         footer h4, footer p { margin: 0 0 .6rem; }
-        footer { line-height: 1.7; margin-bottom: 0; padding-bottom: calc(3rem + var(--foot-h)); }
-        @media (max-width: 768px) {
-            .nav-links { display: none; flex-direction: column; background: white; position: absolute; top: 65px; left: 0; width: 100%; padding: 1.25rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        @media (max-width: 900px) {
+            nav { position: sticky; top: 0; z-index: 100; }
+            .nav-links { display: none; flex-direction: column; background: white; position: absolute; top: 70px; left: 0; width: 100%; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
             .nav-links.active { display: flex; }
-            .nav-links a { margin: 0.6rem 0; font-size: 1.05rem; }
+            .nav-links a { margin: 0.75rem 0; font-size: 1.05rem; }
             .hamburger { display: block; }
         }
     </style>
