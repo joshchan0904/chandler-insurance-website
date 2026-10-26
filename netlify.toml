@@ -1,0 +1,15 @@
+# chandlerinsurancemn.com – static site at the repo root + functions for the /get-a-quote/ flow.
+# (Before this file existed the site had no build command and published the repo root; that stays the same.)
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["@netlify/blobs"]
+
+# Hidden Netlify Forms registration page and the JSON APIs are not for search engines.
+[[headers]]
+  for = "/quote-lead-forms.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"

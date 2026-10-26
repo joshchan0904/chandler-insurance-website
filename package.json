@@ -1,0 +1,9 @@
+{
+  "name": "chandler-insurance-website",
+  "private": true,
+  "description": "Site functions for the /get-a-quote/ flow (lead email via Microsoft Graph, dec-page upload, address/ZIP/parcel/vehicle lookups).",
+  "type": "module",
+  "dependencies": {
+    "@netlify/blobs": "10.7.13"
+  }
+}

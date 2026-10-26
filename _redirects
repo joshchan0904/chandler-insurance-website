@@ -62,6 +62,18 @@ http://www.chandlerinsurancemn.com/*                   https://chandlerinsurance
 /carriers                                              /                              301
 /carriers.html                                         /                              301
 
+# --- Quote flow launch (version B at /get-a-quote/) ---
+# (Netlify matches with or without a trailing slash, and serves /get-a-quote -> /get-a-quote/ itself.)
+# The old Wix quote URLs below now 301 to the matching /get-a-quote/?p=<product> (GET-only URLs; no form POSTs to them).
+# Function source and build files are never served as pages.
+/netlify/*                                             /404.html                      404!
+/package.json                                          /404.html                      404!
+/package-lock.json                                     /404.html                      404!
+/netlify.toml                                          /404.html                      404!
+# NOTE: no rule touches "/" (where every Netlify Forms POST goes: qf-lead, qf-lead-backup and the old forms), /api/*
+# (the quote functions) or /quote-lead-forms.html. The old quote pages (quote.html, *-quote.html) are NOT redirected:
+# they carry Grok Build 2's quote chat and are left for Josh to decide (FLAGGED block at the end of this file).
+
 # Old Wix pages
 /landlord-renters-insurance-grand-rapids-virginia-mn    /landlord.html    301
 /home-cabin-insurance-grand-rapids-virginia-mn         /home.html        301
@@ -69,12 +81,12 @@ http://www.chandlerinsurancemn.com/*                   https://chandlerinsurance
 /event-insurance-grand-rapids-virginia-mn              /                 301
 /life-insurance-grand-rapids-virginia-mn               /life.html        301
 /recreational-insurance-grand-rapids-virginia-mn       /recreational.html 301
-/free-online-life-insurance-quote                      /quote.html       301
+/free-online-life-insurance-quote                      /get-a-quote/?p=life 301
 /commercial-insurance-grand-rapids-virginia-mn         /business.html    301
-/free-online-pet-quote                                 /                 301
-/get-a-free-quote                                      /quote.html       301
-/free-online-auto-quote                                /auto-quote.html  301
-/free-online-home-quote                                /home-quote.html  301
+/free-online-pet-quote                                 /get-a-quote/    301
+/get-a-free-quote                                      /get-a-quote/    301
+/free-online-auto-quote                                /get-a-quote/?p=auto 301
+/free-online-home-quote                                /get-a-quote/?p=home 301
 /schedule-appointment                                  /schedule.html    301
 /about-us                                              /about.html       301
 /products-1                                            /                 301
@@ -89,3 +101,23 @@ http://www.chandlerinsurancemn.com/*                   https://chandlerinsurance
 /general-liability-insurance-grand-rapids-mn.html      /commercial-insurance.html    301
 /workers-compensation-insurance-minnesota.html         /commercial-insurance.html    301
 /workers-compensation-insurance-grand-rapids-mn.html   /commercial-insurance.html    301
+
+# --- FLAGGED for Josh (NOT active): retire the old quote pages to version B. These pages also carry Grok Build 2's
+# quote chat, so they stay live until Josh decides. To enable, uncomment and move this block ABOVE the
+# "/auto-quote  /auto-quote.html  301!" lines near the top so it wins. Files and Netlify Forms are never deleted.
+# Caution: the auto-quote, home-quote and recreational-quote <form>s have no action and POST to their own URL; with these
+# redirects a copy of those pages already open in someone's browser could not submit (the POST would get the 301).
+# /quote.html                 /get-a-quote/              301!
+# /quote                      /get-a-quote/              301!
+# /home-quote.html            /get-a-quote/?p=home       301!
+# /home-quote                 /get-a-quote/?p=home       301!
+# /auto-quote.html            /get-a-quote/?p=auto       301!
+# /auto-quote                 /get-a-quote/?p=auto       301!
+# /business-quote.html        /get-a-quote/?p=business   301!
+# /business-quote             /get-a-quote/?p=business   301!
+# /recreational-quote.html    /get-a-quote/?p=rec        301!
+# /recreational-quote         /get-a-quote/?p=rec        301!
+# /landlord-quote.html        /get-a-quote/?p=dwelling   301!
+# /landlord-quote             /get-a-quote/?p=dwelling   301!
+# /life-quote.html            /get-a-quote/?p=life       301!
+# /life-quote                 /get-a-quote/?p=life       301!

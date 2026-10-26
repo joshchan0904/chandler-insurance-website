@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex, nofollow"><title>Chandler quote form – lead backup forms</title></head>
+<body>
+<!-- Netlify Forms registration for the /get-a-quote/ flow. Not shown to visitors.
+     Leads are posted here by /api/lead (server side) or, if a file has to be attached directly, by the browser.
+     qf-lead: used only when the direct email fails (or by the browser as a last resort); notification -> joshchandler@ only. -->
+<form name="qf-lead" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data" hidden>
+  <input type="hidden" name="form-name" value="qf-lead">
+  <p hidden><label>Leave empty <input name="bot-field"></label></p>
+  <input type="hidden" name="subject" data-remove-prefix value="Chandler quote request">
+  <input type="text" name="name"><input type="email" name="email"><input type="text" name="phone">
+  <input type="text" name="status"><input type="text" name="ref"><input type="text" name="version"><input type="text" name="products">
+  <input type="text" name="contact_pref"><input type="text" name="best_time"><input type="text" name="dec_page_link">
+  <textarea name="follow_up"></textarea><textarea name="summary"></textarea><input type="text" name="submitted">
+  <input type="file" name="dec_page">
+</form>
+<!-- Backup copy of every lead that was emailed directly (Microsoft Graph). This form has NO email notification. -->
+<form name="qf-lead-backup" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data" hidden>
+  <input type="hidden" name="form-name" value="qf-lead-backup">
+  <p hidden><label>Leave empty <input name="bot-field"></label></p>
+  <input type="hidden" name="subject" data-remove-prefix value="Chandler quote request">
+  <input type="text" name="name"><input type="email" name="email"><input type="text" name="phone">
+  <input type="text" name="status"><input type="text" name="ref"><input type="text" name="version"><input type="text" name="products">
+  <input type="text" name="contact_pref"><input type="text" name="best_time"><input type="text" name="dec_page_link">
+  <textarea name="follow_up"></textarea><textarea name="summary"></textarea><input type="text" name="submitted">
+  </form>
+</body></html>
