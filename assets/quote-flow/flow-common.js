@@ -214,6 +214,9 @@
               if (sf.yr) { var yns = sv === 'Not sure';
                 return '<div class="f"><label class="lbl">' + esc(sf.l) + '</label><input type="text" inputmode="numeric" maxlength="4" autocomplete="off" data-year="1" data-rep="' + f.id + '" data-i="' + i + '" data-k="' + sf.k + '" value="' + (yns ? '' : esc(sv)) + '" placeholder="' + esc(sf.ph || 'e.g. 1995') + '"' + (yns ? ' disabled' : '') + '>' +
                   '<label class="chk yns"><input type="checkbox" data-yns="1" data-rep="' + f.id + '" data-i="' + i + '" data-k="' + sf.k + '"' + (yns ? ' checked' : '') + '> I\'m not sure</label></div>'; }
+              if (sf.t === 'dob') { var dk = f.id + ':' + i + ':' + sf.k, dr = S.dobRaw[dk], dchk = dobCheck(dr != null && dr !== '' ? dr : dobIsoToUs(sv), sf.age);
+                return '<div class="f"><label class="lbl">' + esc(sf.l) + '</label><input type="text" inputmode="numeric" autocomplete="bday" maxlength="10" placeholder="MM/DD/YYYY" data-dob="1" data-rep="' + f.id + '" data-i="' + i + '" data-k="' + sf.k + '" value="' + esc(dr != null && dr !== '' ? dr : dobIsoToUs(sv)) + '">' +
+                  '<p class="vin-stat bad" data-doberr="' + esc(dk) + '" aria-live="polite">' + esc(dchk.full && dchk.err ? dchk.err : '') + '</p></div>'; }
               var vs = sf.vin ? (S.vin[f.id + ':' + i] || {}) : null;
               return '<div class="f' + (sf.cls ? ' ' + sf.cls : '') + '"><label class="lbl">' + esc(sf.l) + '</label>' + (sf.hint ? '<p class="hint">' + esc(sf.hint) + '</p>' : '') + '<input type="' + (sf.t || 'text') + '"' + (sf.t === 'date' ? ' max="' + new Date().toISOString().slice(0, 10) + '"' : '') + (sf.im ? ' inputmode="' + sf.im + '"' : '') + ' data-rep="' + f.id + '" data-i="' + i + '" data-k="' + sf.k + '" value="' + esc(sv) + '"' + (sf.ph ? ' placeholder="' + esc(sf.ph) + '"' : '') +
                 (sf.vin ? ' maxlength="17" autocapitalize="characters" autocomplete="off" spellcheck="false" data-vin="1"' : '') + '>' +
@@ -754,10 +757,42 @@
     });
   }
   function yearErrs(cur) { var bad = []; yearSlots(cur, function (l, g) { if (yearBad(g())) bad.push(l); }); return bad.length ? ['Please enter a 4-digit year from 1800 to ' + YMAX + ' (or leave it blank / pick "I\'m not sure"): ' + bad.join('; ')] : null; }
+  // ---------- typed date of birth (MM/DD/YYYY; stored as YYYY-MM-DD exactly like the old date picker) ----------
+  function dobPad(x) { return x.length === 1 ? '0' + x : x; }
+  function dobIsoToUs(v) { var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(v || '')); return m ? m[2] + '/' + m[3] + '/' + m[1] : String(v || ''); }
+  function dobFormat(v) { // any separator or none -> MM/DD/YYYY as they type; a pasted YYYY-MM-DD is turned around
+    v = String(v || ''); var iso = /^\s*(\d{4})[-\/. ](\d{1,2})[-\/. ](\d{1,2})\s*$/.exec(v);
+    if (iso) return dobPad(iso[2]) + '/' + dobPad(iso[3]) + '/' + iso[1];
+    var f = ['', '', ''], idx = 0, ch;
+    for (var i = 0; i < v.length; i++) { ch = v[i];
+      if (/\d/.test(ch)) { if (idx < 2 && f[idx].length === 2) idx++; if (idx === 2 && f[2].length === 4) break; f[idx] += ch; }
+      else if (idx < 2 && f[idx].length > 0) { f[idx] = dobPad(f[idx]); idx++; } }
+    return f[0] + (idx >= 1 ? '/' + f[1] : '') + (idx >= 2 ? '/' + f[2] : '');
+  }
+  function dobCheck(v, age) { // -> { iso, full, err }
+    v = String(v || '').trim(); if (!v) return { iso: '', full: false, err: '' };
+    var m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(v);
+    if (!m) return { iso: '', full: false, err: 'Please enter the full date as MM/DD/YYYY (for example 04/15/1982).' };
+    var mo = +m[1], d = +m[2], y = +m[3], dt = new Date(y, mo - 1, d);
+    if (mo < 1 || mo > 12 || dt.getFullYear() !== y || dt.getMonth() !== mo - 1 || dt.getDate() !== d) return { iso: '', full: true, err: 'That date doesn\'t exist – please check the month and day.' };
+    var now = new Date(), yrs = now.getFullYear() - y - ((now.getMonth() < mo - 1 || (now.getMonth() === mo - 1 && now.getDate() < d)) ? 1 : 0);
+    var lo = age ? age[0] : 0, hi = age ? age[1] : 110;
+    if (dt > now) return { iso: '', full: true, err: 'That date is in the future – please check the year.' };
+    if (yrs < lo || yrs > hi) return { iso: '', full: true, err: (lo >= 14 ? 'Drivers need to be ' + lo + ' to ' + hi + ' years old' : 'That would make them over ' + hi) + ' – please check the year.' };
+    return { iso: m[3] + '-' + m[1] + '-' + m[2], full: true, err: '' };
+  }
+  function dobSlots(cur, cb) { // cb(label, key, sub, item) for every typed-DOB slot visible on this screen
+    (cur.fields || []).forEach(function (f) {
+      if (!fieldVisible(f) || f.type !== 'repeater' || !Array.isArray(S.a[f.id])) return;
+      S.a[f.id].forEach(function (it, i) { if (it) f.sub.forEach(function (sf) { if (sf.t === 'dob') cb((f.itemLabel || 'Item') + ' ' + (i + 1) + ': ' + sf.l.replace(/ \(optional\)$/, ''), f.id + ':' + i + ':' + sf.k, sf, it); }); });
+    });
+  }
+  function dobErrs(cur) { var bad = []; dobSlots(cur, function (l, k, sf) { var r = S.dobRaw[k]; if (r) { var c = dobCheck(r, sf.age); if (c.err) bad.push(l + ' – ' + c.err); } }); return bad.length ? bad : null; }
+  function clearBadDobs(cur) { dobSlots(cur, function (l, k, sf, it) { var r = S.dobRaw[k]; if (r && dobCheck(r, sf.age).err) { S.dobRaw[k] = ''; it[sf.k] = ''; } }); }
   function clrErr() { var eb = $('.errbox', root); if (eb && eb.innerHTML && !validate(screenById(S.cur))) eb.innerHTML = ''; }
   function clearBadYears(cur) { yearSlots(cur, function (l, g, st) { if (yearBad(g())) st(''); }); }
   function validate(cur) {
-    if (cur.kind !== 'contact') return yearErrs(cur);
+    if (cur.kind !== 'contact') { var ye = yearErrs(cur), de = dobErrs(cur); return ye || de ? (ye || []).concat(de || []) : null; }
     var a = S.a, e = [];
     if (!cleanStr(a.firstName) || !cleanStr(a.lastName)) e.push('Please add your first and last name.');
     var em = cleanStr(a.email), ph = digits(cleanStr(a.phone));
@@ -918,7 +953,7 @@
   }
   function next(skip) {
     var cur = screenById(S.cur);
-    if (skip) clearBadYears(cur);
+    if (skip) { clearBadYears(cur); clearBadDobs(cur); }
     if (cur.kind === 'review') return submit();
     if (!skip || cur.kind === 'contact') {
       var switched = cur.kind === 'contact' && applyContactSwitch(S.a);
@@ -1076,7 +1111,8 @@
       S.a[d.rm].splice(+d.i, 1);
       // shift memory-only license numbers down so they stay with the right person
       var nf = {}; Object.keys(S.dlFull).forEach(function (k) { var m = k.split(':'); if (m[0] !== d.rm) nf[k] = S.dlFull[k]; else if (+m[1] < +d.i) nf[k] = S.dlFull[k]; else if (+m[1] > +d.i) nf[m[0] + ':' + (+m[1] - 1)] = S.dlFull[k]; });
-      S.dlFull = nf; S.dlShow = {}; S.vin = {}; S.vinLast = {}; return render(false);
+      var nd = {}; Object.keys(S.dobRaw).forEach(function (k) { var m = k.split(':'); if (m[0] !== d.rm || +m[1] < +d.i) nd[k] = S.dobRaw[k]; else if (+m[1] > +d.i) nd[m[0] + ':' + (+m[1] - 1) + ':' + m[2]] = S.dobRaw[k]; });
+      S.dlFull = nf; S.dobRaw = nd; S.dlShow = {}; S.vin = {}; S.vinLast = {}; return render(false);
     }
     if (d.ymmlist) { var yi = S.a[d.ymmlist][+d.i]; yi[d.k + 'Typed'] = false; if (d.k === 'make') { yi.modelTyped = false; yi.model = ''; } yi[d.k] = ''; render(false); return; }
     if (d.parcel) { parcelAnswer(d.parcel); return; }
@@ -1097,7 +1133,7 @@
     }
     if (d.bzclear) { S.a[d.bzclear] = ''; S.a[d.bzclear + '_hard'] = false; render(false); return; }
   }
-  function findSub(fid, k) { var f = findField(fid); return (f.sub || []).filter(function (x) { return x.type === k || x.k === k && x.type; })[0]; }
+  function findSub(fid, k) { var f = findField(fid); return (f.sub || []).filter(function (x) { return x.type === k || x.k === k && (x.type || x.t === 'dob'); })[0]; }
   function findField(id) {
     for (var i = 0; i < CFG.screens.length; i++) { var fs = CFG.screens[i].fields || []; for (var j = 0; j < fs.length; j++) if (fs[j].id === id) return fs[j]; }
     return { id: id, type: 'text' };
@@ -1128,6 +1164,13 @@
       if (d.cv != null) { var ci = arr[+d.i], ca = Array.isArray(ci[d.k]) ? ci[d.k] : []; ca = ca.filter(function (x) { return x !== d.cv; }); if (t.checked) ca.push(d.cv); ci[d.k] = ca; return; }
       if (d.myns) { var mo = arr[+d.i]; mo.motors = Array.isArray(mo.motors) ? mo.motors : []; mo.motors[+d.m] = mo.motors[+d.m] || {}; mo.motors[+d.m].year = t.checked ? 'Not sure' : ''; clrErr(); render(false); var mb = root.querySelector('[data-myns][data-rep="' + d.rep + '"][data-i="' + d.i + '"][data-m="' + d.m + '"]'); if (mb) mb.focus(); return; }
       if (d.mk) { var mi = arr[+d.i]; mi.motors = Array.isArray(mi.motors) ? mi.motors : []; mi.motors[+d.m] = mi.motors[+d.m] || {}; mi.motors[+d.m][d.mk] = t.value; clrErr(); return; }
+      if (d.dob) {
+        var dkey = d.rep + ':' + d.i + ':' + d.k, dsf = findSub(d.rep, d.k) || {}, atEnd = t.selectionStart === t.value.length, df = dobFormat(t.value);
+        if (df !== t.value) { var dpos = t.selectionStart; t.value = df; try { var np = atEnd ? df.length : Math.min(dpos, df.length); t.setSelectionRange(np, np); } catch (er) {} }
+        S.dobRaw[dkey] = df; var dc = dobCheck(df, dsf.age); arr[+d.i][d.k] = dc.iso;
+        var de1 = root.querySelector('[data-doberr="' + dkey + '"]'); if (de1) de1.textContent = dc.full && dc.err ? dc.err : '';
+        clrErr(); return;
+      }
       if (d.hin) { var uh = t.value.toUpperCase().replace(/[^A-Z0-9]/g, ''); if (uh !== t.value) t.value = uh; arr[+d.i][d.k] = uh; return hinCheck(d.rep, +d.i, uh); }
       if (d.vin) { var up = t.value.toUpperCase().replace(/[^A-Z0-9]/g, ''); if (up !== t.value) t.value = up; }
       var itm = arr[+d.i], changed = d.vin && itm.vin !== t.value;
@@ -1340,7 +1383,7 @@
     CFG = cfg; oneQ = !!cfg.oneQ;
     if (oneQ) CFG.screens = splitOneQ(cfg.screens);
     SAVE_KEY = 'chq_save_' + cfg.variant; CLIENT_KEY = 'chq_client_id_' + cfg.variant; TOKEN_KEY = 'chq_session_token_' + cfg.variant;
-    S = { a: {}, cur: null, visited: [], ref: null, vin: {}, vinLast: {}, dlFull: {}, dlShow: {}, secret: {}, acRes: {} };
+    S = { a: {}, cur: null, visited: [], ref: null, vin: {}, vinLast: {}, dlFull: {}, dlShow: {}, secret: {}, acRes: {}, dobRaw: {} };
     if (cfg.init) cfg.init(S.a);
     if (!Array.isArray(S.a.contactPref)) S.a.contactPref = ['email']; // email is the default method
     root = document.getElementById('app');

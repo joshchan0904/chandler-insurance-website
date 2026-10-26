@@ -93,7 +93,7 @@ window.BIZ_SECTION = function (o) {
     out.push({ id: 'biz7', step: 'Business', title: 'Business drivers', show: sh(function (a) { return a.bizHasVehicles === 'yes'; }),
       fields: [{ id: 'bizDrivers', type: 'repeater', label: 'Drivers', q: 'Who drives the business vehicles?', hideLabel: true, itemLabel: 'Driver', addLabel: '+ Add another driver',
         seed: function (a) { return { name: [QF.cleanStr(a.firstName), QF.cleanStr(a.lastName)].filter(Boolean).join(' ') }; },
-        sub: [{ k: 'name', l: 'Name' }, { k: 'dob', l: 'Date of birth (optional)', t: 'date' }, { k: 'dl', type: 'dl' },
+        sub: [{ k: 'name', l: 'Name' }, { k: 'dob', l: 'Date of birth (optional)', t: 'dob', age: [14, 110] }, { k: 'dl', type: 'dl' },
           { k: 'cdl', l: 'Years with a CDL (if any)', type: 'select', opts: ['No CDL', 'Under 1 year', '1–3 years', '3+ years'] },
           { k: 'pct', l: 'How much do they drive?', type: 'select', opts: ['Most of the time', 'Some of the time', 'Rarely'] },
           { k: 'violations', l: 'Tickets or accidents in 3 years', type: 'select', opts: ['None', '1', '2 or more'] }] }] });

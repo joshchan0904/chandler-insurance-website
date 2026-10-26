@@ -99,7 +99,7 @@
       show: personalReal,
       fields: [{ id: 'people', type: 'repeater', label: 'People', q: 'Who else should be on the policy?', hideLabel: true, itemLabel: 'Person', addLabel: '+ Add a spouse, driver or co-owner',
         seed: function (a) { return { name: [QF.cleanStr(a.firstName), QF.cleanStr(a.lastName)].filter(Boolean).join(' '), rel: 'Me' }; },
-        sub: [{ k: 'name', l: 'Name' }, { k: 'rel', l: 'Relationship', type: 'select', opts: REL }, { k: 'dob', l: 'Date of birth (optional)', t: 'date' }] }] },
+        sub: [{ k: 'name', l: 'Name' }, { k: 'rel', l: 'Relationship', type: 'select', opts: REL }, { k: 'dob', l: 'Date of birth (optional)', t: 'dob', age: [0, 110] }] }] },
 
     // ================= KEY DETAILS (rate drivers, asked before the A checkpoint) =================
     { id: 'homeKey', step: 'Key details', encourage: true, title: 'Your home: roof, siding and wiring', reviewTitle: 'Roof, siding and wiring', sub: ENCOURAGE, skippable: false, show: on('home'),
@@ -130,7 +130,7 @@
             d.fromPeople = true;
           });
         },
-        sub: [{ k: 'name', l: 'Name' }, { k: 'rel', l: 'Relationship', type: 'select', opts: ['Me', 'Spouse / partner', 'Child', 'Other driver', 'Other household member'] }, { k: 'dob', l: 'Date of birth (optional)', t: 'date' }, { k: 'occupation', l: 'Occupation (optional)', ph: 'e.g. Teacher' }, { k: 'dl', type: 'dl' }] }] },
+        sub: [{ k: 'name', l: 'Name' }, { k: 'rel', l: 'Relationship', type: 'select', opts: ['Me', 'Spouse / partner', 'Child', 'Other driver', 'Other household member'] }, { k: 'dob', l: 'Date of birth (optional)', t: 'dob', age: [14, 110] }, { k: 'occupation', l: 'Occupation (optional)', ph: 'e.g. Teacher' }, { k: 'dl', type: 'dl' }] }] },
     { id: 'auto2', step: 'Key details', encourage: true, title: 'Your vehicles', sub: ENCOURAGE, skippable: false, show: on('auto'),
       fields: [{ id: 'vehicles', type: 'repeater', label: 'Vehicles', q: 'What do you drive?', hideLabel: true, itemLabel: 'Vehicle', addLabel: '+ Add another vehicle',
         hint: 'Have the VIN? Enter or paste it and we\'ll fill in the rest. No VIN? Pick year, then make, then model.',
