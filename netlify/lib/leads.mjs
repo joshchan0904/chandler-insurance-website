@@ -14,7 +14,8 @@ export const BACKUP_FORM = 'qf-lead-backup';
 export const LINK_DAYS = 30;
 export const leads = () => getStore({ name: LEADS, consistency: 'strong' });
 export const files = () => getStore({ name: FILES, consistency: 'strong' });
-export const siteUrl = () => (process.env.URL || 'https://chandlerinsurancemn.com').replace(/\/$/, '');
+// Pinned to the production apex (process.env.URL could be a www/branch host, and the www->apex 301 would break the backup form POST).
+export const siteUrl = () => 'https://chandlerinsurancemn.com';
 export const json = (body, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json', 'cache-control': 'no-store', 'x-robots-tag': 'noindex' } });
 // Automated test harness: browser UA contains "QFHarness" (or the page sets noSend). Such records are stored but never emailed.

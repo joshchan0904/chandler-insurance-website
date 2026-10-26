@@ -13,7 +13,7 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { getStore } from '@netlify/blobs';
 
-const UA = 'ChandlerQuoteFlowPreview/1.1 (+https://chandlerinsurancemn.com)';
+const UA = 'ChandlerInsuranceQuote/1.1 (+https://chandlerinsurancemn.com)';
 const ATTRIB = 'Suggestions: MN address points (MnGeo/counties), US Census, © OpenStreetMap contributors.';
 const DIR = { N: 'North', S: 'South', E: 'East', W: 'West', NE: 'Northeast', NW: 'Northwest', SE: 'Southeast', SW: 'Southwest' };
 const SUF = { ST: 'Street', AVE: 'Avenue', AV: 'Avenue', RD: 'Road', DR: 'Drive', LN: 'Lane', CT: 'Court', BLVD: 'Boulevard', TRL: 'Trail', HWY: 'Highway', PL: 'Place', CIR: 'Circle', PKWY: 'Parkway', TER: 'Terrace', WAY: 'Way', CO: 'County' };
