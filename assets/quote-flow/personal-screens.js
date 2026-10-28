@@ -61,9 +61,9 @@
     return out;
   }
   // copy name/rel/DOB and the license summary (never the full number – that is copied in memory only, see dlSrc in flow-common)
-  function recOpFrom(p, d) {
+  function recOpFrom(p, d, other) {
     d.name = d.name || p.name;
-    d.rel = d.rel || (p.rel === 'Other driver' ? 'Other operator' : p.rel) || '';
+    d.rel = d.rel || (p.rel === 'Other driver' ? (other || 'Other operator') : p.rel) || '';
     if (!d.dob && p.dob) d.dob = p.dob;
     // license follows the auto driver until the person edits it here (editing the number or the "agent will ask" chip clears dlSrc)
     var src = p._src != null ? 'drivers:' + p._src : '';
@@ -472,6 +472,28 @@
         { id: 'umbExtra', type: 'multi', label: 'Anything extra it should cover?', q: 'Anything extra it should cover?', opts: [{ v: 'rental', l: 'Rental property' }, { v: 'boats', l: 'Boats / rec' }, { v: 'teen', l: 'Young drivers' }, { v: 'pool', l: 'Pool, trampoline or dog' }, { v: 'board', l: 'Volunteer / board work' }, { v: 'none', l: 'Nothing extra' }], exclusive: ['none'] },
         { id: 'umbCarrier', type: 'text', label: 'Current umbrella company', q: 'Do you have an umbrella now? With who?', ph: 'e.g. none, or carrier name' }
       ] },
+
+    // 2026-10-28 (Josh): household drivers for the umbrella – same pattern as auto1 / recOps (prefill from auto drivers, then household).
+    { id: 'umbDrv', step: 'Umbrella', title: 'Who drives in your household?', reviewTitle: 'Umbrella – household drivers', show: on('umbrella'),
+      sub: 'Umbrella carriers look at every licensed driver at home. Date of birth matters most; the license number is optional.',
+      fields: [{ id: 'umbDrivers', type: 'repeater', label: 'Household drivers', q: 'Who drives in your household?', hideLabel: true, itemLabel: 'Driver', addLabel: '+ Add another driver', unsureLabel: 'Skip – my agent can help',
+        seed: function (a) {
+          var ppl = recOpPeople(a);
+          if (!ppl.length) return { name: [QF.cleanStr(a.firstName), QF.cleanStr(a.lastName)].filter(Boolean).join(' '), rel: 'Me' };
+          return ppl.map(function (p) { return recOpFrom(p, {}, 'Other driver'); });
+        },
+        carryNote: 'Filled in from your drivers and household. Edit anything that\'s off, or remove anyone who doesn\'t drive.',
+        sync: function (a, items) {
+          var ppl = recOpPeople(a), sig = JSON.stringify(ppl.map(function (p) { return [p.name, p.rel, p.dob, !!p.dlProvided, p.dlState || '', p.dlLast2 || '', !!p.dlAgent]; }));
+          if (sig === a._umbSig) return; a._umbSig = sig;
+          ppl.forEach(function (p) {
+            var n = QF.cleanStr(p.name).toLowerCase(), d = items.filter(function (x) { return x && QF.cleanStr(x.name).toLowerCase() === n; })[0];
+            if (!d) { var blank = items.filter(function (x) { return x && !QF.cleanStr(x.name); })[0]; if (blank) { blank.name = p.name; d = blank; } else { d = { name: p.name }; items.push(d); } }
+            recOpFrom(p, d, 'Other driver');
+          });
+        },
+        sub: [{ k: 'name', l: 'Name' }, { k: 'rel', l: 'Relationship', type: 'select', opts: ['Me', 'Spouse / partner', 'Child', 'Other driver', 'Other household member'] },
+          { k: 'dob', l: 'Date of birth (optional)', t: 'dob', age: [14, 110] }, { k: 'dl', type: 'dl' }] }] },
 
     // ================= LIFE =================
     { id: 'life1', step: 'Life', title: 'Life insurance', show: on('life'),

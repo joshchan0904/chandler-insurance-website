@@ -851,7 +851,7 @@
     };
   }
   // repeaters that carry a driver's license subfield (drivers, bizDrivers, recOperators, ...)
-  function dlRepKeys(obj) { var ks = ['drivers', 'bizDrivers', 'recOperators']; Object.keys(obj).forEach(function (k) { var rf = findField(k); if (rf && rf.type === 'repeater' && (rf.sub || []).some(function (x) { return x.type === 'dl'; }) && ks.indexOf(k) < 0) ks.push(k); }); return ks; }
+  function dlRepKeys(obj) { var ks = ['drivers', 'bizDrivers', 'recOperators', 'umbDrivers']; Object.keys(obj).forEach(function (k) { var rf = findField(k); if (rf && rf.type === 'repeater' && (rf.sub || []).some(function (x) { return x.type === 'dl'; }) && ks.indexOf(k) < 0) ks.push(k); }); return ks; }
   // Only {dlProvided, dlState, dlLast2} ever leave the page; the full license number never does.
   function safeDriver(d) {
     d = d || {};
