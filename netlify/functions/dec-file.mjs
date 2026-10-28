@@ -1,5 +1,6 @@
 // Round 11 – private download of an uploaded dec page. Needs the random id AND the secret t from the lead email.
-// Works for 30 days after upload. Streams the file (never logged). noindex, no-store.
+// Works for 30 days after upload. Files are deleted 90 days after upload (data-retention.mjs); a well-formed link whose
+// file is gone gets a friendly 'no longer available' page (410). Streams the file (never logged). noindex, no-store.
 import { createHash } from 'node:crypto';
 import { files } from '../lib/leads.mjs';
 const hash = (t) => createHash('sha256').update('chq-dec:' + t).digest('hex');
@@ -9,8 +10,9 @@ export default async (req) => {
   if (!/^[a-f0-9]{32}$/.test(id) || !/^[a-f0-9]{32}$/.test(t)) return deny('This link is not valid.', 404);
   const store = files();
   const m = await store.get(`${id}/meta`, { type: 'json' }).catch(() => null);
-  if (!m || m.tokenHash !== hash(t)) return deny('This link is not valid.', 404);
-  if (Date.parse(m.expiresAt) < Date.now()) return deny('This link has expired (links work for 30 days). Ask the customer to send the file again.', 410);
+  if (!m) return deny('This file is no longer available. Links work for 30 days, and uploaded files are deleted automatically 90 days after upload. Ask the customer to send the file again.', 410);
+  if (m.tokenHash !== hash(t)) return deny('This link is not valid.', 404);
+  if (Date.parse(m.expiresAt) < Date.now()) return deny('This link has expired (links work for 30 days, and files are deleted 90 days after upload). Ask the customer to send the file again.', 410);
   if (!m.done) return deny('This file did not finish uploading. Ask the customer to send it again.', 409);
   let i = 0;
   const stream = new ReadableStream({

@@ -40,7 +40,7 @@ export default async (req) => {
     const id = randomBytes(16).toString('hex'), t = randomBytes(16).toString('hex');
     const now = Date.now();
     const meta = { type: real, ext: TYPES[real], size, chunks: nChunks, got: 1, tokenHash: hash(t), createdAt: new Date(now).toISOString(), expiresAt: new Date(now + LINK_DAYS * 864e5).toISOString(), harness: isHarness(req) };
-    await store.set(`${id}/0`, buf);
+    await store.set(`${id}/0`, buf, { metadata: { createdAt: meta.createdAt } }); // upload time on every part too (retention)
     await store.setJSON(`${id}/meta`, { ...meta, done: nChunks === 1 });
     return json({ ok: true, id, t, done: nChunks === 1, type: real, kb: Math.max(1, Math.round(size / 1024)) });
   }
@@ -48,7 +48,7 @@ export default async (req) => {
   if (!/^[a-f0-9]{32}$/.test(id) || !/^[a-f0-9]{32}$/.test(t)) return json({ ok: false, error: 'bad id' }, 400);
   const m = await store.get(`${id}/meta`, { type: 'json' }).catch(() => null);
   if (!m || m.tokenHash !== hash(t) || m.size !== size || m.got !== idx) return json({ ok: false, error: 'out of order' }, 409);
-  await store.set(`${id}/${idx}`, buf);
+  await store.set(`${id}/${idx}`, buf, { metadata: { createdAt: m.createdAt } });
   const upd = { ...m, got: idx + 1, done: idx + 1 === m.chunks };
   await store.setJSON(`${id}/meta`, upd);
   return json({ ok: true, id, t, done: upd.done, type: m.type, kb: Math.max(1, Math.round(size / 1024)) });

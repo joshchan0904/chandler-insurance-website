@@ -65,7 +65,7 @@
     // only when they want a call or text
     { id: 'bestTime', type: 'tiles', label: 'Best time to reach you (optional)', cols2: true, unsure: false, fu: false, opts: [{ v: 'morning', l: 'Morning' }, { v: 'afternoon', l: 'Afternoon' }, { v: 'evening', l: 'After 5' }, { v: 'any', l: 'Anytime' }],
       show: function (a) { var c = Array.isArray(a.contactPref) ? a.contactPref : []; return c.indexOf('call') > -1 || c.indexOf('text') > -1; } },
-    { id: 'contactConsent', type: 'info', cls: 'consent', html: 'We use this to work on your quote and get back to you. Once you continue, your answers are sent to our office as you go, even if you don&rsquo;t finish, so we can follow up. Chandler never sells your data or shares it with advertisers. No spam, no robocalls.' }
+    { id: 'contactConsent', type: 'info', cls: 'consent', html: 'We use this to work on your quote and get back to you. Once you continue, your answers are sent to our office as you go, even if you don&rsquo;t finish, so we can follow up. Chandler never sells your data or shares it with advertisers. No spam.' }
   ];
   // Which contact fields are required, from the chosen method(s). Nothing chosen = the base rule (phone OR email).
   function contactNeeds(a) {
