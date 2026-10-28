@@ -251,7 +251,11 @@
   // ---------- driver's license (PREVIEW DATA RULE: full number lives only in the input / memory; never saved or sent) ----------
   var STATES = 'AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY'.split(' ');
   function renderDL(f, it, i) {
-    var key = f.id + ':' + i, agent = !!it.dlAgent, shown = !!S.dlShow[key], full = S.dlFull[key] || '';
+    var key = f.id + ':' + i;
+    // rec operators prefilled from an auto driver (2026-10-28): copy that driver's number in MEMORY only, and only while it
+    // still matches the copied last 2 (dlSrc is cleared as soon as the person edits the license here)
+    if (it.dlSrc && it.dlSrc !== key) { var srcN = S.dlFull[it.dlSrc] || ''; S.dlFull[key] = it.dlProvided && !it.dlAgent && srcN && srcN.slice(-2).toUpperCase() === String(it.dlLast2 || '').toUpperCase() ? srcN : ''; }
+    var agent = !!it.dlAgent, shown = !!S.dlShow[key], full = S.dlFull[key] || '';
     var st = it.dlState || 'MN';
     return '<div class="f dl"><label class="lbl" for="dl_' + f.id + '_' + i + '">Driver\'s license number <span class="hint" style="font-weight:400">(optional)</span></label>' +
       '<div class="dl-row"><div class="pw"><input id="dl_' + f.id + '_' + i + '" type="' + (shown ? 'text' : 'password') + '" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" data-dl="' + f.id + '" data-i="' + i + '" value="' + (agent ? '' : esc(full)) + '"' + (agent ? ' disabled' : '') + ' placeholder="Optional">' +
@@ -629,7 +633,7 @@
       if (!s.fields || S.visited.indexOf(s.id) < 0) return;
       s.fields.forEach(function (f) {
         if (f.type !== 'repeater' || !fieldVisible(f) || !f.sub.some(function (x) { return x.type === 'dl'; }) || !Array.isArray(S.a[f.id])) return;
-        S.a[f.id].forEach(function (d, i) { var lab = 'Driver\'s license – ' + (cleanStr(d && d.name) || 'driver ' + (i + 1)); if (d && (!d.dlProvided || d.dlAgent) && out.indexOf(lab) < 0) out.push(lab); });
+        S.a[f.id].forEach(function (d, i) { var lab = 'Driver\'s license – ' + (cleanStr(d && d.name) || String(f.itemLabel || 'driver').toLowerCase() + ' ' + (i + 1)); if (d && (!d.dlProvided || d.dlAgent) && out.indexOf(lab) < 0) out.push(lab); });
       });
     });
     if (S.a.decUpload !== 'provided' && S.visited.some(function (id) { return /upload|checkpoint/i.test(id); })) out.push('Current policy / dec page (not uploaded)');
@@ -778,7 +782,7 @@
     var now = new Date(), yrs = now.getFullYear() - y - ((now.getMonth() < mo - 1 || (now.getMonth() === mo - 1 && now.getDate() < d)) ? 1 : 0);
     var lo = age ? age[0] : 0, hi = age ? age[1] : 110;
     if (dt > now) return { iso: '', full: true, err: 'That date is in the future – please check the year.' };
-    if (yrs < lo || yrs > hi) return { iso: '', full: true, err: (lo >= 14 ? 'Drivers need to be ' + lo + ' to ' + hi + ' years old' : 'That would make them over ' + hi) + ' – please check the year.' };
+    if (yrs < lo || yrs > hi) return { iso: '', full: true, err: (lo >= 14 ? (age[2] || 'Drivers') + ' need to be ' + lo + ' to ' + hi + ' years old' : 'That would make them over ' + hi) + ' – please check the year.' };
     return { iso: m[3] + '-' + m[1] + '-' + m[2], full: true, err: '' };
   }
   function dobSlots(cur, cb) { // cb(label, key, sub, item) for every typed-DOB slot visible on this screen
@@ -832,7 +836,7 @@
       if (Array.isArray(v) && f.type === 'multi' && typeof f.opts === 'function') { var ok = f.opts(S.a).map(function (o) { return o.v; }); v = v.filter(function (x) { return ok.indexOf(x) > -1 || x === UNSURE; }); }
       answers[k] = v === UNSURE ? 'not sure' : v;
     });
-    ['drivers', 'bizDrivers'].forEach(function (k) { if (Array.isArray(answers[k])) answers[k] = answers[k].map(safeDriver); });
+    dlRepKeys(answers).forEach(function (k) { if (Array.isArray(answers[k])) answers[k] = answers[k].map(safeDriver); });
     Object.keys(answers).forEach(function (k) { var rf = findField(k); if (rf.type !== 'repeater' || !Array.isArray(answers[k])) return;
       var conds = (rf.sub || []).filter(function (x) { return x.when && x.k; });
       if (conds.length) answers[k] = answers[k].map(function (it) { if (!it) return it; var o = Object.assign({}, it); conds.forEach(function (x) { if (x.when.indexOf(o[x.whenKey || 'type']) < 0) delete o[x.k]; }); return o; }); });
@@ -846,6 +850,8 @@
       followUp: stage === 'complete' ? (S.lastFollowUps || followUps()) : [], sentEarly: stage === 'complete' && !!S.sentEarly, answers: answers
     };
   }
+  // repeaters that carry a driver's license subfield (drivers, bizDrivers, recOperators, ...)
+  function dlRepKeys(obj) { var ks = ['drivers', 'bizDrivers', 'recOperators']; Object.keys(obj).forEach(function (k) { var rf = findField(k); if (rf && rf.type === 'repeater' && (rf.sub || []).some(function (x) { return x.type === 'dl'; }) && ks.indexOf(k) < 0) ks.push(k); }); return ks; }
   // Only {dlProvided, dlState, dlLast2} ever leave the page; the full license number never does.
   function safeDriver(d) {
     d = d || {};
@@ -1021,7 +1027,7 @@
   }
   function saveLater() {
     var saveA = Object.assign({}, S.a); // never persist license or EIN data on the device
-    ['drivers', 'bizDrivers'].forEach(function (k) { if (Array.isArray(saveA[k])) saveA[k] = saveA[k].map(function (d) { var o = {}; Object.keys(d || {}).forEach(function (x) { if (!/^dl(Last2|Provided|State)$/.test(x)) o[x] = d[x]; }); return o; }); });
+    dlRepKeys(saveA).forEach(function (k) { if (Array.isArray(saveA[k])) saveA[k] = saveA[k].map(function (d) { var o = {}; Object.keys(d || {}).forEach(function (x) { if (!/^dl(Last2|Provided|State|Src)$/.test(x)) o[x] = d[x]; }); return o; }); });
     Object.keys(saveA).forEach(function (k) { if (/_(last2|provided)$/.test(k)) delete saveA[k]; });
     lsSet(SAVE_KEY, { a: saveA, cur: S.cur, visited: S.visited, ref: S.ref, partialSig: S.partialSig, savedAt: Date.now() });
     toast('Saved on this device. Come back to this page and tap "Continue previous quote" on the first screen to pick up here.');
@@ -1100,7 +1106,7 @@
     if (d.act === 'chprod') { S.returnTo = S.cur; return go('products'); }
     if (d.dlagent) {
       var dv = S.a[d.dlagent][+d.i] || (S.a[d.dlagent][+d.i] = {});
-      dv.dlAgent = !dv.dlAgent;
+      dv.dlAgent = !dv.dlAgent; delete dv.dlSrc;
       if (dv.dlAgent) { S.dlFull[d.dlagent + ':' + d.i] = ''; dv.dlProvided = false; dv.dlLast2 = ''; }
       return render(false);
     }
@@ -1175,6 +1181,7 @@
       if (d.vin) { var up = t.value.toUpperCase().replace(/[^A-Z0-9]/g, ''); if (up !== t.value) t.value = up; }
       var itm = arr[+d.i], changed = d.vin && itm.vin !== t.value;
       itm[d.k] = t.value; clrErr();
+      if (d.k === 'dlState') delete itm.dlSrc;
       if (t.tagName === 'SELECT') { var rf0 = findField(d.rep); if (rf0 && rf0.sub.some(function (x) { return x.when && (x.whenKey || 'type') === d.k; })) { render(false); var nf3 = root.querySelector('[data-rep="' + d.rep + '"][data-i="' + d.i + '"][data-k="' + d.k + '"]'); if (nf3) nf3.focus(); return; } }
       if (d.ymm || (t.tagName === 'SELECT' && d.k === 'year' && Array.isArray(arr) && findSub(d.rep, 'make'))) {
         if (t.value === '__type__') { itm[d.k] = ''; itm[d.k + 'Typed'] = true; if (d.k === 'make') { itm.model = ''; itm.modelTyped = true; } }
@@ -1196,6 +1203,7 @@
       var drv = S.a[d.dl][+d.i] || (S.a[d.dl][+d.i] = {});
       var raw = t.value.replace(/\s/g, '');
       S.dlFull[d.dl + ':' + d.i] = raw;            // memory only
+      delete drv.dlSrc;
       drv.dlProvided = raw.length > 0;
       drv.dlLast2 = raw.length >= 2 ? raw.slice(-2).toUpperCase() : '';
       drv.dlState = drv.dlState || 'MN';

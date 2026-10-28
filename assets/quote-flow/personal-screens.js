@@ -51,6 +51,28 @@
       return false;
     });
   }
+  // rec operators (2026-10-28): auto drivers first (when Auto is picked), then eligible household people not already listed
+  function recOpPeople(a) {
+    var out = [], seen = {};
+    var drv = has(a, 'auto') && Array.isArray(a.drivers) ? a.drivers.map(function (d, i) { return d && Object.assign({}, d, { _src: i }); }) : [];
+    drv.concat(driverPeople(a)).forEach(function (p) {
+      var n = p && QF.cleanStr(p.name).toLowerCase(); if (!n || seen[n]) return; seen[n] = 1; out.push(p);
+    });
+    return out;
+  }
+  // copy name/rel/DOB and the license summary (never the full number – that is copied in memory only, see dlSrc in flow-common)
+  function recOpFrom(p, d) {
+    d.name = d.name || p.name;
+    d.rel = d.rel || (p.rel === 'Other driver' ? 'Other operator' : p.rel) || '';
+    if (!d.dob && p.dob) d.dob = p.dob;
+    // license follows the auto driver until the person edits it here (editing the number or the "agent will ask" chip clears dlSrc)
+    var src = p._src != null ? 'drivers:' + p._src : '';
+    if (src && (d.dlSrc || (!d.dlProvided && !d.dlAgent && (p.dlProvided || p.dlAgent)))) {
+      d.dlProvided = !!p.dlProvided; d.dlState = p.dlState || 'MN'; d.dlLast2 = p.dlLast2 || ''; d.dlAgent = !!p.dlAgent; d.dlSrc = src;
+    }
+    d.fromPeople = true;
+    return d;
+  }
   var DOCK = [{ v: 'dock', l: 'Dock' }, { v: 'boathouse', l: 'Boathouse' }, { v: 'lift', l: 'Boat lift' }, { v: 'none', l: 'None' }];
   var FIRE = [{ v: 'u5', l: 'Under 5 miles' }, { v: '5to10', l: '5–10 miles' }, { v: 'o10', l: 'More than 10 miles' }];
   var DED = [{ v: '500', l: '$500' }, { v: '1000', l: '$1,000' }, { v: '2500', l: '$2,500', s: 'Common choice', common: true }, { v: '5000', l: '$5,000' }];
@@ -409,6 +431,30 @@
           { k: 'rental', l: 'Rental reimbursement while traveling', type: 'select', noUnsure: true, rv: 'Rental', opts: ['Yes', 'No'], when: RVT },
           { k: 'awning', l: 'Awning / slide-out / leveling coverage', type: 'select', noUnsure: true, rv: 'Awning', opts: ['Yes', 'No'], when: RVT },
           { k: 'fulltimer', l: 'Full-timer coverage', type: 'select', noUnsure: true, rv: 'Full-timer', opts: ['Yes', 'No'], when: RVT }] }] },
+    // 2026-10-28 (Josh): who operates the rec vehicles / boats – modeled on auto1 "Who drives?". Prefilled from auto drivers
+    // (if Auto is also picked) and household people; DL uses the same 'dl' subfield (only dlProvided/dlState/dlLast2 leave the page).
+    { id: 'recOps', step: 'Boat & rec', title: 'Who operates them?', reviewTitle: 'Boat & rec – operators',
+      sub: 'Anyone who drives the rec vehicles or boats. Date of birth matters most; the license number is optional.',
+      show: on('rec'),
+      fields: [{ id: 'recOperators', type: 'repeater', label: 'Operators', q: 'Who operates them?', hideLabel: true, itemLabel: 'Operator', addLabel: '+ Add another operator', unsureLabel: 'Skip – my agent can help',
+        seed: function (a) {
+          var ppl = recOpPeople(a);
+          if (!ppl.length) return { name: [QF.cleanStr(a.firstName), QF.cleanStr(a.lastName)].filter(Boolean).join(' '), rel: 'Me' };
+          return ppl.map(function (p) { return recOpFrom(p, {}); });
+        },
+        carryNote: 'Filled in from your drivers and household. Edit anything that\'s off, or remove anyone who doesn\'t operate them.',
+        sync: function (a, items) {
+          // same rule as auto drivers: add people/drivers entered (or changed) earlier; fill blanks; never undo the person's own edits
+          var ppl = recOpPeople(a), sig = JSON.stringify(ppl.map(function (p) { return [p.name, p.rel, p.dob, !!p.dlProvided, p.dlState || '', p.dlLast2 || '', !!p.dlAgent]; }));
+          if (sig === a._opSig) return; a._opSig = sig;
+          ppl.forEach(function (p) {
+            var n = QF.cleanStr(p.name).toLowerCase(), d = items.filter(function (x) { return x && QF.cleanStr(x.name).toLowerCase() === n; })[0];
+            if (!d) { var blank = items.filter(function (x) { return x && !QF.cleanStr(x.name); })[0]; if (blank) { blank.name = p.name; d = blank; } else { d = { name: p.name }; items.push(d); } }
+            recOpFrom(p, d);
+          });
+        },
+        sub: [{ k: 'name', l: 'Name' }, { k: 'rel', l: 'Relationship', type: 'select', opts: ['Me', 'Spouse / partner', 'Child', 'Other operator', 'Other household member'] },
+          { k: 'dob', l: 'Date of birth (optional)', t: 'dob', age: [14, 110, 'Operators'] }, { k: 'dl', type: 'dl' }] }] },
     { id: 'recMore', step: 'Boat & rec', title: 'Boat & rec: a few last questions', reviewTitle: 'Boat & rec – history', show: on('rec'),
       fields: [
         sel('recAntiTheft', 'Anti-theft devices', 'Any anti-theft devices?', ['None', 'Alarm system', 'GPS tracker', 'Wheel lock / chain', 'Multiple security features']),
