@@ -265,7 +265,7 @@
         <div id="qchat-embed" data-qtype="Home &amp; Cabin"></div>
         <form name="home-quote" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="form-card p-8 md:p-10" onsubmit="return requireEmailOrPhone(this)" data-classic>
             <input type="hidden" name="form-name" value="home-quote">
-            <p class="hidden"><label>Don’t fill this out if you’re human: <input name="bot-field"></label></p>
+            <div class="hp-trap" aria-hidden="true" style="position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden;"><label for="hp-home-quote">Leave this empty</label><input type="text" id="hp-home-quote" name="bot-field" tabindex="-1" autocomplete="off"></div>
             
             <!-- Your Information -->
             <div class="mb-8">
@@ -1303,7 +1303,7 @@
     </script>
 
 <form name="chat-quote" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data" hidden>
-<input type="hidden" name="form-name" value="chat-quote"><input name="bot-field"><input type="hidden" name="request_status"><input type="hidden" name="subject"><input type="hidden" name="quote_form"><input type="text" name="full_name"><input type="text" name="email"><input type="text" name="phone"><textarea name="summary"></textarea><input type="file" name="current_policy_declarations"></form>
+<input type="hidden" name="form-name" value="chat-quote"><div class="hp-trap" aria-hidden="true" style="position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden;"><label for="hp-chat-quote">Leave this empty</label><input type="text" id="hp-chat-quote" name="bot-field" tabindex="-1" autocomplete="off"></div><input type="hidden" name="request_status"><input type="hidden" name="subject"><input type="hidden" name="quote_form"><input type="text" name="full_name"><input type="text" name="email"><input type="text" name="phone"><textarea name="summary"></textarea><input type="file" name="current_policy_declarations"></form>
 <script src="/assets/quote-chat/quote-chat-embed.js?v=37" defer></script>
 </body>
 </html>

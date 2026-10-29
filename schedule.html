@@ -318,10 +318,10 @@
             <h3 style="color:#003d82; text-align:center; margin-bottom:1.5rem;">Virginia Office Appointment</h3>
             <p style="text-align:center; color:#555; margin-bottom:1rem; font-size:0.95rem;">Virginia Midway: no walk-ins. Phone service Mon–Thu 8:30 AM–4:00 PM and Fri 8:30 AM–3:00 PM via our Grand Rapids team. In-person appointments Monday &amp; Wednesday only (45-min visits).</p>
             
-            <form id='virginiaAppointmentForm' method='POST' name='appointment' onsubmit='submitAppointment(event, \'Virginia\')'>
+            <form id='virginiaAppointmentForm' method='POST' name='appointment' data-netlify='true' netlify-honeypot='bot-field' onsubmit='submitAppointment(event, \'Virginia\')'>
                 <input type="hidden" name="form-name" value="appointment">
                 <input type="hidden" name="office" value="Virginia">
-                <p style="display:none;"><label>Don’t fill this out if you’re human: <input name="bot-field"></label></p>
+                <div class="hp-trap" aria-hidden="true" style="position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden;"><label for="hp-appointment-virginia">Leave this empty</label><input type="text" id="hp-appointment-virginia" name="bot-field" tabindex="-1" autocomplete="off"></div>
                 <!-- Contact Info - 2 columns on wider screens -->
                 <div class="form-grid">
                     <div class="form-group">
@@ -387,10 +387,10 @@
             <h3 style="color:#003d82; text-align:center; margin-bottom:1.5rem;">Grand Rapids Office Appointment</h3>
             <p style="text-align:center; color:#555; margin-bottom:1rem; font-size:0.95rem;">Mon–Thu 8:30 AM – 4:00 PM • Friday 8:30 AM – 3:00 PM (45-min appointments)</p>
             
-            <form id='grandrapidsAppointmentForm' method='POST' name='appointment' onsubmit='submitAppointment(event, \'Grand Rapids\')'>
+            <form id='grandrapidsAppointmentForm' method='POST' name='appointment' data-netlify='true' netlify-honeypot='bot-field' onsubmit='submitAppointment(event, \'Grand Rapids\')'>
                 <input type="hidden" name="form-name" value="appointment">
                 <input type="hidden" name="office" value="Grand Rapids">
-                <p style="display:none;"><label>Don’t fill this out if you’re human: <input name="bot-field"></label></p>
+                <div class="hp-trap" aria-hidden="true" style="position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden;"><label for="hp-appointment-grandrapids">Leave this empty</label><input type="text" id="hp-appointment-grandrapids" name="bot-field" tabindex="-1" autocomplete="off"></div>
                 <!-- Contact Info - 2 columns on wider screens -->
                 <div class="form-grid">
                     <div class="form-group">

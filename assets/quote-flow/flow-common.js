@@ -10,6 +10,10 @@
   var UNSURE = '__unsure__';
   var LEAD_URL = '/api/lead', UPLOAD_URL = '/api/dec-upload';
   var NOSEND = (function () { try { return /QFHarness/i.test(navigator.userAgent) || localStorage.getItem('qfNoSend') === '1'; } catch (e) { return false; } })();
+  // Honeypot: an off-screen "Leave this empty" field on the contact screen. People never see or reach it; bots that fill
+  // every input do. Its value rides along as top-level `hp` in every /api/lead payload (the server silently drops filled ones).
+  var HP_HTML = '<div class="hp-trap" aria-hidden="true" style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden"><label for="qf-hp-bot-field">Leave this empty</label><input type="text" id="qf-hp-bot-field" name="bot-field" data-hp="1" tabindex="-1" autocomplete="off" value=""></div>';
+  function hpVal() { var el = root && root.querySelector('[data-hp]'); if (el) S.hp = String(el.value || ''); return S && S.hp ? S.hp : ''; }
   var DEC_MAX = 10 * 1024 * 1024, DEC_CHUNK = 2 * 1024 * 1024, FORM_FILE_MAX = 7.5 * 1024 * 1024;
   var PHONE = '(218) 326-4655', TEL = 'tel:2183264655';
 
@@ -563,6 +567,7 @@
     var html = (isConfirm ? '' : stepsHtml(vis, cur)) + '<div class="card">' + top +
       (title ? '<h1 class="q" tabindex="-1">' + esc(title) + '</h1>' : '') + (sub ? '<p class="sub">' + sub + '</p>' : '') + trust +
       '<div class="errbox"></div>' + body;
+    if (cur.kind === 'contact') html += HP_HTML.replace('value=""', 'value="' + esc(S.hp || '') + '"');
     if (!isConfirm) {
       var showSave = idx > (CFG.saveFrom || 1);
       html += '<div class="subnav">' +
@@ -847,7 +852,8 @@
       decFileNote: S.a.decUpload === 'provided' && !S.decRef ? 'File chosen but the secure upload failed – see the attached file if any, or ask for it' : '', ref: S.ref && S.ref !== OFFLINE_REF ? S.ref : null, clientId: clientId(), sessionToken: sessionToken(),
       submittedAt: new Date().toISOString(), products: prods(S.a),
       contact: { firstName: cleanStr(S.a.firstName), lastName: cleanStr(S.a.lastName), email: cleanStr(S.a.email), phone: cleanStr(S.a.phone), contactPref: Array.isArray(S.a.contactPref) ? S.a.contactPref : [], contactAutoSwitched: !!S.a.contactAuto, bestTime: cleanStr(S.a.bestTime) },
-      followUp: stage === 'complete' ? (S.lastFollowUps || followUps()) : [], sentEarly: stage === 'complete' && !!S.sentEarly, answers: answers
+      followUp: stage === 'complete' ? (S.lastFollowUps || followUps()) : [], sentEarly: stage === 'complete' && !!S.sentEarly, answers: answers,
+      hp: hpVal()
     };
   }
   // repeaters that carry a driver's license subfield (drivers, bizDrivers, recOperators, ...)
@@ -859,7 +865,7 @@
     return Object.assign(o, { name: cleanStr(d.name), rel: d.rel || '', dlProvided: !!(d.dlProvided && !d.dlAgent), dlState: d.dlProvided && !d.dlAgent ? (d.dlState || 'MN') : '', dlLast2: d.dlProvided && !d.dlAgent ? String(d.dlLast2 || '').slice(-2) : '', dlAgentWillAsk: !d.dlProvided || !!d.dlAgent });
   }
   function post(stage, extra) {
-    var body = stage === 'doc' ? { stage: 'doc', ref: S.ref, sessionToken: sessionToken(), clientId: clientId(), variant: CFG.variant, noSend: NOSEND } : payload(stage);
+    var body = stage === 'doc' ? { stage: 'doc', ref: S.ref, sessionToken: sessionToken(), clientId: clientId(), variant: CFG.variant, noSend: NOSEND, hp: hpVal() } : payload(stage);
     if (extra) Object.keys(extra).forEach(function (k) { body[k] = extra[k]; });
     S.lastSave = Date.now();
     return fetch(LEAD_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), keepalive: JSON.stringify(body).length < 60000 })
@@ -888,6 +894,7 @@
   // secure upload failed and the file has to ride along as the form's file field, max 8 MB per request).
   function sendFormDirect(withFile) {
     if (NOSEND) return Promise.resolve(false);
+    if (hpVal()) return Promise.resolve(true); // honeypot filled: never post to the form, act as if it went through
     var c = payload('complete'), pn = { home: 'Home', auto: 'Auto', bundle: 'Home + Auto', cabin: 'Cabin', renters: 'Renters', dwelling: 'Rental property', rec: 'Boat / rec', umbrella: 'Umbrella', life: 'Life', business: 'Business', notsure: 'Not sure yet' };
     var name = [c.contact.firstName, c.contact.lastName].filter(Boolean).join(' ') || 'Unknown name';
     var products = c.products.map(function (x) { return pn[x] || x; }).join(', ') || (CFG.variant === 'c' ? 'Business' : 'Not chosen');
@@ -895,7 +902,7 @@
     var f = { 'form-name': 'qf-lead', subject: 'COMPLETE – quote request (' + products + ') – ' + name + ' – ' + ref, status: 'COMPLETE (sent from the browser)' + (S.sentEarly ? ' (sent early with "Send now")' : ''),
       ref: ref, version: CFG.variant.toUpperCase(), products: products, name: name, email: c.contact.email, phone: c.contact.phone, contact_pref: (c.contact.contactPref || []).join(', '), best_time: c.contact.bestTime,
       dec_page_link: S.decRef ? location.origin + '/api/dec-file?id=' + S.decRef.id + '&t=' + S.decRef.t + '  (private link, works for 30 days)' : (S.decFileObj ? 'Attached to this email' : 'No file uploaded'),
-      follow_up: (c.followUp || []).join('; '), summary: c.summary, submitted: new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' }) + ' CT' };
+      follow_up: (c.followUp || []).join('; '), summary: c.summary, submitted: new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' }) + ' CT', 'bot-field': c.hp || '' };
     Object.keys(f).forEach(function (k) { fd.append(k, f[k] == null ? '' : String(f[k])); });
     if (withFile && S.decFileObj && S.decFileObj.size <= FORM_FILE_MAX) fd.append('dec_page', S.decFileObj, 'dec-page.' + extOf(S.decFileObj));
     return fetch('/', { method: 'POST', body: fd }).then(function (r) { return r.ok; }).catch(function () { return false; });
@@ -1146,6 +1153,7 @@
   }
   function onInput(e) {
     var t = e.target, d = t.dataset;
+    if (d.hp) { S.hp = String(t.value || ''); return; }
     if (d.in) {
       S.a[d.in] = t.value;
       if ((d.in === 'email' || d.in === 'phone') && screenById(S.cur).kind === 'contact') {

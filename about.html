@@ -504,9 +504,9 @@
         <div onclick="event.stopImmediatePropagation()" style="background:white; margin:4% auto; padding:2rem 2.5rem; border-radius:20px; max-width:520px; width:94%; max-height:92vh; overflow-y:auto; box-shadow:0 25px 60px rgba(0,61,130,0.35);">
             <span onclick="closeContactModal()" style="float:right; font-size:2rem; cursor:pointer;">&times;</span>
             <h2 style="color:#003d82; margin-bottom:1.5rem;">Get In Touch</h2>
-            <form id='contactForm' method='POST' name='contact' onsubmit='submitContactForm(event)'>
+            <form id='contactForm' method='POST' name='contact' data-netlify='true' netlify-honeypot='bot-field' onsubmit='submitContactForm(event)'>
                 <input type="hidden" name="form-name" value="contact">
-                <p style="display:none;"><label>Don’t fill this out if you’re human: <input name="bot-field"></label></p>
+                <div class="hp-trap" aria-hidden="true" style="position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden;"><label for="hp-contact-about">Leave this empty</label><input type="text" id="hp-contact-about" name="bot-field" tabindex="-1" autocomplete="off"></div>
                 <label for="contact-name" style="display:block; font-weight:600; color:#003d82; margin-bottom:0.35rem;">Your Name</label>
                 <input id="contact-name" type="text" name="name" autocomplete="name" required style="width:100%; padding:14px; margin-bottom:1rem; border:2px solid #ddd; border-radius:8px;">
                 <label for="contact-email" style="display:block; font-weight:600; color:#003d82; margin-bottom:0.35rem;">Your Email</label>

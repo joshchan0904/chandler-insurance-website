@@ -2,6 +2,8 @@
 // never completed) exactly once, and retries COMPLETE leads whose DIRECT email failed (up to 5 tries; also covers leads
 // the browser had to send through Netlify Forms because the secure upload failed). Uses compare-and-swap claims so a
 // lead is never emailed twice. Skips harness/test records and anything created before Round 11 went live.
+// Honeypot: /api/lead never stores a trapped (hp-filled) lead; as a second guard, any record flagged `trapped` or carrying a
+// non-empty `hp` is skipped here too, so a bot submission can never be emailed by the sweep.
 import { leads, deliver } from '../lib/leads.mjs';
 const IDLE_MS = 15 * 60e3;
 const SINCE = Date.parse('2026-10-26T21:45:00Z'); // Round 11b (direct email) cut-over, 4:45 PM CT; older preview records are never emailed
@@ -13,11 +15,11 @@ export default async () => {
   const { blobs } = await store.list();
   for (const { key } of blobs) {
     const md = await store.getMetadata(key).catch(() => null); const m = md?.metadata || {};
-    if (m.noSend || Date.parse(m.updatedAt || 0) < SINCE || now - Date.parse(m.updatedAt || 0) < IDLE_MS) continue;
+    if (m.noSend || m.trapped || Date.parse(m.updatedAt || 0) < SINCE || now - Date.parse(m.updatedAt || 0) < IDLE_MS) continue;
     if (m.stage === 'complete' ? m.completeDirectAt : m.partialEmailedAt) continue;
     checked++;
     const cur = await store.getWithMetadata(key, { type: 'json' }).catch(() => null); const r = cur?.data;
-    if (!r || r.noSend || !hasContact(r.contact) || Date.parse(r.firstSeenAt || 0) < SINCE) continue;
+    if (!r || r.noSend || r.trapped || (r.hp != null && String(r.hp) !== '') || !hasContact(r.contact) || Date.parse(r.firstSeenAt || 0) < SINCE) continue;
     let kind = null;
     if (r.stage === 'partial' && !r.partialClaimAt && !r.partialEmailedAt) kind = 'PARTIAL';
     if (r.stage === 'complete' && !r.completeClaimAt && !r.completeDirectAt && (r.directTries || 0) < 5) kind = 'COMPLETE';

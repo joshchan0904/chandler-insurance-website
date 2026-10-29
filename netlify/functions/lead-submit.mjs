@@ -14,10 +14,11 @@ const TOKEN_RE = /^[a-f0-9]{32,64}$/;
 const newRef = () => { const b = randomBytes(6); let s = ''; for (let i = 0; i < 6; i++) s += B32[b[i] & 31]; return `CHQ-2026-${s}`; };
 const hashToken = (t) => createHash('sha256').update('chq-lead:' + t).digest('hex');
 const meta = (r) => ({ stage: r.stage, ref: r.ref, variant: String(r.variant || ''), updatedAt: r.updatedAt, noSend: !!r.noSend, partialEmailedAt: r.partialEmailedAt || '', completeEmailedAt: r.completeEmailedAt || '', completeDirectAt: r.completeDirectAt || '' });
+const isTrapped = (data) => typeof data?.hp === 'string' ? data.hp !== '' : !!data?.hp; // any non-empty value
 const okDoc = (d) => d && /^[a-f0-9]{32}$/.test(d.id || '') && /^[a-f0-9]{32}$/.test(d.t || '');
 
 function buildRecord(prev, data, ctx) {
-  const { sessionToken, clientSends, clientSent, doc, stage: _s, test, preview, ...incoming } = data;
+  const { sessionToken, clientSends, clientSent, doc, stage: _s, test, preview, hp: _hp, ...incoming } = data;
   const prevStage = prev?.stage;
   const stage = ctx.stage === 'complete' || prevStage === 'complete' ? 'complete' : 'partial';
   const rec = {
@@ -38,6 +39,15 @@ export default async (req) => {
   let data;
   try { data = JSON.parse(raw); } catch { return json({ ok: false, error: 'bad json' }, 400); }
   if (!data || typeof data !== 'object' || Array.isArray(data)) return json({ ok: false, error: 'bad payload' }, 400);
+  // Honeypot: the off-screen "Leave this empty" field (top-level `hp`) was filled, so this is a bot. Store nothing (no Blobs
+  // write, so lead-sweep never sees it), submit no Netlify Form, send no email, and answer with the normal success shape
+  // so the page shows its usual confirmation and does not fall back to the browser form post.
+  if (isTrapped(data)) {
+    const ref = REF_RE.test(data.ref || '') ? data.ref : newRef();
+    const stage = data.stage === 'complete' ? 'complete' : data.stage === 'doc' ? 'doc' : 'partial';
+    console.log('lead: honeypot filled, dropped'); // no lead data
+    return json({ ok: true, ref, stage, reissued: false, refMismatch: false, emailed: true });
+  }
   const token = String(data.sessionToken || '').toLowerCase();
   if (!TOKEN_RE.test(token)) return json({ ok: false, error: 'missing session token' }, 400);
   const c = data.contact || {};
